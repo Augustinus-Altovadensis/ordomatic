@@ -15,6 +15,15 @@
     font-size: 1.5em;
 }
 
+.title {
+    background-color: bisque;
+    color: orange;
+    font-family: LucidaHW;
+    font-size: 3em;
+    text-align: center;
+    width: 100%;
+}
+
 .year {
     background-color: antiquewhite;
     color: blue;
