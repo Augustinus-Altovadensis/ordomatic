@@ -1,18 +1,6 @@
-.content {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
-
 #logo {
     color: green;
     font-size: 1.2em;
-}
-
-#title {
-    color: orange;
-    font-family: LucidaHW;
-    font-size: 1.5em;
 }
 
 .title {
