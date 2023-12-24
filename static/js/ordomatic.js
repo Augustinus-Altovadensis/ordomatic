@@ -12,22 +12,11 @@ $(document).ready(function () {
 
 
 function weekday_human_readable(weekday) {
-  return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][weekday];
+  return ['Dominica', 'Feria II', 'Feria III', 'Feria IV', 'Feria V', 'Feria VI', 'Sabbato'][weekday];
 }
 
 function month_human_readable(month) {
-  return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][month];
-}
-
-function get_liturgical_year(date) {
-  var year = date.getFullYear();
-  var christmas = get_christmas_date(year);
-  var christmas_weekday = get_christmas_weekday(christmas);
-  var first_sunday_advent = get_first_sunday_advent(christmas, christmas_weekday);
-  if (date > first_sunday_advent) {
-    year += 1;
-  }
-  return year;
+  return ['Ianuarii', 'Februarii', 'Martii', 'Aprilis', 'Maii', 'Iunii', 'Iulii', 'Augusti', 'Septembris', 'Octobris', 'Novembris', 'Decembris'][month];
 }
 
 function get_christmas_date(year) {
