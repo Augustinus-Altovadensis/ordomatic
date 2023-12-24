@@ -1,6 +1,13 @@
 $(document).ready(function () {
-  // On loading, display the liturgical year of the current date in the select_year:
-  var year = get_liturgical_year(new Date());
+  // On loading, display the liturgical year of today in the select_year:
+  const today = new Date();
+  var year = today.getFullYear();
+  var christmas = get_christmas_date(year);
+  var christmas_weekday = get_christmas_weekday(christmas);
+  var first_sunday_of_advent = get_first_sunday_of_advent(christmas, christmas_weekday);
+  if (today > first_sunday_of_advent) {
+    year += 1;
+  }
   $('#select_year').val(year);
   refresh_ordo(year);
 
@@ -9,7 +16,6 @@ $(document).ready(function () {
     refresh_ordo($(this).val());
   });
 });
-
 
 function weekday_human_readable(weekday) {
   return ['Dominica', 'Feria II', 'Feria III', 'Feria IV', 'Feria V', 'Feria VI', 'Sabbato'][weekday];
@@ -27,7 +33,7 @@ function get_christmas_weekday(christmas) {
   return christmas.getDay();
 }
 
-function get_first_sunday_advent(christmas, christmas_weekday) {
+function get_first_sunday_of_advent(christmas, christmas_weekday) {
   return new Date(christmas - ((21 + christmas_weekday) * 24 * 3600 * 1000));
 }
 
@@ -35,20 +41,23 @@ function refresh_ordo(year) {
   $('#content').html('');
   var christmas = get_christmas_date(year - 1);
   var christmas_weekday = get_christmas_weekday(christmas);
-  var first_sunday_advent = get_first_sunday_advent(christmas, christmas_weekday);
+  var first_sunday_of_advent = get_first_sunday_of_advent(christmas, christmas_weekday);
   $('#content').append(
-    '<div class="year">' + first_sunday_advent.getFullYear() + '</div>'
+    '<div class="title"> Ordo ' + first_sunday_of_advent.getFullYear() + ' - ' + (first_sunday_of_advent.getFullYear() + 1) + '</div>'
   );
   $('#content').append(
-    '<div class="month">' + month_human_readable(first_sunday_advent.getMonth()) + '</div>'
+    '<div class="year">' + first_sunday_of_advent.getFullYear() + '</div>'
+  );
+  $('#content').append(
+    '<div class="month">' + month_human_readable(first_sunday_of_advent.getMonth()) + '</div>'
   );
   $('#content').append(
     '<div class="line">'
-    + '<span class="weekday">' + weekday_human_readable(first_sunday_advent.getDay()) + '</span>'
+    + '<span class="weekday">' + weekday_human_readable(first_sunday_of_advent.getDay()) + '</span>'
     + ' '
-    + '<span class="day">' + first_sunday_advent.getDate() + '</span>'
-    + '<span class="header">First Sunday of Advent</span>'
+    + '<span class="day">' + first_sunday_of_advent.getDate() + '</span>'
+    + '<span class="header">' + days.adv_1_0['header'] + '</span>'
     + '</div>'
-    + '<div class="body">Ad Vigilias dicitur Resp. <i>Aspiciens</i>.</div>'
+    + '<div class="body">' + days.adv_1_0['body'] + '</div>'
   );
 }
