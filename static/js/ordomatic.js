@@ -10,9 +10,9 @@ $(document).ready(function () {
   }
   $('#select_year').val(year);
   refresh_ordo(year);
+});
 
-  // On selecting a new year, refresh the ordo:
-  $('#select_year').change(function () {
-    refresh_ordo($(this).val());
-  });
+// On selecting a new year, refresh the ordo:
+$('#select_year').change(function () {
+  refresh_ordo($(this).val());
 });
