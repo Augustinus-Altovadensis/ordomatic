@@ -1,0 +1,33 @@
+.black {
+    color: black;
+}
+
+.white {
+    color: white;
+    border: solid 1px lightgrey;
+    border-radius: 3px;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
+
+.violet {
+    color: violet;
+}
+
+.orange {
+    color: orange;
+}
+
+.blue {
+    color: blue;
+}
+
+.brown {
+    color: rgb(78, 29, 0);
+}
