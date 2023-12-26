@@ -97,8 +97,9 @@ function refresh_ordo(year) {
   ash_wednesday = new Date(ash_wednesday.getTime() - (ash_wednesday.getTimezoneOffset() * 60 * 1000));
 
   // Tempus per Annum until Ash Wednesday:
-  var first_tempus_per_annum_duration = (ash_wednesday - baptism) / (1000 * 3600 * 24) - 1;
-  for (var i = 0; i < first_tempus_per_annum_duration; i++) {
+  var tempus_per_annum_until_ash_duration = (ash_wednesday - baptism) / (1000 * 3600 * 24) - 1;
+
+  for (var i = 0; i < tempus_per_annum_until_ash_duration; i++) {
     var date = new Date(baptism.getTime() + (i * 24 * 3600 * 1000));
     if (date.getMonth() != month) {
       month = date.getMonth();
@@ -188,6 +189,38 @@ function refresh_ordo(year) {
     var weekday = date.getDay();
     var month_usual_number = date.getMonth() + 1;
     var ref_tempo = 'tp_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
+    var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
+    var winner = get_winner(ref_tempo, ref_sancto);
+    $('#content').append(element(
+      day,
+      weekday,
+      winner['hat'],
+      winner['color'],
+      winner['header'],
+      winner['body'],
+    )
+    );
+  }
+  var pentecost = new Date(date.getTime() + (24 * 3600 * 1000));
+
+  // Tempus per Annum after Pentecost:
+  christmas = get_christmas_date(year);
+  var advent = new Date(christmas.getTime() - ((christmas.getDay() + 21) * 24 * 3600 * 1000));
+  var tempus_per_annum_after_pentecost_duration = (advent - pentecost) / (1000 * 3600 * 24) - 1;
+  var num_per_annum_of_pentecost = Math.floor(34 - (tempus_per_annum_after_pentecost_duration / 7));
+
+  for (var i = 0; i < tempus_per_annum_after_pentecost_duration; i++) {
+    var date = new Date(pentecost.getTime() + (i * 24 * 3600 * 1000));
+    if (date.getMonth() != month) {
+      month = date.getMonth();
+      $('#content').append(
+        '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
+      );
+    }
+    var day = date.getDate();
+    var weekday = date.getDay();
+    var month_usual_number = date.getMonth() + 1;
+    var ref_tempo = 'pa_' + (num_per_annum_of_pentecost + Math.ceil((i + 1) / 7)) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
     $('#content').append(element(
