@@ -18,6 +18,14 @@ function get_first_sunday_of_advent(christmas, christmas_weekday) {
   return new Date(christmas - ((21 + christmas_weekday) * 24 * 3600 * 1000));
 }
 
+function add_zero(number) {
+  let zero = '';
+  if (number < 10) {
+    zero = '0';
+  }
+  return zero;
+}
+
 function element(day, weekday, hat, color, header, body) {
   return (
     '<div class="element d-flex flex-column w-50 mb-2">'
