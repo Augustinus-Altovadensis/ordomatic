@@ -1,5 +1,5 @@
 function weekday_human_readable(weekday) {
-  return ['Dominica', 'Feria II', 'Feria III', 'Feria IV', 'Feria V', 'Feria VI', 'Sabbato'][weekday];
+  return ['<span class="small-caps">Dominica</span>', 'Feria II', 'Feria III', 'Feria IV', 'Feria V', 'Feria VI', 'Sabbato'][weekday];
 }
 
 function month_human_readable(month) {
