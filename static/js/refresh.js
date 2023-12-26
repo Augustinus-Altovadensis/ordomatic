@@ -1,49 +1,105 @@
 function refresh_ordo(year) {
-    $('#content').html('');
-    const christmas = get_christmas_date(year - 1);
-    const christmas_weekday = get_christmas_weekday(christmas);
-    const first_sunday_of_advent = get_first_sunday_of_advent(christmas, christmas_weekday);
-    const advent_duration = 21 + christmas_weekday;
+  $('#content').html('');
 
-    // Title:
-    $('#content').append(
-        '<div class="title text-center orange w-100"> Ordo ' + first_sunday_of_advent.getFullYear() + '-' + (first_sunday_of_advent.getFullYear() + 1) + '</div>'
+  var christmas = get_christmas_date(year - 1);
+  var christmas_weekday = get_christmas_weekday(christmas);
+  var first_sunday_of_advent = get_first_sunday_of_advent(christmas, christmas_weekday);
+
+  // Title:
+  $('#content').append(
+    '<div class="title text-center orange w-100"> Ordo ' + first_sunday_of_advent.getFullYear() + '-' + (first_sunday_of_advent.getFullYear() + 1) + '</div>'
+  );
+
+  // Year:
+  $('#content').append(
+    '<div class="year text-center fw-bold blue w-100 p-1">' + first_sunday_of_advent.getFullYear() + '</div>'
+  );
+
+  // Month:
+  $('#content').append(
+    '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(first_sunday_of_advent.getMonth()) + '</div>'
+  );
+
+  // Advent:
+  var advent_duration = 21 + christmas_weekday;
+  for (var i = 0; i < advent_duration; i++) {
+    var date = new Date(first_sunday_of_advent.getTime() + (i * 24 * 3600 * 1000));
+    var day = date.getDate();
+    var weekday = date.getDay();
+    var month = date.getMonth() + 1;
+    var ref_tempo = 'adv_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
+    var ref_sancto = add_zero(month) + month + '_' + add_zero(day) + day;
+    var winner = get_winner(ref_tempo, ref_sancto);
+    $('#content').append(element(
+      day,
+      weekday,
+      winner['hat'],
+      winner['color'],
+      winner['header'],
+      winner['body'],
+    )
     );
+  }
 
-    // Year:
-    $('#content').append(
-        '<div class="year text-center fw-bold blue w-100 p-1">' + first_sunday_of_advent.getFullYear() + '</div>'
+  // Christmas time:
+  var christmas_time_duration = 19 - ((christmas_weekday + 5) % 7);
+  for (var i = 0; i < christmas_time_duration; i++) {
+    var date = new Date(christmas.getTime() + (i * 24 * 3600 * 1000));
+    var day = date.getDate();
+    var weekday = date.getDay();
+    var month = date.getMonth() + 1;
+    var ref_tempo = 'christmas_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
+    var ref_sancto = add_zero(month) + month + '_' + add_zero(day) + day;
+    var winner = get_winner(ref_tempo, ref_sancto);
+    $('#content').append(element(
+      day,
+      weekday,
+      winner['hat'],
+      winner['color'],
+      winner['header'],
+      winner['body'],
+    )
     );
+  }
+  var baptism = new Date(date.getTime() + (24 * 3600 * 1000));
 
-    // Month:
-    $('#content').append(
-        '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(first_sunday_of_advent.getMonth()) + '</div>'
+  // Easter:
+  var v1 = year - 1900;
+  var v2 = v1 % 19;
+  var v3 = Math.floor(((v2 * 7) + 1) / 19);
+  var v4 = ((v2 * 11) + 4 - v3) % 29;
+  var v5 = Math.floor(v1 / 4);
+  var v6 = (v1 + v5 + 31 - v4) % 7
+  var v7 = 25 - v4 - v6
+  var easter_day;
+  if (v7 > 0) { easter_day = v7; } else { easter_day = 31 + v7; }
+  var easter_month;
+  if (v7 > 0) { easter_month = 3 } else { easter_month = 2 }
+  var easter = new Date(year, easter_month, easter_day);
+  easter = new Date(easter.getTime() - (easter.getTimezoneOffset() * 60 * 1000));
+
+  // Ash Wednesday:
+  var ash_wednesday = new Date(easter.getTime() - (46 * 24 * 3600 * 1000));
+  ash_wednesday = new Date(ash_wednesday.getTime() - (ash_wednesday.getTimezoneOffset() * 60 * 1000));
+
+  // Tempus per Annum until Ash Wednesday:
+  var first_tempus_per_annum_duration = (ash_wednesday - baptism) / (1000 * 3600 * 24) - 1;
+  for (var i = 0; i < first_tempus_per_annum_duration; i++) {
+    var date = new Date(baptism.getTime() + (i * 24 * 3600 * 1000));
+    var day = date.getDate();
+    var weekday = date.getDay();
+    var month = date.getMonth() + 1;
+    var ref_tempo = 'pa_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
+    var ref_sancto = add_zero(month) + month + '_' + add_zero(day) + day;
+    var winner = get_winner(ref_tempo, ref_sancto);
+    $('#content').append(element(
+      day,
+      weekday,
+      winner['hat'],
+      winner['color'],
+      winner['header'],
+      winner['body'],
+    )
     );
-
-    // Advent:
-    for (let i = 0; i < advent_duration; i++) {
-        const date = new Date(first_sunday_of_advent.getTime() + (i * 24 * 3600 * 1000));
-        const day = date.getDate();
-        let zero = '';
-        if (day < 10) {
-            zero = '0';
-        }
-        const weekday = date.getDay();
-        const month = date.getMonth() + 1;
-        const ref_tempo = 'adv_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
-        let winner = days_tempo[ref_tempo];
-        const ref_sancto = month + '_' + zero + day;
-        if (days_sancto[ref_sancto] && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force']) {
-            winner = days_sancto[ref_sancto];
-        }
-        $('#content').append(element(
-            day,
-            weekday,
-            winner['hat'],
-            winner['color'],
-            winner['header'],
-            winner['body'],
-        )
-        );
-    }
+  }
 }
