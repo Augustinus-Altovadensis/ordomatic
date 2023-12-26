@@ -122,4 +122,82 @@ function refresh_ordo(year) {
     )
     );
   }
+
+  // Lent:
+  // Days after Ash wednesday:
+  for (var i = 0; i < 4; i++) {
+    var date = new Date(ash_wednesday.getTime() + (i * 24 * 3600 * 1000));
+    if (date.getMonth() != month) {
+      month = date.getMonth();
+      $('#content').append(
+        '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
+      );
+    }
+    var day = date.getDate();
+    var weekday = date.getDay();
+    var month_usual_number = date.getMonth() + 1;
+    var ref_tempo = 'lent_0_' + (i + 3);
+    var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
+    var winner = get_winner(ref_tempo, ref_sancto);
+    $('#content').append(element(
+      day,
+      weekday,
+      winner['hat'],
+      winner['color'],
+      winner['header'],
+      winner['body'],
+    )
+    );
+  }
+  // Rest of Lent:
+  for (var i = 0; i < 42; i++) {
+    var date = new Date(ash_wednesday.getTime() + ((i + 4) * 24 * 3600 * 1000));
+    if (date.getMonth() != month) {
+      month = date.getMonth();
+      $('#content').append(
+        '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
+      );
+    }
+    var day = date.getDate();
+    var weekday = date.getDay();
+    var month_usual_number = date.getMonth() + 1;
+    var ref_tempo = 'lent_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
+    var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
+    var winner = get_winner(ref_tempo, ref_sancto);
+    $('#content').append(element(
+      day,
+      weekday,
+      winner['hat'],
+      winner['color'],
+      winner['header'],
+      winner['body'],
+    )
+    );
+  }
+
+  // Paschaltide:
+  for (var i = 0; i < 49; i++) {
+    var date = new Date(ash_wednesday.getTime() + ((i + 46) * 24 * 3600 * 1000));
+    if (date.getMonth() != month) {
+      month = date.getMonth();
+      $('#content').append(
+        '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
+      );
+    }
+    var day = date.getDate();
+    var weekday = date.getDay();
+    var month_usual_number = date.getMonth() + 1;
+    var ref_tempo = 'tp_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
+    var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
+    var winner = get_winner(ref_tempo, ref_sancto);
+    $('#content').append(element(
+      day,
+      weekday,
+      winner['hat'],
+      winner['color'],
+      winner['header'],
+      winner['body'],
+    )
+    );
+  }
 }
