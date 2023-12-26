@@ -1,4 +1,18 @@
 const days_sancto = {
+  '01_01': {
+    'force': 120,
+    'hat': '',
+    'color': 'white',
+    'header': '<span class="small-caps">Solemnitas Sanctæ Genetricis Dei Mariæ.</span>',
+    'body': '',
+  },
+  '01_06': {
+    'force': 120,
+    'hat': '',
+    'color': 'white',
+    'header': '<span class="small-caps">In Epiphania Domini.</span>',
+    'body': '',
+  },
   '12_03': {
     'force': 40,
     'hat': '',
@@ -33,5 +47,26 @@ const days_sancto = {
     <li>In MC: lectiones propriæ: Gen <b>3</b>, 9-15.20 / Ep <b>1</b>, 3-6.11-12 / Lc <b>1</b>, 26-38; præfatio propria; Pater in tono C (GR 814); Missa concluditur benedictione sollemni.</li>\
     <li>Vesperæ sollemnitatis; benedictio Sanctissimi Sacramenti.</li>\
     </ul>',
+  },
+  '12_26': {
+    'force': 80,
+    'hat': '',
+    'color': 'red',
+    'header': 'Sancti Stephani, Protomartyris.',
+    'body': '',
+  },
+  '12_27': {
+    'force': 80,
+    'hat': '',
+    'color': 'white',
+    'header': 'Sancti Ioannis, Apostoli et Evangelistæ.',
+    'body': '',
+  },
+  '12_28': {
+    'force': 80,
+    'hat': '',
+    'color': 'red',
+    'header': 'Sanctorum Innocentium, Martyrum.',
+    'body': '',
   },
 };
