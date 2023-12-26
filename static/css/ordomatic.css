@@ -20,7 +20,12 @@ ul {
 
 .year {
     background-color: antiquewhite;
+    font-family: LucidaHW;
     font-size: 2em;
+}
+
+.year::before {
+    content: 'Annus Domini '
 }
 
 .month {
