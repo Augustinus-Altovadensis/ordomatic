@@ -26,6 +26,14 @@ function add_zero(number) {
   return zero;
 }
 
+function get_winner(ref_tempo, ref_sancto) {
+  let winner = days_tempo[ref_tempo];
+  if (days_sancto[ref_sancto] && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force']) {
+    winner = days_sancto[ref_sancto];
+  }
+  return winner;
+}
+
 function element(day, weekday, hat, color, header, body) {
   return (
     '<div class="element d-flex flex-column w-50 mb-2">'
