@@ -1,5 +1,6 @@
 function refresh_ordo(year) {
-  $('#content').html('');
+  // $('#content').html('');
+  var content = "";
 
   var christmas = get_christmas_date(year - 1);
   var christmas_weekday = get_christmas_weekday(christmas);
@@ -8,17 +9,17 @@ function refresh_ordo(year) {
   var month = first_sunday_of_advent.getMonth();
 
   // Title:
-  $('#content').append(
+  content = content.concat(
     '<div class="title text-center orange w-100"> Ordo ' + first_sunday_of_advent.getFullYear() + '-' + (first_sunday_of_advent.getFullYear() + 1) + '</div>'
   );
 
   // Year:
-  $('#content').append(
+  content = content.concat(
     '<div class="year text-center fw-bold blue w-100 p-1">' + year + '</div>'
   );
 
   // Month:
-  $('#content').append(
+  content = content.concat(
     '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
   );
 
@@ -32,15 +33,14 @@ function refresh_ordo(year) {
     var ref_tempo = 'adv_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    $('#content').append(element(
+    content = content.concat(element(
       day,
       weekday,
       winner['hat'],
       winner['color'],
       winner['header'],
       winner['body'],
-    )
-    );
+    ));
   }
 
   // Christmas time:
@@ -49,13 +49,13 @@ function refresh_ordo(year) {
     var date = new Date(christmas.getTime() + (i * 24 * 3600 * 1000));
     if (date.getFullYear() != year) {
       year = date.getFullYear();
-      $('#content').append(
+      content = content.concat(
         '<div class="year text-center fw-bold blue w-100 p-1">' + year + '</div>'
       );
     }
     if (date.getMonth() != month) {
       month = date.getMonth();
-      $('#content').append(
+      content = content.concat(
         '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
       );
     }
@@ -65,15 +65,14 @@ function refresh_ordo(year) {
     var ref_tempo = 'christmas_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    $('#content').append(element(
+    content = content.concat(element(
       day,
       weekday,
       winner['hat'],
       winner['color'],
       winner['header'],
       winner['body'],
-    )
-    );
+    ));
   }
   var baptism = new Date(date.getTime() + (24 * 3600 * 1000));
 
@@ -103,7 +102,7 @@ function refresh_ordo(year) {
     var date = new Date(baptism.getTime() + (i * 24 * 3600 * 1000));
     if (date.getMonth() != month) {
       month = date.getMonth();
-      $('#content').append(
+      content = content.concat(
         '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
       );
     }
@@ -113,15 +112,14 @@ function refresh_ordo(year) {
     var ref_tempo = 'pa_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    $('#content').append(element(
+    content = content.concat(element(
       day,
       weekday,
       winner['hat'],
       winner['color'],
       winner['header'],
       winner['body'],
-    )
-    );
+    ));
   }
 
   // Lent:
@@ -130,7 +128,7 @@ function refresh_ordo(year) {
     var date = new Date(ash_wednesday.getTime() + (i * 24 * 3600 * 1000));
     if (date.getMonth() != month) {
       month = date.getMonth();
-      $('#content').append(
+      content = content.concat(
         '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
       );
     }
@@ -140,22 +138,21 @@ function refresh_ordo(year) {
     var ref_tempo = 'lent_0_' + (i + 3);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    $('#content').append(element(
+    content = content.concat(element(
       day,
       weekday,
       winner['hat'],
       winner['color'],
       winner['header'],
       winner['body'],
-    )
-    );
+    ));
   }
   // Rest of Lent:
   for (var i = 0; i < 42; i++) {
     var date = new Date(ash_wednesday.getTime() + ((i + 4) * 24 * 3600 * 1000));
     if (date.getMonth() != month) {
       month = date.getMonth();
-      $('#content').append(
+      content = content.concat(
         '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
       );
     }
@@ -165,15 +162,14 @@ function refresh_ordo(year) {
     var ref_tempo = 'lent_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    $('#content').append(element(
+    content = content.concat(element(
       day,
       weekday,
       winner['hat'],
       winner['color'],
       winner['header'],
       winner['body'],
-    )
-    );
+    ));
   }
 
   // Paschaltide:
@@ -181,7 +177,7 @@ function refresh_ordo(year) {
     var date = new Date(ash_wednesday.getTime() + ((i + 46) * 24 * 3600 * 1000));
     if (date.getMonth() != month) {
       month = date.getMonth();
-      $('#content').append(
+      content = content.concat(
         '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
       );
     }
@@ -191,15 +187,14 @@ function refresh_ordo(year) {
     var ref_tempo = 'tp_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    $('#content').append(element(
+    content = content.concat(element(
       day,
       weekday,
       winner['hat'],
       winner['color'],
       winner['header'],
       winner['body'],
-    )
-    );
+    ));
   }
   var pentecost = new Date(date.getTime() + (24 * 3600 * 1000));
 
@@ -213,7 +208,7 @@ function refresh_ordo(year) {
     var date = new Date(pentecost.getTime() + (i * 24 * 3600 * 1000));
     if (date.getMonth() != month) {
       month = date.getMonth();
-      $('#content').append(
+      content = content.concat(
         '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
       );
     }
@@ -223,14 +218,15 @@ function refresh_ordo(year) {
     var ref_tempo = 'pa_' + (num_per_annum_of_pentecost + Math.ceil((i + 1) / 7)) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    $('#content').append(element(
+    content = content.concat(element(
       day,
       weekday,
       winner['hat'],
       winner['color'],
       winner['header'],
       winner['body'],
-    )
-    );
+    ));
   }
+
+  $('#content').html(content);
 }
