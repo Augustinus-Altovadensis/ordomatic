@@ -18,6 +18,22 @@ function get_first_sunday_of_advent(christmas, christmas_weekday) {
   return new Date(christmas - ((21 + christmas_weekday) * 24 * 3600 * 1000));
 }
 
+function get_easter_date(year) {
+  var v1 = year - 1900;
+  var v2 = v1 % 19;
+  var v3 = Math.floor(((v2 * 7) + 1) / 19);
+  var v4 = ((v2 * 11) + 4 - v3) % 29;
+  var v5 = Math.floor(v1 / 4);
+  var v6 = (v1 + v5 + 31 - v4) % 7
+  var v7 = 25 - v4 - v6
+  var easter_day;
+  if (v7 > 0) { easter_day = v7; } else { easter_day = 31 + v7; }
+  var easter_month;
+  if (v7 > 0) { easter_month = 3 } else { easter_month = 2 }
+  var easter = new Date(year, easter_month, easter_day);
+  return (new Date(easter.getTime() - (easter.getTimezoneOffset() * 60 * 1000)));
+}
+
 function add_zero(number) {
   let zero = '';
   if (number < 10) {

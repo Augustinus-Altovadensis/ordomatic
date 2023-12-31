@@ -78,22 +78,8 @@ function refresh_ordo(year) {
   }
   var baptism = new Date(date.getTime() + (24 * 3600 * 1000));
 
-  // Easter:
-  var v1 = year - 1900;
-  var v2 = v1 % 19;
-  var v3 = Math.floor(((v2 * 7) + 1) / 19);
-  var v4 = ((v2 * 11) + 4 - v3) % 29;
-  var v5 = Math.floor(v1 / 4);
-  var v6 = (v1 + v5 + 31 - v4) % 7
-  var v7 = 25 - v4 - v6
-  var easter_day;
-  if (v7 > 0) { easter_day = v7; } else { easter_day = 31 + v7; }
-  var easter_month;
-  if (v7 > 0) { easter_month = 3 } else { easter_month = 2 }
-  var easter = new Date(year, easter_month, easter_day);
-  easter = new Date(easter.getTime() - (easter.getTimezoneOffset() * 60 * 1000));
-
   // Ash Wednesday:
+  var easter = get_easter_date(year);
   var ash_wednesday = new Date(easter.getTime() - (46 * 24 * 3600 * 1000));
   ash_wednesday = new Date(ash_wednesday.getTime() - (ash_wednesday.getTimezoneOffset() * 60 * 1000));
 
