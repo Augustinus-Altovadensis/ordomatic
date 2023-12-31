@@ -12,16 +12,25 @@ ul {
     font-size: 1.8em;
 }
 
-.title {
+.title,
+.cyclus {
     background-color: bisque;
+}
+
+.title {
     font-family: LucidaHW;
     font-size: 3em;
 }
 
 .year {
     background-color: antiquewhite;
+    border-top: solid 1px grey;
     font-family: LucidaHW;
     font-size: 2em;
+    font-weight: bold;
+    padding: 1% 0 1% 0;
+    text-align: center;
+    width: 100%;
 }
 
 .year::before {
@@ -30,7 +39,13 @@ ul {
 
 .month {
     background-color: lightgray;
+    border-top: solid 1px grey;
+    border-bottom: solid 1px grey;
     font-size: 1.5em;
+    font-weight: bold;
+    padding: 5px 0 5px 0;
+    text-align: center;
+    width: 100%;
 }
 
 .fa-square {
@@ -55,6 +70,8 @@ ul {
     margin: 0 0 2% 0;
 }
 
+.incipit {
+    margin: 3% 0 0 0;
 }
 
 .body {

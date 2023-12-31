@@ -20,12 +20,12 @@ function refresh_ordo(year) {
 
   // Year:
   content = content.concat(
-    '<div class="year text-center fw-bold blue w-100 p-1">' + year + '</div>'
+    '<div class="year blue">' + year + '</div>'
   );
 
   // Month:
   content = content.concat(
-    '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
+    '<div class="month green">' + month_human_readable(month) + '</div>'
   );
 
   // Advent:
@@ -56,13 +56,19 @@ function refresh_ordo(year) {
     if (date.getFullYear() != year) {
       year = date.getFullYear();
       content = content.concat(
-        '<div class="year text-center fw-bold blue w-100 p-1">' + year + '</div>'
+        '<div class="year blue mt-5">' + year + '</div>'
       );
+      if (date.getMonth() != month) {
+        month = date.getMonth();
+        content = content.concat(
+          '<div class="month green mb-3">' + month_human_readable(month) + '</div>'
+        );
+      }
     }
     if (date.getMonth() != month) {
       month = date.getMonth();
       content = content.concat(
-        '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
+        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
       );
     }
     var day = date.getDate();
@@ -96,7 +102,7 @@ function refresh_ordo(year) {
     if (date.getMonth() != month) {
       month = date.getMonth();
       content = content.concat(
-        '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
+        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
       );
     }
     var day = date.getDate();
@@ -123,7 +129,7 @@ function refresh_ordo(year) {
     if (date.getMonth() != month) {
       month = date.getMonth();
       content = content.concat(
-        '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
+        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
       );
     }
     var day = date.getDate();
@@ -148,7 +154,7 @@ function refresh_ordo(year) {
     if (date.getMonth() != month) {
       month = date.getMonth();
       content = content.concat(
-        '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
+        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
       );
     }
     var day = date.getDate();
@@ -174,7 +180,7 @@ function refresh_ordo(year) {
     if (date.getMonth() != month) {
       month = date.getMonth();
       content = content.concat(
-        '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
+        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
       );
     }
     var day = date.getDate();
@@ -206,7 +212,7 @@ function refresh_ordo(year) {
     if (date.getMonth() != month) {
       month = date.getMonth();
       content = content.concat(
-        '<div class="month text-center fw-bold green w-100 mb-3 p-1">' + month_human_readable(month) + '</div>'
+        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
       );
     }
     var day = date.getDate();
