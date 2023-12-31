@@ -34,10 +34,10 @@ function get_winner(ref_tempo, ref_sancto) {
   return winner;
 }
 
-function element(day, weekday, hat, color, header, body) {
+function element(day, weekday, before, color, header, body, after) {
   return (
     '<div class="element d-flex flex-column w-50 mb-2">'
-    + '<div class="hat fst-italic fw-bold text-center">' + hat + '</div>'
+    + '<div class="before fst-italic fw-bold text-center brown">' + before + '</div>'
     + '<div class="head d-flex m-0">'
     + '<span class="fas fa-square ' + color + '"></span>'
     + '<span class="day brown fw-bold ms-2">' + day + '</span>'
@@ -45,6 +45,7 @@ function element(day, weekday, hat, color, header, body) {
     + '<span class="header text-justify ms-1">' + header + '</span>'
     + '</div>'
     + '<div class="body text-justify">' + body + '</div>'
+    + '<div class="after fst-italic fw-bold text-center brown">' + after + '</div>'
     + '</div>'
   );
 }

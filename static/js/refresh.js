@@ -36,10 +36,11 @@ function refresh_ordo(year) {
     content = content.concat(element(
       day,
       weekday,
-      winner['hat'],
+      winner['before'],
       winner['color'],
       winner['header'],
       winner['body'],
+      winner['after'],
     ));
   }
 
@@ -68,10 +69,11 @@ function refresh_ordo(year) {
     content = content.concat(element(
       day,
       weekday,
-      winner['hat'],
+      winner['before'],
       winner['color'],
       winner['header'],
       winner['body'],
+      winner['after'],
     ));
   }
   var baptism = new Date(date.getTime() + (24 * 3600 * 1000));
@@ -115,10 +117,11 @@ function refresh_ordo(year) {
     content = content.concat(element(
       day,
       weekday,
-      winner['hat'],
+      winner['before'],
       winner['color'],
       winner['header'],
       winner['body'],
+      winner['after'],
     ));
   }
 
@@ -141,10 +144,11 @@ function refresh_ordo(year) {
     content = content.concat(element(
       day,
       weekday,
-      winner['hat'],
+      winner['before'],
       winner['color'],
       winner['header'],
       winner['body'],
+      winner['after'],
     ));
   }
   // Rest of Lent:
@@ -165,10 +169,11 @@ function refresh_ordo(year) {
     content = content.concat(element(
       day,
       weekday,
-      winner['hat'],
+      winner['before'],
       winner['color'],
       winner['header'],
       winner['body'],
+      winner['after'],
     ));
   }
 
@@ -190,10 +195,11 @@ function refresh_ordo(year) {
     content = content.concat(element(
       day,
       weekday,
-      winner['hat'],
+      winner['before'],
       winner['color'],
       winner['header'],
       winner['body'],
+      winner['after'],
     ));
   }
   var pentecost = new Date(date.getTime() + (24 * 3600 * 1000));
@@ -221,10 +227,11 @@ function refresh_ordo(year) {
     content = content.concat(element(
       day,
       weekday,
-      winner['hat'],
+      winner['before'],
       winner['color'],
       winner['header'],
       winner['body'],
+      winner['after'],
     ));
   }
 

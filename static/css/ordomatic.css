@@ -46,8 +46,15 @@ ul {
     text-align: justify;
 }
 
-.hat {
-    font-size: 1.1em;
+.before,
+.after {
+    font-size: 1.3em;
+}
+
+.before {
+    margin: 0 0 2% 0;
+}
+
 }
 
 .body {
