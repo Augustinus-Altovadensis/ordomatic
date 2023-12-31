@@ -204,7 +204,7 @@ function refresh_ordo(year) {
   // Tempus per Annum after Pentecost:
   christmas = get_christmas_date(year);
   var advent = new Date(christmas.getTime() - ((christmas.getDay() + 21) * 24 * 3600 * 1000));
-  var tempus_per_annum_after_pentecost_duration = (advent - pentecost) / (1000 * 3600 * 24) - 1;
+  var tempus_per_annum_after_pentecost_duration = (advent - pentecost) / (1000 * 3600 * 24);
   var num_per_annum_of_pentecost = Math.floor(34 - (tempus_per_annum_after_pentecost_duration / 7));
 
   for (var i = 0; i < tempus_per_annum_after_pentecost_duration; i++) {
