@@ -10,7 +10,12 @@ function refresh_ordo(year) {
 
   // Title:
   content = content.concat(
-    '<div class="title text-center orange w-100"> Ordo ' + first_sunday_of_advent.getFullYear() + '-' + (first_sunday_of_advent.getFullYear() + 1) + '</div>'
+    '<div class="title text-center orange w-100">Ordo ' + first_sunday_of_advent.getFullYear() + '-' + (first_sunday_of_advent.getFullYear() + 1) + '</div>'
+  );
+
+  // Liturgical cycle:
+  content = content.concat(
+    '<div class="cyclus text-center fw-bold w-100 pb-3">Cyclus liturgicus <span id="cyclus"></span></div>'
   );
 
   // Year:
@@ -222,4 +227,11 @@ function refresh_ordo(year) {
   }
 
   $('#content').html(content);
+
+  // Insertions:
+  // Cyclus liturgicus:
+  var cyclus = ['C', 'A', 'B'][year % 3];
+  $('#cyclus').html(cyclus);
+  // Explicit annus liturgicus:
+  $('#explicit').html(year);
 }
