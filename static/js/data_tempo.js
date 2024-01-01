@@ -1,7 +1,7 @@
 const days_tempo = {
   'adv_1_0': {
     'force': 100,
-    'before': '<div class="incipit">Hic incipit annus liturgicus.</div>',
+    'before': '<span class="before-large">Hic incipit annus liturgicus.</span>',
     'color': 'violet',
     'header': '<span class="small-caps">Dominica I Adventus.</span>',
     'body': '<ul><li>Ad Vigilias dicitur Resp. <i>Aspiciens</i>.</li></ul>',
@@ -225,7 +225,7 @@ const days_tempo = {
   },
   'christmas_1_0': {
     'force': 150,
-    'before': '<div class="incipit">Hic incipit Tempus Nativitatis.</div>',
+    'before': '<span class="before-large">Hic incipit Tempus Nativitatis.</span>',
     'color': 'white',
     'header': '<span class="small-caps">In Nativitate Domini Nostri Iesu Christi.</span>',
     'body': '<ul><li>Hodie omnes sacerdotes tres Missas celebrare possunt, dummodo hæ suo tempore celebrentur.</li></ul>',
@@ -337,7 +337,7 @@ const days_tempo = {
   },
   'christmas_3_0': {
     'force': 10,
-    'before': 'De ea.',
+    'before': '',
     'color': 'white',
     'header': 'De ea.',
     'body': '',
@@ -393,7 +393,7 @@ const days_tempo = {
   },
   'lent_0_3': {
     'force': 120,
-    'before': '<div class="incipit">Hic incipit tempus acceptabile. Hic incipiunt dies salutis.</div>',
+    'before': '<span class="before-large">Hic incipit tempus acceptabile. Hic incipiunt dies salutis.</span>',
     'color': 'violet',
     'header': '<span class="small-caps">Feria IV Cinerum.</span>',
     'body': '',
@@ -707,61 +707,68 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Dominica VI in Quadragesima.</span>',
+    'header': '<span class="small-caps">Dominica in Palmis de Passione Domini.</span>',
     'body': '',
     'after': ''
   },
   'lent_6_1': {
-    'force': 70,
+    'force': 120,
     'before': '',
     'color': 'violet',
-    'header': 'De ea.',
+    'header': '<span class="small-caps">Feria II Hebdomadæ Sanctæ.</span>',
     'body': '',
     'after': ''
   },
   'lent_6_2': {
-    'force': 70,
+    'force': 120,
     'before': '',
     'color': 'violet',
-    'header': 'De ea.',
+    'header': '<span class="small-caps">Feria III Hebdomadæ Sanctæ.</span>',
     'body': '',
     'after': ''
   },
   'lent_6_3': {
-    'force': 70,
+    'force': 120,
     'before': '',
     'color': 'violet',
-    'header': 'De ea.',
+    'header': '<span class="small-caps">Feria IV Hebdomadæ Sanctæ.</span>',
     'body': '',
     'after': ''
   },
   'lent_6_4': {
-    'force': 70,
+    'force': 120,
     'before': '',
     'color': 'violet',
-    'header': 'De ea.',
-    'body': '',
+    'header': '<span class="small-caps">Feria V Hebdomadæ Sanctæ.</span>',
+    'body': '\
+      <ul>\
+        <li>Missa in Cena Domini: <i>Gloria</i> (pulsantur campanæ); post Evangelium fit lotio pedum quæ concluditur oratione fidelium n.10; pro offertorio cantatur <i>Ubi Caritas</i> (in GR 168); præfatio I de Sanctissima Eucharistia; <i>Communicantes</i>, <i>Hanc igitur</i> et <i>Qui pridie</i> propria; in fine Missæ, omittuntur ritus conclusionis; post missam, sollemnis translatio ac repositio Sanctissimi Sacramenti: cantatur hymnus <i>Pange Lingua</i> (GR 170), cum <i>Tantum ergo</i>: indulgentia plenaria.</li>\
+        <li>Vesperæ omittuntur ab his qui Missam vespertinam intersunt.</li>\
+        <li>Expleta celebratione, denudatur altare et aufertur crux ab ecclesia.</li>\
+        <li>Ad cenam: Ant. <i>Christus factus est</i>.</li>\
+        <li>Ad Completorium: superior, signo dato, indicat initiandum esse examen conscientiæ, quo absoluto dicitur <i>Confiteor</i>; oratio <i>Visita</i> quæ concluditur sub silentio. Hodie et cras omittitur aspersio.</li>\
+      </ul>',
     'after': ''
   },
   'lent_6_5': {
-    'force': 70,
-    'before': '',
+    'force': 120,
+    'before': '<span class="before-small">Cras incipiunt preces novendiales ad Divinam Misericordiam.</span>',
     'color': 'violet',
-    'header': 'De ea.',
+    'header': '<span class="small-caps">Feria VI in Passione Domini.</span>',
     'body': '',
     'after': ''
   },
   'lent_6_6': {
-    'force': 70,
+    'force': 120,
     'before': '',
     'color': 'violet',
-    'header': 'De eo.',
+    'header': '<span class="small-caps">Sabbato Sancto.</span>',
     'body': '',
     'after': ''
   },
   'tp_1_0': {
     'force': 120,
-    'before': '',
+    'before': '<span class="before-large">Hic incipit Tempus Paschale.</span>',
     'color': 'white',
     'header': '<span class="small-caps">Dominica I Paschæ.</span>',
     'body': '',
@@ -1157,7 +1164,7 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">In Baptismate Domini.</span>',
     'body': '',
-    'after': ''
+    'after': '<span class="after-large">Post Completorium explicit Tempus Nativitatis</br>et incipit pars prima Temporis per Annum.</span>'
   },
   'pa_1_1': {
     'force': 10,
@@ -3000,11 +3007,11 @@ const days_tempo = {
     'after': ''
   },
   'pa_34_0': {
-    'force': 50,
+    'force': 100,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXXIV per annum.</span>',
-    'body': '',
+    'header': '<span class="small-caps">Dominica XXXIV per annum - Domini Nostri Iesu Christi Universorum Regis.</span>',
+    'body': '<ul><li>Vesperæ sollemnitatis; ad benedictionem Sanctissimi Sacramenti recitetur <i>Actus dedicationis humani generis Iesu Christo Regi</i>: indulgentia plenaria.</li></ul>',
     'after': ''
   },
   'pa_34_1': {
@@ -3053,6 +3060,6 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'body': '',
-    'after': '<div class="my-3">Post Nonam explicit annus liturgicus <span id="explicit"></span>.</div>'
+    'after': '<span class="after-large">Post Nonam explicit annus liturgicus <span id="explicit"></span>.</span>'
   },
 };

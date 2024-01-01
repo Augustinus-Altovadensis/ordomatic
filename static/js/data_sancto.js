@@ -60,12 +60,13 @@ const days_sancto = {
     'before': '',
     'color': 'white',
     'header': 'S. Francisci Xavier, presbyterii.',
-    'body': '<ul>\
-    <li>Ad Vigilias: lectio de memoria in supplemento 60.</li>\
-    <li>Ad Benedictus: Ant. <i>Euntes</i> (AM 484).</li>\
-    <li>In MC: præfatio de sanctis virginibus et religiosis.</li>\
-    <li>Ad Magnificat: Ant. <i>Alias oves</i> (AM 486).</li>\
-    </ul>',
+    'body': '\
+      <ul>\
+        <li>Ad Vigilias: lectio de memoria in supplemento 60.</li>\
+        <li>Ad Benedictus: Ant. <i>Euntes</i> (AM 484).</li>\
+        <li>In MC: præfatio de sanctis virginibus et religiosis.</li>\
+        <li>Ad Magnificat: Ant. <i>Alias oves</i> (AM 486).</li>\
+      </ul>',
     'after': '',
   },
   '12_07': {
@@ -73,12 +74,13 @@ const days_sancto = {
     'before': '',
     'color': 'white',
     'header': 'S. Ambrosii, episcopi et Doctoris Ecclesiæ.',
-    'body': '<ul>\
-    <li>Ad Benedictus: Ant. <i>Paraclitus</i> (AM 531).</li>\
-    <li><i>In ML: Missa in proprio sanctorum vel in PAL.</i></li>\
-    <li>In MC: præfatio de sanctis pastoribus.</li>\
-    <li>I Vesperæ solemnitatis sequentis.</li>\
-    </ul>',
+    'body': '\
+      <ul>\
+        <li>Ad Benedictus: Ant. <i>Paraclitus</i> (AM 531).</li>\
+        <li><i>In ML: Missa in proprio sanctorum vel in PAL.</i></li>\
+        <li>In MC: præfatio de sanctis pastoribus.</li>\
+        <li>I Vesperæ solemnitatis sequentis.</li>\
+      </ul>',
     'after': '',
   },
   '12_08': {
