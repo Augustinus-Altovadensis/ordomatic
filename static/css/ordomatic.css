@@ -56,9 +56,18 @@ ul {
     margin: 3px 0 0 0;
 }
 
+.fa-square.white {
+    border: solid 1px grey;
+    border-radius: 3px;
+}
+
+.fa-square:not(.white) {
+    border: solid 1px white;
+    border-radius: 3px;
+}
+
 .small-caps {
     font-variant: small-caps;
-    font-weight: 600;
 }
 
 .text-justify {
