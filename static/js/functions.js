@@ -54,7 +54,27 @@ function get_winner(ref_tempo, ref_sancto) {
   return winner;
 }
 
-function component(day, weekday, before, color, header, body, after) {
+function component(date, year, month, day, weekday, before, color, header, body, after) {
+  // New year, new month:
+  var block_new_year, block_new_month;
+  if (date.getFullYear() != year) {
+    year = date.getFullYear();
+    block_new_year = '<div class="year blue mt-5">' + year + '</div>';
+    if (date.getMonth() != month) {
+      month = date.getMonth();
+      block_new_month = '<div class="month green mb-3">Ianuarius</div>';
+    }
+  } else {
+    block_new_year = '';
+    if (date.getMonth() != month) {
+      month = date.getMonth();
+      block_new_month = '<div class="month green my-3">' + month_human_readable(month) + '</div>';
+    } else {
+      block_new_month = '';
+    }
+  }
+
+  // Blocks 'before' and 'after':
   if (before != "") {
     block_before = '<div class="before">' + before + '</div>';
   } else {
@@ -65,8 +85,12 @@ function component(day, weekday, before, color, header, body, after) {
   } else {
     block_after = '';
   }
+
+  // Result:
   return (
-    '<div class="d-flex flex-column w-50 mb-2">'
+    block_new_year
+    + block_new_month
+    + '<div class="d-flex flex-column w-50 mb-2">'
     + block_before
     + '<div class="head d-flex m-0">'
     + '<span class="fas fa-square ' + color + '"></span>'

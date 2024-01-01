@@ -44,6 +44,9 @@ function refresh_ordo(year) {
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
     content = content.concat(component(
+      date,
+      year,
+      month,
       day,
       weekday,
       winner['before'],
@@ -52,30 +55,13 @@ function refresh_ordo(year) {
       winner['body'],
       winner['after'],
     ));
+    month = date.getMonth();
   }
 
   // Christmas time:
   var christmas_time_duration = 19 - ((christmas_weekday + 5) % 7);
   for (var i = 0; i < christmas_time_duration; i++) {
     var date = new Date(christmas.getTime() + (i * 24 * 3600 * 1000));
-    if (date.getFullYear() != year) {
-      year = date.getFullYear();
-      content = content.concat(
-        '<div class="year blue mt-5">' + year + '</div>'
-      );
-      if (date.getMonth() != month) {
-        month = date.getMonth();
-        content = content.concat(
-          '<div class="month green mb-3">' + month_human_readable(month) + '</div>'
-        );
-      }
-    }
-    if (date.getMonth() != month) {
-      month = date.getMonth();
-      content = content.concat(
-        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
-      );
-    }
     var day = date.getDate();
     var weekday = date.getDay();
     var month_usual_number = date.getMonth() + 1;
@@ -83,6 +69,9 @@ function refresh_ordo(year) {
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
     content = content.concat(component(
+      date,
+      year,
+      month,
       day,
       weekday,
       winner['before'],
@@ -91,6 +80,8 @@ function refresh_ordo(year) {
       winner['body'],
       winner['after'],
     ));
+    year = date.getFullYear();
+    month = date.getMonth();
   }
   var baptism = new Date(date.getTime() + (24 * 3600 * 1000));
 
@@ -104,12 +95,6 @@ function refresh_ordo(year) {
 
   for (var i = 0; i < tempus_per_annum_until_ash_duration; i++) {
     var date = new Date(baptism.getTime() + (i * 24 * 3600 * 1000));
-    if (date.getMonth() != month) {
-      month = date.getMonth();
-      content = content.concat(
-        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
-      );
-    }
     var day = date.getDate();
     var weekday = date.getDay();
     var month_usual_number = date.getMonth() + 1;
@@ -117,6 +102,9 @@ function refresh_ordo(year) {
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
     content = content.concat(component(
+      date,
+      year,
+      month,
       day,
       weekday,
       winner['before'],
@@ -125,18 +113,13 @@ function refresh_ordo(year) {
       winner['body'],
       winner['after'],
     ));
+    month = date.getMonth();
   }
 
   // Lent:
   // Days after Ash wednesday:
   for (var i = 0; i < 4; i++) {
     var date = new Date(ash_wednesday.getTime() + (i * 24 * 3600 * 1000));
-    if (date.getMonth() != month) {
-      month = date.getMonth();
-      content = content.concat(
-        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
-      );
-    }
     var day = date.getDate();
     var weekday = date.getDay();
     var month_usual_number = date.getMonth() + 1;
@@ -144,6 +127,9 @@ function refresh_ordo(year) {
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
     content = content.concat(component(
+      date,
+      year,
+      month,
       day,
       weekday,
       winner['before'],
@@ -152,16 +138,11 @@ function refresh_ordo(year) {
       winner['body'],
       winner['after'],
     ));
+    month = date.getMonth();
   }
   // Rest of Lent:
   for (var i = 0; i < 42; i++) {
     var date = new Date(ash_wednesday.getTime() + ((i + 4) * 24 * 3600 * 1000));
-    if (date.getMonth() != month) {
-      month = date.getMonth();
-      content = content.concat(
-        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
-      );
-    }
     var day = date.getDate();
     var weekday = date.getDay();
     var month_usual_number = date.getMonth() + 1;
@@ -169,6 +150,9 @@ function refresh_ordo(year) {
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
     content = content.concat(component(
+      date,
+      year,
+      month,
       day,
       weekday,
       winner['before'],
@@ -177,17 +161,12 @@ function refresh_ordo(year) {
       winner['body'],
       winner['after'],
     ));
+    month = date.getMonth();
   }
 
   // Paschaltide:
   for (var i = 0; i < 50; i++) {
     var date = new Date(ash_wednesday.getTime() + ((i + 46) * 24 * 3600 * 1000));
-    if (date.getMonth() != month) {
-      month = date.getMonth();
-      content = content.concat(
-        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
-      );
-    }
     var day = date.getDate();
     var weekday = date.getDay();
     var month_usual_number = date.getMonth() + 1;
@@ -195,6 +174,9 @@ function refresh_ordo(year) {
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
     content = content.concat(component(
+      date,
+      year,
+      month,
       day,
       weekday,
       winner['before'],
@@ -203,6 +185,7 @@ function refresh_ordo(year) {
       winner['body'],
       winner['after'],
     ));
+    month = date.getMonth();
   }
   var pentecost = new Date(date.getTime() + (24 * 3600 * 1000));
 
@@ -214,12 +197,6 @@ function refresh_ordo(year) {
   // Days after Pentecost:
   for (var i = 0; i < 6; i++) {
     var date = new Date(pentecost.getTime() + (i * 24 * 3600 * 1000));
-    if (date.getMonth() != month) {
-      month = date.getMonth();
-      content = content.concat(
-        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
-      );
-    }
     var day = date.getDate();
     var weekday = date.getDay();
     var month_usual_number = date.getMonth() + 1;
@@ -227,6 +204,9 @@ function refresh_ordo(year) {
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
     content = content.concat(component(
+      date,
+      year,
+      month,
       day,
       weekday,
       winner['before'],
@@ -235,16 +215,11 @@ function refresh_ordo(year) {
       winner['body'],
       winner['after'],
     ));
+    month = date.getMonth();
   }
   // Rest of Tempus per Annum:
   for (var i = 0; i < tempus_per_annum_after_pentecost_duration; i++) {
     var date = new Date(pentecost.getTime() + ((i + 6) * 24 * 3600 * 1000));
-    if (date.getMonth() != month) {
-      month = date.getMonth();
-      content = content.concat(
-        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
-      );
-    }
     var day = date.getDate();
     var weekday = date.getDay();
     var month_usual_number = date.getMonth() + 1;
@@ -252,6 +227,9 @@ function refresh_ordo(year) {
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
     content = content.concat(component(
+      date,
+      year,
+      month,
       day,
       weekday,
       winner['before'],
@@ -260,6 +238,7 @@ function refresh_ordo(year) {
       winner['body'],
       winner['after'],
     ));
+    month = date.getMonth();
   }
 
   $('#content').html(content);
