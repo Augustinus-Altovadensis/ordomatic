@@ -55,9 +55,19 @@ function get_winner(ref_tempo, ref_sancto) {
 }
 
 function element(day, weekday, before, color, header, body, after) {
+  if (before != "") {
+    block_before = '<div class="before">' + before + '</div>';
+  } else {
+    block_before = '';
+  }
+  if (after != "") {
+    block_after = '<div class="after">' + after + '</div>';
+  } else {
+    block_after = '';
+  }
   return (
     '<div class="element d-flex flex-column w-50 mb-2">'
-    + '<div class="before fst-italic fw-bold text-center brown">' + before + '</div>'
+    + block_before
     + '<div class="head d-flex m-0">'
     + '<span class="fas fa-square ' + color + '"></span>'
     + '<span class="day brown fw-bold ms-2">' + day + '</span>'
@@ -65,7 +75,7 @@ function element(day, weekday, before, color, header, body, after) {
     + '<span class="header text-justify ms-1">' + header + '</span>'
     + '</div>'
     + '<div class="body text-justify">' + body + '</div>'
-    + '<div class="after fst-italic fw-bold text-center brown">' + after + '</div>'
+    + block_after
     + '</div>'
   );
 }

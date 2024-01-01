@@ -67,15 +67,28 @@ ul {
 
 .before,
 .after {
-    font-size: 1.3em;
+    color: grey;
+    font-style: italic;
+    text-align: center;
 }
 
 .before {
-    margin: 0 0 2% 0;
+    margin: 4% 0 2% 0;
 }
 
-.incipit {
-    margin: 3% 0 0 0;
+.after {
+    margin: 2% 0 2% 0;
+}
+
+.before-large,
+.after-large {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.before-small,
+.after-small {
+    font-size: 0.9em;
 }
 
 .body {
