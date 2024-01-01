@@ -225,7 +225,23 @@ function refresh_ordo(year) {
     var month_usual_number = date.getMonth() + 1;
     var ref_tempo = 'pa_' + (num_per_annum_of_pentecost + Math.ceil((i + 1) / 7)) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
-    var winner = get_winner(ref_tempo, ref_sancto);
+    switch (i) {
+      case 0:
+        winner = days_tempo['trinity'];
+        break;
+      case 4:
+        winner = days_tempo['corpus'];
+        break;
+      case 12:
+        winner = days_tempo['cor_jesu'];
+        break;
+      case 13:
+        winner = days_tempo['cor_immaculatum'];
+        break;
+      default:
+        winner = get_winner(ref_tempo, ref_sancto);
+    }
+    console.log(date, winner);
     content = content.concat(component(
       date,
       year,

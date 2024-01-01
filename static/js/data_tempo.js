@@ -1166,6 +1166,38 @@ const days_tempo = {
     'body': '',
     'after': ''
   },
+  'trinity': {
+    'force': 120,
+    'before': '',
+    'color': 'white',
+    'header': '<span class="solemnitas-minor">Sanctissimæ Trinitatis.</span>',
+    'body': '',
+    'after': ''
+  },
+  'corpus': {
+    'force': 120,
+    'before': '',
+    'color': 'white',
+    'header': '<span class="solemnitas-major">Sanctissimi Corporis et Sanguinis Domini.</span>',
+    'body': '<ul><li>Vesperæ sollemnitatis; post Vesperas, sollemnis processio Sanctissimi Sacramenti; benedictio Sanctissimi Sacramenti: <i>Tantum ergo</i> cum V. <i>Panem de cælo</i> cum <i>Alleluia</i> (indulgentia plenaria).</li></ul>',
+    'after': ''
+  },
+  'cor_jesu': {
+    'force': 120,
+    'before': '',
+    'color': 'white',
+    'header': '<span class="solemnitas-minor">Sacratissimi Cordis Iesu.</span>',
+    'body': '<ul><li>Vesperæ sollemnitatis; ad benedictionem Sanctissimi Sacramenti recitetur <i>Reparationis actus Sacratissimo Cordi Iesu</i>: indulgentia plenaria.</li></ul>',
+    'after': ''
+  },
+  'cor_immaculatum': {
+    'force': 40,
+    'before': '',
+    'color': 'white',
+    'header': '<span class="memoria-major">Immaculati Cordis Beatæ Mariæ Virginis.</span>',
+    'body': '',
+    'after': ''
+  },
   'pa_1_0': {
     'force': 100,
     'before': '',
