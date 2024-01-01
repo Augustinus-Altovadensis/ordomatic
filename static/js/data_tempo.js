@@ -775,50 +775,50 @@ const days_tempo = {
     'after': ''
   },
   'tp_1_1': {
-    'force': 20,
+    'force': 80,
     'before': '',
     'color': 'white',
-    'header': 'De ea.',
+    'header': 'De octava Paschæ.',
     'body': '',
     'after': ''
   },
   'tp_1_2': {
-    'force': 20,
+    'force': 80,
     'before': '',
     'color': 'white',
-    'header': 'De ea.',
+    'header': 'De octava Paschæ.',
     'body': '',
     'after': ''
   },
   'tp_1_3': {
-    'force': 20,
+    'force': 80,
     'before': '',
     'color': 'white',
-    'header': 'De ea.',
+    'header': 'De octava Paschæ.',
     'body': '',
     'after': ''
   },
   'tp_1_4': {
-    'force': 20,
+    'force': 80,
     'before': '',
     'color': 'white',
-    'header': 'De ea.',
+    'header': 'De octava Paschæ.',
     'body': '',
     'after': ''
   },
   'tp_1_5': {
-    'force': 20,
+    'force': 80,
     'before': '',
     'color': 'white',
-    'header': 'De ea.',
+    'header': 'De octava Paschæ.',
     'body': '',
     'after': ''
   },
   'tp_1_6': {
-    'force': 20,
+    'force': 80,
     'before': '',
     'color': 'white',
-    'header': 'De eo.',
+    'header': 'De octava Paschæ.',
     'body': '',
     'after': ''
   },
@@ -826,7 +826,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps">Dominica II Paschæ.</span>',
+    'header': '<span class="small-caps">Dominica II Paschæ seu de Divina Misericordia.</span>',
     'body': '',
     'after': ''
   },
@@ -1079,10 +1079,10 @@ const days_tempo = {
     'after': ''
   },
   'tp_6_4': {
-    'force': 20,
+    'force': 120,
     'before': '',
     'color': 'white',
-    'header': 'De ea.',
+    'header': '<span class="small-caps">In Ascensione Domini.</span>',
     'body': '',
     'after': ''
   },
@@ -1155,6 +1155,14 @@ const days_tempo = {
     'before': '',
     'color': 'white',
     'header': 'De eo.',
+    'body': '',
+    'after': ''
+  },
+  'tp_8_0': {
+    'force': 120,
+    'before': '',
+    'color': 'red',
+    'header': '<span class="small-caps">Dominica Pentecostes.</span>',
     'body': '',
     'after': ''
   },

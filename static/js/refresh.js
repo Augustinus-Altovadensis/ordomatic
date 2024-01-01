@@ -180,7 +180,7 @@ function refresh_ordo(year) {
   }
 
   // Paschaltide:
-  for (var i = 0; i < 49; i++) {
+  for (var i = 0; i < 50; i++) {
     var date = new Date(ash_wednesday.getTime() + ((i + 46) * 24 * 3600 * 1000));
     if (date.getMonth() != month) {
       month = date.getMonth();
@@ -209,11 +209,36 @@ function refresh_ordo(year) {
   // Tempus per Annum after Pentecost:
   christmas = get_christmas_date(year);
   var advent = new Date(christmas.getTime() - ((christmas.getDay() + 21) * 24 * 3600 * 1000));
-  var tempus_per_annum_after_pentecost_duration = (advent - pentecost) / (1000 * 3600 * 24);
+  var tempus_per_annum_after_pentecost_duration = ((advent - pentecost) / (1000 * 3600 * 24)) - 6;
   var num_per_annum_of_pentecost = Math.floor(34 - (tempus_per_annum_after_pentecost_duration / 7));
-
-  for (var i = 0; i < tempus_per_annum_after_pentecost_duration; i++) {
+  // Days after Pentecost:
+  for (var i = 0; i < 6; i++) {
     var date = new Date(pentecost.getTime() + (i * 24 * 3600 * 1000));
+    if (date.getMonth() != month) {
+      month = date.getMonth();
+      content = content.concat(
+        '<div class="month green my-3">' + month_human_readable(month) + '</div>'
+      );
+    }
+    var day = date.getDate();
+    var weekday = date.getDay();
+    var month_usual_number = date.getMonth() + 1;
+    var ref_tempo = 'pa_' + num_per_annum_of_pentecost + '_' + ((i + 1) % 7);
+    var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
+    var winner = get_winner(ref_tempo, ref_sancto);
+    content = content.concat(element(
+      day,
+      weekday,
+      winner['before'],
+      winner['color'],
+      winner['header'],
+      winner['body'],
+      winner['after'],
+    ));
+  }
+  // Rest of Tempus per Annum:
+  for (var i = 0; i < tempus_per_annum_after_pentecost_duration; i++) {
+    var date = new Date(pentecost.getTime() + ((i + 6) * 24 * 3600 * 1000));
     if (date.getMonth() != month) {
       month = date.getMonth();
       content = content.concat(
