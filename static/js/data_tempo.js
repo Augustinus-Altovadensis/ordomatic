@@ -11,7 +11,7 @@ const days_tempo = {
     'force': 10,
     'before': '',
     'color': 'violet',
-    'header': 'De ea.></span>',
+    'header': 'De ea.',
     'body': '',
     'after': ''
   },
