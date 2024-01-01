@@ -15,7 +15,12 @@ function refresh_ordo(year) {
 
   // Liturgical cycle:
   content = content.concat(
-    '<div class="cyclus text-center fw-bold w-100 pb-3">Cyclus liturgicus <span id="cyclus"></span></div>'
+    '<div class="subtitle text-center fw-bold w-100">Cyclus liturgicus <span id="cyclus"></span></div>'
+  );
+
+  // Date of Pascha:
+  content = content.concat(
+    '<div class="subtitle text-center fw-bold w-100 pb-3">Sanctum Pascha celebrabitur die <span id="pascha"></span></div>'
   );
 
   // Year:
@@ -234,10 +239,5 @@ function refresh_ordo(year) {
 
   $('#content').html(content);
 
-  // Insertions:
-  // Cyclus liturgicus:
-  var cyclus = ['C', 'A', 'B'][year % 3];
-  $('#cyclus').html(cyclus);
-  // Explicit annus liturgicus:
-  $('#explicit').html(year);
+  replace(year);
 }

@@ -13,13 +13,17 @@ ul {
 }
 
 .title,
-.cyclus {
+.subtitle {
     background-color: bisque;
 }
 
 .title {
     font-family: LucidaHW;
     font-size: 3em;
+}
+
+.subtitle {
+    color: brown;
 }
 
 .year {
