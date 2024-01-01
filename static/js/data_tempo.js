@@ -3,7 +3,7 @@ const days_tempo = {
     'force': 100,
     'before': '<span class="before-large">Hic incipit annus liturgicus.</span>',
     'color': 'violet',
-    'header': '<span class="small-caps">Dominica I Adventus.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica I Adventus.</span>',
     'body': '<ul><li>Ad Vigilias dicitur Resp. <i>Aspiciens</i>.</li></ul>',
     'after': ''
   },
@@ -59,7 +59,7 @@ const days_tempo = {
     'force': 100,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Dominica II Adventus.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica II Adventus.</span>',
     'body': '',
     'after': ''
   },
@@ -115,7 +115,7 @@ const days_tempo = {
     'force': 100,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Dominica III Adventus.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica III Adventus.</span>',
     'body': '',
     'after': ''
   },
@@ -171,7 +171,7 @@ const days_tempo = {
     'force': 100,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Dominica IV Adventus.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica IV Adventus.</span>',
     'body': '',
     'after': ''
   },
@@ -227,7 +227,7 @@ const days_tempo = {
     'force': 150,
     'before': '<span class="before-large">Hic incipit Tempus Nativitatis.</span>',
     'color': 'white',
-    'header': '<span class="small-caps">In Nativitate Domini Nostri Iesu Christi.</span>',
+    'header': '<span class="solemnitas-major">In Nativitate Domini Nostri Iesu Christi.</span>',
     'body': '<ul><li>Hodie omnes sacerdotes tres Missas celebrare possunt, dummodo hæ suo tempore celebrentur.</li></ul>',
     'after': ''
   },
@@ -235,7 +235,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'white',
-    'header': 'Infra octavam Nativitatis - de ea.',
+    'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
     'body': '',
     'after': ''
   },
@@ -243,7 +243,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'white',
-    'header': 'Infra octavam Nativitatis - de ea.',
+    'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
     'body': '',
     'after': ''
   },
@@ -251,7 +251,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'white',
-    'header': 'Infra octavam Nativitatis - de ea.',
+    'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
     'body': '',
     'after': ''
   },
@@ -259,7 +259,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'white',
-    'header': 'Infra octavam Nativitatis - de ea.',
+    'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
     'body': '',
     'after': ''
   },
@@ -267,7 +267,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'white',
-    'header': 'Infra octavam Nativitatis - de ea.',
+    'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
     'body': '',
     'after': ''
   },
@@ -275,7 +275,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'white',
-    'header': 'Infra octavam Nativitatis - de ea.',
+    'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
     'body': '',
     'after': ''
   },
@@ -395,7 +395,7 @@ const days_tempo = {
     'force': 120,
     'before': '<span class="before-large">Hic incipit tempus acceptabile. Hic incipiunt dies salutis.</span>',
     'color': 'violet',
-    'header': '<span class="small-caps">Feria IV Cinerum.</span>',
+    'header': '<span class="small-caps fw-bold">Feria IV Cinerum.</span>',
     'body': '',
     'after': ''
   },
@@ -427,7 +427,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Dominica I in Quadragesima.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica I in Quadragesima.</span>',
     'body': '',
     'after': ''
   },
@@ -483,7 +483,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Dominica II in Quadragesima.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica II in Quadragesima.</span>',
     'body': '',
     'after': ''
   },
@@ -539,7 +539,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Dominica III in Quadragesima.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica III in Quadragesima.</span>',
     'body': '',
     'after': ''
   },
@@ -595,7 +595,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Dominica IV in Quadragesima.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica IV in Quadragesima.</span>',
     'body': '',
     'after': ''
   },
@@ -651,7 +651,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Dominica V in Quadragesima.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica V in Quadragesima.</span>',
     'body': '',
     'after': ''
   },
@@ -707,7 +707,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Dominica in Palmis de Passione Domini.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica in Palmis de Passione Domini.</span>',
     'body': '',
     'after': ''
   },
@@ -715,7 +715,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Feria II Hebdomadæ Sanctæ.</span>',
+    'header': '<span class="small-caps fw-bold">Feria II Hebdomadæ Sanctæ.</span>',
     'body': '',
     'after': ''
   },
@@ -723,7 +723,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Feria III Hebdomadæ Sanctæ.</span>',
+    'header': '<span class="small-caps fw-bold">Feria III Hebdomadæ Sanctæ.</span>',
     'body': '',
     'after': ''
   },
@@ -731,7 +731,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Feria IV Hebdomadæ Sanctæ.</span>',
+    'header': '<span class="small-caps fw-bold">Feria IV Hebdomadæ Sanctæ.</span>',
     'body': '',
     'after': ''
   },
@@ -739,7 +739,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Feria V Hebdomadæ Sanctæ.</span>',
+    'header': '<span class="small-caps fw-bold">Feria V Hebdomadæ Sanctæ.</span>',
     'body': '\
       <ul>\
         <li>Missa in Cena Domini: <i>Gloria</i> (pulsantur campanæ); post Evangelium fit lotio pedum quæ concluditur oratione fidelium n.10; pro offertorio cantatur <i>Ubi Caritas</i> (in GR 168); præfatio I de Sanctissima Eucharistia; <i>Communicantes</i>, <i>Hanc igitur</i> et <i>Qui pridie</i> propria; in fine Missæ, omittuntur ritus conclusionis; post missam, sollemnis translatio ac repositio Sanctissimi Sacramenti: cantatur hymnus <i>Pange Lingua</i> (GR 170), cum <i>Tantum ergo</i>: indulgentia plenaria.</li>\
@@ -754,7 +754,7 @@ const days_tempo = {
     'force': 120,
     'before': '<span class="before-small">Cras incipiunt preces novendiales ad Divinam Misericordiam.</span>',
     'color': 'violet',
-    'header': '<span class="small-caps">Feria VI in Passione Domini.</span>',
+    'header': '<span class="small-caps fw-bold">Feria VI in Passione Domini.</span>',
     'body': '',
     'after': ''
   },
@@ -762,7 +762,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps">Sabbato Sancto.</span>',
+    'header': '<span class="small-caps fw-bold">Sabbato Sancto.</span>',
     'body': '',
     'after': ''
   },
@@ -770,7 +770,7 @@ const days_tempo = {
     'force': 120,
     'before': '<span class="before-large">Hic incipit Tempus Paschale.</span>',
     'color': 'white',
-    'header': '<span class="small-caps">Dominica I Paschæ.</span>',
+    'header': '<span class="solemnitas-major">Dominica Paschæ in Resurrectione Domini.</span>',
     'body': '',
     'after': ''
   },
@@ -778,7 +778,7 @@ const days_tempo = {
     'force': 80,
     'before': '',
     'color': 'white',
-    'header': 'De octava Paschæ.',
+    'header': '<span class="small-caps">De octava Paschæ.</span>',
     'body': '',
     'after': ''
   },
@@ -786,7 +786,7 @@ const days_tempo = {
     'force': 80,
     'before': '',
     'color': 'white',
-    'header': 'De octava Paschæ.',
+    'header': '<span class="small-caps">De octava Paschæ.</span>',
     'body': '',
     'after': ''
   },
@@ -794,7 +794,7 @@ const days_tempo = {
     'force': 80,
     'before': '',
     'color': 'white',
-    'header': 'De octava Paschæ.',
+    'header': '<span class="small-caps">De octava Paschæ.</span>',
     'body': '',
     'after': ''
   },
@@ -802,7 +802,7 @@ const days_tempo = {
     'force': 80,
     'before': '',
     'color': 'white',
-    'header': 'De octava Paschæ.',
+    'header': '<span class="small-caps">De octava Paschæ.</span>',
     'body': '',
     'after': ''
   },
@@ -810,7 +810,7 @@ const days_tempo = {
     'force': 80,
     'before': '',
     'color': 'white',
-    'header': 'De octava Paschæ.',
+    'header': '<span class="small-caps">De octava Paschæ.</span>',
     'body': '',
     'after': ''
   },
@@ -818,7 +818,7 @@ const days_tempo = {
     'force': 80,
     'before': '',
     'color': 'white',
-    'header': 'De octava Paschæ.',
+    'header': '<span class="small-caps">De octava Paschæ.</span>',
     'body': '',
     'after': ''
   },
@@ -826,7 +826,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps">Dominica II Paschæ seu de Divina Misericordia.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica II Paschæ seu de Divina Misericordia.</span>',
     'body': '',
     'after': ''
   },
@@ -882,7 +882,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps">Dominica III Paschæ.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica III Paschæ.</span>',
     'body': '',
     'after': ''
   },
@@ -938,7 +938,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps">Dominica IV Paschæ.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica IV Paschæ.</span>',
     'body': '',
     'after': ''
   },
@@ -994,7 +994,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps">Dominica V Paschæ.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica V Paschæ.</span>',
     'body': '',
     'after': ''
   },
@@ -1050,7 +1050,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps">Dominica VI Paschæ.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica VI Paschæ.</span>',
     'body': '',
     'after': ''
   },
@@ -1082,7 +1082,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps">In Ascensione Domini.</span>',
+    'header': '<span class="solemnitas-major">In Ascensione Domini.</span>',
     'body': '',
     'after': ''
   },
@@ -1106,7 +1106,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps">Dominica VII Paschæ.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica VII Paschæ.</span>',
     'body': '',
     'after': ''
   },
@@ -1162,7 +1162,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'red',
-    'header': '<span class="small-caps">Dominica Pentecostes.</span>',
+    'header': '<span class="solemnitas-major">Dominica Pentecostes.</span>',
     'body': '',
     'after': ''
   },
@@ -1170,7 +1170,7 @@ const days_tempo = {
     'force': 100,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps">In Baptismate Domini.</span>',
+    'header': '<span class="festum">In Baptismate Domini - Festum.</span>',
     'body': '',
     'after': '<span class="after-large">Post Completorium explicit Tempus Nativitatis</br>et incipit pars prima Temporis per Annum.</span>'
   },
@@ -1226,7 +1226,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica II per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica II per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1282,7 +1282,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica III per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica III per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1338,7 +1338,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica IV per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica IV per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1394,7 +1394,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica V per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica V per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1450,7 +1450,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica VI per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica VI per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1506,7 +1506,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica VII per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica VII per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1562,7 +1562,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica VIII per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica VIII per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1618,7 +1618,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica IX per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica IX per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1674,7 +1674,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica X per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica X per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1730,7 +1730,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XI per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XI per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1786,7 +1786,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XII per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XII per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1842,7 +1842,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XIII per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XIII per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1898,7 +1898,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XIV per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XIV per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -1954,7 +1954,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps">Dominica XV per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XV per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2010,7 +2010,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XVI per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XVI per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2066,7 +2066,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XVII per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XVII per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2122,7 +2122,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XVIII per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XVIII per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2178,7 +2178,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XIX per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XIX per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2234,7 +2234,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XX per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XX per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2290,7 +2290,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXI per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXI per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2346,7 +2346,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps">Dominica XXII per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXII per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2402,7 +2402,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXIII per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXIII per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2458,7 +2458,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXIV per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXIV per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2514,7 +2514,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXV per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXV per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2570,7 +2570,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXVI per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXVI per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2626,7 +2626,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXVII per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXVII per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2682,7 +2682,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXVIII per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXVIII per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2738,7 +2738,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps">Dominica XXIX per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXIX per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2794,7 +2794,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXX per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXX per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2850,7 +2850,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXXI per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXXI per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2906,7 +2906,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXXII per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXXII per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -2962,7 +2962,7 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXXIII per annum.</span>',
+    'header': '<span class="small-caps fw-bold">Dominica XXXIII per annum.</span>',
     'body': '',
     'after': ''
   },
@@ -3018,7 +3018,7 @@ const days_tempo = {
     'force': 100,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps">Dominica XXXIV per annum - Domini Nostri Iesu Christi Universorum Regis.</span>',
+    'header': '<span class="solemnitas minor">Dominica XXXIV per annum - Domini Nostri Iesu Christi Universorum Regis.</span>',
     'body': '<ul><li>Vesperæ sollemnitatis; ad benedictionem Sanctissimi Sacramenti recitetur <i>Actus dedicationis humani generis Iesu Christo Regi</i>: indulgentia plenaria.</li></ul>',
     'after': ''
   },
