@@ -43,7 +43,7 @@ function refresh_ordo(year) {
     var ref_tempo = 'adv_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    content = content.concat(element(
+    content = content.concat(component(
       day,
       weekday,
       winner['before'],
@@ -82,7 +82,7 @@ function refresh_ordo(year) {
     var ref_tempo = 'christmas_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    content = content.concat(element(
+    content = content.concat(component(
       day,
       weekday,
       winner['before'],
@@ -116,7 +116,7 @@ function refresh_ordo(year) {
     var ref_tempo = 'pa_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    content = content.concat(element(
+    content = content.concat(component(
       day,
       weekday,
       winner['before'],
@@ -143,7 +143,7 @@ function refresh_ordo(year) {
     var ref_tempo = 'lent_0_' + (i + 3);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    content = content.concat(element(
+    content = content.concat(component(
       day,
       weekday,
       winner['before'],
@@ -168,7 +168,7 @@ function refresh_ordo(year) {
     var ref_tempo = 'lent_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    content = content.concat(element(
+    content = content.concat(component(
       day,
       weekday,
       winner['before'],
@@ -194,7 +194,7 @@ function refresh_ordo(year) {
     var ref_tempo = 'tp_' + Math.ceil((i + 1) / 7) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    content = content.concat(element(
+    content = content.concat(component(
       day,
       weekday,
       winner['before'],
@@ -226,7 +226,7 @@ function refresh_ordo(year) {
     var ref_tempo = 'pa_' + num_per_annum_of_pentecost + '_' + ((i + 1) % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    content = content.concat(element(
+    content = content.concat(component(
       day,
       weekday,
       winner['before'],
@@ -251,7 +251,7 @@ function refresh_ordo(year) {
     var ref_tempo = 'pa_' + (num_per_annum_of_pentecost + Math.ceil((i + 1) / 7)) + '_' + (i % 7);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
-    content = content.concat(element(
+    content = content.concat(component(
       day,
       weekday,
       winner['before'],

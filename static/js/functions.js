@@ -54,7 +54,7 @@ function get_winner(ref_tempo, ref_sancto) {
   return winner;
 }
 
-function element(day, weekday, before, color, header, body, after) {
+function component(day, weekday, before, color, header, body, after) {
   if (before != "") {
     block_before = '<div class="before">' + before + '</div>';
   } else {
@@ -66,7 +66,7 @@ function element(day, weekday, before, color, header, body, after) {
     block_after = '';
   }
   return (
-    '<div class="element d-flex flex-column w-50 mb-2">'
+    '<div class="d-flex flex-column w-50 mb-2">'
     + block_before
     + '<div class="head d-flex m-0">'
     + '<span class="fas fa-square ' + color + '"></span>'
