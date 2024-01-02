@@ -10,7 +10,7 @@ function refresh_ordo(year) {
 
   // Title:
   content = content.concat(
-    '<div class="title text-center orange w-100">Ordo ' + first_sunday_of_advent.getFullYear() + '-' + (first_sunday_of_advent.getFullYear() + 1) + '</div>'
+    '<div class="title text-center orange w-100">Ordo ' + first_sunday_of_advent.getFullYear() + '-<span id="year">' + (first_sunday_of_advent.getFullYear() + 1) + '</span></div>'
   );
 
   // Liturgical cycle:
@@ -259,5 +259,5 @@ function refresh_ordo(year) {
 
   $('#content').html(content);
 
-  replace(year);
+  replace();
 }

@@ -1,6 +1,8 @@
 // Find and replace:
 
-function replace(year) {
+function replace() {
+  var year = Number.parseInt($('#year').text());
+
   // Cyclus liturgicus (=> <Title>):
   var cyclus = ['C', 'A', 'B'][year % 3];
   $('#cyclus').html(cyclus);
