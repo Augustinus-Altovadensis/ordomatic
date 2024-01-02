@@ -241,7 +241,6 @@ function refresh_ordo(year) {
       default:
         winner = get_winner(ref_tempo, ref_sancto);
     }
-    console.log(date, winner);
     content = content.concat(component(
       date,
       year,
