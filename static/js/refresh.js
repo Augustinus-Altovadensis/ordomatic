@@ -255,7 +255,7 @@ function refresh_ordo(year) {
     month = date.getMonth();
   }
 
-  $('#content').html(content);
+  $('#ordo').html(content);
 
   replace();
 }
