@@ -1,5 +1,4 @@
 function refresh_ordo(year) {
-  // $('#content').html('');
   var content = "";
 
   var christmas = get_christmas_date(year - 1);
