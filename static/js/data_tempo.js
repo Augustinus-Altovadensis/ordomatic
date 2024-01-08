@@ -4,7 +4,7 @@ const days_tempo = {
     'before': '<span class="before-large">Hic incipit annus liturgicus.</span>',
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Dominica I Adventus.</span>',
-    'body': '<ul><li>Ad Vigilias dicitur Resp. <i>Aspiciens</i>.</li></ul>',
+    'body': '<ul><li>Ad Vigilias dicitur <span class="responsorium">¤</span> <i>Aspiciens</i>.</li></ul>',
     'after': ''
   },
   'adv_1_1': {
@@ -268,7 +268,7 @@ const days_tempo = {
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
-    'body': '',
+    'body': '<ul><li>Ad Laudes et Vesperas: <span class="versiculum">√</span> Benedicamus Domino III.</li></ul>',
     'after': ''
   },
   'christmas_1_6': {
@@ -745,7 +745,7 @@ const days_tempo = {
         <li>Missa in Cena Domini: <i>Gloria</i> (pulsantur campanæ); post Evangelium fit lotio pedum quæ concluditur oratione fidelium n.10; pro offertorio cantatur <i>Ubi Caritas</i> (in GR 168); præfatio I de Sanctissima Eucharistia; <i>Communicantes</i>, <i>Hanc igitur</i> et <i>Qui pridie</i> propria; in fine Missæ, omittuntur ritus conclusionis; post missam, sollemnis translatio ac repositio Sanctissimi Sacramenti: cantatur hymnus <i>Pange Lingua</i> (GR 170), cum <i>Tantum ergo</i>: indulgentia plenaria.</li>\
         <li>Vesperæ omittuntur ab his qui Missam vespertinam intersunt.</li>\
         <li>Expleta celebratione, denudatur altare et aufertur crux ab ecclesia.</li>\
-        <li>Ad cenam: Ant. <i>Christus factus est</i>.</li>\
+        <li>Ad cenam: <span class="antiphona">∑</span> <i>Christus factus est</i>.</li>\
         <li>Ad Completorium: superior, signo dato, indicat initiandum esse examen conscientiæ, quo absoluto dicitur <i>Confiteor</i>; oratio <i>Visita</i> quæ concluditur sub silentio. Hodie et cras omittitur aspersio.</li>\
       </ul>',
     'after': ''

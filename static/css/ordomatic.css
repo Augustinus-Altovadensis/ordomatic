@@ -66,6 +66,22 @@ ul {
     border-radius: 3px;
 }
 
+.antiphona,
+.responsorium,
+.versiculum {
+    color: rgb(200, 0, 0);
+    font-weight: bold;
+}
+
+.antiphona {
+    font-family: FlavGaramond;
+}
+
+.responsorium,
+.versiculum {
+    font-family: GregPlantin;
+}
+
 .small-caps {
     font-variant: small-caps;
 }
