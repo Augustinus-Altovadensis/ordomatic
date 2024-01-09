@@ -39,7 +39,7 @@ function get_easter_date(year) {
 }
 
 function add_zero(number) {
-  let zero = '';
+  var zero = '';
   if (number < 10) {
     zero = '0';
   }
@@ -47,7 +47,7 @@ function add_zero(number) {
 }
 
 function get_winner(ref_tempo, ref_sancto) {
-  let winner = days_tempo[ref_tempo];
+  var winner = days_tempo[ref_tempo];
   if (days_sancto[ref_sancto] && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force']) {
     winner = days_sancto[ref_sancto];
   }
