@@ -54,6 +54,38 @@ function get_winner(ref_tempo, ref_sancto) {
   return winner;
 }
 
+function period(duration, start, prefix_tempo, week_start, day_start) {
+  var html = "";
+  var year = start.getFullYear();
+  var month = start.getMonth();
+  for (var i = 0; i < duration; i++) {
+    var date = new Date(start.getTime() + (i * 24 * 3600 * 1000));
+    var day = date.getDate();
+    var weekday = date.getDay();
+    var month_usual_number = date.getMonth() + 1;
+    var ref_tempo = prefix_tempo + (week_start + Math.ceil((i + 1) / 7)) + '_' + (day_start + (i % 7));
+    console.log(ref_tempo);
+    var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
+    var winner = get_winner(ref_tempo, ref_sancto);
+    html = html.concat(component(
+      date,
+      year,
+      month,
+      day,
+      weekday,
+      winner['before'],
+      winner['color'],
+      winner['header'],
+      winner['body'],
+      winner['after'],
+    ));
+    year = date.getFullYear();
+    month = date.getMonth();
+  }
+
+  return html;
+}
+
 function component(date, year, month, day, weekday, before, color, header, body, after) {
   // New year, new month:
   var block_new_year, block_new_month;
