@@ -491,7 +491,7 @@ const days_sancto = {
     'force': 40,
     'before': '',
     'color': 'white',
-    'header': '<span class="memoria-major">S. Ioannæ d’Arc}, virginis, patronæ secundariæ Galliæ.</span>',
+    'header': '<span class="memoria-major">S. Ioannæ d\'Arc, virginis, patronæ secundariæ Galliæ.</span>',
     'body': '',
     'after': '',
   },
