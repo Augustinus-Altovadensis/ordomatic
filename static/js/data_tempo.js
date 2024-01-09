@@ -391,7 +391,7 @@ const days_tempo = {
     'body': '',
     'after': ''
   },
-  'lent_0_3': {
+  'ash_1_3': {
     'force': 120,
     'before': '<span class="before-large">Hic incipit tempus acceptabile. Hic incipiunt dies salutis.</span>',
     'color': 'violet',
@@ -399,7 +399,7 @@ const days_tempo = {
     'body': '',
     'after': ''
   },
-  'lent_0_4': {
+  'ash_1_4': {
     'force': 70,
     'before': '',
     'color': 'violet',
@@ -407,7 +407,7 @@ const days_tempo = {
     'body': '',
     'after': ''
   },
-  'lent_0_5': {
+  'ash_1_5': {
     'force': 70,
     'before': '',
     'color': 'violet',
@@ -415,7 +415,7 @@ const days_tempo = {
     'body': '',
     'after': ''
   },
-  'lent_0_6': {
+  'ash_1_6': {
     'force': 70,
     'before': '',
     'color': 'violet',
