@@ -1174,7 +1174,7 @@ const days_tempo = {
     'body': '',
     'after': ''
   },
-  'corpus': {
+  'corpus_domini': {
     'force': 120,
     'before': '',
     'color': 'white',
@@ -1190,7 +1190,7 @@ const days_tempo = {
     'body': '<ul><li>Vesperæ sollemnitatis; ad benedictionem Sanctissimi Sacramenti recitetur <i>Reparationis actus Sacratissimo Cordi Iesu</i>: indulgentia plenaria.</li></ul>',
     'after': ''
   },
-  'cor_immaculatum': {
+  'cor_mariæ_immaculatum': {
     'force': 40,
     'before': '',
     'color': 'white',

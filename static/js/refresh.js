@@ -229,13 +229,13 @@ function refresh_ordo(year) {
         winner = days_tempo['trinity'];
         break;
       case 4:
-        winner = days_tempo['corpus'];
+        winner = days_tempo['corpus_domini'];
         break;
       case 12:
         winner = days_tempo['cor_jesu'];
         break;
       case 13:
-        winner = days_tempo['cor_immaculatum'];
+        winner = days_tempo['cor_mariæ_immaculatum'];
         break;
       default:
         winner = get_winner(ref_tempo, ref_sancto);
