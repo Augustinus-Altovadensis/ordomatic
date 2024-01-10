@@ -55,6 +55,15 @@ function get_winner(ref_tempo, ref_sancto) {
 }
 
 function period(duration, start, prefix_tempo, week_start, day_start) {
+  // This function returns the HTML code of a liturgical period (Advent, Lent, Per Annum, etc.).
+  // duration (Integer): Number of days of the period.
+  // start (Date): Start date of the period.
+  // prefix_tempo (String): Prefix of the day_tempo to search. Week and day will be added incrementally to this prefix.
+  //     E.g.: 'pa_1_0', 'pa_1_1', 'pa_1_2'… 'pa_2_0', 'pa_2_1', etc.
+  // week_start (Integer): At which week to start the increment.
+  //     E.g., for Tempus per annum after Pentecost, it can be 7 or 8 etc.
+  // day_start (Integer): At which day to start the increment.
+  //     E.g., for days after Ash, it will be 3.
   var html = "";
   var year = start.getFullYear();
   var month = start.getMonth();
@@ -64,7 +73,6 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     var weekday = date.getDay();
     var month_usual_number = date.getMonth() + 1;
     var ref_tempo = prefix_tempo + (week_start + Math.ceil((i + 1) / 7)) + '_' + (day_start + (i % 7));
-    console.log(ref_tempo);
     var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     var winner = get_winner(ref_tempo, ref_sancto);
     html = html.concat(component(
@@ -87,7 +95,8 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 }
 
 function component(date, year, month, day, weekday, before, color, header, body, after) {
-  // New year, new month:
+  // This function returns a component, that is a piece of HTML code representing a line of the Ordo.
+  // New year? new month?:
   var block_new_year, block_new_month;
   if (date.getFullYear() != year) {
     year = date.getFullYear();
@@ -106,7 +115,7 @@ function component(date, year, month, day, weekday, before, color, header, body,
     }
   }
 
-  // Blocks 'before' and 'after':
+  // Blocks 'before' and 'after'?:
   if (before != "") {
     block_before = '<div class="before">' + before + '</div>';
   } else {

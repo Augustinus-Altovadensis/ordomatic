@@ -68,9 +68,9 @@ function refresh_ordo(year) {
   var advent = new Date(christmas.getTime() - ((christmas.getDay() + 21) * day_in_milliseconds));
   var tempus_per_annum_after_pentecost_duration = ((advent - pentecost) / day_in_milliseconds);
   var num_per_annum_of_pentecost = Math.floor(34 - (tempus_per_annum_after_pentecost_duration / 7));
-  // // 1. Days after Pentecost:
+  // Week after Pentecost:
   content = content.concat(period(6, new Date(pentecost.getTime() + day_in_milliseconds), 'pa_', num_per_annum_of_pentecost, 1));
-  // // 2. Rest of Tempus per Annum:
+  // Rest of Tempus per Annum:
   content = content.concat(period(tempus_per_annum_after_pentecost_duration - 7, new Date(pentecost.getTime() + 7 * day_in_milliseconds), 'pa_', num_per_annum_of_pentecost + 1, 0));
 
   //   TODO:
