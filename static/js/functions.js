@@ -23,23 +23,21 @@ function get_first_sunday_of_advent(christmas, christmas_weekday) {
 }
 
 function get_easter_date(year) {
-  var v1 = year - 1900;
-  var v2 = v1 % 19;
-  var v3 = Math.floor(((v2 * 7) + 1) / 19);
-  var v4 = ((v2 * 11) + 4 - v3) % 29;
-  var v5 = Math.floor(v1 / 4);
-  var v6 = (v1 + v5 + 31 - v4) % 7
-  var v7 = 25 - v4 - v6
-  var easter_day;
+  v1 = year - 1900;
+  v2 = v1 % 19;
+  v3 = Math.floor(((v2 * 7) + 1) / 19);
+  v4 = ((v2 * 11) + 4 - v3) % 29;
+  v5 = Math.floor(v1 / 4);
+  v6 = (v1 + v5 + 31 - v4) % 7
+  v7 = 25 - v4 - v6
   if (v7 > 0) { easter_day = v7; } else { easter_day = 31 + v7; }
-  var easter_month;
   if (v7 > 0) { easter_month = 3 } else { easter_month = 2 }
-  var easter = new Date(year, easter_month, easter_day);
+  easter = new Date(year, easter_month, easter_day);
   return (new Date(easter.getTime() - (easter.getTimezoneOffset() * 60 * 1000)));
 }
 
 function add_zero(number) {
-  var zero = '';
+  zero = '';
   if (number < 10) {
     zero = '0';
   }
@@ -47,7 +45,7 @@ function add_zero(number) {
 }
 
 function get_winner(ref_tempo, ref_sancto) {
-  var winner = days_tempo[ref_tempo];
+  winner = days_tempo[ref_tempo];
   if (days_sancto[ref_sancto] && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force']) {
     winner = days_sancto[ref_sancto];
   }
@@ -64,17 +62,17 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
   //     E.g., for Tempus per annum after Pentecost, it can be 7 or 8 etc.
   // day_start (Integer): At which day to start the increment.
   //     E.g., for days after Ash, it will be 3.
-  var html = "";
-  var year = start.getFullYear();
-  var month = start.getMonth();
-  for (var i = 0; i < duration; i++) {
-    var date = new Date(start.getTime() + (i * 24 * 3600 * 1000));
-    var day = date.getDate();
-    var weekday = date.getDay();
-    var month_usual_number = date.getMonth() + 1;
-    var ref_tempo = prefix_tempo + (week_start + Math.ceil((i + 1) / 7)) + '_' + (day_start + (i % 7));
-    var ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
-    var winner = get_winner(ref_tempo, ref_sancto);
+  html = "";
+  year = start.getFullYear();
+  month = start.getMonth();
+  for (i = 0; i < duration; i++) {
+    date = new Date(start.getTime() + (i * 24 * 3600 * 1000));
+    day = date.getDate();
+    weekday = date.getDay();
+    month_usual_number = date.getMonth() + 1;
+    ref_tempo = prefix_tempo + (week_start + Math.ceil((i + 1) / 7)) + '_' + (day_start + (i % 7));
+    ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
+    winner = get_winner(ref_tempo, ref_sancto);
     html = html.concat(component(
       date,
       year,
@@ -97,7 +95,6 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 function component(date, year, month, day, weekday, before, color, header, body, after) {
   // This function returns a component, that is a piece of HTML code representing a line of the Ordo.
   // New year? new month?:
-  var block_new_year, block_new_month;
   if (date.getFullYear() != year) {
     year = date.getFullYear();
     block_new_year = '<div class="year blue mt-5">' + year + '</div>';

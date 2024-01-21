@@ -1,12 +1,12 @@
 function refresh_ordo(year) {
-  var content = "";
+  content = "";
 
-  var christmas = get_christmas_date(year - 1);
-  var christmas_weekday = get_christmas_weekday(christmas);
-  var first_sunday_of_advent = get_first_sunday_of_advent(christmas, christmas_weekday);
-  var year = first_sunday_of_advent.getFullYear();
-  var month = first_sunday_of_advent.getMonth();
-  var day_in_milliseconds = 24 * 3600 * 1000;
+  christmas = get_christmas_date(year - 1);
+  christmas_weekday = get_christmas_weekday(christmas);
+  first_sunday_of_advent = get_first_sunday_of_advent(christmas, christmas_weekday);
+  year = first_sunday_of_advent.getFullYear();
+  month = first_sunday_of_advent.getMonth();
+  day_in_milliseconds = 24 * 3600 * 1000;
 
   // Title:
   content = content.concat(
@@ -34,22 +34,22 @@ function refresh_ordo(year) {
   );
 
   // Advent:
-  var advent_duration = 21 + christmas_weekday;
+  advent_duration = 21 + christmas_weekday;
   content = content.concat(period(advent_duration, first_sunday_of_advent, 'adv_', 0, 0));
 
   // Christmas time:
-  var christmas_time_duration = 19 - ((christmas_weekday + 5) % 7);
+  christmas_time_duration = 19 - ((christmas_weekday + 5) % 7);
   content = content.concat(period(christmas_time_duration, christmas, 'christmas_', 0, 0));
 
-  var baptism = new Date(christmas.getTime() + (christmas_time_duration * day_in_milliseconds));
+  baptism = new Date(christmas.getTime() + (christmas_time_duration * day_in_milliseconds));
 
   // Ash Wednesday:
-  var easter = get_easter_date(year + 1);
-  var ash_wednesday = new Date(easter.getTime() - (46 * day_in_milliseconds));
+  easter = get_easter_date(year + 1);
+  ash_wednesday = new Date(easter.getTime() - (46 * day_in_milliseconds));
   ash_wednesday = new Date(ash_wednesday.getTime() - (ash_wednesday.getTimezoneOffset() * 60 * 1000));
 
   // Tempus per Annum until Ash Wednesday:
-  var tempus_per_annum_until_ash_duration = (ash_wednesday - baptism) / (1000 * 3600 * 24) - 1;
+  tempus_per_annum_until_ash_duration = (ash_wednesday - baptism) / (1000 * 3600 * 24) - 1;
   content = content.concat(period(tempus_per_annum_until_ash_duration, baptism, 'pa_', 0, 0));
 
   // Lent:
@@ -61,13 +61,13 @@ function refresh_ordo(year) {
   // Paschaltide:
   content = content.concat(period(50, easter, 'tp_', 0, 0));
 
-  var pentecost = new Date(easter.getTime() + (49 * day_in_milliseconds));
+  pentecost = new Date(easter.getTime() + (49 * day_in_milliseconds));
 
   // Tempus per Annum after Pentecost:
   christmas = get_christmas_date(year + 1);
-  var advent = new Date(christmas.getTime() - ((christmas.getDay() + 21) * day_in_milliseconds));
-  var tempus_per_annum_after_pentecost_duration = ((advent - pentecost) / day_in_milliseconds);
-  var num_per_annum_of_pentecost = Math.floor(34 - (tempus_per_annum_after_pentecost_duration / 7));
+  advent = new Date(christmas.getTime() - ((christmas.getDay() + 21) * day_in_milliseconds));
+  tempus_per_annum_after_pentecost_duration = ((advent - pentecost) / day_in_milliseconds);
+  num_per_annum_of_pentecost = Math.floor(34 - (tempus_per_annum_after_pentecost_duration / 7));
   // Week after Pentecost:
   content = content.concat(period(6, new Date(pentecost.getTime() + day_in_milliseconds), 'pa_', num_per_annum_of_pentecost, 1));
   // Rest of Tempus per Annum:
