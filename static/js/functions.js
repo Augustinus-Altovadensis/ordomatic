@@ -3,11 +3,11 @@ function weekday_human_readable(weekday) {
 }
 
 function month_human_readable(month) {
-  return ['Ianuarius', 'Februarius', 'Martius - Sancto Ioseph consecratus', 'Aprilis', 'Maius - Beatæ Mariæ Virgini consecratus', 'Iunius - Sacratissimo Iesu Cordi consecratus', 'Iulius', 'Augustus', 'September', 'October - Sanctis Angelis consecratus', 'November - Fidelibus defunctis consecratus', 'December'][month];
+  return ['Januarius', 'Februarius', 'Martius', 'Aprilis', 'Majus - Beatæ Mariæ Virgini consecratus', 'Junius - Sacratissimo Cordi D.N.J.C. consecratus', 'Julius', 'Augustus', 'September', 'October', 'November', 'December'][month];
 }
 
 function month_human_readable_genitive(month) {
-  return ['Ianuarii', 'Februarii', 'Martii', 'Aprilis', 'Maii', 'Iunii', 'Iulii', 'Augusti', 'Septembris', 'Octobris', 'Novembris', 'Decembris'][month];
+  return ['Januarii', 'Februarii', 'Martii', 'Aprilis', 'Maji', 'Junii', 'Julii', 'Augusti', 'Septembris', 'Octobris', 'Novembris', 'Decembris'][month];
 }
 
 function get_christmas_date(year) {
@@ -97,16 +97,16 @@ function component(date, year, month, day, weekday, before, color, header, body,
   // New year? new month?:
   if (date.getFullYear() != year) {
     year = date.getFullYear();
-    block_new_year = '<div class="year blue mt-5">' + year + '</div>';
+    block_new_year = '<div class="year brown mt-5">' + year + '</div>';
     if (date.getMonth() != month) {
       month = date.getMonth();
-      block_new_month = '<div class="month green mb-3">Ianuarius</div>';
+      block_new_month = '<div class="month blue mb-3">Januarius</div>';
     }
   } else {
     block_new_year = '';
     if (date.getMonth() != month) {
       month = date.getMonth();
-      block_new_month = '<div class="month green my-3">' + month_human_readable(month) + '</div>';
+      block_new_month = '<div class="month blue my-3">' + month_human_readable(month) + '</div>';
     } else {
       block_new_month = '';
     }

@@ -3,8 +3,14 @@ const days_sancto = {
     'force': 120,
     'before': '',
     'color': 'white',
-    'header': '<span class="solemnitas-major">Solemnitas Sanctæ Genetricis Dei Mariæ.</span>',
-    'body': '',
+    'header': '<span class="solemnitas-major">In Circumcisione D.N.J.CH. & Octava Nativitatis Domini.</span>',
+    'body':
+      '<ul>\
+        <li><u>in Laud.:</u> Hym. <b><i>A solis ortu.</i></b> ad Ben. Ant. <i>Mirabile</i> <font color="red">extra stalla & flexis genibus ad</font> <b><i>Deus homo factus est.</i></b> - sine <font color="green"><del>Com.</del></font></li>\
+        <li><u>in Missa:</u> Glo. - Cre. - Præf. Nat. - Infra actionem Communicantes. <font color="red">de Nativitate</font></li>\
+        ¶ <font color="red">In Refectorio ab hodierna usque ad Dom. Septuagesima legitur ex Epistolis S. Pauli, prout Cæremoniarius indicat (Rit.)</font>\
+        <li><u>in Vesp.:</u> de festo - <font color="green">Com.</font>. SS. Nominis Jesu <b><i>Fecit mihi magna</i></b></li>\
+      </ul>',
     'after': '',
   },
   '01_02': {
