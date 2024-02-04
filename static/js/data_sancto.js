@@ -4,6 +4,7 @@ const days_sancto = {
     'before': '',
     'color': 'white',
     'header': '<span class="solemnitas-major">In Circumcisione D.N.J.CH. & Octava Nativitatis Domini.</span>',
+    'rank': 'Serm. min.',
     'body':
       '<ul>\
         <li><u>in Laud.:</u> Hym. <b><i>A solis ortu.</i></b> ad Ben. Ant. <i>Mirabile</i> <font color="red">extra stalla & flexis genibus ad</font> <b><i>Deus homo factus est.</i></b> - sine <font color="green"><del>Com.</del></font></li>\

@@ -82,6 +82,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       winner['before'],
       winner['color'],
       winner['header'],
+      winner['rank'],
       winner['body'],
       winner['after'],
     ));
@@ -92,7 +93,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
   return html;
 }
 
-function component(date, year, month, day, weekday, before, color, header, body, after) {
+function component(date, year, month, day, weekday, before, color, header, rank, body, after) {
   // This function returns a component, that is a piece of HTML code representing a line of the Ordo.
   // New year? new month?:
   if (date.getFullYear() != year) {
@@ -134,7 +135,7 @@ function component(date, year, month, day, weekday, before, color, header, body,
     + '<span class="fas fa-square ' + color + '"></span>'
     + '<span class="day brown fw-bold ms-2">' + day + '</span>'
     + '<span class="weekday brown fw-bold ms-1 text-nowrap">' + weekday_human_readable(weekday) + ' -</span>'
-    + '<span class="header text-justify ms-1">' + header + '</span>'
+    + '<span class="header text-justify ms-1">' + header + ' ' + rank '</span>'
     + '</div>'
     + '<div class="body text-justify">' + body + '</div>'
     + block_after
