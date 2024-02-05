@@ -52,6 +52,15 @@ function get_winner(ref_tempo, ref_sancto) {
   return winner;
 }
 
+function get_commemoratio(ref_tempo, ref_sancto) {
+  winner = days_tempo[ref_tempo];
+  if (days_sancto[ref_sancto] && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force'])   {
+    winner = days_sancto[ref_sancto]; }
+  if (winner == days_sancto[ref_sancto] && days_tempo[ref_tempo]['force'] > 10) { commemoratio = days_tempo[ref_tempo]; }
+  if (winner == days_tempo[ref_tempo]) { commemoratio = days_sancto[ref_sancto]; }
+  return commemoratio;
+}
+
 function period(duration, start, prefix_tempo, week_start, day_start) {
   // This function returns the HTML code of a liturgical period (Advent, Lent, Per Annum, etc.).
   // duration (Integer): Number of days of the period.
@@ -72,6 +81,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     month_usual_number = date.getMonth() + 1;
     ref_tempo = prefix_tempo + (week_start + Math.ceil((i + 1) / 7)) + '_' + (day_start + (i % 7));
     ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
+    commemoratio = get_commemoratio(ref_tempo, ref_sancto);
     winner = get_winner(ref_tempo, ref_sancto);
     html = html.concat(component(
       date,
@@ -86,6 +96,10 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       winner['body'],
       winner['after'],
     ));
+    if (commemoratio) {
+      html = html.concat( '<span class="header blue text-justify ms-1">' + commemoratio['header'] + '</span>' + '<div class="body blue text-justify">' + commemoratio['body'] + '</div>'
+      );
+    }
     year = date.getFullYear();
     month = date.getMonth();
   }
@@ -135,7 +149,7 @@ function component(date, year, month, day, weekday, before, color, header, rank,
     + '<span class="fas fa-square ' + color + '"></span>'
     + '<span class="day brown fw-bold ms-2">' + day + '</span>'
     + '<span class="weekday brown fw-bold ms-1 text-nowrap">' + weekday_human_readable(weekday) + ' -</span>'
-    + '<span class="header text-justify ms-1">' + header + ' ' + rank '</span>'
+    + '<span class="header text-justify ms-1">' + header + " " + rank + '</span>'
     + '</div>'
     + '<div class="body text-justify">' + body + '</div>'
     + block_after
