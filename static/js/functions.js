@@ -100,6 +100,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       html = html.concat( '<span class="header blue text-justify ms-1">' + commemoratio['header'] + '</span>' + '<div class="body blue text-justify">' + commemoratio['body'] + '</div>'
       );
     }
+    commemoratio = null;
     year = date.getFullYear();
     month = date.getMonth();
   }
