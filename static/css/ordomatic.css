@@ -121,6 +121,17 @@ ul {
     font-size: 1.02em;
 }
 
+.header {
+    font-family: FlavGaramond;
+    font-size: 1.0em;
+}
+
+.rank {
+    font-family: FlavGaramond;
+    font-weight: bold;
+    font-size: 1.0em;
+}
+
 .dominica {
     background-color: rgb(230, 230, 230);
     border: 1px solid grey;

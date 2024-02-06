@@ -93,6 +93,9 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       winner['color'],
       winner['header'],
       winner['rank'],
+      winner['laudes'],
+      winner['missa'],
+      winner['vesperae'],
       winner['body'],
       winner['after'],
     ));
@@ -108,7 +111,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
   return html;
 }
 
-function component(date, year, month, day, weekday, before, color, header, rank, body, after) {
+function component(date, year, month, day, weekday, before, color, header, rank, laudes, missa, vesperae, body, after) {
   // This function returns a component, that is a piece of HTML code representing a line of the Ordo.
   // New year? new month?:
   if (date.getFullYear() != year) {
@@ -140,6 +143,24 @@ function component(date, year, month, day, weekday, before, color, header, rank,
     block_after = '';
   }
 
+  if (laudes != "") {
+    block_laudes = '<div class="body text-justify">' + "<ul><li><u>in Laud.:</u> " + laudes + "</li></ul>" + '</div>';
+  } else {
+    block_laudes = '';
+  }
+
+  if (missa != "") {
+    block_missa = '<div class="body text-justify">' + "<ul><li><u>in Missa:</u> " + missa + "</li></ul>" + '</div>';
+  } else {
+    block_missa = '';
+  }
+
+  if (vesperae != "") {
+    block_vesperae = '<div class="body text-justify">' + "<ul><li><u>in Vesp.:</u> " + vesperae + "</li></ul>" + '</div>';
+  } else {
+    block_vesperae = '';
+  }
+
   // Result:
   return (
     block_new_year
@@ -150,9 +171,14 @@ function component(date, year, month, day, weekday, before, color, header, rank,
     + '<span class="fas fa-square ' + color + '"></span>'
     + '<span class="day brown fw-bold ms-2">' + day + '</span>'
     + '<span class="weekday brown fw-bold ms-1 text-nowrap">' + weekday_human_readable(weekday) + ' -</span>'
-    + '<span class="header text-justify ms-1">' + header + " " + rank + '</span>'
+    + '<span class="header text-justify ms-1">' + header + " " + '</span>'
+    + '<span class="rank text-justify ms-1">' + rank + '</span>'
     + '</div>'
-    + '<div class="body text-justify">' + body + '</div>'
+    + block_laudes
+    + block_missa
+    + block_vesperae
+    + '</div>'
+    + '<div class="body blue text-justify">' + body + '</div>'
     + block_after
     + '</div>'
   );

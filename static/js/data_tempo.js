@@ -5,6 +5,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Dominica I Adventus.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '<ul><li>Ad Vigilias dicitur <span class="responsorium">¤</span> <i>Aspiciens</i>.</li></ul>',
     'after': ''
   },
@@ -14,6 +17,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -23,6 +29,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -32,6 +41,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -41,6 +53,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -50,6 +65,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -59,6 +77,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -68,6 +89,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Dominica II Adventus.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -77,6 +101,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -86,6 +113,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -95,6 +125,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -104,6 +137,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -113,6 +149,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -122,6 +161,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -131,6 +173,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Dominica III Adventus.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -140,6 +185,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -149,6 +197,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -158,6 +209,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -167,6 +221,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -176,6 +233,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -185,6 +245,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -194,6 +257,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Dominica IV Adventus.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -203,6 +269,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -212,6 +281,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -221,6 +293,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -230,6 +305,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -239,6 +317,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -248,6 +329,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -257,6 +341,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="solemnitas-major">In Nativitate Domini Nostri Iesu Christi.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '<ul><li>Hodie omnes sacerdotes tres Missas celebrare possunt, dummodo hæ suo tempore celebrentur.</li></ul>',
     'after': ''
   },
@@ -266,6 +353,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -275,6 +365,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -284,6 +377,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -293,6 +389,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -302,6 +401,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '<ul><li>Ad Laudes et Vesperas: <span class="versiculum">√</span> Benedicamus Domino III.</li></ul>',
     'after': ''
   },
@@ -311,6 +413,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -320,6 +425,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="solemnitas-minor">SS. Nominis Jesu.</span>',
     'rank': 'MM. maj.',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': 
     '<ul>\
         <li><u>in Laud.: </u>sine <font color="green"><del>Com.</del></font></li>\
@@ -334,6 +442,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -343,6 +454,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -352,6 +466,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -361,6 +478,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -370,6 +490,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -379,6 +502,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -388,6 +514,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -397,6 +526,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -406,6 +538,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -415,6 +550,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -424,6 +562,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -433,6 +574,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -442,6 +586,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -451,6 +598,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Feria IV Cinerum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -460,6 +610,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -469,6 +622,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -478,6 +634,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -487,6 +646,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Dominica I in Quadragesima.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -496,6 +658,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -505,6 +670,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -514,6 +682,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -523,6 +694,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -532,6 +706,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -541,6 +718,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -550,6 +730,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Dominica II in Quadragesima.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -559,6 +742,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -568,6 +754,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -577,6 +766,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -586,6 +778,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -595,6 +790,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -604,6 +802,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -613,6 +814,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Dominica III in Quadragesima.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -622,6 +826,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -631,6 +838,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -640,6 +850,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -649,6 +862,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -658,6 +874,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -667,6 +886,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -676,6 +898,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Dominica IV in Quadragesima.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -685,6 +910,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -694,6 +922,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -703,6 +934,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -712,6 +946,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -721,6 +958,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -730,6 +970,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -739,6 +982,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Dominica V in Quadragesima.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -748,6 +994,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -757,6 +1006,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -766,6 +1018,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -775,6 +1030,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -784,6 +1042,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -793,6 +1054,9 @@ const days_tempo = {
     'color': 'violet',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -802,6 +1066,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Dominica in Palmis de Passione Domini.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -811,6 +1078,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Feria II Hebdomadæ Sanctæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -820,6 +1090,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Feria III Hebdomadæ Sanctæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -829,6 +1102,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Feria IV Hebdomadæ Sanctæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -838,6 +1114,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Feria V Hebdomadæ Sanctæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '\
       <ul>\
         <li>Missa in Cena Domini: <i>Gloria</i> (pulsantur campanæ); post Evangelium fit lotio pedum quæ concluditur oratione fidelium n.10; pro offertorio cantatur <i>Ubi Caritas</i> (in GR 168); præfatio I de Sanctissima Eucharistia; <i>Communicantes</i>, <i>Hanc igitur</i> et <i>Qui pridie</i> propria; in fine Missæ, omittuntur ritus conclusionis; post missam, sollemnis translatio ac repositio Sanctissimi Sacramenti: cantatur hymnus <i>Pange Lingua</i> (GR 170), cum <i>Tantum ergo</i>: indulgentia plenaria.</li>\
@@ -854,6 +1133,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Feria VI in Passione Domini.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -863,6 +1145,9 @@ const days_tempo = {
     'color': 'violet',
     'header': '<span class="small-caps fw-bold">Sabbato Sancto.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -872,6 +1157,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="solemnitas-major">Dominica Paschæ in Resurrectione Domini.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -881,6 +1169,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">De octava Paschæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -890,6 +1181,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">De octava Paschæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -899,6 +1193,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">De octava Paschæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -908,6 +1205,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">De octava Paschæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -917,6 +1217,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">De octava Paschæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -926,6 +1229,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps">De octava Paschæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -935,6 +1241,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps fw-bold">Dominica II Paschæ seu de Divina Misericordia.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -944,6 +1253,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -953,6 +1265,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -962,6 +1277,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -971,6 +1289,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -980,6 +1301,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -989,6 +1313,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -998,6 +1325,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps fw-bold">Dominica III Paschæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1007,6 +1337,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1016,6 +1349,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1025,6 +1361,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1034,6 +1373,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1043,6 +1385,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1052,6 +1397,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1061,6 +1409,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps fw-bold">Dominica IV Paschæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1070,6 +1421,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1079,6 +1433,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1088,6 +1445,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1097,6 +1457,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1106,6 +1469,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1115,6 +1481,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1124,6 +1493,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps fw-bold">Dominica V Paschæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1133,6 +1505,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1142,6 +1517,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1151,6 +1529,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1160,6 +1541,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1169,6 +1553,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1178,6 +1565,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1187,6 +1577,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps fw-bold">Dominica VI Paschæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1196,6 +1589,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1205,6 +1601,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1214,6 +1613,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1223,6 +1625,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="solemnitas-major">In Ascensione Domini.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1232,6 +1637,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1241,6 +1649,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1250,6 +1661,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps fw-bold">Dominica VII Paschæ.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1259,6 +1673,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1268,6 +1685,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1277,6 +1697,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1286,6 +1709,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1295,6 +1721,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1304,6 +1733,9 @@ const days_tempo = {
     'color': 'white',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1313,6 +1745,9 @@ const days_tempo = {
     'color': 'red',
     'header': '<span class="solemnitas-major">Dominica Pentecostes.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1322,6 +1757,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="solemnitas-minor">Sanctissimæ Trinitatis.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1331,6 +1769,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="solemnitas-major">Sanctissimi Corporis et Sanguinis Domini.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '<ul><li>Vesperæ sollemnitatis; post Vesperas, sollemnis processio Sanctissimi Sacramenti; benedictio Sanctissimi Sacramenti: <i>Tantum ergo</i> cum V. <i>Panem de cælo</i> cum <i>Alleluia</i> (indulgentia plenaria).</li></ul>',
     'after': ''
   },
@@ -1340,6 +1781,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="solemnitas-minor">Sacratissimi Cordis Iesu.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '<ul><li>Vesperæ sollemnitatis; ad benedictionem Sanctissimi Sacramenti recitetur <i>Reparationis actus Sacratissimo Cordi Iesu</i>: indulgentia plenaria.</li></ul>',
     'after': ''
   },
@@ -1349,6 +1793,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="memoria-major">Immaculati Cordis Beatæ Mariæ Virginis.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1358,6 +1805,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="festum">In Baptismate Domini - Festum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': '<span class="after-large">Post Completorium explicit Tempus Nativitatis</br>et incipit pars prima Temporis per Annum.</span>'
   },
@@ -1367,6 +1817,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1376,6 +1829,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1385,6 +1841,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1394,6 +1853,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1403,6 +1865,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1412,6 +1877,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1419,8 +1887,11 @@ const days_tempo = {
     'force': 50,
     'before': '',
     'color': 'green',
-    'header': '<span class="small-caps fw-bold">Dominica II per annum.</span>',
+    'header': '<span class="small-caps fw-bold">II. post Epiphaniam.</span>',
     'rank': '',
+    'laudes': 'Aña Ben. <i><b>Núptiæ factæ</b></i>',
+    'missa': '<font color="red">Aña</font> <i><b>Sub tuum - Asperges</b></i> - Glo. - Cre. - Praef. SS. Trin.',
+    'vesperae': 'Dom. ij. post Epiph. <i><b>Deficiénte vino</b></i><br>✠ Adoratio:  Tantum ergo p. 6a – Mane nobiscum III. (Laudes Vesp.)',
     'body': '',
     'after': ''
   },
@@ -1430,6 +1901,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1439,6 +1913,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1448,6 +1925,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1457,6 +1937,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1466,6 +1949,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1475,6 +1961,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1484,6 +1973,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica III per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1493,6 +1985,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1502,6 +1997,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1511,6 +2009,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1520,6 +2021,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1529,6 +2033,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1538,6 +2045,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1547,6 +2057,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica IV per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1556,6 +2069,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1565,6 +2081,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1574,6 +2093,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1583,6 +2105,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1592,6 +2117,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1601,6 +2129,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1610,6 +2141,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica V per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1619,6 +2153,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1628,6 +2165,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1637,6 +2177,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1646,6 +2189,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1655,6 +2201,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1664,6 +2213,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1673,6 +2225,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica VI per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1682,6 +2237,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1691,6 +2249,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1700,6 +2261,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1709,6 +2273,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1718,6 +2285,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1727,6 +2297,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1736,6 +2309,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica VII per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1745,6 +2321,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1754,6 +2333,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1763,6 +2345,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1772,6 +2357,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1781,6 +2369,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1790,6 +2381,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1799,6 +2393,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica VIII per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1808,6 +2405,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1817,6 +2417,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1826,6 +2429,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1835,6 +2441,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1844,6 +2453,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1853,6 +2465,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1862,6 +2477,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica IX per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1871,6 +2489,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1880,6 +2501,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1889,6 +2513,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1898,6 +2525,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1907,6 +2537,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1916,6 +2549,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1925,6 +2561,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica X per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1934,6 +2573,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1943,6 +2585,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1952,6 +2597,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1961,6 +2609,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1970,6 +2621,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1979,6 +2633,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1988,6 +2645,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XI per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -1997,6 +2657,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2006,6 +2669,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2015,6 +2681,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2024,6 +2693,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2033,6 +2705,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2042,6 +2717,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2051,6 +2729,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XII per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2060,6 +2741,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2069,6 +2753,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2078,6 +2765,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2087,6 +2777,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2096,6 +2789,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2105,6 +2801,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2114,6 +2813,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XIII per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2123,6 +2825,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2132,6 +2837,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2141,6 +2849,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2150,6 +2861,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2159,6 +2873,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2168,6 +2885,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2177,6 +2897,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XIV per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2186,6 +2909,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2195,6 +2921,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2204,6 +2933,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2213,6 +2945,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2222,6 +2957,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2231,6 +2969,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2240,6 +2981,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps fw-bold">Dominica XV per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2249,6 +2993,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2258,6 +3005,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2267,6 +3017,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2276,6 +3029,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2285,6 +3041,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2294,6 +3053,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2303,6 +3065,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XVI per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2312,6 +3077,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2321,6 +3089,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2330,6 +3101,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2339,6 +3113,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2348,6 +3125,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2357,6 +3137,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2366,6 +3149,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XVII per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2375,6 +3161,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2384,6 +3173,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2393,6 +3185,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2402,6 +3197,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2411,6 +3209,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2420,6 +3221,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2429,6 +3233,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XVIII per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2438,6 +3245,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2447,6 +3257,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2456,6 +3269,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2465,6 +3281,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2474,6 +3293,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2483,6 +3305,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2492,6 +3317,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XIX per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2501,6 +3329,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2510,6 +3341,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2519,6 +3353,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2528,6 +3365,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2537,6 +3377,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2546,6 +3389,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2555,6 +3401,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XX per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2564,6 +3413,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2573,6 +3425,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2582,6 +3437,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2591,6 +3449,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2600,6 +3461,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2609,6 +3473,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2618,6 +3485,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XXI per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2627,6 +3497,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2636,6 +3509,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2645,6 +3521,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2654,6 +3533,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2663,6 +3545,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2672,6 +3557,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2681,6 +3569,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps fw-bold">Dominica XXII per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2690,6 +3581,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2699,6 +3593,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2708,6 +3605,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2717,6 +3617,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2726,6 +3629,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2735,6 +3641,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2744,6 +3653,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XXIII per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2753,6 +3665,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2762,6 +3677,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2771,6 +3689,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2780,6 +3701,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2789,6 +3713,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2798,6 +3725,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2807,6 +3737,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XXIV per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2816,6 +3749,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2825,6 +3761,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2834,6 +3773,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2843,6 +3785,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2852,6 +3797,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2861,6 +3809,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2870,6 +3821,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XXV per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2879,6 +3833,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2888,6 +3845,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2897,6 +3857,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2906,6 +3869,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2915,6 +3881,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2924,6 +3893,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2933,6 +3905,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XXVI per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2942,6 +3917,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2951,6 +3929,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2960,6 +3941,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2969,6 +3953,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2978,6 +3965,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2987,6 +3977,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -2996,6 +3989,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XXVII per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3005,6 +4001,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3014,6 +4013,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3023,6 +4025,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3032,6 +4037,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3041,6 +4049,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3050,6 +4061,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3059,6 +4073,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XXVIII per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3068,6 +4085,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3077,6 +4097,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3086,6 +4109,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3095,6 +4121,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3104,6 +4133,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3113,6 +4145,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3122,6 +4157,9 @@ const days_tempo = {
     'color': 'white',
     'header': '<span class="small-caps fw-bold">Dominica XXIX per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3131,6 +4169,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3140,6 +4181,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3149,6 +4193,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3158,6 +4205,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3167,6 +4217,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3176,6 +4229,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3185,6 +4241,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XXX per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3194,6 +4253,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3203,6 +4265,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3212,6 +4277,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3221,6 +4289,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3230,6 +4301,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3239,6 +4313,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3248,6 +4325,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XXXI per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3257,6 +4337,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3266,6 +4349,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3275,6 +4361,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3284,6 +4373,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3293,6 +4385,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3302,6 +4397,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3311,6 +4409,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XXXII per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3320,6 +4421,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3329,6 +4433,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3338,6 +4445,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3347,6 +4457,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3356,6 +4469,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3365,6 +4481,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3374,6 +4493,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="small-caps fw-bold">Dominica XXXIII per annum.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3383,6 +4505,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3392,6 +4517,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3401,6 +4529,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3410,6 +4541,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3419,6 +4553,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3428,6 +4565,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3437,6 +4577,9 @@ const days_tempo = {
     'color': 'green',
     'header': '<span class="solemnitas minor">Dominica XXXIV per annum - Domini Nostri Iesu Christi Universorum Regis.</span>',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '<ul><li>Vesperæ sollemnitatis; ad benedictionem Sanctissimi Sacramenti recitetur <i>Actus dedicationis humani generis Iesu Christo Regi</i>: indulgentia plenaria.</li></ul>',
     'after': ''
   },
@@ -3446,6 +4589,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3455,6 +4601,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3464,6 +4613,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3473,6 +4625,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3482,6 +4637,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De ea.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': ''
   },
@@ -3491,6 +4649,9 @@ const days_tempo = {
     'color': 'green',
     'header': 'De eo.',
     'rank': '',
+    'laudes': '',
+    'missa': '',
+    'vesperae': '',
     'body': '',
     'after': '<span class="after-large">Post Nonam explicit annus liturgicus <span id="explicit"></span>.</span>'
   },
