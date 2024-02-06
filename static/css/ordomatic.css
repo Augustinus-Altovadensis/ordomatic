@@ -123,13 +123,17 @@ ul {
 
 .header {
     font-family: FlavGaramond;
-    font-size: 1.0em;
+    font-size: 1.02em;
+    position: relative;
+    bottom: -3px;
 }
 
 .rank {
     font-family: FlavGaramond;
     font-weight: bold;
     font-size: 1.0em;
+    position: relative;
+    bottom: -3px;
 }
 
 .dominica {
