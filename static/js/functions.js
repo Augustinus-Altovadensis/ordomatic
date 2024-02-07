@@ -1,5 +1,5 @@
 function weekday_human_readable(weekday) {
-  return ['<span class="dominica">Dominica</span>', 'Feria II', 'Feria III', 'Feria IV', 'Feria V', 'Feria VI', 'Sabbato'][weekday];
+  return ['<span class="dominica">Dominica.</span>', 'Feria II.', 'Feria III.', 'Feria IV.', 'Feria V.', 'Feria VI.', 'Sabbato.'][weekday];
 }
 
 function month_human_readable(month) {
@@ -8,6 +8,16 @@ function month_human_readable(month) {
 
 function month_human_readable_genitive(month) {
   return ['Januarii', 'Februarii', 'Martii', 'Aprilis', 'Maji', 'Junii', 'Julii', 'Augusti', 'Septembris', 'Octobris', 'Novembris', 'Decembris'][month];
+}
+
+function liturgical_color(color) {
+  if (color == "white" ) { return '<span class="outline">Alb.</span>';}
+  if (color == "green" ) { return '<font color="green">Vir.</font>';}
+  if (color == "violet" ) { return '<font color="violet">Viol.</font>';}
+  if (color == "red" ) { return '<font color="red">Rub.</font>';}
+  if (color == "black" ) { return '<font color="black">Nig.</font>';}
+  if (color == "blue" ) { return '<font color="blue">Cær.</font>';}
+  else { return '<font color="blue">Alb.</font>'; }
 }
 
 function get_christmas_date(year) {
@@ -52,6 +62,9 @@ function get_winner(ref_tempo, ref_sancto) {
   return winner;
 }
 
+// In Traditional Rites, after the winner is determined, 
+// the "loser" is commemorated. We need its texts too.
+// Only if the "loser" is a common Feria, we don't commemorate it.
 function get_commemoratio(ref_tempo, ref_sancto) {
   winner = days_tempo[ref_tempo];
   if (days_sancto[ref_sancto] && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force'])   {
@@ -83,6 +96,50 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     commemoratio = get_commemoratio(ref_tempo, ref_sancto);
     winner = get_winner(ref_tempo, ref_sancto);
+
+    ////////////////////////////////////////////////
+    /////////  The COMMEMORATIONS Section  /////////
+    ////////////////////////////////////////////////
+
+    if (commemoratio)
+    {
+      if (commemoratio['laudes'] != "") 
+        { 
+          winner['laudes'] = winner['laudes'] + " – " + commemoratio['laudes'];
+        }
+
+      // TO DO: Split the Missa section after Gloria,
+      // (+ if Glo. missing) and add Collects + numbers (2a, 3a)
+      // - first Vespers need to be addressed
+      // - commemorations of "losing" feast
+
+      //commemoratio['missa'] = commemoratio['missa'].replace();
+      if (commemoratio['missa'] != "") 
+        { 
+          winner['missa'] = winner['missa'] + " – " + commemoratio['missa']; 
+        }
+      if (commemoratio['vesperae'] != "") 
+        { 
+          winner['vesperae'] = winner['vesperae'] + ' – <font color="green">Com.</font> ' + commemoratio['vesperae']; 
+        }
+    }
+
+    ///////////////////////////////////////////////
+    ///// Replacement section (HTML tags) /////////
+    ///////////////////////////////////////////////
+    for (let i of ["laudes","missa","vesperae"])
+    {
+    winner[i] = winner[i].replace("sine Com.", 'sine <font color="green"><del>Com.</del></font> ');
+    winner[i] = winner[i].replace("Com.", '<font color="green">Com.</font> ');
+    winner[i] = winner[i].replace("2a ", '2<sup>a</sup> ');
+    winner[i] = winner[i].replace("3a ", '3<sup>a</sup> ');
+    winner[i] = winner[i].replace('Aña\.', '<font color="red">Aña.</font>');
+    winner[i] = winner[i].replace("Aña ", '<font color="red">Aña.</font> ');
+    winner[i] = winner[i].replace("Sub tuum", '<i><b>Sub tuum</i></b> ');
+    winner[i] = winner[i].replace("Asperges", '<i><b>Asperges</i></b> ');
+    }
+    //////////////////////////////////////////////
+
     html = html.concat(component(
       date,
       year,
@@ -93,16 +150,18 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       winner['color'],
       winner['header'],
       winner['rank'],
+      winner['subtitulum'],
+      winner['vigiliae'],
       winner['laudes'],
+      winner['laudes_post'],
       winner['missa'],
+      winner['missa_post'],
       winner['vesperae'],
+      winner['vesperae_post'],
       winner['body'],
       winner['after'],
     ));
-    if (commemoratio) {
-      html = html.concat( '<span class="header blue text-justify ms-1">' + commemoratio['header'] + '</span>' + '<div class="body blue text-justify">' + commemoratio['body'] + '</div>'
-      );
-    }
+    
     commemoratio = null;
     year = date.getFullYear();
     month = date.getMonth();
@@ -111,8 +170,9 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
   return html;
 }
 
-function component(date, year, month, day, weekday, before, color, header, rank, laudes, missa, vesperae, body, after) {
+function component(date, year, month, day, weekday, before, color, header, rank, subtitulum, vigiliae, laudes, laudes_post, missa, missa_post, vesperae, vesperae_post, body, after) {
   // This function returns a component, that is a piece of HTML code representing a line of the Ordo.
+
   // New year? new month?:
   if (date.getFullYear() != year) {
     year = date.getFullYear();
@@ -134,32 +194,55 @@ function component(date, year, month, day, weekday, before, color, header, rank,
   // Blocks 'before' and 'after'?:
   if (before != "") {
     block_before = '<div class="before">' + before + '</div>';
-  } else {
-    block_before = '';
-  }
+  } else { block_before = ''; }
   if (after != "") {
     block_after = '<div class="after">' + after + '</div>';
-  } else {
-    block_after = '';
-  }
+  } else { block_after = ''; }
+
+  // Blocks that can also be empty: Rank, Subtitulum, Vigiliae, Laudes, Missa, Vesperae and texts between them:
+
+  if (rank != "") {
+    block_rank = '<span class="rank text-justify"> – ' + rank + '</span>';
+  } else { block_rank = ''; }
+
+if (subtitulum != "") {
+    block_subtitulum = '<div class="body text-justify"><ul>' + subtitulum + '</ul></div>';
+  } else { block_subtitulum = ''; }
+
+if (vigiliae != "") {
+    block_vigiliae = '<div class="body text-justify"><ul><li><u>ad Vigil.:</u> ' + vigiliae + '</li></ul></div>';
+  } else { block_vigiliae = ''; }
 
   if (laudes != "") {
-    block_laudes = '<div class="body text-justify">' + "<ul><li><u>in Laud.:</u> " + laudes + "</li></ul>" + '</div>';
-  } else {
-    block_laudes = '';
-  }
+    block_laudes = '<div class="body text-justify"><ul><li><u>in Laud.:</u> ' + laudes + '</li></ul></div>';
+  } else { block_laudes = ''; }
 
   if (missa != "") {
-    block_missa = '<div class="body text-justify">' + "<ul><li><u>in Missa:</u> " + missa + "</li></ul>" + '</div>';
-  } else {
-    block_missa = '';
-  }
+    block_missa = '<div class="body text-justify"><ul><li><u>in Missa:</u> ' + missa + '</li></ul></div>';
+  } else { block_missa = ''; }
 
   if (vesperae != "") {
-    block_vesperae = '<div class="body text-justify">' + "<ul><li><u>in Vesp.:</u> " + vesperae + "</li></ul>" + '</div>';
-  } else {
-    block_vesperae = '';
-  }
+    block_vesperae = '<div class="body text-justify"><ul><li><u>in Vesp.:</u> ' + vesperae + '</li></ul></div>';
+  } else { block_vesperae = ''; }
+
+////////////////   Texts between them   /////////////////////
+
+if (laudes_post != "") {
+    block_laudes_post = '<div class="body text-justify"><ul>' + laudes_post + '</ul></div>';
+  } else { block_laudes_post = ''; }
+
+  if (missa_post != "") {
+    block_missa_post = '<div class="body text-justify"><ul>' + missa_post + '</ul></div>';
+  } else { block_missa_post = ''; }
+
+  if (vesperae_post != "") {
+    block_vesperae_post = '<div class="body text-justify"><ul>' + vesperae_post + '</ul></div>';
+  } else { block_vesperae_post = ''; }
+
+  if ((weekday == 3 || weekday == 5) && winner['force'] < 100 ) {
+    block_jejunium = '<span class="rank"> – <font color="red">jejunatur</font> – </span>';
+  } else { block_jejunium = ''; }
+//////////////////////////////////////////////////////////////
 
   // Result:
   return (
@@ -169,16 +252,24 @@ function component(date, year, month, day, weekday, before, color, header, rank,
     + block_before
     + '<div class="head d-flex m-0">'
     + '<span class="fas fa-square ' + color + '"></span>'
-    + '<span class="day brown fw-bold ms-2">' + day + '</span>'
-    + '<span class="weekday brown fw-bold ms-1 text-nowrap">' + weekday_human_readable(weekday) + ' -</span>'
-    + '<span class="header text-justify ms-1">' + header + " " + '</span>'
-    + '<span class="rank text-justify ms-1">' + rank + '</span>'
+    + '<span class="day brown fw-bold ms-2">' + add_zero(day) + day + "." + '</span>'
+    + '<span class="weekday brown fw-bold ms-1 text-nowrap">' 
+    + " - " + liturgical_color(color) + " - " 
+    + weekday_human_readable(weekday) + ' - </span>'
+    + '<span class="header text-justify ms-1">' + header + '</span>'
+    + block_rank
+    + block_jejunium
     + '</div>'
+    + block_subtitulum
+    + block_vigiliae
     + block_laudes
+    + block_laudes_post
     + block_missa
+    + block_missa_post
     + block_vesperae
+    + block_vesperae_post
     + '</div>'
-    + '<div class="body blue text-justify">' + body + '</div>'
+    //+ '<div class="body blue text-justify ms-1">' + body + '</div>'
     + block_after
     + '</div>'
   );

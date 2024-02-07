@@ -42,6 +42,7 @@ ul {
 }
 
 .month {
+    font-family: Libertine;
     background-color: lightgray;
     border-top: solid 1px grey;
     border-bottom: solid 1px grey;
@@ -64,6 +65,11 @@ ul {
 .fa-square:not(.white) {
     border: solid 1px white;
     border-radius: 3px;
+}
+
+.outline {
+    color: white;
+    text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black;
 }
 
 .antiphona,
@@ -117,23 +123,31 @@ ul {
 }
 
 .body {
-    font-family: FlavGaramond;
-    font-size: 1.02em;
+    font-family: Libertine;
+    font-size: 1.12em;
+}
+
+.day {
+    font-family: Libertine;
+    font-size: 1.12em;
+}
+
+.weekday {
+    font-family: Libertine;
+    font-size: 1.12em;
 }
 
 .header {
-    font-family: FlavGaramond;
-    font-size: 1.02em;
+    font-family: Libertine;
+    font-size: 1.12em;
     position: relative;
-    bottom: -3px;
 }
 
 .rank {
-    font-family: FlavGaramond;
+    font-family: Libertine;
     font-weight: bold;
-    font-size: 1.0em;
+    font-size: 1.12em;
     position: relative;
-    bottom: -3px;
 }
 
 .dominica {
