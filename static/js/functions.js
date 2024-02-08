@@ -103,6 +103,13 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 
     if (commemoratio)
     {
+      if (commemoratio['before'] != "") 
+        { 
+          if (winner['before'] != "" )
+            { winner['before'] = winner['before'] + " – " + commemoratio['before'];}
+          else { winner['before'] = commemoratio['before'];}
+        }
+
       if (commemoratio['laudes'] != "") 
         { 
           winner['laudes'] = winner['laudes'] + " – " + commemoratio['laudes'];
@@ -120,7 +127,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
         }
       if (commemoratio['vesperae'] != "") 
         { 
-          winner['vesperae'] = winner['vesperae'] + ' – <font color="green">Com.</font> ' + commemoratio['vesperae']; 
+          winner['vesperae'] = winner['vesperae'] + ' – <font color="green"><b>Com.</b></font> ' + commemoratio['vesperae']; 
         }
     }
 
@@ -129,8 +136,8 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     ///////////////////////////////////////////////
     for (let i of ["before","vigiliae","laudes","missa","vesperae"])
     {
-    winner[i] = winner[i].replace("sine Com.", 'sine <font color="green"><del>Com.</del></font> ');
-    winner[i] = winner[i].replace("Com.", '<font color="green">Com.</font> ');
+    winner[i] = winner[i].replace("sine Com.", 'sine <font color="green"><b><del>Com.</del></b></font> ');
+    winner[i] = winner[i].replace("Com.", '<font color="green"><b>Com.</b></font> ');
     winner[i] = winner[i].replace("&", '<font color="green">&</font> ');
     winner[i] = winner[i].replace("2a ", '2<sup>a</sup> ');
     winner[i] = winner[i].replace("3a ", '3<sup>a</sup> ');
@@ -148,10 +155,13 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     winner[i] = winner[i].replace("Iste cognovit", '<i><b>Iste cognovit</i></b>');
     winner[i] = winner[i].replace("Ecclesiae", '<i><b>Ecclesiae</i></b>');
     winner[i] = winner[i].replace("Sancte Paule", '<i><b>Sancte Paule</i></b>');
+    winner[i] = winner[i].replace("Veni, sponsa Christi", '<i><b>Veni, sponsa Christi</i></b>');
     winner[i] = winner[i].replace("Veni sponsa", '<i><b>Veni sponsa</i></b>');
     winner[i] = winner[i].replace("Símile est ... sagénæ", '<i><b>Símile est ... sagénæ</i></b>');
     winner[i] = winner[i].replace("Sacérdos et Póntifex", '<i><b>Sacérdos et Póntifex</i></b>');
     winner[i] = winner[i].replace("Hac die ... suprémos", '<i><b>Hac die ... suprémos</i></b>');
+    winner[i] = winner[i].replace("Isti sunt", '<i><b>Isti sunt</i></b>');
+    winner[i] = winner[i].replace("Iste Sanctus pro lege", '<i><b>Iste Sanctus pro lege</i></b>');
     }
     //////////////////////////////////////////////
 
@@ -217,11 +227,11 @@ function component(date, year, month, day, weekday, before, color, header, rank,
   // Blocks that can also be empty: Rank, Subtitulum, Vigiliae, Laudes, Missa, Vesperae and texts between them:
 
   if (rank != "") {
-    block_rank = '<span class="rank text-justify"> – ' + rank + '</span>';
+    block_rank = '<span class="rank text-justify"> – ' + rank + '</span>';
   } else { block_rank = ''; }
 
 if (subtitulum != "") {
-    block_subtitulum = '<div class="body text-justify"><ul>' + subtitulum + '</ul></div>';
+    block_subtitulum = '<div class="body red text-justify"><ul>' + subtitulum + '</ul></div>';
   } else { block_subtitulum = ''; }
 
 if (vigiliae != "") {

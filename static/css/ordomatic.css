@@ -90,6 +90,7 @@ ul {
 
 .small-caps {
     font-variant: small-caps;
+    font-family: Libertine;
 }
 
 .text-justify {
@@ -138,9 +139,17 @@ ul {
 }
 
 .header {
-    font-family: Libertine;
+    font-family: LibertineSC;
     font-size: 1.12em;
-    position: relative;
+    font-variant: small-caps;
+    font-weight: bold;
+}
+
+.de-ea {
+    font-family: Libertine;
+    font-size: 1.00em;
+    font-variant: none;
+    font-weight: normal;
 }
 
 .rank {
