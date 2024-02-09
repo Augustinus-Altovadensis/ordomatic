@@ -1,0 +1,76 @@
+Documentation of data files
+===========================
+(description below)
+Standard data file:
+-------------------
+const days_sancto = {
+  '01_01': {
+    'force': 120,
+    'before': '',
+    'color': 'white',
+    'header': 'In Circumcisione D.N.J.CH. & Octava Nativitatis Domini.',
+    'rank': 'Serm. min.',
+    'subtitulum': '',
+    'vigiliae': '',
+    'laudes': 'Hym. <b><i>A solis ortu.</i></b> ad Ben. Ant. <i>Mirabile</i> <font color="red">extra stalla & flexis genibus ad</font> <b><i>Deus homo factus est.</i></b> - sine <font color="green"><del>Com.</del></font>',
+    'laudes_commemoratio':'',
+    'laudes_post':'',
+    'missa': 'Glo. - Cre. - Præf. Nat. - Infra actionem Communicantes. <font color="red">de Nativitate</font>',
+    'missa_post': '¶ <font color="red">In Refectorio ab hodierna usque ad Dom. Septuagesima legitur ex Epistolis S. Pauli, prout Cæremoniarius indicat (Rit.)</font>',
+    'vesperae': 'de festo - <font color="green">Com.</font> SS. Nominis Jesu <b><i>Fecit mihi magna</i></b>',
+    'vesperae_commemoratio': '',
+    'vesperae_post': '',
+    'body': '',
+    'after': '',
+  },
+  '01_02': {
+    'force': 40,
+    'before': '',
+    'color': 'white',
+    'header': '',
+    'rank': '',
+    'subtitulum': '',
+    'vigiliae': '',
+    'laudes': '',
+    'laudes_commemoratio':'',
+    'laudes_post':'',
+    'missa': '',
+    'missa_post': '',
+    'vesperae': '',
+    'vesperae_commemoratio': '',
+    'vesperae_post': '',
+    'body': '',
+    'after': '',
+  },
+
+  Description:
+   '01_02': {                   Date
+    'force': 40,                Rank of the feast: ca. 9 - 140
+    'before': '',               Comment before the day's input
+    'color': 'white',           Liturgical color of current day
+    'header': '',               Name of the day/feast, must contain ","
+    'rank': '',                 Cistercian rank (Commemoratio...Serm. maj.)
+    'subtitulum': '',           Subtitle (usually rubric of the day, in red)
+    'vigiliae': '',             Vigiliae: block started with In Vigil (undelined)
+    'laudes': '',               Laudes: block started with In Laud. (undelined)
+    'laudes_commemoratio':'',   Format: Cx or Antiphon Incipit, used in Com. section
+    'laudes_post':'',           Free text block between Laudes and Missa.
+    'missa': '',                Missa: block started with In Missa (undelined)
+    'missa_post': '',           Free text block between Missa and Vesperae.
+    'vesperae': '',             Vesperae: block started with In Vesp. (undelined)
+    'vesperae_commemoratio': '', see laudes commemoratio, only used in Vespers
+    'vesperae_post': '',        Free text block between after Vesperae.
+    'body': '',                 residue from original format, not used anymore
+    'after': '',                Comment after the block of the day
+  },
+
+  Header
+  ------
+  Example: S. Agnetis, Virginis et Martyris.
+  The comma (,) is important, it's used in Commemorations to have a shortened name (Com. S. Hilarii, etc).
+
+  laudes_ and vesperae_commemoratio
+  ---------------------------------
+  Both are used to fill in the text of the antiphon, if the main office is commemorated. The format is either the antiphon, or the DivinumOfficium format of common texts (C1..C12)
+
+  If the Commemorations are simple enough (Commemorated main office + original commemorations), previous system works. If not, the entire text of Commemoration can be written in those variables and "Com. " text in the beginning. Then the system will take it as an only Commemoration and discard the rest.

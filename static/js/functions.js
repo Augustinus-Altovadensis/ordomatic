@@ -94,6 +94,8 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     month_usual_number = date.getMonth() + 1;
     ref_tempo = prefix_tempo + (week_start + Math.ceil((i + 1) / 7)) + '_' + (day_start + (i % 7));
     ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
+
+    winner = null; commemoratio = null;
     commemoratio = get_commemoratio(ref_tempo, ref_sancto);
     winner = get_winner(ref_tempo, ref_sancto);
 
@@ -101,8 +103,20 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     /////////  The COMMEMORATIONS Section  /////////
     ////////////////////////////////////////////////
 
+    winner['body'] = "";
+
+    laudes = winner['laudes'];
+    missa = winner['missa'];
+    vesperae = winner['vesperae'];
+
     if (commemoratio)
     {
+      titulum = commemoratio['header'].split(",", 1);
+
+      /////////////////////////////////
+      /////  Commemoratio Laudes  /////
+      /////////////////////////////////
+
       if (commemoratio['before'] != "") 
         { 
           if (winner['before'] != "" )
@@ -112,59 +126,90 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 
       if (commemoratio['laudes'] != "") 
         { 
-          winner['laudes'] = winner['laudes'] + " – " + commemoratio['laudes'];
+          commemoratio['laudes'] = commemoratio['laudes'].replace("sine Com\. ", "");
+          winner['laudes'] = winner['laudes'].replace("sine Com\. ", "");
+          commemoratio['laudes'] = commemoratio['laudes'].replace("Com\. ", "");
+          comm = commemoratio['laudes_commemoratio'];
+          comm = ( comm == "C1") ? "Dum stetéritis " : comm;
+          comm = ( comm == "C1a") ? "Isti sunt duæ " : comm;
+          comm = ( comm == "C2") ? "Qui vult " : comm;
+          comm = ( comm == "C2a") ? "Qui odit " : comm;
+          comm = ( comm == "C3") ? "Fulgébunt justi " : comm;
+          comm = ( comm == "C4") ? "Euge, serve bone " : comm;
+          comm = ( comm == "C5") ? "Similábo eum " : comm;
+          comm = ( comm == "C6") ? "Símile est ... sagénæ " : comm;
+          comm = ( comm == "C7") ? "Símile est ... sagénæ " : comm; // not an error
+          comm = ( comm == "C8") ? "Zachæe " : comm;
+          if ( comm == commemoratio['laudes_commemoratio'] ) { comm = "<i><b>" + comm + "</i></b> ";}
+
+          if ( commemoratio['laudes_commemoratio'].match("^Com\. ") )
+            { 
+              laudes = winner['laudes'] + " – " + commemoratio['laudes_commemoratio'];
+            }
+          else laudes = winner['laudes'] + " – Comme. " + titulum + " " + comm + "& "+ commemoratio['laudes'];
+          comm = null;
         }
 
       // TO DO: Split the Missa section after Gloria,
       // (+ if Glo. missing) and add Collects + numbers (2a, 3a)
-      // - first Vespers need to be addressed
-      // - commemorations of "losing" feast
 
-      //commemoratio['missa'] = commemoratio['missa'].replace();
+      /////////////////////////////////
+      /////  Commemoratio Missa   /////
+      /////////////////////////////////
+      
       if (commemoratio['missa'] != "") 
         { 
-          winner['missa'] = winner['missa'] + " – " + commemoratio['missa']; 
+          missa = winner['missa'] + " – " + commemoratio['missa']; 
         }
+
+      /////////////////////////////////
+      ///// Commemoratio Vesperæ  /////
+      /////////////////////////////////
       if (commemoratio['vesperae'] != "") 
         { 
-          winner['vesperae'] = winner['vesperae'] + ' – <font color="green"><b>Com.</b></font> ' + commemoratio['vesperae']; 
+          commemoratio['vesperae'] = commemoratio['vesperae'].replace("sine Com\. ", "");
+          winner['vesperae'] = winner['vesperae'].replace("sine Com\. ", "");
+          commemoratio['vesperae'] = commemoratio['vesperae'].replace("Com\. ", "");
+          comm = commemoratio['vesperae_commemoratio'];
+          comm = ( comm == "C1") ? "Ecce ego mitto vos " : comm;
+          comm = ( comm == "C12") ? "Beáti eritis " : comm;
+          comm = ( comm == "C2") ? "Beátur vir " : comm;
+          comm = ( comm == "C2a") ? "Iste Sanctus " : comm;
+          comm = ( comm == "C22") ? "Hic est vere Martyr " : comm;
+          comm = ( comm == "C3") ? "Isti sunt Sancti " : comm;
+          comm = ( comm == "C32") ? "Tradidérunt " : comm;
+          comm = ( comm == "C4") ? "Sacérdos et Póntifex " : comm;
+          comm = ( comm == "C42") ? "Amávit eum Dóminus " : comm;
+          comm = ( comm == "C42a") ? "Dum esset summus Póntifex " : comm;
+          comm = ( comm == "C4d") ? "O Doctor óptime " : comm;
+          comm = ( comm == "C5") ? "Iste cognóvit " : comm;
+          comm = ( comm == "C52") ? "Iste Sanctus " : comm;
+          comm = ( comm == "C6") ? "Veni, sponsa Christi " : comm;
+          comm = ( comm == "C62") ? "Quinque prudéntes Vírgines " : comm;
+          comm = ( comm == "C7") ? "Símile est ... hómini " : comm;
+          comm = ( comm == "C8") ? "Pax ætérna " : comm;
+          comm = ( comm == "C82") ? "O quam metuéndus " : comm;
+
+          if ( commemoratio['vesperae_commemoratio'].match("^Com\. ") )
+            { 
+             vesperae = winner['vesperae'] + " – " + commemoratio['vesperae_commemoratio'];
+            }
+          else vesperae = winner['vesperae'] + " – Comme. " + commemoratio['vesperae'] + " " + comm;
+
+          //winner['vesperae'] = winner['vesperae'] + " – Comme. " + titulum + " " + comm + "& "+ commemoratio['vesperae'];
+          comm = null;
+          winner['body'] = commemoratio['header'];
         }
     }
+    ////////////////// Finis Commemorationum //////////////////
 
-    ///////////////////////////////////////////////
-    ///// Replacement section (HTML tags) /////////
-    ///////////////////////////////////////////////
-    for (let i of ["before","vigiliae","laudes","missa","vesperae"])
-    {
-    winner[i] = winner[i].replace("sine Com.", 'sine <font color="green"><b><del>Com.</del></b></font> ');
-    winner[i] = winner[i].replace("Com.", '<font color="green"><b>Com.</b></font> ');
-    winner[i] = winner[i].replace("&", '<font color="green">&</font> ');
-    winner[i] = winner[i].replace("2a ", '2<sup>a</sup> ');
-    winner[i] = winner[i].replace("3a ", '3<sup>a</sup> ');
-    winner[i] = winner[i].replace('Aña\.', '<font color="red">Aña.</font>');
-    winner[i] = winner[i].replace("Aña ", '<font color="red">Aña.</font> ');
-    winner[i] = winner[i].replace("⇓", '<font color="red">⇓</font>');
-    winner[i] = winner[i].replace("Duo Acolythi.", '<font color="red">Duo Acolythi.</font>');
-    winner[i] = winner[i].replace("Cum incenso ad oblata.", '<font color="red">Cum incenso ad oblata.</font>');
-    winner[i] = winner[i].replace("Hymnus, in quo dicitur:", '<font color="red">Hymnus, in quo dicitur:</font> ');
-    winner[i] = winner[i].replace("Sub tuum", '<i><b>Sub tuum</i></b>');
-    winner[i] = winner[i].replace("Asperges", '<i><b>Asperges</i></b>');
-    winner[i] = winner[i].replace("Qui vult", '<i><b>Qui vult</i></b>');
-    winner[i] = winner[i].replace("O Doctor", '<i><b>O Doctor</i></b>');
-    winner[i] = winner[i].replace("Beátus vir", '<i><b>Beátus vir</i></b>');
-    winner[i] = winner[i].replace("Iste cognovit", '<i><b>Iste cognovit</i></b>');
-    winner[i] = winner[i].replace("Ecclesiae", '<i><b>Ecclesiae</i></b>');
-    winner[i] = winner[i].replace("Sancte Paule", '<i><b>Sancte Paule</i></b>');
-    winner[i] = winner[i].replace("Veni, sponsa Christi", '<i><b>Veni, sponsa Christi</i></b>');
-    winner[i] = winner[i].replace("Veni sponsa", '<i><b>Veni sponsa</i></b>');
-    winner[i] = winner[i].replace("Símile est ... sagénæ", '<i><b>Símile est ... sagénæ</i></b>');
-    winner[i] = winner[i].replace("Sacérdos et Póntifex", '<i><b>Sacérdos et Póntifex</i></b>');
-    winner[i] = winner[i].replace("Hac die ... suprémos", '<i><b>Hac die ... suprémos</i></b>');
-    winner[i] = winner[i].replace("Isti sunt", '<i><b>Isti sunt</i></b>');
-    winner[i] = winner[i].replace("Iste Sanctus pro lege", '<i><b>Iste Sanctus pro lege</i></b>');
-    }
-    //////////////////////////////////////////////
-
+    ////////////  Replacement section (HTML tags)  ////////////
+    for (let j of ["before","vigiliae"])
+    { winner[j] = addtags(winner[j]); }
+    laudes = addtags(laudes); 
+    missa = addtags(missa); 
+    vesperae = addtags(vesperae);
+    
     html = html.concat(component(
       date,
       year,
@@ -175,13 +220,17 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       winner['color'],
       winner['header'],
       winner['rank'],
+      winner['body'],
       winner['subtitulum'],
       winner['vigiliae'],
-      winner['laudes'],
+      //winner['laudes'],
+      laudes,
       winner['laudes_post'],
-      winner['missa'],
+      //winner['missa'],
+      missa,
       winner['missa_post'],
-      winner['vesperae'],
+      //winner['vesperae'],
+      vesperae,
       winner['vesperae_post'],
       winner['body'],
       winner['after'],
@@ -195,7 +244,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
   return html;
 }
 
-function component(date, year, month, day, weekday, before, color, header, rank, subtitulum, vigiliae, laudes, laudes_post, missa, missa_post, vesperae, vesperae_post, body, after) {
+function component(date, year, month, day, weekday, before, color, header, rank, comm_header, subtitulum, vigiliae, laudes, laudes_post, missa, missa_post, vesperae, vesperae_post, body, after) {
   // This function returns a component, that is a piece of HTML code representing a line of the Ordo.
 
   // New year? new month?:
@@ -229,6 +278,10 @@ function component(date, year, month, day, weekday, before, color, header, rank,
   if (rank != "") {
     block_rank = '<span class="rank text-justify"> – ' + rank + '</span>';
   } else { block_rank = ''; }
+
+if (comm_header != "") {
+    block_commemoratio = '<span class="body text-justify"><ul><font color="black"><i>Commemoratio:</i></font><font color="blue"><b> ' + comm_header + '</b></font></ul></span>';
+  } else { block_commemoratio = ''; }
 
 if (subtitulum != "") {
     block_subtitulum = '<div class="body red text-justify"><ul>' + subtitulum + '</ul></div>';
@@ -285,6 +338,8 @@ if (laudes_post != "") {
     + block_rank
     + block_jejunium
     + '</div>'
+    + block_commemoratio
+    //+ '</div>'
     + block_subtitulum
     + block_vigiliae
     + block_laudes
