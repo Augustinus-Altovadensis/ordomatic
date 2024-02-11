@@ -1,5 +1,5 @@
 ul {
-    list-style-type: "- ";
+    list-style-type: "–\2009";
     margin: 0;
 }
 
@@ -53,6 +53,10 @@ ul {
     width: 100%;
 }
 
+.day {
+    font-family: Libertine;
+}
+
 .fa-square {
     margin: 3px 0 0 0;
 }
@@ -69,7 +73,7 @@ ul {
 
 .outline {
     color: white;
-    text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black;
+    text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black;
 }
 
 .antiphona,
@@ -97,11 +101,26 @@ ul {
     text-align: justify;
 }
 
+.centered {
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
 .before,
+{
+    color: grey;
+    font-style: italic;
+    text-align: center;
+    margin-top: 10%;
+}
 .after {
     color: grey;
     font-style: italic;
     text-align: center;
+    margin-bottom: 10%;
 }
 
 .before {
@@ -114,13 +133,21 @@ ul {
 
 .before-large,
 .after-large {
-    font-size: 1.3em;
-    font-weight: bold;
+    font-size: 1.22em;
+    text-align: center;
+    margin: 2.0em 20%;
 }
 
 .before-small,
 .after-small {
     font-size: 0.9em;
+}
+
+.first_line {
+    font-family: Libertine;
+    font-size: 1.12em;
+    padding-left: 1.8em;
+    text-indent:-1.8em;
 }
 
 .body {
@@ -140,9 +167,8 @@ ul {
 
 .header {
     font-family: LibertineSC;
-    font-size: 1.12em;
+    font-size: 1.10em;
     font-variant: small-caps;
-    font-weight: bold;
 }
 
 .de-ea {

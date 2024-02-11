@@ -13,11 +13,17 @@ function month_human_readable_genitive(month) {
 function liturgical_color(color) {
   if (color == "white" ) { return '<span class="outline">Alb.</span>';}
   if (color == "green" ) { return '<font color="green">Vir.</font>';}
-  if (color == "violet" ) { return '<font color="violet">Viol.</font>';}
+  if (color == "violet" ) { return '<font color="#9c29c1">Viol.</font>';}
   if (color == "red" ) { return '<font color="red">Rub.</font>';}
   if (color == "black" ) { return '<font color="black">Nig.</font>';}
   if (color == "blue" ) { return '<font color="blue">Cær.</font>';}
   else { return '<font color="blue">Alb.</font>'; }
+}
+
+function is_leap_year(year) {
+  if ( year % 4 == 0 && year % 100 != 0 ) { return true; }
+  else if ( year % 100 == 0 && year % 400 == 0) { return true; }
+  else return false;
 }
 
 function get_christmas_date(year) {
@@ -56,20 +62,21 @@ function add_zero(number) {
 
 function get_winner(ref_tempo, ref_sancto) {
   winner = days_tempo[ref_tempo];
-  if (days_sancto[ref_sancto] && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force']) {
+  if ( !days_tempo[ref_tempo] ) { winner = days_sancto[ref_sancto]; winner['body'] = '<div class="solemnitas minor blue">' + ref_tempo + '</div>'; }
+  //days_tempo[ref_tempo]['force'] = 10;
+  if (days_sancto[ref_sancto] && days_tempo[ref_tempo] && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force']) {
     winner = days_sancto[ref_sancto];
   }
   return winner;
 }
 
-// In Traditional Rites, after the winner is determined, 
-// the "loser" is commemorated. We need its texts too.
-// Only if the "loser" is a common Feria, we don't commemorate it.
 function get_commemoratio(ref_tempo, ref_sancto) {
+  // In Traditional Rites, after the winner is determined, the "loser" is commemorated. 
+  // Only if the "loser" is a common Feria, we don't commemorate it.
   winner = days_tempo[ref_tempo];
   if (days_sancto[ref_sancto] && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force'])   {
     winner = days_sancto[ref_sancto]; }
-  if (winner == days_sancto[ref_sancto] && days_tempo[ref_tempo]['force'] > 10) { commemoratio = days_tempo[ref_tempo]; }
+  if (winner == days_sancto[ref_sancto] && days_tempo[ref_tempo]['force'] != 10) { commemoratio = days_tempo[ref_tempo]; }
   if (winner == days_tempo[ref_tempo]) { commemoratio = days_sancto[ref_sancto]; }
   return commemoratio;
 }
@@ -95,19 +102,47 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     ref_tempo = prefix_tempo + (week_start + Math.ceil((i + 1) / 7)) + '_' + (day_start + (i % 7));
     ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
 
-    winner = null; commemoratio = null;
+    ref_tempo_next = prefix_tempo + (week_start + Math.ceil((i + 2) / 7)) + '_' + (day_start + ((i+1) % 7));
+    ref_sancto_next = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + (day + 1);
+
+      ref_sancto_next = ref_sancto_next.replace("010", "10");
+
+      ref_sancto_next = ( ref_sancto_next == "12_32") ? "01_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "01_32") ? "02_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "02_30" && is_leap_year(year) ) ? "03_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "02_29" && !is_leap_year(year) ) ? "03_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "03_32") ? "04_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "04_31") ? "05_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "05_32") ? "06_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "06_31") ? "07_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "07_32") ? "08_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "08_32") ? "09_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "09_31") ? "10_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "10_32") ? "11_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "11_31") ? "12_01" : ref_sancto_next;
+
+      ref_tempo_next = ( ref_tempo_next == "tp_8_1") ? "tp_8_0" : ref_tempo_next;
+      ref_tempo_next = ( ref_tempo_next == "adv_5_0") ? "christmas_1_0" : ref_tempo_next;
+      ref_tempo_next = ( ref_tempo_next == "ash_1_7") ? "lent_1_0" : ref_tempo_next;
+      ref_tempo_next = ( ref_tempo_next == "lent_7_0") ? "tp_1_0" : ref_tempo_next;
+      ref_tempo_next = ( ref_tempo_next == "pa_35_0") ? "adv_1_0" : ref_tempo_next;
+
     commemoratio = get_commemoratio(ref_tempo, ref_sancto);
+    winner_next = get_winner(ref_tempo_next, ref_sancto_next);
     winner = get_winner(ref_tempo, ref_sancto);
+    
 
     ////////////////////////////////////////////////
     /////////  The COMMEMORATIONS Section  /////////
     ////////////////////////////////////////////////
 
-    winner['body'] = "";
+    //winner['body'] = "";
 
     laudes = winner['laudes'];
     missa = winner['missa'];
     vesperae = winner['vesperae'];
+
+    check_next = "ref_tempo = '" + ref_tempo + "' -> '" + ref_tempo_next + "' --- ref_sancto = '" + ref_sancto + "' -> '" + ref_sancto_next + "'.";
 
     if (commemoratio)
     {
@@ -234,6 +269,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       winner['vesperae_post'],
       winner['body'],
       winner['after'],
+      //check_next,
     ));
     
     commemoratio = null;
@@ -276,7 +312,8 @@ function component(date, year, month, day, weekday, before, color, header, rank,
   // Blocks that can also be empty: Rank, Subtitulum, Vigiliae, Laudes, Missa, Vesperae and texts between them:
 
   if (rank != "") {
-    block_rank = '<span class="rank text-justify"> – ' + rank + '</span>';
+    rank = rank.replace(" ", " ");
+    block_rank = '<b> – ' + rank + '</b>';
   } else { block_rank = ''; }
 
 if (comm_header != "") {
@@ -317,7 +354,13 @@ if (laudes_post != "") {
     block_vesperae_post = '<div class="body text-justify"><ul>' + vesperae_post + '</ul></div>';
   } else { block_vesperae_post = ''; }
 
+  /////////////   jejunatur   ///////////////////////////////
+
   if ((weekday == 3 || weekday == 5) && winner['force'] < 100 ) {
+    block_jejunium = '<span class="rank"> – <font color="red">jejunatur</font></span>';
+  } else if ( ref_tempo == "ash_1_3" || ref_tempo == "lent_6_5" ) { 
+    block_jejunium = '<span class="rank"> – <font color="red">jejunatur</font> <font color="blue">(den přísného postu)</font></span>';
+  } else if ( ref_tempo.match(/adv|lent|ash/) && winner['force'] < 100 ) {
     block_jejunium = '<span class="rank"> – <font color="red">jejunatur</font></span>';
   } else { block_jejunium = ''; }
 //////////////////////////////////////////////////////////////
@@ -329,14 +372,18 @@ if (laudes_post != "") {
     + '<div class="d-flex flex-column w-50 mb-2">'
     + block_before
     + '<div class="head d-flex m-0">'
-    + '<span class="fas fa-square ' + color + '"></span>'
-    + '<span class="day brown fw-bold ms-2">' + add_zero(day) + day + "." + '</span>'
-    + '<span class="weekday brown fw-bold ms-1 text-nowrap">' 
-    + " - " + liturgical_color(color) + " - " 
-    + weekday_human_readable(weekday) + ' - </span>'
-    + '<span class="header text-justify ms-1">' + header + '</span>'
-    + block_rank
-    + block_jejunium
+    //+ '<span class="fas fa-square ' + color + '"> </span>'
+    //+ '<span class="day">' + add_zero(day) + day + "." + '</span>'
+    //+ '<span class="weekday brown fw-bold ms-1 text-nowrap">' 
+    //+ " – " + liturgical_color(color) + " – " 
+    //+ weekday_human_readable(weekday) + ' – </span>'
+    //+ '<span class="header text-justify ms-1">' + header + '</span>'
+    + '<span class="first_line"><b>'  + add_zero(day) + day + "." 
+    + " – " + liturgical_color(color) + " – " 
+    + weekday_human_readable(weekday) + ' – </b>'
+    + '<span class="header text-justify ms-1">' + header + '</span>' 
+    + block_rank 
+    + block_jejunium + '</span>'
     + '</div>'
     + block_commemoratio
     //+ '</div>'

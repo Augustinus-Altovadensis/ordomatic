@@ -20,7 +20,8 @@ function addtags(winner) {
     winner = winner.replace("sine Com.", 'sine <font color="green"><b><del>Com.</del></b></font> ');
     winner = winner.replace("Com.", '<font color="green"><b>Com.</b></font> ');
     winner = winner.replaceAll("Comme.", '<font color="blue"><b>Comme.</b></font> ');
-    winner = winner.replace("&", '<font color="green">&</font> ');
+    winner = winner.replace("sine Glo.", 'sine <del>Glo.</del>');
+    winner = winner.replace("&", '<font color="green"><b>&</b></font> ');
     winner = winner.replace("2a ", '2<sup>a</sup> ');
     winner = winner.replace("3a ", '3<sup>a</sup> ');
     winner = winner.replaceAll('Aña\.', '<font color="red">Aña.</font>');
@@ -28,6 +29,7 @@ function addtags(winner) {
     winner = winner.replace("⇓", '<font color="red">⇓</font>');
     winner = winner.replace("Duo Acolythi.", '<font color="red">Duo Acolythi.</font>');
     winner = winner.replace("Cum incenso ad oblata.", '<font color="red">Cum incenso ad oblata.</font>');
+    winner = winner.replace("de Officio diei", '<font color="red">de Officio diei</font>');
     winner = winner.replace("Hymnus, in quo dicitur:", '<font color="red">Hymnus, in quo dicitur:</font> ');
     winner = winner.replace("Sub tuum", '<i><b>Sub tuum</i></b>');
     winner = winner.replace("Asperges", '<i><b>Asperges</i></b>');
@@ -65,6 +67,8 @@ function addtags(winner) {
     winner = winner.replace("Pax ætérna", '<i><b>Pax ætérna</i></b>');
     winner = winner.replace("O quam metuéndus", '<i><b>O quam metuéndus</i></b>');
     winner = winner.replace("Zachæe", '<i><b>Zachæe</i></b>');
+    winner = winner.replaceAll("-", '<i><b>–</i></b>'); // separator replaced by dash
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     return winner;
