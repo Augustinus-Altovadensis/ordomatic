@@ -2838,7 +2838,7 @@ const days_tempo = {
     'after': ''
   },
   'nomen_jesu': {
-    'force': 80,
+    'force': 100,
     'before': '',
     'color': 'white',
     'header': 'SS. Nominis Jesu.',

@@ -135,18 +135,27 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     laudes = winner['laudes'];
     missa = winner['missa'];
     vesperae = winner['vesperae'];
-
+    after = winner['after'];
 
       ///////////////////////////////////
      ////////  MOVABLE FEASTS  /////////
     ///////////////////////////////////
 
-    // SS. Nominis Jesu //
+    // SS. Nominis Jesu // Day alone //
     if ( ref_sancto == "01_02" && weekday < 3 ) { winner = days_tempo['nomen_jesu']; }
     if ( (ref_sancto == "01_03" || ref_sancto == "01_04" ) && weekday == 0 ) { winner = days_tempo['nomen_jesu']; }
     if ( ref_sancto == "01_05" && weekday == 0 ) { 
         winner = days_tempo['nomen_jesu']; 
         commemoratio = days_sancto['01_05']; }
+
+    laudes = winner['laudes'];
+    missa = winner['missa'];
+    vesperae = winner['vesperae'];
+
+    ///// First Vespers //////////
+    if ( ref_sancto == "01_01" && ( weekday < 2 || weekday == 6 ) ) { vesperae = vesperae + ' - Com. SS. Nominis Jesu <b><i>Fecit mihi magna</i></b>'; }
+    if ( (ref_sancto == "01_02" || ref_sancto == "01_03" || ref_sancto == "01_04" ) && weekday == 6 ) { vesperae = "SS. Nominis Jesu - sine Com."; }
+
 
     ///// Workaround for First Vespers S. Familiae //////
     if ( ref_tempo_next.match("christmas") && i == (duration-1) ) 
@@ -155,8 +164,10 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
           else vesperae = 'Sanctæ Familiæ: Jesu, Mariæ et Joseph <font color="red">(supple. bre. Cist. 1965)</font>';  }
 
     // Sunday within the Christmas Octave //
-    if ( ref_tempo.match("christmas") && weekday == 0 ) 
-       { winner['after'] = '✠ Adoratio:  Tantum ergo p. 9 – Mane nobiscum I. (Laudes Vesp.)';}
+    if ( ref_tempo.match("christmas_1") && weekday == 0 ) 
+       { after = '✠ Adoratio:  Tantum ergo p. 8 – Mane nobiscum IV. (Laudes Vesp.)';}
+    if ( ref_tempo.match(/christmas_2|christmas_1_6/) && weekday == 0 ) 
+       { after = '✠ Adoratio:  Tantum ergo p. 9 – Mane nobiscum I. (Laudes Vesp.)';}
      // TO DO: what if there are two Sundays
     
 
@@ -198,8 +209,8 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 
       if (commemoratio['after'] != "") 
         { if (winner['after'] != "" )
-            { winner['after'] = winner['after'] + " – " + commemoratio['after'];}
-          else { winner['after'] = commemoratio['after'];}    }
+            { after = after + winner['after'] + " – " + commemoratio['after'];}
+          else { after = commemoratio['after'];}    }
 
       if (commemoratio['laudes'] != "") 
         { 
@@ -338,7 +349,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       vesperae,
       winner['vesperae_post'],
       winner['body'],
-      winner['after'],
+      after,
       check_next,
     ));
     

@@ -12,7 +12,7 @@ const days_sancto = {
     'laudes_post':'',
     'missa': 'Glo. - Cre. - Præf. Nat. - Infra actionem Communicantes. <font color="red">de Nativitate</font>',
     'missa_post': '¶ <font color="red">In Refectorio ab hodierna usque ad Dom. Septuagesima legitur ex Epistolis S. Pauli, prout Cæremoniarius indicat (Rit.)</font>',
-    'vesperae': 'de festo - <font color="green">Com.</font> SS. Nominis Jesu <b><i>Fecit mihi magna</i></b>',
+    'vesperae': 'de festo',
     'vesperae_commemoratio': '',
     'vesperae_post': '',
     'body': '',
