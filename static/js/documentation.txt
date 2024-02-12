@@ -74,3 +74,14 @@ const days_sancto = {
   Both are used to fill in the text of the antiphon, if the main office is commemorated. The format is either the antiphon, or the DivinumOfficium format of common texts (C1..C12)
 
   If the Commemorations are simple enough (Commemorated main office + original commemorations), previous system works. If not, the entire text of Commemoration can be written in those variables and "Com. " text in the beginning. Then the system will take it as an only Commemoration and discard the rest.
+
+  Force:
+  Commemoratio:       15
+  Commemoratio et M.  20
+  iij. Lect. et M.    30
+  xij. Lect. et M.    40
+  Dominica            50 (+)
+  MM. min.            60
+  MM. maj.            80
+  Serm. min.          90
+  Serm. maj.          100

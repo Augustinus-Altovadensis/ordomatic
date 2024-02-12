@@ -92,6 +92,11 @@ ul {
     font-family: GregPlantin;
 }
 
+.small-text {
+    font-size: smaller;
+    line-height: 80%;
+}
+
 .small-caps {
     font-variant: small-caps;
     font-family: Libertine;

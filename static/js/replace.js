@@ -27,8 +27,8 @@ function addtags(winner) {
     winner = winner.replaceAll('Aña\.', '<font color="red">Aña.</font>');
     winner = winner.replaceAll("Aña ", '<font color="red">Aña.</font> ');
     winner = winner.replace("⇓", '<font color="red">⇓</font>');
-    winner = winner.replace("Duo Acolythi.", '<font color="red">Duo Acolythi.</font>');
-    winner = winner.replace("Cum incenso ad oblata.", '<font color="red">Cum incenso ad oblata.</font>');
+    winner = winner.replace(/Duo Acolythi\. |Duo Acolythi /, '<font color="red">Duo Acolythi. </font>');
+    winner = winner.replace(/Cum incenso ad oblata\. |Cum incenso ad oblata /, '<font color="red">Cum incenso ad oblata. </font>');
     winner = winner.replace("de Officio diei", '<font color="red">de Officio diei</font>');
     winner = winner.replace("Hymnus, in quo dicitur:", '<font color="red">Hymnus, in quo dicitur:</font> ');
     winner = winner.replace("Sub tuum", '<i><b>Sub tuum</i></b>');
@@ -50,7 +50,7 @@ function addtags(winner) {
     winner = winner.replace("Isti sunt Sancti", '<i><b>Isti sunt Sancti</i></b>');
     winner = winner.replace("Isti sunt", '<i><b>Isti sunt</i></b>');
     winner = winner.replace("Iste Sanctus pro lege", '<i><b>Iste Sanctus pro lege</i></b>');
-    winner = winner.replace("Iste Sanctus", '<i><b>Iste Sanctus</i></b>');
+    winner = winner.replace(/Iste [Ss]anctus/, '<i><b>Iste Sanctus</i></b>');
     winner = winner.replace("Euge, serve bone", '<i><b>Euge, serve bone</i></b>');
     winner = winner.replace("Euge", '<i><b>Euge</i></b>');
     winner = winner.replace("Dum stetéritis", '<i><b>Dum stetéritis</i></b>');
@@ -68,6 +68,10 @@ function addtags(winner) {
     winner = winner.replace("O quam metuéndus", '<i><b>O quam metuéndus</i></b>');
     winner = winner.replace("Zachæe", '<i><b>Zachæe</i></b>');
     winner = winner.replaceAll("-", '<i><b>–</i></b>'); // separator replaced by dash
+    winner = winner.replace(/Communic[aá]ntes/, '<i><b>Communicántes</i></b>');
+    winner = winner.replace("– –", "–");
+    winner = winner.replace("- -", "–");
+    winner = winner.replace("Qui odit", '<i><b>Qui odit</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
