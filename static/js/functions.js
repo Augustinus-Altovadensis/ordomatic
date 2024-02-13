@@ -182,7 +182,8 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 
     /////  First Vespers SS: Nominis Jesu  //////////
     if ( ref_sancto == "01_01" && ( weekday < 2 || weekday == 6 ) ) { vesperae = vesperae + ' - Com. SS. Nominis Jesu <b><i>Fecit mihi magna</i></b>'; }
-    if ( (ref_sancto == "01_02" || ref_sancto == "01_03" || ref_sancto == "01_04" ) && weekday == 6 ) { vesperae = "SS. Nominis Jesu - sine Com."; }
+    if ( (ref_sancto == "01_02" || ref_sancto == "01_03" ) && weekday == 6 ) { vesperae = "SS. Nominis Jesu - sine Com."; }
+    if ( ref_sancto == "01_04" && weekday == 6 ) { vesperae = "SS. Nominis Jesu - Com. S. Telesphori Papæ et Martyris Iste sanctus"; }
 
     ///// Workaround for First Vespers S. Familiae //////
     if ( ref_tempo_next.match("christmas") && i == (duration-1) ) 
@@ -252,9 +253,9 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 
       if (commemoratio['laudes'] != "") 
         { 
-          comm_laudes = comm_laudes.replace(/- sine Com\. |sine Com\. /, "");
+          comm_laudes = comm_laudes.replace(/- sine Com\.|sine Com\./, "");
           //comm_laudes = comm_laudes.replace("sine Com\. ", "");
-          laudes = laudes.replace(/- sine Com\. |sine Com\. /, "");
+          laudes = laudes.replace(/- sine Com\.|sine Com\./, "");
           //laudes = laudes.replace("sine Com\.", "");
           comm_laudes = comm_laudes.replace("Com\. ", "");
           comm = commemoratio['laudes_commemoratio'];
