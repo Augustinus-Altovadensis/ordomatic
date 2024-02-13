@@ -2873,7 +2873,7 @@ const days_tempo = {
     'vesperae_commemoratio': '',
     'vesperae_post': '',
     'body': '',
-    'after': '✠Adoratio: Litaniae S. Cordis – Tantum ergo p. 5 – Mane nob. II. (Laud. Vesp.)'
+    'after': ''
   },
   'pa_1_1': {
     'force': 10,
@@ -3004,7 +3004,7 @@ const days_tempo = {
     'missa_post': '',
     'vesperae': 'Dom. ij. post Epiph. <i><b>Deficiénte vino</b></i>',
     'vesperae_commemoratio': '',
-    'vesperae_post': '✠ Adoratio:  Tantum ergo p. 6a – Mane nobiscum III. (Laudes Vesp.)',
+    'vesperae_post': '',
     'body': '',
     'after': ''
   },
@@ -3139,7 +3139,7 @@ const days_tempo = {
     'vesperae_commemoratio': '',
     'vesperae_post': '',
     'body': '',
-    'after': '✠ Adoratio:  Tantum ergo p. 6b – Mane nobiscum IV. (Laudes Vesp.)'
+    'after': ''
   },
   'pa_3_1': {
     'force': 10,

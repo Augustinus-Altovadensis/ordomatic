@@ -21,7 +21,7 @@ function addtags(winner) {
     winner = winner.replace("Com.", '<font color="green"><b>Com.</b></font> ');
     winner = winner.replaceAll("Comme.", '<font color="blue"><b>Comme.</b></font> ');
     winner = winner.replace("sine Glo.", 'sine <del>Glo.</del>');
-    winner = winner.replace("&", '<font color="green"><b>&</b></font> ');
+    //winner = winner.replace("&", '<font color="green"><b>&</b></font> ');
     winner = winner.replace("2a ", '2<sup>a</sup> ');
     winner = winner.replace("3a ", '3<sup>a</sup> ');
     winner = winner.replaceAll('Aña\.', '<font color="red">Aña.</font>');

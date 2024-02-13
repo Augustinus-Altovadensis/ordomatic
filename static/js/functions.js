@@ -52,6 +52,11 @@ function get_easter_date(year) {
   return (new Date(easter.getTime() - (easter.getTimezoneOffset() * 60 * 1000)));
 }
 
+Date.prototype.getWeek = function() {
+  var onejan = new Date(this.getFullYear(),0,1);
+  return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
+}
+
 function add_zero(number) {
   zero = '';
   if (number < 10) {
@@ -98,6 +103,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     date = new Date(start.getTime() + (i * 24 * 3600 * 1000));
     day = date.getDate();
     weekday = date.getDay();
+    week_number = date.getWeek();
     month_usual_number = date.getMonth() + 1;
     ref_tempo = prefix_tempo + (week_start + Math.ceil((i + 1) / 7)) + '_' + (day_start + (i % 7));
     ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
@@ -132,30 +138,51 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       { winner_next = get_winner(ref_tempo_next, ref_sancto_next); }
     winner = get_winner(ref_tempo, ref_sancto);
 
-    laudes = winner['laudes'];
-    missa = winner['missa'];
-    vesperae = winner['vesperae'];
-    after = winner['after'];
+    
+      //////////////////////////////////////////////////////
+     ////////////////    MOVABLE FEASTS   /////////////////
+    //////////////////////////////////////////////////////
 
-      ///////////////////////////////////
-     ////////  MOVABLE FEASTS  /////////
-    ///////////////////////////////////
+    translated = false;
 
-    // SS. Nominis Jesu // Day alone //
+    // TO DO: 
+    // Translating feasts between 19. and 26. March.
+
+    if ( ref_sancto == "03_25" && ref_tempo.match(/lent_6_|tp_1_/) )
+      { commemoratio = ""; translated_annunt = true;}
+    if ( ref_tempo == "tp_2_1" && translated_annunt )
+      { winner = days_sancto['03_25']; 
+        commemoratio = days_tempo['tp_2_1'];
+        translated_annunt = ""; translated = true;}
+
+    ///// SS. Nominis Jesu // Day alone /////
     if ( ref_sancto == "01_02" && weekday < 3 ) { winner = days_tempo['nomen_jesu']; }
     if ( (ref_sancto == "01_03" || ref_sancto == "01_04" ) && weekday == 0 ) { winner = days_tempo['nomen_jesu']; }
     if ( ref_sancto == "01_05" && weekday == 0 ) { 
         winner = days_tempo['nomen_jesu']; 
         commemoratio = days_sancto['01_05']; }
 
-    laudes = winner['laudes'];
-    missa = winner['missa'];
-    vesperae = winner['vesperae'];
+    ////////////////////////////////////////////////////////
 
-    ///// First Vespers //////////
+    before = winner['before'];
+    header = winner['header']; 
+    laudes = winner['laudes']; 
+    missa = winner['missa']; 
+    vesperae = winner['vesperae'];  // this strange placement is 
+    after = winner['after'];        // to enable following section
+
+    if (commemoratio) {
+      comm_laudes = commemoratio['laudes']; 
+      comm_vesperae = commemoratio['vesperae'];
+      }
+
+    ////////////////////////////////////////////////////////
+
+    if (translated) { header = header + " (translatum)"; translated = false; }
+
+    /////  First Vespers SS: Nominis Jesu  //////////
     if ( ref_sancto == "01_01" && ( weekday < 2 || weekday == 6 ) ) { vesperae = vesperae + ' - Com. SS. Nominis Jesu <b><i>Fecit mihi magna</i></b>'; }
     if ( (ref_sancto == "01_02" || ref_sancto == "01_03" || ref_sancto == "01_04" ) && weekday == 6 ) { vesperae = "SS. Nominis Jesu - sine Com."; }
-
 
     ///// Workaround for First Vespers S. Familiae //////
     if ( ref_tempo_next.match("christmas") && i == (duration-1) ) 
@@ -163,12 +190,14 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
           vesperae = winner['vesperae'] + " – " + 'Com. seq. <i><b>Verbum caro.</i></b>';
           else vesperae = 'Sanctæ Familiæ: Jesu, Mariæ et Joseph <font color="red">(supple. bre. Cist. 1965)</font>';  }
 
-    // Sunday within the Christmas Octave //
-    if ( ref_tempo.match("christmas_1") && weekday == 0 ) 
-       { after = '✠ Adoratio:  Tantum ergo p. 8 – Mane nobiscum IV. (Laudes Vesp.)';}
-    if ( ref_tempo.match(/christmas_2|christmas_1_6/) && weekday == 0 ) 
-       { after = '✠ Adoratio:  Tantum ergo p. 9 – Mane nobiscum I. (Laudes Vesp.)';}
-     // TO DO: what if there are two Sundays
+    // Sundays' Adorations: Tantum ergo et Mane nobiscum //
+    if ( weekday == 0 ) 
+       {  tantum_ergo = ["9","5","6a","6b","7","8"]; 
+          mane_nobiscum = ["IV","I","II","III"];
+          if ( day < 8 ) litaniae = "Litaniae S. Cordis –";
+          else litaniae = "";
+          after = "✠ Adoratio: " + litaniae + " Tantum ergo p. " + tantum_ergo[(week_number-1) % 6] + " – Mane nobiscum " + mane_nobiscum[week_number % 4] + ". (Laudes Vesp.)<br>" + after; 
+        }
     
 
     ////////////////////////////////////////////////
@@ -188,9 +217,18 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     /////////////////////////////////////
 
     vigiliae = winner['vigiliae'];
+
+    vigil_newyear = ['<i><b>Christus natus</i></b> iij. Lect.<font color="red">(Prima Die non impedita)</font> <i><b>Justificáti ergo.</i></b>',
+      'iij. Lect. <font color="red">(Secunda Die non impedita; ut die 3. Jan.)</font> <i><b>An ignorátis fratres.</i></b>',
+      'iij. Lect. <font color="red">(Tertia Die non impedita; ut die 3. Jan.)</font> <i><b>Fratres, debitóres sumus.</i></b>'];
+    if (ref_sancto == "01_02") { vigil_newyear_counter = 0; }
+    if (month_usual_number == 1 && day > 1 && day < 5 )
+      { if ( winner['force'] > 40 ) {}
+        else { vigiliae = vigil_newyear[vigil_newyear_counter]; vigil_newyear_counter++; } }
+
     vigil_epiphania = ['<font color="red">Prima Die non impedita post Epiph.</font> <i><b>Veritátem dico.</i></b>','<font color="red">Secunda die</font> <i><b>Paulus vocátus.</i></b>','<font color="red">Tertia die</font> <i><b>Et ego.</i></b>','<font color="red">Quarta die</font> <i><b>Omníno audítur.</i></b>','<font color="red">Quinta die</font> <i><b>Audet aliquis.</i></b>'];
     if (ref_sancto == "01_07") { vigil_epiphania_counter = 0; }
-    if (month_usual_number == 1 && day > 6 && day < 13 )
+    if (month_usual_number == 1 && day > 6 && day < 12 )
       { if ( ref_tempo == "pa_1_0" ) {}
         else { vigiliae = vigil_epiphania[vigil_epiphania_counter]; vigil_epiphania_counter++; } }
 
@@ -204,8 +242,8 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 
       if (commemoratio['before'] != "") 
         { if (winner['before'] != "" )
-            { winner['before'] = winner['before'] + " – " + commemoratio['before'];}
-          else { winner['before'] = commemoratio['before'];}  }
+            { before = winner['before'] + " – " + commemoratio['before'];}
+          else { before = commemoratio['before'];}  }
 
       if (commemoratio['after'] != "") 
         { if (winner['after'] != "" )
@@ -214,11 +252,11 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 
       if (commemoratio['laudes'] != "") 
         { 
-          commemoratio['laudes'] = commemoratio['laudes'].replace("- sine Com\. ", "");
-          commemoratio['laudes'] = commemoratio['laudes'].replace("sine Com\. ", "");
-          winner['laudes'] = winner['laudes'].replace("- sine Com\.", "");
-          winner['laudes'] = winner['laudes'].replace("sine Com\.", "");
-          commemoratio['laudes'] = commemoratio['laudes'].replace("Com\. ", "");
+          comm_laudes = comm_laudes.replace(/- sine Com\. |sine Com\. /, "");
+          //comm_laudes = comm_laudes.replace("sine Com\. ", "");
+          laudes = laudes.replace(/- sine Com\. |sine Com\. /, "");
+          //laudes = laudes.replace("sine Com\.", "");
+          comm_laudes = comm_laudes.replace("Com\. ", "");
           comm = commemoratio['laudes_commemoratio'];
           comm = ( comm == "C1") ? "Dum stetéritis " : comm;
           comm = ( comm == "C1a") ? "Isti sunt duæ " : comm;
@@ -237,11 +275,11 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 
           if ( commemoratio['laudes_commemoratio'].match("^Com\. ") )
             { 
-              laudes = winner['laudes'] + " – " + commemoratio['laudes_commemoratio'];
+              laudes = laudes + " – " + commemoratio['laudes_commemoratio'];
             }
-          else if ( commemoratio['laudes_commemoratio'].length > 3 ) { laudes = winner['laudes'] + " – Comme. " + titulum + et + commemoratio['laudes_commemoratio'];}
-          else laudes = winner['laudes'] + " – Comme. " + titulum + " " + comm + et + commemoratio['laudes'];
-          
+          else if ( commemoratio['laudes_commemoratio'].length > 3 ) { laudes = laudes + " – Com. " + titulum + et + commemoratio['laudes_commemoratio'];}
+          else laudes = laudes + " – Com. " + titulum + " " + comm + et + comm_laudes;
+
           if ( winner['force'] > 49 ) { laudes.replace("& B.M.V.", "");}
           comm = null;
         }
@@ -306,19 +344,34 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
             { 
              vesperae = commemoratio['vesperae'] + " – " + winner['vesperae_commemoratio'];
             }
-            else vesperae = commemoratio['vesperae'] + " – Comme. " 
+            else vesperae = commemoratio['vesperae'] + " – Com. " 
               //+ winner['vesperae'] + " "  // more testing needed
               + winner['vesperae_commemoratio'];
             vesperae = vesperae.replace(/- sine Com.|sine Com./, "");
             }
 
 
-          //winner['vesperae'] = winner['vesperae'] + " – Comme. " + titulum + " " + comm + "& "+ commemoratio['vesperae'];
+          //winner['vesperae'] = winner['vesperae'] + " – Com. " + titulum + " " + comm + "& "+ commemoratio['vesperae'];
           comm = null;
           winner['body'] = commemoratio['header'];
         }
     }
     ////////////////// Finis Commemorationum //////////////////
+
+    laudes_split = laudes.split("Com. ");
+    // Check so that the green "&" won't appear before "Com. " word
+    // (see Laudes 1.1. etc.)
+    if ( laudes_split[1] ) 
+      { laudes_replace = laudes_split[1] + " ";
+        laudes_replace = laudes_replace.replaceAll("&", '<font color="green"><b>&</b></font> ');
+        laudes = laudes_split[0] + "Com. " + laudes_replace; }
+
+    vesperae_split = vesperae.split("Com. ");
+    if ( vesperae_split[1] ) 
+      { vesperae_replace = vesperae_split[1] + " ";
+        vesperae_replace = vesperae_replace.replaceAll("&", '<font color="green"><b>&</b></font> ');
+        vesperae = vesperae_split[0] + "Com. " + vesperae_replace; }
+    
 
     ////////////  Replacement section (HTML tags)  ////////////
     for (let j of ["before","vigiliae"])
@@ -334,13 +387,12 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       month,
       day,
       weekday,
-      winner['before'],
+      before,
       winner['color'],
-      winner['header'],
+      header,
       winner['rank'],
       winner['body'],
       winner['subtitulum'],
-      //winner['vigiliae'],
       vigiliae,
       laudes,
       winner['laudes_post'],

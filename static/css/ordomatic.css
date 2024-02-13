@@ -92,9 +92,9 @@ ul {
     font-family: GregPlantin;
 }
 
-.small-text {
+.small {
     font-size: smaller;
-    line-height: 80%;
+    line-height: 120%;
 }
 
 .small-caps {
