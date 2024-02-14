@@ -86,3 +86,9 @@ const days_sancto = {
   MM. maj.            80
   Serm. min.          90
   Serm. maj.          100
+
+  Commemorationes:
+  ================
+  Feria iij. (úterý večer a středa ráno, pouze officium): sv. Josef
+  Feria ij. B.B.R.
+  Sabbatum. De Pace
