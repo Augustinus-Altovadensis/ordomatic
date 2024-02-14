@@ -149,6 +149,14 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     // TO DO: 
     // Translating feasts between 19. and 26. March.
 
+    if ( ref_sancto == "03_19" && ref_tempo.match(/lent_6_|tp_1_/) )
+      { commemoratio = ""; translated_joseph = true;}
+    if ( ref_sancto == "03_20" && ref_tempo.match(/lent_6_|tp_1_/) )
+      { commemoratio = ""; translated_joachim = true;}
+    if ( ref_sancto == "03_21" && ref_tempo.match(/lent_6_|tp_1_/) )
+      { commemoratio = ""; translated_benedict = true;}
+    if ( ref_sancto == "03_24" && ref_tempo.match(/lent_6_|tp_1_/) )
+      { commemoratio = ""; translated_gabriel = true;}
     if ( ref_sancto == "03_25" && ref_tempo.match(/lent_6_|tp_1_/) )
       { commemoratio = ""; translated_annunt = true;}
     if ( ref_tempo == "tp_2_0" && translated_annunt )
@@ -240,7 +248,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
         else { vigiliae = vigil_epiphania[vigil_epiphania_counter]; vigil_epiphania_counter++; } }
 
     if (commemoratio)
-      { titulum = commemoratio['header'].split(",", 1);
+      { titulum = commemoratio['header'].split("+", 1);
         if ( commemoratio['header'].match(/Oct\.|Octav/i) ) { titulum = ""; }
 
       /////////////////////////////////
@@ -309,7 +317,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       /////////////////////////////////
       ///// Commemoratio Vesperæ  /////
       /////////////////////////////////
-      if (commemoratio['vesperae'] != "" || trans_vesperae != "" ) 
+      if (commemoratio['vesperae'] != "" || comm_vesperae != "" ) 
         { 
           //comm_vesperae = comm_vesperae.replace("sine Com\.", "");
           vesperae = vesperae.replace(/- sine Com.|sine Com./, "");
@@ -364,6 +372,11 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
         }
     }
     ////////////////// Finis Commemorationum //////////////////
+
+    if (!commemoratio && comm_vesperae != "")
+        {
+          vesperae = vesperae + " – Com. " + comm_vesperae;
+        }
 
     laudes_split = laudes.split("Com. ");
     // Check so that the green "&" won't appear before "Com. " word
@@ -456,7 +469,10 @@ function component(date, year, month, day, weekday, before, color, header, rank,
     block_rank = '<b> – ' + rank + '</b>';
   } else { block_rank = ''; }
 
+header = header.replace("+","");
+
 if (comm_header != "") {
+    comm_header = comm_header.replace("+","");
     block_commemoratio = '<span class="body text-justify"><ul><font color="black"><i>Commemoratio:</i></font><font color="blue"><b> ' + comm_header + '</b></font></ul></span>';
   } else { block_commemoratio = ''; }
 

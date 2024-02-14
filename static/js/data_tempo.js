@@ -941,7 +941,7 @@ const days_tempo = {
     'laudes': 'sine Com.',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': 'Celebrat Superior cum Ministris. (sine dalm.) <font color="red">Ante Missam fit benedictio et impositio Cinerum</font> - Præf. Quadr. - Oratio super populum',
+    'missa': 'Celebrat Superior cum Ministris. (sine dalm.) <font color="red">Ante Missam fit benedictio et impositio Cinerum</font> - sine Glo. - Præf. Quadr. - Oratio super populum',
     'missa_post': '',
     'vesperae': 'Fer iv. - Com. B.M.V.',
     'vesperae_commemoratio': '',
