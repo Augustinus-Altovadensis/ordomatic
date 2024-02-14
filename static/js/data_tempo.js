@@ -1948,7 +1948,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'white',
-    'header': '<span class="small-caps fw-bold">Dominica II Paschæ seu de Divina Misericordia.</span>',
+    'header': 'Dominica in Albis.',
     'rank': '',
     'subtitulum': '',
     'vigiliae': '',

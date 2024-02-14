@@ -81,8 +81,8 @@ const days_sancto = {
   Commemoratio et M.  20
   iij. Lect. et M.    30
   xij. Lect. et M.    40
-  Dominica            50 (+)
-  MM. min.            60
+  MM. min.            50
+  Dominica            60 (+)
   MM. maj.            80
   Serm. min.          90
   Serm. maj.          100
