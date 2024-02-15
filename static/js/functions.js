@@ -145,6 +145,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 
     translated = false;
     trans_vesperae = "";
+    comm_vesperae = "";
 
     // TO DO: 
     // Translating feasts between 19. and 26. March.
@@ -249,6 +250,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 
     if (commemoratio)
       { titulum = commemoratio['header'].split("+", 1);
+        titulum_missa = commemoratio['header'].split(",", 1);
         if ( commemoratio['header'].match(/Oct\.|Octav/i) ) { titulum = ""; }
 
       /////////////////////////////////
@@ -309,7 +311,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
           comm_missa = comm_missa + " "; // looks stupid, but converts the variable into a string that the replace function can take
           comm_missa = comm_missa.replace(/3.*/,""); 
           comm_missa = comm_missa.replace("2a", "3a"); 
-          comm_missa = "2a " + titulum + " " + comm_missa;
+          comm_missa = "2a " + titulum_missa + ". " + comm_missa;
           comm_missa = comm_missa.replace(/-.*/, ""); 
           missa = winner['missa'].replace("Glo.", "Glo. – " + comm_missa);
         }
