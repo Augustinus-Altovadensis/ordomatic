@@ -43,14 +43,26 @@ function refresh_ordo(year) {
 
   baptism = new Date(christmas.getTime() + (christmas_time_duration * day_in_milliseconds));
 
+  // Septuagesima:
+  easter = get_easter_date(year + 1);
+  septuagesima = new Date(easter.getTime() - (63 * day_in_milliseconds));
+  septuagesima = new Date(septuagesima.getTime() - (septuagesima.getTimezoneOffset() * 60 * 1000));
+
   // Ash Wednesday:
   easter = get_easter_date(year + 1);
   ash_wednesday = new Date(easter.getTime() - (46 * day_in_milliseconds));
   ash_wednesday = new Date(ash_wednesday.getTime() - (ash_wednesday.getTimezoneOffset() * 60 * 1000));
 
-  // Tempus per Annum until Ash Wednesday:
+  // Tempus per Annum until Ash Wednesday: ORIGINAL
   tempus_per_annum_until_ash_duration = (ash_wednesday - baptism) / (1000 * 3600 * 24) - 1;
-  content = content.concat(period(tempus_per_annum_until_ash_duration, baptism, 'pa_', 0, 0));
+  //content = content.concat(period(tempus_per_annum_until_ash_duration, baptism, 'pa_', 0, 0));
+
+  // Tempus per Annum until Septuagesima:
+  tempus_per_annum_until_septuagesima = (septuagesima - baptism) / (1000 * 3600 * 24) - 1;
+  content = content.concat(period(tempus_per_annum_until_septuagesima, baptism, 'pe_', 0, 0));
+
+  // Septuagesima Period:
+  content = content.concat(period(17, septuagesima, 'sept_', 0, 0));
 
   // Lent:
   // Days after Ash wednesday:
