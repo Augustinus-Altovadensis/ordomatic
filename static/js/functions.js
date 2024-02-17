@@ -15,7 +15,8 @@ function get_christmas_date(year) {
 }
 
 function get_christmas_weekday(christmas) {
-  return christmas.getDay();
+  if ( christmas.getDay() == 0 ) return 7;
+  else return christmas.getDay();
 }
 
 function get_first_sunday_of_advent(christmas, christmas_weekday) {
@@ -98,13 +99,13 @@ function component(date, year, month, day, weekday, before, color, header, body,
   if (date.getFullYear() != year) {
     year = date.getFullYear();
     block_new_year = '<div class="year blue mt-5">' + year + '</div>';
-    if (date.getMonth() != month) {
+    if (date.getMonth() != month || day == 1) {
       month = date.getMonth();
       block_new_month = '<div class="month green mb-3">Ianuarius</div>';
     }
   } else {
     block_new_year = '';
-    if (date.getMonth() != month) {
+    if (date.getMonth() != month || day == 1) {
       month = date.getMonth();
       block_new_month = '<div class="month green my-3">' + month_human_readable(month) + '</div>';
     } else {
