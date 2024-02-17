@@ -31,7 +31,8 @@ function get_christmas_date(year) {
 }
 
 function get_christmas_weekday(christmas) {
-  return christmas.getDay();
+  if ( christmas.getDay() == 0 ) return 7;
+  else return christmas.getDay();
 }
 
 function get_first_sunday_of_advent(christmas, christmas_weekday) {
@@ -85,6 +86,14 @@ function get_commemoratio(ref_tempo, ref_sancto) {
   if (winner == days_tempo[ref_tempo]) { commemoratio = days_sancto[ref_sancto]; }
   return commemoratio;
 }
+
+var translated_joseph = false;
+var translated_annunt = false;
+var translated_benedict = false;
+var translated_joachim = false;
+var translated_gabriel = false;
+var translated_annivers = false;
+
 
 function period(duration, start, prefix_tempo, week_start, day_start) {
   // This function returns the HTML code of a liturgical period (Advent, Lent, Per Annum, etc.).
@@ -149,6 +158,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 
     // TO DO: 
     // Translating feasts between 19. and 26. March.
+    movable_easter = ["03_19","03_25","03_21","03_20","03_24"];
 
     if ( ref_sancto == "03_19" && ref_tempo.match(/lent_6_|tp_1_/) )
       { commemoratio = ""; translated_joseph = true;}
@@ -160,12 +170,50 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       { commemoratio = ""; translated_gabriel = true;}
     if ( ref_sancto == "03_25" && ref_tempo.match(/lent_6_|tp_1_/) )
       { commemoratio = ""; translated_annunt = true;}
-    if ( ref_tempo == "tp_2_0" && translated_annunt )
+
+    if ( ref_tempo == "tp_2_0" && translated_annunt && !translated_joseph )
         trans_vesperae = "Annuntiatio B.M.V. <i><b>Ecce concípies.</i></b>";
-    if ( ref_tempo == "tp_2_1" && translated_annunt )
+    if ( ref_tempo == "tp_2_1" && translated_annunt && !translated_joseph )
       { winner = days_sancto['03_25']; 
         commemoratio = days_tempo['tp_2_1'];
         translated_annunt = false; translated = true;}
+    if ( ref_tempo == "tp_2_1" && translated_joseph )
+      { winner = days_sancto['03_19']; 
+        commemoratio = days_tempo['tp_2_1'];
+        translated_joseph = false; translated = true;}
+    if ( ref_tempo == "tp_2_2" && translated_benedict && !translated_annunt )
+      { winner = days_sancto['03_21']; 
+        commemoratio = days_tempo['tp_2_2'];
+        translated_benedict = false; translated = true;}
+    if ( ref_tempo == "tp_2_2" && translated_joachim && !translated_benedict)
+      { winner = days_sancto['03_20']; 
+        commemoratio = days_tempo['tp_2_2'];
+        translated_joachim = false; translated = true; }
+    if ( ref_tempo == "tp_2_2" && translated_gabriel )
+      { winner = days_sancto['03_24']; 
+        commemoratio = days_tempo['tp_2_2']; 
+        translated_gabriel = false; translated = true; }
+    if ( ref_tempo == "tp_2_2" && translated_annunt )
+      { winner = days_sancto['03_25']; 
+        commemoratio = days_tempo['tp_2_2'];
+        translated_annunt = false; translated = true;}
+    if ( ref_tempo == "tp_2_3" && translated_benedict )
+      { winner = days_sancto['03_21']; 
+        commemoratio = days_tempo['tp_2_3'];
+        translated_benedict = false; translated = true;}
+
+
+    // To DO:
+    //  Anniversarium Dedicationis Ecclesiæ Altovadensis 1. 6. (pokud nepřijde do svatodušního Oktávu)
+
+    if ( ref_sancto == "06_01" ) {
+        if ( ref_tempo.match(/tp_8_/) ) translated_annivers = true; 
+        else { winner = days_tempo['anniversarium_dedicationis']; commemoratio = ""; } }
+
+    if ( ref_tempo == "pa_1_1" && translated_annivers )
+      { winner = days_tempo['anniversarium_dedicationis'];
+        commemoratio = days_sancto[ref_sancto];
+        translated_annivers = false; translated = true;}
 
     ///// SS. Nominis Jesu // Day alone /////
     if ( ref_sancto == "01_02" && weekday < 3 ) { winner = days_tempo['nomen_jesu']; }
@@ -396,7 +444,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     
 
     ////////////  Replacement section (HTML tags)  ////////////
-    for (let j of ["before","vigiliae"])
+    for (let j of ["before","vigiliae","laudes_post","missa_post","vesperae_post"])
     { winner[j] = addtags(winner[j]); }
     vigiliae = addtags(vigiliae); 
     laudes = addtags(laudes); 
@@ -448,7 +496,7 @@ function component(date, year, month, day, weekday, before, color, header, rank,
     }
   } else {
     block_new_year = '';
-    if (date.getMonth() != month) {
+    if (date.getMonth() != month || day == 1) {
       month = date.getMonth();
       block_new_month = '<div class="month blue my-3">' + month_human_readable(month) + '</div>';
     } else {

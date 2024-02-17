@@ -71,19 +71,31 @@ function refresh_ordo(year) {
   content = content.concat(period(42, new Date(ash_wednesday.getTime() + (4 * day_in_milliseconds)), 'lent_', 0, 0));
 
   // Paschaltide:
-  content = content.concat(period(50, easter, 'tp_', 0, 0));
+  content = content.concat(period(56, easter, 'tp_', 0, 0));
 
   pentecost = new Date(easter.getTime() + (49 * day_in_milliseconds));
 
-  // Tempus per Annum after Pentecost:
+  trinitas = new Date(easter.getTime() + (56 * day_in_milliseconds));
+
+  // function period(duration, start, prefix_tempo, week_start, day_start)
+
+  // Tempus per Annum after Pentecost (23 weeks):
+  content = content.concat(period( 23 * 7, new Date(easter.getTime() + (56 * day_in_milliseconds)), 'pa_', 0, 0));
+
   christmas = get_christmas_date(year + 1);
-  advent = new Date(christmas.getTime() - ((christmas.getDay() + 21) * day_in_milliseconds));
+  advent = new Date(christmas.getTime() - ((get_christmas_weekday(christmas) + 21) * day_in_milliseconds));
   tempus_per_annum_after_pentecost_duration = ((advent - pentecost) / day_in_milliseconds);
-  num_per_annum_of_pentecost = Math.floor(34 - (tempus_per_annum_after_pentecost_duration / 7));
-  // Week after Pentecost:
-  content = content.concat(period(6, new Date(pentecost.getTime() + day_in_milliseconds), 'pa_', num_per_annum_of_pentecost, 1));
-  // Rest of Tempus per Annum:
-  content = content.concat(period(tempus_per_annum_after_pentecost_duration - 7, new Date(pentecost.getTime() + 7 * day_in_milliseconds), 'pa_', num_per_annum_of_pentecost + 1, 0));
+  num_after_epiphany = Math.floor(tempus_per_annum_until_septuagesima / 7);
+
+  dominica_xxiij = new Date(trinitas.getTime() + ( 23 * 7 ) * day_in_milliseconds);
+  dominica_ultima = new Date(advent.getTime() - 7  * day_in_milliseconds);
+
+  // Remaining Sundays after Epiphany:
+  content = content.concat(period((dominica_ultima - dominica_xxiij) / day_in_milliseconds, dominica_xxiij, 'pe_', num_after_epiphany + 1, 0));
+  
+  // Dominica xxiv. et ultima post Pentecosten et hebdomada ejus:
+  content = content.concat(period(((advent - dominica_ultima) / day_in_milliseconds), dominica_ultima, 'pa_', 23, 0));
+
 
   //   TODO:
   //   switch (i) {

@@ -26,7 +26,19 @@ function addtags(winner) {
     winner = winner.replace("3a ", '3<sup>a</sup> ');
     winner = winner.replaceAll('Aña\.', '<font color="red">Aña.</font>');
     winner = winner.replaceAll("Aña ", '<font color="red">Aña.</font> ');
+    winner = winner.replaceAll("Dicitur", '<font color="red">Dicitur</font> ');
     winner = winner.replace("⇓", '<font color="red">⇓</font>');
+    winner = winner.replace("(Ex Processionale Cisterciense)", '<font color="red">(Ex Processionale Cisterciense)</font>');
+    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replaceAll("*", '<font color="red">*</font>');
+    winner = winner.replaceAll("§", '<font color="red">§</font>');
+    winner = winner.replace("Oratio.", '<font color="red"><b>Oratio.</b></font>');
+    winner = winner.replaceAll("(supplementum bre. Cist. 1965)", '<font color="red">(supplementum bre. Cist. 1965)</font>');
+    winner = winner.replace("et ℟.", '<font color="red">et ℟.</font>');
+    winner = winner.replace("Processio sollemnissima cum pluviali et dalmaticis", '<font color="red">Processio sollemnissima cum pluviali et dalmaticis</font>');
     winner = winner.replace(/Duo Acolythi\. |Duo Acolythi /, '<font color="red">Duo Acolythi. </font>');
     winner = winner.replace(/Cum incenso ad oblata\. |Cum incenso ad oblata /, '<font color="red">Cum incenso ad oblata. </font>');
     winner = winner.replace("de Officio diei", '<font color="red">de Officio diei</font>');
@@ -72,7 +84,7 @@ function addtags(winner) {
     winner = winner.replace("– –", "–");
     winner = winner.replace("- -", "–");
     winner = winner.replace("Qui odit", '<i><b>Qui odit</i></b>');
-    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("Laudémus virum", '<i><b>Laudémus virum</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     return winner;
