@@ -215,6 +215,42 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
         commemoratio = days_sancto[ref_sancto];
         translated_annivers = false; translated = true;}
 
+    ///////////  Sunday after Epiphany that doesn't fit:  ///////////
+    if ( ref_tempo.match(/pe_xxx/)  )
+      {
+      day_in_ms = 24 * 3600 * 1000;
+      n_easter = get_easter_date(year + 1);
+      n_septuagesima = new Date(n_easter.getTime() - (63 * day_in_ms));
+      //septuagesima = new Date(septuagesima.getTime() - (septuagesima.getTimezoneOffset() * 60 * 1000));
+      n_pentecost = new Date(n_easter.getTime() + (49 * day_in_ms));
+      n_christmas = get_christmas_date(year + 1);
+      n_christmas_weekday = get_christmas_weekday(n_christmas);
+      n_christmas_time_duration = 19 - ((n_christmas_weekday + 5) % 7);
+      n_baptism = new Date(n_christmas.getTime() + (n_christmas_time_duration * day_in_ms));
+      n_tempus_per_annum_until_septuagesima = (n_septuagesima - n_baptism) / (1000 * 3600 * 24) - 1;
+      n_num_after_epiphany = Math.floor(n_tempus_per_annum_until_septuagesima / 7) + 1;
+
+      n_trinitas = new Date(n_easter.getTime() + (56 * day_in_ms));
+
+      n_christmas_new = get_christmas_date(year + 1);
+      n_advent_new = new Date(n_christmas_new.getTime() - ((get_christmas_weekday(n_christmas_new) + 21) * day_in_ms));
+
+      n_dominica_xxiij = new Date(n_trinitas.getTime() + ( 23 * 7 ) * day_in_ms);
+      n_dominica_ultima = new Date(n_advent_new.getTime() - 7  * day_in_ms);
+      n_num_after_dom_xxiij = Math.floor((n_dominica_ultima - n_dominica_xxiij) / day_in_ms);
+
+      // Sum of Sundays after Epiphany. If it eq. 5, one is missing
+      if ( n_num_after_epiphany + ((n_num_after_dom_xxiij + 1) / 7) == 5 ) extra_sunday = true; else extra_sunday = false;
+
+      if ( extra_sunday && i == ( duration - 2 ) )
+        {
+          next_sunday = "pe_" + (1 + week_start + Math.ceil((i + 1) / 7)) + '_0';
+          winner = days_tempo[next_sunday];
+          commemoratio = days_sancto[ref_sancto];
+          extra_sunday = false;
+        }
+      }
+
     ///// SS. Nominis Jesu // Day alone /////
     if ( ref_sancto == "01_02" && weekday < 3 ) { winner = days_tempo['nomen_jesu']; }
     if ( (ref_sancto == "01_03" || ref_sancto == "01_04" ) && weekday == 0 ) { winner = days_tempo['nomen_jesu']; }
@@ -578,12 +614,6 @@ if (laudes_post != "") {
     + '<div class="d-flex flex-column w-50 mb-2">'
     + block_before
     + '<div class="head d-flex m-0">'
-    //+ '<span class="fas fa-square ' + color + '"> </span>'
-    //+ '<span class="day">' + add_zero(day) + day + "." + '</span>'
-    //+ '<span class="weekday brown fw-bold ms-1 text-nowrap">' 
-    //+ " – " + liturgical_color(color) + " – " 
-    //+ weekday_human_readable(weekday) + ' – </span>'
-    //+ '<span class="header text-justify ms-1">' + header + '</span>'
     + '<span class="first_line"><b>'  + add_zero(day) + day + "." 
     + " – " + liturgical_color(color) + " – " 
     + weekday_human_readable(weekday) + ' – </b>'

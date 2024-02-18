@@ -82,19 +82,25 @@ function refresh_ordo(year) {
   // Tempus per Annum after Pentecost (23 weeks):
   content = content.concat(period( 23 * 7, new Date(easter.getTime() + (56 * day_in_milliseconds)), 'pa_', 0, 0));
 
-  christmas = get_christmas_date(year + 1);
-  advent = new Date(christmas.getTime() - ((get_christmas_weekday(christmas) + 21) * day_in_milliseconds));
-  tempus_per_annum_after_pentecost_duration = ((advent - pentecost) / day_in_milliseconds);
-  num_after_epiphany = Math.floor(tempus_per_annum_until_septuagesima / 7);
+  christmas_new = get_christmas_date(year + 1);
+  advent_new = new Date(christmas_new.getTime() - ((get_christmas_weekday(christmas_new) + 21) * day_in_milliseconds));
+  tempus_per_annum_after_pentecost_duration = ((advent_new - pentecost) / day_in_milliseconds);
+  num_after_epiphany = Math.floor(tempus_per_annum_until_septuagesima / 7) + 1;
 
   dominica_xxiij = new Date(trinitas.getTime() + ( 23 * 7 ) * day_in_milliseconds);
-  dominica_ultima = new Date(advent.getTime() - 7  * day_in_milliseconds);
+  dominica_ultima = new Date(advent_new.getTime() - 7  * day_in_milliseconds);
+  num_after_dom_xxiij = Math.floor((dominica_ultima - dominica_xxiij) / day_in_milliseconds);
+
+  // Sum of Sundays after Epiphany. If it eq. 5, one is missing
+  if ( num_after_epiphany + ((num_after_dom_xxiij + 1) / 7) == 5 ) extra = 1; else extra = 0; 
 
   // Remaining Sundays after Epiphany:
-  content = content.concat(period((dominica_ultima - dominica_xxiij) / day_in_milliseconds, dominica_xxiij, 'pe_', num_after_epiphany + 1, 0));
+  content = content.concat(period((dominica_ultima - dominica_xxiij) / day_in_milliseconds, dominica_xxiij, 'pe_', num_after_epiphany + extra, 0));
   
   // Dominica xxiv. et ultima post Pentecosten et hebdomada ejus:
-  content = content.concat(period(((advent - dominica_ultima) / day_in_milliseconds), dominica_ultima, 'pa_', 23, 0));
+  content = content.concat(period(((advent_new - dominica_ultima) / day_in_milliseconds), dominica_ultima, 'pa_', 23, 0));
+
+  content = content.concat('<div class="body text-justify">num_after_epiphany = ' + num_after_epiphany + " num_after_dom_xxiij = " + ((num_after_dom_xxiij + 1) / 7) + '</div>');
 
 
   //   TODO:
