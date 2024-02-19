@@ -29,7 +29,7 @@ function addtags(winner) {
     winner = winner.replaceAll("Dicitur", '<font color="red">Dicitur</font> ');
     winner = winner.replace("⇓", '<font color="red">⇓</font>');
     winner = winner.replace("(Ex Processionale Cisterciense)", '<font color="red">(Ex Processionale Cisterciense)</font>');
-    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace(/℟. maj.|R. maj./, '<font color="red">℟. maj.</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
@@ -55,9 +55,9 @@ function addtags(winner) {
     winner = winner.replace("Sancte Paule", '<i><b>Sancte Paule</i></b>');
     winner = winner.replace("Veni, sponsa Christi", '<i><b>Veni, sponsa Christi</i></b>');
     winner = winner.replace("Veni sponsa", '<i><b>Veni sponsa</i></b>');
-    winner = winner.replace("Símile est ... sagénæ", '<i><b>Símile est ... sagénæ</i></b>');
+    winner = winner.replace("Símile est ... sagénæ", '<i><b>Símile est … sagénæ</i></b>');
     winner = winner.replace("Sacérdos et Póntifex", '<i><b>Sacérdos et Póntifex</i></b>');
-    winner = winner.replace("Hac die ... suprémos", '<i><b>Hac die ... suprémos</i></b>');
+    winner = winner.replace("Hac die ... suprémos", '<i><b>Hac die … suprémos</i></b>');
     winner = winner.replace("Isti sunt duæ", '<i><b>Isti sunt duæ</i></b>');
     winner = winner.replace("Isti sunt Sancti", '<i><b>Isti sunt Sancti</i></b>');
     winner = winner.replace("Isti sunt", '<i><b>Isti sunt</i></b>');
@@ -75,7 +75,7 @@ function addtags(winner) {
     winner = winner.replace("Similábo eum", '<i><b>Similábo eum</i></b>');
     winner = winner.replace("Quinque prudéntes Vírgines", '<i><b>Quinque prudéntes Vírgines</i></b>');
     winner = winner.replace("Quinque prudéntes", '<i><b>Quinque prudéntes</i></b>');
-    winner = winner.replace("Símile est ... hómini", '<i><b>Símile est ... hómini</i></b>');
+    winner = winner.replace("Símile est ... hómini", '<i><b>Símile est … hómini</i></b>');
     winner = winner.replace("Pax ætérna", '<i><b>Pax ætérna</i></b>');
     winner = winner.replace("O quam metuéndus", '<i><b>O quam metuéndus</i></b>');
     winner = winner.replace("Zachæe", '<i><b>Zachæe</i></b>');
@@ -85,7 +85,7 @@ function addtags(winner) {
     winner = winner.replace("- -", "–");
     winner = winner.replace("Qui odit", '<i><b>Qui odit</i></b>');
     winner = winner.replace("Laudémus virum", '<i><b>Laudémus virum</i></b>');
-    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("Terríbilis", '<i><b>Terríbilis</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     return winner;
 }

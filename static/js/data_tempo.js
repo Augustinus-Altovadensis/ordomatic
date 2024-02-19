@@ -4123,9 +4123,9 @@ const days_tempo = {
     'laudes_post':'<li><u>ad Primam:</u> Dicitur <i><b>Quicúmque</i></b></li> <div class="small">¶ <font color="red">A Dominica Prima post Pentecosten dicitur Oratio ad poscenda suffragia Sanctorum: <b><i>A</font> cunctis nos, quaesumus, Dómine, mentis ... atque beáto <u>Bernardo</u> * ...  * Per eúmdem Dóminum nostrum Jesum ...</i></b> <font color="red">si ultimo loco dicenda est. Et dicitur usque ad Adventum, nisi sit Festum MM. vel. infra Octavam. Tertia ad libitum. <br></font>* ¶ <font color="red">Ubi apud religiosos est consuetudo fundatorem seu patronum Ordinis (S. Bernardum) ultra titularem ecclesiae exprimendi, ea servari potest, dummodo non omittatur nomen titularis ecclesiae. </font>S. R. C. 17. Jun. 1843. <font color="blue">(Panna Maria jako patronka kostela je již v oraci, a proto se přidává hlavní patron řádu sv. Bernard.)</font></div> ',
     'missa': 'Processio sollemnissima cum pluviali et dalmaticis et ℟. <i><b>O beáta Trínitas</i></b> Aña <i><b>Benedíctio, et cláritas</i></b> <font color="red">(Ex Nocturnale 12. Resp. & in ij. Nocturno ij. Aña)</font> - Asperges - Glo. - 2. Ora Dom. j. post Pente. - Cre. - Præf. Trini. - <font color="red">In fine Missæ Evangelium Dominicæ j. post Pentecosten.</font>',
     'missa_post': '',
-    'vesperae': 'SS. Trinitatis - Com. S. Bonifacii Ep. et Mart. (supplementum bre. Cist. 1965) Beátus vir',
+    'vesperae': 'SS. Trinitatis',
     'vesperae_commemoratio': '',
-    'vesperae_post': 'Commemoratio et Missa S. Bonifacii Episcopi et Martyris (Com. et M.) (supplementum bre. Cist. 1965) Oratio. <b><i>Deus, qui multitúdinem populórum, § beáti Bonifácii Mártyris tui atque Pontíficis zelo, * ad agnitiónem tui nóminis vocáre dignátus es: § concéde propítius; * ut, cujus sollémnia cólimus, § étiam patrocínia sentiámus. * Per Dóminum.</i></b> ',
+    'vesperae_post': '',
     'body': '',
     'after': ''
   },

@@ -95,7 +95,7 @@ var translated_gabriel = false;
 var translated_annivers = false;
 
 
-function period(duration, start, prefix_tempo, week_start, day_start) {
+function period(duration, start, prefix_tempo, week_start, day_start, extra) {
   // This function returns the HTML code of a liturgical period (Advent, Lent, Per Annum, etc.).
   // duration (Integer): Number of days of the period.
   // start (Date): Start date of the period.
@@ -105,6 +105,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
   //     E.g., for Tempus per annum after Pentecost, it can be 7 or 8 etc.
   // day_start (Integer): At which day to start the increment.
   //     E.g., for days after Ash, it will be 3.
+  // extra: for now, an extra Sunday that may or may not come to Thursday before LXX
   html = "";
   year = start.getFullYear();
   month = start.getMonth();
@@ -142,9 +143,12 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       ref_tempo_next = ( ref_tempo_next == "lent_7_0") ? "tp_1_0" : ref_tempo_next;
       ref_tempo_next = ( ref_tempo_next == "pa_35_0") ? "adv_1_0" : ref_tempo_next;
 
+    /////////////////////////////////////////////////////
+    ///////////////  Let's find a WINNER  ///////////////
+    /////////////////////////////////////////////////////
+
     commemoratio = get_commemoratio(ref_tempo, ref_sancto);
-    if ( i < (duration-1) ) 
-      { winner_next = get_winner(ref_tempo_next, ref_sancto_next); }
+    if (i < (duration-1)) winner_next = get_winner(ref_tempo_next, ref_sancto_next); 
     winner = get_winner(ref_tempo, ref_sancto);
 
     
@@ -203,9 +207,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
         translated_benedict = false; translated = true;}
 
 
-    // To DO:
     //  Anniversarium Dedicationis Ecclesiæ Altovadensis 1. 6. (pokud nepřijde do svatodušního Oktávu)
-
     if ( ref_sancto == "06_01" ) {
         if ( ref_tempo.match(/tp_8_/) ) translated_annivers = true; 
         else { winner = days_tempo['anniversarium_dedicationis']; commemoratio = ""; } }
@@ -216,41 +218,14 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
         translated_annivers = false; translated = true;}
 
     ///////////  Sunday after Epiphany that doesn't fit:  ///////////
-    if ( ref_tempo.match(/pe_xxx/)  )
+    // Sets the anticipated Sunday to previous Thursday
+    if ( extra == 1 && i == (duration - 3) )
       {
-      day_in_ms = 24 * 3600 * 1000;
-      n_easter = get_easter_date(year + 1);
-      n_septuagesima = new Date(n_easter.getTime() - (63 * day_in_ms));
-      //septuagesima = new Date(septuagesima.getTime() - (septuagesima.getTimezoneOffset() * 60 * 1000));
-      n_pentecost = new Date(n_easter.getTime() + (49 * day_in_ms));
-      n_christmas = get_christmas_date(year + 1);
-      n_christmas_weekday = get_christmas_weekday(n_christmas);
-      n_christmas_time_duration = 19 - ((n_christmas_weekday + 5) % 7);
-      n_baptism = new Date(n_christmas.getTime() + (n_christmas_time_duration * day_in_ms));
-      n_tempus_per_annum_until_septuagesima = (n_septuagesima - n_baptism) / (1000 * 3600 * 24) - 1;
-      n_num_after_epiphany = Math.floor(n_tempus_per_annum_until_septuagesima / 7) + 1;
-
-      n_trinitas = new Date(n_easter.getTime() + (56 * day_in_ms));
-
-      n_christmas_new = get_christmas_date(year + 1);
-      n_advent_new = new Date(n_christmas_new.getTime() - ((get_christmas_weekday(n_christmas_new) + 21) * day_in_ms));
-
-      n_dominica_xxiij = new Date(n_trinitas.getTime() + ( 23 * 7 ) * day_in_ms);
-      n_dominica_ultima = new Date(n_advent_new.getTime() - 7  * day_in_ms);
-      n_num_after_dom_xxiij = Math.floor((n_dominica_ultima - n_dominica_xxiij) / day_in_ms);
-
-      // Sum of Sundays after Epiphany. If it eq. 5, one is missing
-      if ( n_num_after_epiphany + ((n_num_after_dom_xxiij + 1) / 7) == 5 ) extra_sunday = true; else extra_sunday = false;
-
-      if ( extra_sunday && i == ( duration - 2 ) )
-        {
-          next_sunday = "pe_" + (1 + week_start + Math.ceil((i + 1) / 7)) + '_0';
-          winner = days_tempo[next_sunday];
-          commemoratio = days_sancto[ref_sancto];
-          extra_sunday = false;
-        }
+        next_sunday = "pe_" + (1 + week_start + Math.ceil((i + 1) / 7)) + '_0';
+        winner = days_tempo[next_sunday];
+        commemoratio = days_sancto[ref_sancto]; 
       }
-
+    
     ///// SS. Nominis Jesu // Day alone /////
     if ( ref_sancto == "01_02" && weekday < 3 ) { winner = days_tempo['nomen_jesu']; }
     if ( (ref_sancto == "01_03" || ref_sancto == "01_04" ) && weekday == 0 ) { winner = days_tempo['nomen_jesu']; }
@@ -275,9 +250,19 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     if (trans_vesperae != "" && comm_vesperae != "") comm_vesperae = trans_vesperae + " & " + comm_vesperae;
     else if (trans_vesperae != "" ) comm_vesperae = trans_vesperae;
 
-    ////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////
+    /////////   Let's modify the HEADER (if needed)  /////////
+    //////////////////////////////////////////////////////////
+    // It would be easier to just edit the winner, 
+    // but that would change it for other years, 
+    // which we don't want.
 
     if (translated) { header = header + " (translatum)"; translated = false; }
+    if ( extra == 1 && i == (duration - 3) ) header = "Dominica " + header + " (anticipata)";
+
+      ////////////////////////////////////////////////////////
+     ///////////  First Vespers to moved feasts  ////////////
+    ////////////////////////////////////////////////////////
 
     /////  First Vespers SS: Nominis Jesu  //////////
     if ( ref_sancto == "01_01" && ( weekday < 2 || weekday == 6 ) ) { vesperae = vesperae + ' - Com. SS. Nominis Jesu <b><i>Fecit mihi magna</i></b>'; }
@@ -289,6 +274,12 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       {  if ( winner['force'] > 100 ) 
           vesperae = winner['vesperae'] + " – " + 'Com. seq. <i><b>Verbum caro.</i></b>';
           else vesperae = 'Sanctæ Familiæ: Jesu, Mariæ et Joseph <font color="red">(supple. bre. Cist. 1965)</font>';  }
+
+    /// First Vespers of moved Anniversary Feast (1. Junii)
+    if ( ref_tempo == "pa_1_0" && translated_annivers )
+      comm_vesperae = "Anniversarium Dedicationis Ecclesiæ Altovadensis (translatum) ℟. maj. Terríbilis" + comm_vesperae;
+
+    ////////////////////////////////////////////////////////
 
     // Sundays' Adorations: Tantum ergo et Mane nobiscum //
     if ( weekday == 0 ) 
@@ -310,7 +301,9 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
 
     if (commemoratio) {com_force = commemoratio['force'];}
 
-    check_next = '<font color="blue">ref_tempo = ' + ref_tempo + "' -> '" + ref_tempo_next + "'<br>ref_sancto = '" + ref_sancto + "' -> '" + ref_sancto_next + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force']  + ".</font>";
+    check_next = '<font color="blue">ref_tempo = ' + ref_tempo + "' -> '" + ref_tempo_next + "'<br>ref_sancto = '" + ref_sancto + "' -> '" + ref_sancto_next + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force']    
+      + " extra_sunday = " + extra + "  --- i = " + i + "/" + duration
+      + ".</font>";
 
     /////////////////////////////////////
     ///  Vigiliae: dies non impedita  ///
@@ -354,9 +347,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       if (commemoratio['laudes'] != "") 
         { 
           comm_laudes = comm_laudes.replace(/- sine Com\.|sine Com\./, "");
-          //comm_laudes = comm_laudes.replace("sine Com\. ", "");
           laudes = laudes.replace(/- sine Com\.|sine Com\./, "");
-          //laudes = laudes.replace("sine Com\.", "");
           comm_laudes = comm_laudes.replace("Com\. ", "");
           comm = commemoratio['laudes_commemoratio'];
           comm = ( comm == "C1") ? "Dum stetéritis " : comm;
@@ -374,7 +365,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
           et = " & ";
           if ( titulum == "" ) et = "";
 
-          if ( commemoratio['laudes_commemoratio'].match("^Com\. ") )
+          if ( commemoratio['laudes_commemoratio'].match(/^Com\. /) )
             { 
               laudes = laudes + " – " + commemoratio['laudes_commemoratio'];
             }
@@ -395,7 +386,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
           comm_missa = comm_missa + " "; // looks stupid, but converts the variable into a string that the replace function can take
           comm_missa = comm_missa.replace(/3.*/,""); 
           comm_missa = comm_missa.replace("2a", "3a"); 
-          comm_missa = "2a " + titulum_missa + ". " + comm_missa;
+          if (comm_missa.length > 5) comm_missa = "2a " + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
           comm_missa = comm_missa.replace(/-.*/, ""); 
           missa = winner['missa'].replace("Glo.", "Glo. – " + comm_missa);
         }
@@ -405,7 +396,6 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
       /////////////////////////////////
       if (commemoratio['vesperae'] != "" || comm_vesperae != "" ) 
         { 
-          //comm_vesperae = comm_vesperae.replace("sine Com\.", "");
           vesperae = vesperae.replace(/- sine Com.|sine Com./, "");
           comm_vesperae = comm_vesperae.replace(/- sine Com.|sine Com./, "");
 
@@ -435,7 +425,6 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
             }
           else if ( commemoratio['vesperae_commemoratio'].length > 3 ) { vesperae = winner['vesperae'] + " – Com. " + titulum + et + commemoratio['vesperae_commemoratio'];}
           else vesperae = winner['vesperae'] + " – Com. " + titulum + " " + comm + et + comm_vesperae;
-          //else vesperae = winner['vesperae'] + " – Comme. " + commemoratio['vesperae'] + " " + comm;
 
           ////// If tomorrow's Vespers beat today's winner //////////
 
@@ -451,8 +440,6 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
             vesperae = vesperae.replace(/- sine Com.|sine Com./, "");
             }
 
-
-          //winner['vesperae'] = winner['vesperae'] + " – Com. " + titulum + " " + comm + "& "+ commemoratio['vesperae'];
           comm = null;
           winner['body'] = commemoratio['header'];
         }
@@ -480,7 +467,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
     
 
     ////////////  Replacement section (HTML tags)  ////////////
-    for (let j of ["before","vigiliae","laudes_post","missa_post","vesperae_post"])
+    for (let j of ["before","vigiliae","laudes_post","missa_post","vesperae_post","after"])
     { winner[j] = addtags(winner[j]); }
     vigiliae = addtags(vigiliae); 
     laudes = addtags(laudes); 
