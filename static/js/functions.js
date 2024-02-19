@@ -173,38 +173,44 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( ref_sancto == "03_24" && ref_tempo.match(/lent_6_|tp_1_/) )
       { commemoratio = ""; translated_gabriel = true;}
     if ( ref_sancto == "03_25" && ref_tempo.match(/lent_6_|tp_1_/) )
-      { commemoratio = ""; translated_annunt = true;}
+      { commemoratio = ""; translated_annunt = true;}s
+    
+    if ( ref_tempo == "tp_2_1" )
+      {
+      if (translated_joseph) {winner = days_sancto['03_19']; translated_joseph = false; translated = true;}
+      else if (translated_annunt) {winner = days_sancto['03_25']; translated_annunt = false; translated = true;}
+      }
 
+    if ( ref_tempo == "tp_2_2" )
+      {
+      if (translated_annunt) {winner = days_sancto['03_25']; translated_annunt = false; translated = true;}
+      else if (translated_benedict) {winner = days_sancto['03_21']; translated_benedict = false; translated = true;}
+      else if (translated_joachim) {winner = days_sancto['03_20']; translated_joachim = false; translated = true;}
+      else if (translated_gabriel) {winner = days_sancto['03_24']; translated_gabriel = false; translated = true;}
+      }
+
+    if ( ref_tempo == "tp_2_3" )
+      {
+      if (translated_benedict) {winner = days_sancto['03_21']; translated_benedict = false; translated = true;}
+      else if (translated_joachim) {winner = days_sancto['03_20']; translated_joachim = false; translated = true;}
+      else if (translated_gabriel) {winner = days_sancto['03_24']; translated_gabriel = false; translated = true;}
+      }
+
+    if ( ref_tempo == "tp_2_4" )
+      {
+      if (translated_joachim) {winner = days_sancto['03_20']; translated_joachim = false; translated = true;}
+      else if (translated_gabriel) {winner = days_sancto['03_24']; translated_gabriel = false; translated = true;}
+      }
+
+    if ( ref_tempo == "tp_2_5" )
+      {
+      if (translated_gabriel) {winner = days_sancto['03_24']; translated_gabriel = false; translated = true;}
+      }
+
+    //////// TO DO: Copy the above for first Vespers of those feasts. \\\\\\\\\\
     if ( ref_tempo == "tp_2_0" && translated_annunt && !translated_joseph )
         trans_vesperae = "Annuntiatio B.M.V. <i><b>Ecce concípies.</i></b>";
-    if ( ref_tempo == "tp_2_1" && translated_annunt && !translated_joseph )
-      { winner = days_sancto['03_25']; 
-        commemoratio = days_tempo['tp_2_1'];
-        translated_annunt = false; translated = true;}
-    if ( ref_tempo == "tp_2_1" && translated_joseph )
-      { winner = days_sancto['03_19']; 
-        commemoratio = days_tempo['tp_2_1'];
-        translated_joseph = false; translated = true;}
-    if ( ref_tempo == "tp_2_2" && translated_benedict && !translated_annunt )
-      { winner = days_sancto['03_21']; 
-        commemoratio = days_tempo['tp_2_2'];
-        translated_benedict = false; translated = true;}
-    if ( ref_tempo == "tp_2_2" && translated_joachim && !translated_benedict)
-      { winner = days_sancto['03_20']; 
-        commemoratio = days_tempo['tp_2_2'];
-        translated_joachim = false; translated = true; }
-    if ( ref_tempo == "tp_2_2" && translated_gabriel )
-      { winner = days_sancto['03_24']; 
-        commemoratio = days_tempo['tp_2_2']; 
-        translated_gabriel = false; translated = true; }
-    if ( ref_tempo == "tp_2_2" && translated_annunt )
-      { winner = days_sancto['03_25']; 
-        commemoratio = days_tempo['tp_2_2'];
-        translated_annunt = false; translated = true;}
-    if ( ref_tempo == "tp_2_3" && translated_benedict )
-      { winner = days_sancto['03_21']; 
-        commemoratio = days_tempo['tp_2_3'];
-        translated_benedict = false; translated = true;}
+    
 
 
     //  Anniversarium Dedicationis Ecclesiæ Altovadensis 1. 6. (pokud nepřijde do svatodušního Oktávu)
