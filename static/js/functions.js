@@ -12,12 +12,13 @@ function month_human_readable_genitive(month) {
 
 function liturgical_color(color) {
   if (color == "white" ) { return '<span class="outline">Alb.</span>';}
+  if (color == "violet/white" ) { return '<font color="#9c29c1">Viol.</font>/<span class="outline">Alb.</span>';}
   if (color == "green" ) { return '<font color="green">Vir.</font>';}
   if (color == "violet" ) { return '<font color="#9c29c1">Viol.</font>';}
   if (color == "red" ) { return '<font color="red">Rub.</font>';}
   if (color == "black" ) { return '<font color="black">Nig.</font>';}
   if (color == "blue" ) { return '<font color="blue">Cær.</font>';}
-  else { return '<font color="blue">Alb.</font>'; }
+  else { return '<font color="red">A</font><font color="gree">li</font><font color="blue">a.</font>'; }
 }
 
 function is_leap_year(year) {
@@ -160,8 +161,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     trans_vesperae = "";
     comm_vesperae = "";
 
-    // TO DO: 
-    // Translating feasts between 19. and 26. March.
+    // Translating feasts between 19. and 25. March.
     movable_easter = ["03_19","03_25","03_21","03_20","03_24"];
 
     if ( ref_sancto == "03_19" && ref_tempo.match(/lent_6_|tp_1_/) )
@@ -173,12 +173,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( ref_sancto == "03_24" && ref_tempo.match(/lent_6_|tp_1_/) )
       { commemoratio = ""; translated_gabriel = true;}
     if ( ref_sancto == "03_25" && ref_tempo.match(/lent_6_|tp_1_/) )
-      { commemoratio = ""; translated_annunt = true;}s
+      { commemoratio = ""; translated_annunt = true;}
     
     if ( ref_tempo == "tp_2_1" )
       {
       if (translated_joseph) {winner = days_sancto['03_19']; translated_joseph = false; translated = true;}
       else if (translated_annunt) {winner = days_sancto['03_25']; translated_annunt = false; translated = true;}
+      if (translated) commemoratio = days_sancto[ref_sancto];
       }
 
     if ( ref_tempo == "tp_2_2" )
@@ -187,6 +188,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       else if (translated_benedict) {winner = days_sancto['03_21']; translated_benedict = false; translated = true;}
       else if (translated_joachim) {winner = days_sancto['03_20']; translated_joachim = false; translated = true;}
       else if (translated_gabriel) {winner = days_sancto['03_24']; translated_gabriel = false; translated = true;}
+      if (translated) commemoratio = days_sancto[ref_sancto];
       }
 
     if ( ref_tempo == "tp_2_3" )
@@ -194,26 +196,57 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (translated_benedict) {winner = days_sancto['03_21']; translated_benedict = false; translated = true;}
       else if (translated_joachim) {winner = days_sancto['03_20']; translated_joachim = false; translated = true;}
       else if (translated_gabriel) {winner = days_sancto['03_24']; translated_gabriel = false; translated = true;}
+      if (translated) commemoratio = days_sancto[ref_sancto];
       }
 
     if ( ref_tempo == "tp_2_4" )
       {
       if (translated_joachim) {winner = days_sancto['03_20']; translated_joachim = false; translated = true;}
       else if (translated_gabriel) {winner = days_sancto['03_24']; translated_gabriel = false; translated = true;}
+      if (translated) commemoratio = days_sancto[ref_sancto];
       }
 
     if ( ref_tempo == "tp_2_5" )
       {
       if (translated_gabriel) {winner = days_sancto['03_24']; translated_gabriel = false; translated = true;}
+      if (translated) commemoratio = days_sancto[ref_sancto];
       }
 
-    //////// TO DO: Copy the above for first Vespers of those feasts. \\\\\\\\\\
-    if ( ref_tempo == "tp_2_0" && translated_annunt && !translated_joseph )
-        trans_vesperae = "Annuntiatio B.M.V. <i><b>Ecce concípies.</i></b>";
-    
+  
+      if ( ref_tempo == "tp_2_0" )
+      {
+      if (translated_joseph) {trans_vesperae = "S. Joseph Sponsi B.&ThinSpace;M.&ThinSpace;V., Confessoris et Universalis Ecclesiae Patroni (translatum) ℟. maj. <i><b>Fecit me.</i></b>"}
+      else if (translated_annunt) {trans_vesperae = "Annuntiatio B.&ThinSpace;M.&ThinSpace;V. (translatum) <i><b>Ecce concípies.</i></b>";}
+      }
 
+    if ( ref_tempo == "tp_2_1" )
+      {
+      if (translated_annunt) {trans_vesperae = "Annuntiatio B.&ThinSpace;M.&ThinSpace;V. (translatum) <i><b>Ecce concípies.</i></b>";}
+      else if (translated_benedict) {trans_vesperae = "S.&ThinSpace;P.&ThinSpace;N. Benedicti Abbatis (translatum) <i><b>Sanctissime Conféssor.</i></b>";}
+      else if (translated_joachim) {trans_vesperae = "S. Joachim Patris B.&ThinSpace;M.&ThinSpace;V. (translatum) <i><b>Laudémus virum.</i></b>";}
+      else if (translated_gabriel) {trans_vesperae = "S. Gabrielis Archangeli (translatum) <i><b>Adhuc me loquénte.</i></b>";}
+      }
 
-    //  Anniversarium Dedicationis Ecclesiæ Altovadensis 1. 6. (pokud nepřijde do svatodušního Oktávu)
+    if ( ref_tempo == "tp_2_2" )
+      {
+      if (translated_benedict) {trans_vesperae = "S.&ThinSpace;P.&ThinSpace;N. Benedicti Abbatis (translatum) <i><b>Sanctissime Conféssor.</i></b>";}
+      else if (translated_joachim) {trans_vesperae = "S. Joachim Patris B.&ThinSpace;M&ThinSpace;V. (translatum) <i><b>Laudémus virum.</i></b>";}
+      else if (translated_gabriel) {trans_vesperae = "S. Gabrielis Archangeli (translatum) <i><b>Adhuc me loquénte.</i></b>";}
+      }
+
+    if ( ref_tempo == "tp_2_3" )
+      {
+      if (translated_joachim) {trans_vesperae = "S. Joachim Patris B.&ThinSpace;M.&ThinSpace;V. (translatum) <i><b>Laudémus virum.</i></b>";}
+      else if (translated_gabriel) {trans_vesperae = "S. Gabrielis Archangeli (translatum) <i><b>Adhuc me loquénte.</i></b>";}
+      }
+
+    if ( ref_tempo == "tp_2_4" )
+      {
+      if (translated_gabriel) {trans_vesperae = "S. Gabrielis Archangeli (translatum) <i><b>Adhuc me loquénte.</i></b>";}
+      }
+    // End of: Translating feasts between 19. and 25. March. (incl. I. Vesp.)
+
+    // Anniversarium Dedicationis Ecclesiæ Altovadensis 1. 6. (pokud přijde do svatodušního Oktávu)
     if ( ref_sancto == "06_01" ) {
         if ( ref_tempo.match(/tp_8_/) ) translated_annivers = true; 
         else { winner = days_tempo['anniversarium_dedicationis']; commemoratio = ""; } }
@@ -239,6 +272,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         winner = days_tempo['nomen_jesu']; 
         commemoratio = days_sancto['01_05']; }
 
+    ///////// Missa Votiva de Beata \\\\\\\\\\
+    if (weekday == 6 && winner['force'] < 35 )
+      { winner = days_sancto['votiva_bmv']; commemoratio = days_sancto[ref_sancto]; }
+    
     ////////////////////////////////////////////////////////
 
     before = winner['before'];
@@ -247,6 +284,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     missa = winner['missa']; 
     vesperae = winner['vesperae'];  // this strange placement is 
     after = winner['after'];        // to enable following section
+    laudes_post = winner['laudes_post'];
 
     if (commemoratio) {
       comm_laudes = commemoratio['laudes']; 
@@ -281,9 +319,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           vesperae = winner['vesperae'] + " – " + 'Com. seq. <i><b>Verbum caro.</i></b>';
           else vesperae = 'Sanctæ Familiæ: Jesu, Mariæ et Joseph <font color="red">(supple. bre. Cist. 1965)</font>';  }
 
-    /// First Vespers of moved Anniversary Feast (1. Junii)
+    ///// First Vespers of moved Anniversary Feast (1. Junii)
     if ( ref_tempo == "pa_1_0" && translated_annivers )
       comm_vesperae = "Anniversarium Dedicationis Ecclesiæ Altovadensis (translatum) ℟. maj. Terríbilis" + comm_vesperae;
+
+    ///// Missa Votiva de Beata - I. Vespers \\\\\
+    if (weekday == 5 && winner_next['force'] < 35 && winner['force'] < 35 )
+      { vesperae = "de seq."; after = '<div class="small">¶ <font color="red">Ad Completorium et per Horas in die, in fine Hymnorum dicitur: <i><b>G</font>lória tibi, Dómine, Qui natus es de Vírgine.</i></b></div>'; winner_next = days_sancto['votiva_bmv']; }
+
 
     ////////////////////////////////////////////////////////
 
@@ -349,6 +392,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         { if (winner['after'] != "" )
             { after = after + winner['after'] + " – " + commemoratio['after'];}
           else { after = commemoratio['after'];}    }
+
+      if (commemoratio['laudes_post'] != "") 
+        { if (winner['laudes_post'] != "" ) laudes_post = winner['laudes_post'] + " – " + commemoratio['laudes_post'];
+          else laudes_post = commemoratio['laudes_post'];    }
 
       if (commemoratio['laudes'] != "") 
         { 
@@ -441,7 +488,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
              vesperae = commemoratio['vesperae'] + " – " + winner['vesperae_commemoratio'];
             }
             else vesperae = commemoratio['vesperae'] + " – Com. " 
-              //+ winner['vesperae'] + " "  // more testing needed
+              + winner['vesperae'] + " "  // more testing needed
               + winner['vesperae_commemoratio'];
             vesperae = vesperae.replace(/- sine Com.|sine Com./, "");
             }
@@ -452,10 +499,44 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     }
     ////////////////// Finis Commemorationum //////////////////
 
+    ////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    /////////////    Postprocessing of Laudes/Vesperae   \\\\\\\\\\\\\\
+    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////\\
+
+    // Provision for j. Vesperae, if the day before is nothing
     if (!commemoratio && comm_vesperae != "")
         {
           vesperae = vesperae + " – Com. " + comm_vesperae;
         }
+
+    /// Final commemoration of B.M.V. on Festa xij. Lect. et M. and lower \\\
+    laudes_bmv = " B. M. V.";
+    vesperae_bmv = " B. M. V.";
+    et = " &"
+    if ( laudes.match("B.M.V.") ) { laudes_bmv = ""; et = "";}
+    
+    // Com. B.M.V. ad Laudes 
+    if ( winner['force'] < 41 )
+      {
+      if ( weekday == 2 ) laudes_bmv += " & B. B. R.";
+      if ( weekday == 3 ) laudes_bmv += " & S. Joseph";
+      if ( weekday == 6 ) laudes_bmv += " & De pace";
+
+      if ( laudes.match(/Com\. /) ) laudes = laudes + et + laudes_bmv;
+      else laudes = laudes + " - Com. " + laudes_bmv;
+      }
+
+    // Com. B.M.V. ad Vesperas
+    if ( vesperae.match("B.M.V.") ) { vesperae_bmv = ""; et = "";}
+    if ( winner_next['force'] < 41 && winner['force'] < 41 )
+      {
+      if ( weekday == 1 ) vesperae_bmv += " & B. B. R.";
+      if ( weekday == 2 ) vesperae_bmv += " & S. Joseph"; 
+      if ( weekday == 5 ) vesperae_bmv += " & De pace";
+
+      if ( vesperae.match(/Com\. /) ) vesperae = vesperae + et + vesperae_bmv;
+      else vesperae = vesperae + " - Com. " + vesperae_bmv;
+      }
 
     laudes_split = laudes.split("Com. ");
     // Check so that the green "&" won't appear before "Com. " word
@@ -469,17 +550,25 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( vesperae_split[1] ) 
       { vesperae_replace = vesperae_split[1] + " ";
         vesperae_replace = vesperae_replace.replaceAll("&", '<font color="green"><b>&</b></font> ');
-        vesperae = vesperae_split[0] + "Com. " + vesperae_replace; }
-    
 
-    ////////////  Replacement section (HTML tags)  ////////////
-    for (let j of ["before","vigiliae","laudes_post","missa_post","vesperae_post","after"])
-    { winner[j] = addtags(winner[j]); }
+        /// Provision for translated feasts. If the feast is translated, 
+        /// normal Commemorationes usually don't apply.
+        if (trans_vesperae != "") vesperae = vesperae_split[0] + "Com. " + trans_vesperae;
+        else vesperae = vesperae_split[0] + "Com. " + vesperae_replace; }
+    
+    /////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    //////  Replacement section (HTML tags) and output  \\\\\\\
+    //\\\\\\\\\\\\\\\\\\\\\\\\\\\////////////////////////////\\
+
+    for (let j of ["before","vigiliae","laudes_post","missa_post","vesperae_post"]) { winner[j] = addtags(winner[j]); }
     vigiliae = addtags(vigiliae); 
     laudes = addtags(laudes); 
     missa = addtags(missa); 
     vesperae = addtags(vesperae);
+    after = addtags(after);
+    laudes_post = addtags(laudes_post);
     
+    ////  OUTPUT  \\\\
     html = html.concat(component(
       date,
       year,
@@ -494,7 +583,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       winner['subtitulum'],
       vigiliae,
       laudes,
-      winner['laudes_post'],
+      laudes_post,
       missa,
       winner['missa_post'],
       vesperae,

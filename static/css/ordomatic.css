@@ -76,6 +76,26 @@ ul {
     text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black;
 }
 
+.golden {
+   color: transparent;
+    font-family: 'LibertineSC';
+    letter-spacing: 1px;
+    font-weight: bold;
+    background-image: linear-gradient(
+          to right,
+           #462523 0,
+           #cb9b51 22%, 
+           #f6e27a 45%,
+           #f6f2c0 50%,
+           #f6e27a 55%,
+           #cb9b51 78%,
+           #462523 100%
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
 .antiphona,
 .responsorium,
 .versiculum {

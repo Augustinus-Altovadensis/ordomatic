@@ -30,9 +30,14 @@ function addtags(winner) {
     winner = winner.replace("⇓", '<font color="red">⇓</font>');
     winner = winner.replace("(Ex Processionale Cisterciense)", '<font color="red">(Ex Processionale Cisterciense)</font>');
     winner = winner.replace(/℟. maj.|R. maj./, '<font color="red">℟. maj.</font>');
+    winner = winner.replace("(in „Schaller“ etiam)", '<font color="red">(in „Schaller“ etiam)</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace("xx", '<font color="red">xx</font>');
+    //winner = winner.replace("✠", '<font color="red">✠</font>');
     winner = winner.replaceAll("*", '<font color="red">*</font>');
     winner = winner.replaceAll("§", '<font color="red">§</font>');
     winner = winner.replace("Oratio.", '<font color="red"><b>Oratio.</b></font>');
@@ -86,6 +91,10 @@ function addtags(winner) {
     winner = winner.replace("Qui odit", '<i><b>Qui odit</i></b>');
     winner = winner.replace("Laudémus virum", '<i><b>Laudémus virum</i></b>');
     winner = winner.replace("Terríbilis", '<i><b>Terríbilis</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     return winner;
 }
