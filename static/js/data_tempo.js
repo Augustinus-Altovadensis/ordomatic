@@ -2090,7 +2090,7 @@ const days_tempo = {
     'after': ''
   },
   'ash_1_5': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2109,7 +2109,7 @@ const days_tempo = {
     'after': ''
   },
   'ash_1_6': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2147,7 +2147,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_1_1': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2166,7 +2166,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_1_2': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2185,7 +2185,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_1_3': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2204,7 +2204,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_1_4': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2223,7 +2223,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_1_5': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2242,7 +2242,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_1_6': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2280,7 +2280,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_2_1': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2299,7 +2299,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_2_2': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2318,7 +2318,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_2_3': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2337,7 +2337,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_2_4': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2356,7 +2356,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_2_5': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2375,7 +2375,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_2_6': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2413,7 +2413,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_3_1': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2432,7 +2432,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_3_2': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2451,7 +2451,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_3_3': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2470,7 +2470,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_3_4': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2489,7 +2489,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_3_5': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2508,7 +2508,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_3_6': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2546,7 +2546,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_4_1': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2565,7 +2565,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_4_2': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2584,7 +2584,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_4_3': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2603,7 +2603,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_4_4': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2622,7 +2622,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_4_5': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2641,7 +2641,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_4_6': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2679,7 +2679,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_5_1': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2698,7 +2698,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_5_2': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2717,7 +2717,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_5_3': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2736,7 +2736,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_5_4': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2755,7 +2755,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_5_5': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
@@ -2774,7 +2774,7 @@ const days_tempo = {
     'after': ''
   },
   'lent_5_6': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'violet',
     'header': '<span class="de-ea">De ea.</span>',
