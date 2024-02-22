@@ -256,6 +256,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         winner = days_tempo['nomen_jesu']; 
         commemoratio = days_sancto['01_05']; }
 
+    ////// S. Matthias ///////
+    if ( ref_sancto == "02_23" && !is_leap_year(year) ) { comm_vesperae = "de seq.";}
+    if ( ref_sancto == "02_24" && !is_leap_year(year) ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo];}
+
     ///////// Missa Votiva de Beata \\\\\\\\\\
     if (weekday == 6 && winner['force'] < 35 )
       { winner = days_sancto['votiva_bmv']; commemoratio = days_sancto[ref_sancto]; }
@@ -503,8 +507,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         }
 
     /// Final commemoration of B.M.V. on Festa xij. Lect. et M. and lower \\\
-    laudes_bmv = " B. M. V.";
-    vesperae_bmv = " B. M. V.";
+    laudes_bmv = " B.M.V.";
+    vesperae_bmv = " B.M.V.";
     et = " &"
     if ( laudes.match("B.M.V.") ) { laudes_bmv = ""; et = "";}
     
@@ -554,6 +558,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //\\\\\\\\\\\\\\\\\\\\\\\\\\\////////////////////////////\\
 
     for (let j of ["before"]) { winner[j] = addtags(winner[j]); }
+    header = addtags(header);
     vigiliae = addtags(vigiliae); 
     laudes = addtags(laudes); 
     missa = addtags(missa); 
