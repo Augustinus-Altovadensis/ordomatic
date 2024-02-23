@@ -67,6 +67,22 @@ function add_zero(number) {
   return zero;
 }
 
+function translate_feria(ref_tempo) {
+  roman_lowercase_numerals = ["j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
+  ref = ref_tempo.split("_");
+  tempus = " ";
+  tempus = ( ref[0] == "adv" ) ? " Adv." : tempus;
+  tempus = ( ref[0] == "lent" ) ? " Quadr." : tempus;
+  tempus = ( ref[0] == "pe" ) ? " post Epiph." : tempus;
+  tempus = ( ref[0] == "sept" ) ? " Septuag." : tempus;
+  tempus = ( ref[0] == "ash" ) ? " Quadr." : tempus;
+  tempus = ( ref[0] == "tp" ) ? " Paschæ" : tempus;
+  tempus = ( ref[0] == "pa" ) ? " post Pent." : tempus;
+  feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + " post Dom. " + roman_lowercase_numerals[ref[1]-1] + tempus;
+  if ( ref[2] == "0" ) feria_readable = "Dom. " + roman_lowercase_numerals[ref[1]-1] + tempus;
+  return feria_readable;
+  }
+
 function get_winner(ref_tempo, ref_sancto) {
   winner = days_tempo[ref_tempo];
   if ( !days_tempo[ref_tempo] ) { winner = days_sancto[ref_sancto]; winner['body'] = '<div class="solemnitas minor blue">' + ref_tempo + '</div>'; }
@@ -98,6 +114,7 @@ var translated_benedict = false;
 var translated_joachim = false;
 var translated_gabriel = false;
 var translated_annivers = false;
+var translated_matthias = false;
 
 
 function period(duration, start, prefix_tempo, week_start, day_start, extra) {
@@ -257,8 +274,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio = days_sancto['01_05']; }
 
     ////// S. Matthias ///////
-    if ( ref_sancto == "02_23" && !is_leap_year(year) ) { comm_vesperae = "de seq.";}
     if ( ref_sancto == "02_24" && !is_leap_year(year) ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo];}
+    if ( ref_sancto == "02_25" && is_leap_year(year) && weekday != 0 ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo];}
+    if ( ((ref_sancto == "02_25" && is_leap_year(year)) || (ref_sancto == "02_24" && !is_leap_year(year))) && weekday == 0 ) translated_matthias = true;
+    if ( translated_matthias && weekday == 1 ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo]; translated_matthias = false; translated = true; }
 
     ///////// Missa Votiva de Beata \\\\\\\\\\
     if (weekday == 6 && winner['force'] < 35 )
@@ -310,6 +329,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ///// First Vespers of moved Anniversary Feast (1. Junii)
     if ( ref_tempo == "pa_1_0" && translated_annivers )
       comm_vesperae = "Anniversarium Dedicationis Ecclesiæ Altovadensis (translatum) ℟. maj. Terríbilis" + comm_vesperae;
+
+    ////// S. Matthias ///////
+    if ( ref_sancto == "02_23" && !is_leap_year(year) ) { vesperae = "de seq.";}
+    if ( ref_sancto == "02_24" && is_leap_year(year) && weekday != 6 ) { vesperae = "de seq.";}
+    if ( ref_sancto == "02_25" && is_leap_year(year) && weekday == 0 ) { vesperae = "de seq.";}
 
     ///// Missa Votiva de Beata - I. Vespers \\\\\
     if (weekday == 5 && winner_next['force'] < 35 && winner['force'] < 35 )
@@ -366,7 +390,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (commemoratio)
       { titulum = commemoratio['header'].split("+", 1);
         titulum_missa = commemoratio['header'].split(",", 1);
-        if ( commemoratio['header'].match(/Oct\.|Octav/i) ) { titulum = ""; }
+        if ( commemoratio['header'].match(/De ea/i) ) { titulum_missa = translate_feria(ref_tempo); }
+        if ( commemoratio['header'].match(/Oct\.|Octav|De ea/i) ) { titulum = ""; }
 
       if (commemoratio['before'] != "") 
         { if (winner['before'] != "" )
@@ -492,6 +517,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           comm = null;
           winner['body'] = commemoratio['header'];
+          if ( winner['body'].match(/De ea/i) ) winner['body'] = translate_feria(ref_tempo);
         }
     }
     ////////////////// Finis Commemorationum //////////////////
