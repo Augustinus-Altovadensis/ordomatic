@@ -6,7 +6,6 @@ function refresh_ordo(year) {
   first_sunday_of_advent = get_first_sunday_of_advent(christmas, christmas_weekday);
   year = first_sunday_of_advent.getFullYear();
   month = first_sunday_of_advent.getMonth();
-  day_in_milliseconds = 24 * 3600 * 1000;
 
   // Title:
   content = content.concat(

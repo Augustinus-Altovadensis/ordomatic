@@ -1,3 +1,5 @@
+day_in_milliseconds = 24 * 3600 * 1000;
+
 function weekday_human_readable(weekday) {
   return ['<span class="dominica">Dominica</span>', 'Feria II', 'Feria III', 'Feria IV', 'Feria V', 'Feria VI', 'Sabbato'][weekday];
 }
@@ -15,12 +17,12 @@ function get_christmas_date(year) {
 }
 
 function get_christmas_weekday(christmas) {
-  if ( christmas.getDay() == 0 ) return 7;
+  if (christmas.getDay() == 0) return 7;
   else return christmas.getDay();
 }
 
 function get_first_sunday_of_advent(christmas, christmas_weekday) {
-  return new Date(christmas - ((21 + christmas_weekday) * 24 * 3600 * 1000));
+  return new Date(christmas - ((21 + christmas_weekday) * day_in_milliseconds));
 }
 
 function get_easter_date(year) {
@@ -67,7 +69,7 @@ function period(duration, start, prefix_tempo, week_start, day_start) {
   year = start.getFullYear();
   month = start.getMonth();
   for (i = 0; i < duration; i++) {
-    date = new Date(start.getTime() + (i * 24 * 3600 * 1000));
+    date = new Date(start.getTime() + (i * day_in_milliseconds));
     day = date.getDate();
     weekday = date.getDay();
     month_usual_number = date.getMonth() + 1;
