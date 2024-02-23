@@ -98,7 +98,7 @@ function component(date, year, month, day, weekday, before, color, header, body,
   if (date.getFullYear() != year) {
     year = date.getFullYear();
     block_new_year = '<div class="year blue mt-5">' + year + '</div>';
-    if (date.getMonth() != month) {
+    if (date.getMonth() != month || day == 1) {
       month = date.getMonth();
       block_new_month = '<div class="month green mb-3">Ianuarius</div>';
     }
