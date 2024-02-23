@@ -72,6 +72,7 @@ function translate_feria(ref_tempo) {
   ref = ref_tempo.split("_");
   tempus = " ";
   tempus = ( ref[0] == "adv" ) ? " Adv." : tempus;
+  tempus = ( ref[0] == "christmas" ) ? " Nat." : tempus;
   tempus = ( ref[0] == "lent" ) ? " Quadr." : tempus;
   tempus = ( ref[0] == "pe" ) ? " post Epiph." : tempus;
   tempus = ( ref[0] == "sept" ) ? " Septuag." : tempus;
@@ -107,6 +108,17 @@ function get_commemoratio(ref_tempo, ref_sancto) {
 /////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 /////---... Variables declared for every possibly translated feast ...---\\\\\
 //||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//////////////////////////////////||\\
+
+const lectiones = ["", "usque ad Circumcisionem legitur ex <i>Isaia</i>",
+  "usque ad Dom. Septuagesima legitur ex <i>Epistolis S. Pauli</i>",
+  "usque ad Dom. Passionis legitur ex <i>Genesi</i>, et libris sequentibus usque ad Libros <i>Regum</i>",
+  "usque ad Pascha legitur ex Libro <i>Jeremiae</i> et <i>Baruch</i>",
+  "usque ad Pentecosten legitur ex <i>Actibus Apostolorum, Apocalypsis</i> et <i>Epistulis Canonicis</i>. Quibus subjungi poterit quod superest de Libris <i>Moysi, Josue, Judicum</i> et <i>Ruth</i>",
+  "usque ad Dom. primam Augusti legitur ex Libris <i>Regum, Paralipomenon</i> et <i>Esdrae</i>",
+  "usque ad Dom. primam Septembris leguntur quinque Libri <i>Sapientiae</i>",
+  "usque ad Dom. primam Octobris legitur ex Libris <i>Job, Tobias, Judith</i> et <i>Esther</i>",
+  "usque ad Dom. primam Novembris legitur ex duobus Libris <i>Machabaeorum</i> et quatuor Libris <i>Evangeliorum</i>, omissis <i>Passionibus</i>",
+  "usque ad Dom. primam Adventus legitur ex Libris <i>Ezechiel, Daniel</i> et duodecim <i>Prophetis</i>"];
 
 var translated_joseph = false;
 var translated_annunt = false;
@@ -578,6 +590,27 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         /// normal Commemorationes usually don't apply.
         if (trans_vesperae != "") vesperae = vesperae_split[0] + "Com. " + trans_vesperae;
         else vesperae = vesperae_split[0] + "Com. " + vesperae_replace; }
+
+    /////////////////////|\\\\\\\\\\\\\\\\\\\\\\
+    /////////  Lectiones in Refectorio  \\\\\\\\\
+    //||\\\\\\\\\\\\\\\\\|///////////////////////
+    if ( ref_tempo == "adv_1_0") 
+      { lectio_ref = 1; lectio_ref_prev = 0; dominica_prima = false; }
+    if ( ref_sancto == "01_01") lectio_ref++;
+    if ( ref_tempo == "sept_1_0") lectio_ref++;
+    if ( ref_tempo == "lent_5_0") lectio_ref++;
+    if ( ref_tempo == "tp_1_0") lectio_ref++;
+    if ( ref_tempo == "tp_8_0") lectio_ref++;
+    if ( weekday == 0 && month > 6 && month < 11 && day < 8) {dominica_prima = true; lectio_ref++;}
+
+    if (missa_post != "") row = "<br>"; else row = "";
+
+    if ((lectio_ref > lectio_ref_prev) || (month > 6 && dominica_prima)) {
+        missa_post = missa_post + row + '¶ <font color="red">In Refectorio ab hodierna die ' + lectiones[lectio_ref] + ', prout Cæremoniarius indicat (Rit.)</font>'; 
+        lectio_ref_prev++;
+        dominica_prima = false;
+        }
+    
     
     /////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     //////  Replacement section (HTML tags) and output  \\\\\\\
@@ -634,13 +667,13 @@ function component(date, year, month, day, weekday, before, color, header, rank,
   if (date.getFullYear() != year) {
     year = date.getFullYear();
     block_new_year = '<div class="year brown mt-5">' + year + '</div>';
-    if (date.getMonth() != month || day == 1) {
+    if (day == 1) {
       month = date.getMonth();
       block_new_month = '<div class="month blue mb-3">Januarius</div>';
     }
   } else {
     block_new_year = '';
-    if (date.getMonth() != month || day == 1) {
+    if (day == 1 && month != 11) {
       month = date.getMonth();
       block_new_month = '<div class="month blue my-3">' + month_human_readable(month) + '</div>';
     } else {

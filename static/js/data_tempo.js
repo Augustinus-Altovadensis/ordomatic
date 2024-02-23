@@ -1,9 +1,9 @@
 const days_tempo = {
   'adv_1_0': {
     'force': 100,
-    'before': '<span class="before-large">Hic incipit annus liturgicus.</span>',
+    'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps fw-bold">Dominica I Adventus.</span>',
+    'header': 'Dominica I. Adventus.',
     'rank': '',
     'subtitulum': '',
     'vigiliae': '',
