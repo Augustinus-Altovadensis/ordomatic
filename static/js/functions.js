@@ -237,22 +237,22 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
   
       if ( ref_tempo == "tp_2_0" )
-      { if (translated_joseph) {trans_vesperae = "S. Joseph Sponsi B.&ThinSpace;M.&ThinSpace;V., Confessoris et Universalis Ecclesiae Patroni (translatum) ℟. maj. <i><b>Fecit me.</i></b>"}
-      else if (translated_annunt) {trans_vesperae = "Annuntiatio B.&ThinSpace;M.&ThinSpace;V. (translatum) <i><b>Ecce concípies.</i></b>";} }
+      { if (translated_joseph) {trans_vesperae = "S. Joseph Sponsi B.M.V., Confessoris et Universalis Ecclesiae Patroni (translatum) ℟. maj. <i><b>Fecit me.</i></b>"}
+      else if (translated_annunt) {trans_vesperae = "Annuntiatio B.M.V. (translatum) <i><b>Ecce concípies.</i></b>";} }
 
     if ( ref_tempo == "tp_2_1" )
-      { if (translated_annunt) {trans_vesperae = "Annuntiatio B.&ThinSpace;M.&ThinSpace;V. (translatum) <i><b>Ecce concípies.</i></b>";}
-      else if (translated_benedict) {trans_vesperae = "S.&ThinSpace;P.&ThinSpace;N. Benedicti Abbatis (translatum) <i><b>Sanctissime Conféssor.</i></b>";}
-      else if (translated_joachim) {trans_vesperae = "S. Joachim Patris B.&ThinSpace;M.&ThinSpace;V. (translatum) <i><b>Laudémus virum.</i></b>";}
+      { if (translated_annunt) {trans_vesperae = "Annuntiatio B.M.V. (translatum) <i><b>Ecce concípies.</i></b>";}
+      else if (translated_benedict) {trans_vesperae = "S.P.N. Benedicti Abbatis (translatum) <i><b>Sanctissime Conféssor.</i></b>";}
+      else if (translated_joachim) {trans_vesperae = "S. Joachim Patris B.M.V. (translatum) <i><b>Laudémus virum.</i></b>";}
       else if (translated_gabriel) {trans_vesperae = "S. Gabrielis Archangeli (translatum) <i><b>Adhuc me loquénte.</i></b>";} }
 
     if ( ref_tempo == "tp_2_2" )
-      { if (translated_benedict) {trans_vesperae = "S.&ThinSpace;P.&ThinSpace;N. Benedicti Abbatis (translatum) <i><b>Sanctissime Conféssor.</i></b>";}
-      else if (translated_joachim) {trans_vesperae = "S. Joachim Patris B.&ThinSpace;M&ThinSpace;V. (translatum) <i><b>Laudémus virum.</i></b>";}
+      { if (translated_benedict) {trans_vesperae = "S.P.N. Benedicti Abbatis (translatum) <i><b>Sanctissime Conféssor.</i></b>";}
+      else if (translated_joachim) {trans_vesperae = "S. Joachim Patris B.MV. (translatum) <i><b>Laudémus virum.</i></b>";}
       else if (translated_gabriel) {trans_vesperae = "S. Gabrielis Archangeli (translatum) <i><b>Adhuc me loquénte.</i></b>";} }
 
     if ( ref_tempo == "tp_2_3" )
-      { if (translated_joachim) {trans_vesperae = "S. Joachim Patris B.&ThinSpace;M.&ThinSpace;V. (translatum) <i><b>Laudémus virum.</i></b>";}
+      { if (translated_joachim) {trans_vesperae = "S. Joachim Patris B.M.V. (translatum) <i><b>Laudémus virum.</i></b>";}
       else if (translated_gabriel) {trans_vesperae = "S. Gabrielis Archangeli (translatum) <i><b>Adhuc me loquénte.</i></b>";} }
 
     if ( ref_tempo == "tp_2_4" )
@@ -381,9 +381,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     vigil_epiphania = ['<font color="red">Prima Die non impedita post Epiph.</font> <i><b>Veritátem dico.</i></b>','<font color="red">Secunda die</font> <i><b>Paulus vocátus.</i></b>','<font color="red">Tertia die</font> <i><b>Et ego.</i></b>','<font color="red">Quarta die</font> <i><b>Omníno audítur.</i></b>','<font color="red">Quinta die</font> <i><b>Audet aliquis.</i></b>'];
     if (ref_sancto == "01_07") { vigil_epiphania_counter = 0; }
-    if (month_usual_number == 1 && day > 6 && day < 12 )
-      { if ( ref_tempo == "pa_1_0" ) {}
-        else { vigiliae = vigil_epiphania[vigil_epiphania_counter]; vigil_epiphania_counter++; } }
+    if (month_usual_number == 1 && day > 6 && day < 13 )
+      { if ( winner['force'] < 50 ) { vigiliae = vigil_epiphania[vigil_epiphania_counter]; vigil_epiphania_counter++; }} 
 
     ////////////////////////////////////////////////
     /////////  The COMMEMORATIONS Section  /////////
@@ -697,6 +696,7 @@ function component(date, year, month, day, weekday, before, color, header, rank,
   } else { block_rank = ''; }
 
 header = header.replace("+","");
+if ( !header.match(/De ea|De ea./i) ) header = '<span class="header text-justify ms-1">' + header + '</span>';
 
 if (comm_header != "") {
     comm_header = comm_header.replace("+","");
@@ -758,7 +758,7 @@ if (laudes_post != "") {
     + '<span class="first_line"><b>'  + add_zero(day) + day + "." 
     + " – " + liturgical_color(color) + " – " 
     + weekday_human_readable(weekday) + ' – </b>'
-    + '<span class="header text-justify ms-1">' + header + '</span>' 
+    + header 
     + block_rank 
     + block_jejunium + '</span>'
     + '</div>'
