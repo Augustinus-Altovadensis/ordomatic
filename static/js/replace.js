@@ -17,7 +17,7 @@ function addtags(winner) {
     ///////////////////////////////////////////////
     ///// Replacement section (HTML tags) /////////
     ///////////////////////////////////////////////
-    winner = winner.replace(/B\.M\.V\.|B\. M\. V\./, 'B. M. V.');
+    winner = winner.replace(/B.M.V.|B. M. V./, 'B. M. V.');
     winner = winner.replace(/S\.P\.N\.|S\. P\. N\./, 'S. P. N.');
     winner = winner.replace(/O\.N\.|O\. N\./, 'O. N.');
     winner = winner.replace("sine Com.", 'sine <font color="green"><b><del>Com.</del></b></font> ');

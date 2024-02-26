@@ -71,7 +71,7 @@ function refresh_ordo(year) {
   num_after_dom_xxiij = Math.floor((dominica_ultima - dominica_xxiij) / day_in_ms) + 1;
 
   // Sum of Sundays after Epiphany. If it eq. 5, one is missing
-  if ( num_after_epiphany + (num_after_dom_xxiij / 7) == 5 ) extra_sunday = 1; else extra_sunday = 0; 
+  if ( num_after_epiphany < 6 && ( num_after_epiphany + (num_after_dom_xxiij / 7) == 5 )) extra_sunday = 1; else extra_sunday = 0; 
 
   // Tempus per Annum until Septuagesima:
   content = content.concat(period(tempus_per_annum_until_septuagesima, baptism, 'pe_', 0, 0, extra_sunday));
