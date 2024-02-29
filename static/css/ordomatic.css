@@ -178,6 +178,7 @@ ul {
 .body {
     font-family: Libertine;
     font-size: 1.12em;
+    font-variant-numeric: oldstyle-nums;
 }
 
 .day {

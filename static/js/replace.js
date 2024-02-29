@@ -45,6 +45,7 @@ function addtags(winner) {
     winner = winner.replaceAll("§", '<font color="red">§</font>');
     winner = winner.replace("Oratio.", '<font color="red"><b>Oratio.</b></font>');
     winner = winner.replaceAll("(supplementum bre. Cist. 1965)", '<font color="red">(supplementum bre. Cist. 1965)</font>');
+    winner = winner.replaceAll("(suppl. brev. Cist. 1965)", '<font color="red">(suppl. brev. Cist. 1965)</font>');
     winner = winner.replace("et ℟.", '<font color="red">et ℟.</font>');
     winner = winner.replace("Processio sollemnissima cum pluviali et dalmaticis", '<font color="red">Processio sollemnissima cum pluviali et dalmaticis</font>');
     winner = winner.replace(/Duo Acolythi\. |Duo Acolythi /, '<font color="red">Duo Acolythi. </font>');
@@ -91,6 +92,7 @@ function addtags(winner) {
     winner = winner.replace(/Communic[aá]ntes/, '<i><b>Communicántes</i></b>');
     winner = winner.replace("– –", "–");
     winner = winner.replace("- -", "–");
+    winner = winner.replace(/℟\. maj\.|R\. maj\./, "℟. maj.");
     winner = winner.replace("Qui odit", '<i><b>Qui odit</i></b>');
     winner = winner.replace("Laudémus virum", '<i><b>Laudémus virum</i></b>');
     winner = winner.replace("Terríbilis", '<i><b>Terríbilis</i></b>');
@@ -99,5 +101,7 @@ function addtags(winner) {
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace('<ib>', '<i><b>');
+    winner = winner.replace('</ib>', '</i></b>');
     return winner;
 }
