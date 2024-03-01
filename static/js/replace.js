@@ -88,6 +88,8 @@ function addtags(winner) {
     winner = winner.replace("Pax ætérna", '<i><b>Pax ætérna</i></b>');
     winner = winner.replace("O quam metuéndus", '<i><b>O quam metuéndus</i></b>');
     winner = winner.replace("Zachæe", '<i><b>Zachæe</i></b>');
+    winner = winner.replaceAll(" -", " –");
+    winner = winner.replaceAll(" –", " –");
     winner = winner.replaceAll("-", '<i><b>–</i></b>'); // separator replaced by dash
     winner = winner.replace(/Communic[aá]ntes/, '<i><b>Communicántes</i></b>');
     winner = winner.replace("– –", "–");
@@ -103,5 +105,12 @@ function addtags(winner) {
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace('<ib>', '<i><b>');
     winner = winner.replace('</ib>', '</i></b>');
+    winner = winner.replace('<bi>', '<i><b>');
+    winner = winner.replace('</bi>', '</i></b>');
+    winner = winner.replace('<red>', '<font color="red">');
+    winner = winner.replace('<blue>', '<font color="blue">');
+    winner = winner.replace('</red>', '</font>');
+    winner = winner.replace('</blue>', '</font>');
+    winner = winner.replace('</f>', '</font>');
     return winner;
 }
