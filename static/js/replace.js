@@ -64,6 +64,7 @@ function addtags(winner) {
     winner = winner.replace("Sancte Paule", '<i><b>Sancte Paule</i></b>');
     winner = winner.replace("Veni, sponsa Christi", '<i><b>Veni, sponsa Christi</i></b>');
     winner = winner.replace("Veni sponsa", '<i><b>Veni sponsa</i></b>');
+    winner = winner.replace("Veni, sponsa", '<i><b>Veni, sponsa</i></b>');
     winner = winner.replace("Símile est ... sagénæ", '<i><b>Símile est … sagénæ</i></b>');
     winner = winner.replace("Sacérdos et Póntifex", '<i><b>Sacérdos et Póntifex</i></b>');
     winner = winner.replace("Hac die ... suprémos", '<i><b>Hac die … suprémos</i></b>');
