@@ -156,6 +156,13 @@ ul {
     margin: 2% 0 2% 0;
 }
 
+.pars {
+    font-size: 140%;
+    text-align: center;
+    font-weight: bold;
+    padding: 0.2em;
+}
+
 .before-large,
 .after-large {
     font-size: 1.22em;
