@@ -303,7 +303,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     /////////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ////.. Let's load the working variables with content ..\\\\
     //||\\\\\\\\\\\\\\\\\\\\\\\\\|//////////////////////////||\\
-    if (!winner) {winner = commemoratio; subtitulum = "---- NOT A WINNER ----";}
+    if (!winner) {winner = commemoratio; subtitulum = "---- NOT A WINNER ----";} // this shouldn't happen!
     before = winner['before'];
     header = winner['header'];
     rank = winner['rank']; 
@@ -395,6 +395,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (month_usual_number == 1 && day > 6 && day < 13 )
       { if ( winner['force'] < 50 ) { vigiliae = vigil_epiphania[vigil_epiphania_counter]; vigil_epiphania_counter++; }} 
 
+    vigil_lent = ['1,2,3','4,5,6','7,8,9','10,11,12','1,2,3','4,5,6','7,8,9','10,11,12'];
+    if (ref_tempo == "ash_1_4") { vigil_lent_counter = 1; }
+    if (ref_tempo.match("lent") && weekday == 1) { vigil_lent_counter = 0; }
+    if (ref_tempo.match(/lent|ash/) )
+      { if ( winner['force'] < 50 ) { vigiliae = '<b>iij. Lect. <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[vigil_lent_counter] + '</font>'; vigil_lent_counter++; }} 
+
     ///// if 16.1. comes to Sunday - and ceases to be "dies non impedita" \\\\\
     //if (ref_sancto == "01_16" && weekday == 0 ) { comm_missa = "2a S. Marcelli. 3a de Beata" }
 
@@ -405,16 +411,17 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //winner['body'] = "";
     comm_head = "";
     comm_sabbato = "";
-
     com_force = 0;
 
+    //--- Diagnostic listing, usually not needed ---\\
     if (commemoratio) {com_force = commemoratio['force'];}
     if (!commemoratio) comm_header_check = '<font color="black">N/A</font>';
     else comm_header_check = "<i><b>" + commemoratio['header'] + "</i></b>";
 
     check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force']    
       + " extra_sunday = " + extra + "  --- i = " + i + "/" + duration
-      + ". Feria = " + feria['vesperae'] + ".</div>";
+      + '. <br>Feria = "' + feria['header'] + '", &emsp;Vesperæ: "' + feria['vesperae'] + '".</div>';
+    //\\\---- end of diagnostics -----///\\
 
     if (winner_next) titulum_next = winner_next['header'].split("+", 1);
 
@@ -424,6 +431,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if ( commemoratio['header'].match(/De ea/i) ) { titulum_missa = translate_feria(ref_tempo); }
         if ( commemoratio['header'].match(/ Oct\.|Octav|De ea/i) ) { titulum = ""; titulum_missa = titulum_missa + ""; titulum_missa = titulum_missa.replace(/.*Oct/i, "Oct"); }
 
+      // merging various commentaries, in case of both winner and commemoratio have one
       if (commemoratio['before'] != "") 
         { if (winner['before'] != "" )
             { before = winner['before'] + " – " + commemoratio['before'];}
@@ -445,17 +453,19 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (commemoratio['vesperae_post'] != "") 
         { if (winner['vesperae_post'] != "" ) vesperae_post = winner['vesperae_post'] + " – " + commemoratio['vesperae_post'];
           else vesperae_post = commemoratio['vesperae_post']; }
+      //\\ end of merged commentaries //\\
 
       /////////////////////////////////
       /////  Commemoratio Laudes  /////
       /////////////////////////////////
 
-      if (commemoratio['laudes'] != "") 
+      if (commemoratio['laudes'] != "" || commemoratio['laudes_commemoratio'] != "" ) 
         { 
           comm_laudes = comm_laudes.replace(/- sine Com\.|sine Com\./, "");
           laudes = laudes.replace(/- sine Com\.|sine Com\./, "");
           comm_laudes = comm_laudes.replace("Com\. ", "");
           comm = commemoratio['laudes_commemoratio'];
+          comm = comm.replace("Com\. ", "");
           comm = ( comm == "C1") ? "Dum stetéritis " : comm;
           comm = ( comm == "C1a") ? "Isti sunt duæ " : comm;
           comm = ( comm == "C2") ? "Qui vult " : comm;
@@ -466,19 +476,27 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm = ( comm == "C6") ? "Símile est ... sagénæ " : comm;
           comm = ( comm == "C7") ? "Símile est ... sagénæ " : comm; // not an error
           comm = ( comm == "C8") ? "Zachæe " : comm;
-          //if ( comm == commemoratio['laudes_commemoratio'] ) { comm = "<i><b>" + comm + "</i></b> ";}
+
+          // comm_laudes = commemoratio['laudes'];
+          // comm = commemoratio['laudes_commemoratio'];
+          // titulum = commemoratio['header']
 
           et = " & ";
           dash = " – ";
           if ( titulum == "" ) et = "";
-          if (laudes == "" ) dash = "";
+          if ( laudes == "" ) dash = "";
 
           if ( commemoratio['laudes_commemoratio'].match(/^Com\. /) )
             { 
-              laudes = laudes + dash + commemoratio['laudes_commemoratio'];
+              if (laudes.match(/Com\. /)) laudes = laudes + " & " + comm;
+              else laudes = "Com. " + comm;
             }
-          else if ( commemoratio['laudes_commemoratio'].length > 3 ) { laudes = laudes + dash + "Com. " + titulum + et + commemoratio['laudes_commemoratio'];}
-          else laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes;
+          else if ( commemoratio['laudes_commemoratio'].length > 3 ) { 
+              laudes = laudes + dash + "Com. " + titulum + et + comm;}
+          else if (comm_laudes) laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes;
+          else laudes = laudes + dash + "Com. " + titulum + " " + comm;
+
+          //BACKUP else laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes;
 
           if ( winner['force'] > 49 ) { laudes.replace("& B.M.V.", "");}
           comm = null;
@@ -497,7 +515,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_missa = comm_missa.replace("2a", "3a"); 
           if (comm_missa.length > 5) comm_missa = "2a " + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
           comm_missa = comm_missa.replace(/-.*/, ""); 
-          missa = winner['missa'].replace("Glo.", "Glo. – " + comm_missa);
+          win_missa = winner['missa'];
+          win_missa = win_missa.replace(/2a A cunctis - /,""); // do it with RegEx
+          //win_missa = win_missa.replace(/3.*-/,"");  
+          if (winner['missa'].match("Glo."))
+            missa = win_missa.replace("Glo.", "Glo. – " + comm_missa);
+          else missa = comm_missa + "-" + win_missa;
         }
 
       /////////////////////////////////
@@ -642,12 +665,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // (see Laudes 1.1. etc.)
     if ( laudes_split[1] ) 
       { laudes_replace = laudes_split[1] + " ";
+        //if ( laudes_split[2] ) laudes_replace += laudes_split[2];
         laudes_replace = laudes_replace.replaceAll("&", '<font color="green"><b>&</b></font> ');
         laudes = laudes_split[0] + "Com. " + laudes_replace; }
 
     vesperae_split = vesperae.split("Com. ");
     if ( vesperae_split[1] ) 
       { vesperae_replace = vesperae_split[1] + " ";
+        if ( vesperae_split[2] ) vesperae_replace += vesperae_split[2];
         vesperae_replace = vesperae_replace.replaceAll("&", '<font color="green"><b>&</b></font> ');
           
         /// Provision for translated feasts. If the feast is translated, 
@@ -768,6 +793,7 @@ function component(date, year, month, day, weekday, before, color, header, rank,
 
   if (comm_header != "") {
     comm_header = comm_header.replace("+","");
+    if (comm_header.match(/De ea\./i)) comm_header = titulum_missa;
     block_commemoratio = '<span class="body text-justify"><ul><font color="black"><i>Commemoratio:</i></font><font color="Fuchsia"><b> ' + comm_header + '</b></font></ul></span>';
   } else { block_commemoratio = ''; }
   //block_commemoratio = ''; // this should be enabled by default, used for debugging only
