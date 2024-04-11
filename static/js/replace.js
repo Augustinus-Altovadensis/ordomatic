@@ -44,6 +44,7 @@ function addtags(winner) {
     winner = winner.replaceAll("*", '<font color="red">*</font>');
     winner = winner.replaceAll("§", '<font color="red">§</font>');
     winner = winner.replace("Oratio.", '<font color="red"><b>Oratio.</b></font>');
+    winner = winner.replace("cum Ora.", '<font color="red">cum Ora.</font>');
     winner = winner.replaceAll("(supplementum bre. Cist. 1965)", '<font color="red">(supplementum bre. Cist. 1965)</font>');
     winner = winner.replaceAll("(suppl. brev. Cist. 1965)", '<font color="red">(suppl. brev. Cist. 1965)</font>');
     winner = winner.replace("et ℟.", '<font color="red">et ℟.</font>');
@@ -89,6 +90,7 @@ function addtags(winner) {
     winner = winner.replace("Pax ætérna", '<i><b>Pax ætérna</i></b>');
     winner = winner.replace("O quam metuéndus", '<i><b>O quam metuéndus</i></b>');
     winner = winner.replace("Zachæe", '<i><b>Zachæe</i></b>');
+    winner = winner.replaceAll("S. ", "S. ");
     winner = winner.replaceAll(" -", " –");
     winner = winner.replaceAll(" –", " –");
     winner = winner.replaceAll("-", '<i><b>–</i></b>'); // separator replaced by dash
@@ -101,7 +103,7 @@ function addtags(winner) {
     winner = winner.replace("Terríbilis", '<i><b>Terríbilis</i></b>');
     winner = winner.replace("A cunctis", '<i><b>A cunctis</i></b>');
     winner = winner.replace(/Omn[ií]potens/, '<i><b>Omnípotens</i></b>');
-    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("Benedicámus Dómino, Deo grátias.", '<i><b><font color="red">B</font>enedicámus Dómino, <font color="red">D</font>eo grátias.</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replaceAll('<ib>', '<i><b>');

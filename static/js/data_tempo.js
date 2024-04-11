@@ -1872,7 +1872,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '(cum dalm.) Aña Sub tuum  cum Ora. - Asperges - sine Glo. - 2a S. Polycarpi. 3a A cunctis - Cre. - Praef. SS. Trin. - Benedicámus Dómino, Deo grátias.',
+    'missa': '(cum dalm.) Aña Sub tuum  cum Ora. - Asperges - sine Glo. - Cre. - Praef. SS. Trin. - Benedicámus Dómino, Deo grátias.',
     'missa_post': '',
     'vesperae': 'Sexagesima',
     'vesperae_commemoratio': '',

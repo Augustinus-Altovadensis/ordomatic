@@ -299,6 +299,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ///////// Missa Votiva de Beata \\\\\\\\\\
     if (weekday == 6 && winner['force'] < 35 && i != (duration-1))
       { winner = days_sancto['votiva_bmv']; commemoratio = days_sancto[ref_sancto]; }
+
+
     
     /////////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ////.. Let's load the working variables with content ..\\\\
@@ -510,17 +512,20 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         { 
           if (comm_missa == "") comm_missa = commemoratio['missa'];
           comm_missa = comm_missa.match(/2a .* -/);
-          comm_missa = comm_missa + " "; // looks stupid, but converts the variable into a string that the replace function can take
+          comm_missa += " "; // looks stupid, but converts the variable into a string that the replace function can take
           comm_missa = comm_missa.replace(/3.*/,""); 
           comm_missa = comm_missa.replace("2a", "3a"); 
           if (comm_missa.length > 5) comm_missa = "2a " + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
           comm_missa = comm_missa.replace(/-.*/, ""); 
           win_missa = winner['missa'];
-          win_missa = win_missa.replace(/2a A cunctis - /,""); // do it with RegEx
-          //win_missa = win_missa.replace(/3.*-/,"");  
+          win_missa = win_missa.replace(/2.*? - /,"");
+          //win_missa = win_missa.replace(/3.*? -/,"");  
           if (winner['missa'].match("Glo."))
             missa = win_missa.replace("Glo.", "Glo. – " + comm_missa);
           else missa = comm_missa + "-" + win_missa;
+          // Cleanup:
+          missa = missa.replace("  ", " "); missa = missa.replace("..", ".");
+          if ( !ref_tempo.match(/(lent|ash|sept)/) ) missa = missa.replace("- Tractus ", "");
         }
 
       /////////////////////////////////
@@ -567,12 +572,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           else if ( commemoratio['force'] <= 35) vesperae = vesperae + dash + "Com. " + titulum_next + " " + comm //+ et + comm_vesperae; // CHECK!!!
           // CHECK: this is to get rid of commemorated second (!) vespers of lower feasts. I may sometimes delete first vespers, so this must be checked.
 
-          if ( feria['vesperae'] && weekday == 6 && winner['force'] > 60 )
+          if ( feria['vesperae'] && weekday == 6 && winner['force'] > 60 && winner == days_sancto[ref_sancto] )
             { 
               if (vesperae.match("Com\. ")) vesperae = vesperae.replace("Com.", "Com. " + feria['vesperae'] );
               else vesperae = vesperae + "Com. " + feria['vesperae'];
             }
-          else if ( feria['vesperae'] && weekday == 6 && winner['force'] <= 60 )
+          else if ( feria['vesperae'] && weekday == 6 && winner['force'] <= 60 && winner == days_sancto[ref_sancto] )
             { 
               if (vesperae.match("Com\. ")) vesperae = vesperae.replace("Com.", feria['vesperae'] + " - Com. " );
               else vesperae = feria['vesperae'] + "Com. " + vesperae;
@@ -622,6 +627,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     dash = " – ";
     if ( laudes == "" ) dash = "";
     if ( laudes.match("B.M.V.") ) { laudes_bmv = ""; et = "";}
+    if ( winner['header'].match("B.M.V.") ) { laudes_bmv = ""; et = "";}
     
     // Com. B.M.V. ad Laudes 
     if ( winner['force'] < 41 )
@@ -640,17 +646,23 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     dash = " – ";
     if ( vesperae == "" ) dash = "";
     if ( vesperae.match("B.M.V.") || weekday == 6) { vesperae_bmv = ""; et = "";}
+    if ( weekday == 5 && winner_next['force'] < 35 ) { vesperae_bmv = ""; et = "";}
 
     if ( winner_next['force'] < 41 && winner['force'] < 41 )
       {
       if ( weekday == 1 ) vesperae_bmv += " & B. B. R.";
       if ( weekday == 2 ) vesperae_bmv += " & S. Joseph"; 
-      if ( weekday == 5 ) vesperae_bmv += " & De pace";
+      if ( weekday == 5 ) vesperae_bmv += " " + et + " De pace";
 
       if ( vesperae.match("& B.M.V. ") ) vesperae = vesperae.replace("B.M.V. ", "B.M.V. " + vesperae_bmv + " ");
       else if ( vesperae.match(/Com\. /) ) vesperae = vesperae + et + vesperae_bmv;
       else vesperae = vesperae + dash + "Com. " + vesperae_bmv;
       }
+
+    // TO DO: cite the Antiphon and verse first time they change
+    if ( ref_sancto.match(/02_0[345]/) ) 
+      { laudes = laudes.replace("B.M.V.", "B.M.V. <red>℣. <ib>D</red>ignáre me.</ib> Ora. <ib><red>C</red>oncéde misericors.</ib>");
+        vesperae = vesperae.replace("B.M.V.", "B.M.V. <ib><red>A</red>ve Regína cœlórum</ib> <red>℣. <ib>D</red>ignáre me.</ib> Ora. <ib><red>C</red>oncéde misericors.</ib>"); }
 
     ////// Provision for Sabbato ante Septuagesimam \\\\\\\
     if ( i == (duration-1) && prefix_tempo.match("pe") && month < 4 ) 
@@ -849,7 +861,7 @@ if (laudes_post != "") {
   return (
     block_new_year
     + block_new_month
-    + '<div class="d-flex flex-column w-50 mb-2">'
+    + '<div class="d-flex flex-column w-75 mb-2">' // w-50 was here originally
     + block_before
     + '<div class="head d-flex m-0">'
     + '<span class="first_line"><b>'  + add_zero(day) + day + "." 
