@@ -67,7 +67,7 @@ function add_zero(number) {
   return zero;
 }
 
-function translate_feria(ref_tempo) {
+function translate_feria(ref_tempo, short) {
   roman_lowercase_numerals = ["j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
   ref = ref_tempo.split("_");
   tempus = " ";
@@ -75,13 +75,28 @@ function translate_feria(ref_tempo) {
   tempus = ( ref[0] == "christmas" ) ? " Nat." : tempus;
   tempus = ( ref[0] == "lent" ) ? " Quadr." : tempus;
   tempus = ( ref[0] == "pe" ) ? " post Epiph." : tempus;
-  tempus = ( ref[0] == "sept" ) ? " Septuag." : tempus;
-  tempus = ( ref[0] == "ash" ) ? " Quadr." : tempus;
+  tempus = ( ref_tempo.match("sept_1") ) ? " Septuag." : tempus;
+  tempus = ( ref_tempo.match("sept_2") ) ? " Sexag." : tempus;
+  tempus = ( ref_tempo.match("sept_3") ) ? " Quinquag." : tempus;
+  tempus = ( ref_tempo.match("ash_1_3") ) ? " Cinerum." : tempus;
+  tempus = ( ref_tempo.match(/ash_1_[456]/) ) ? " post Cineres." : tempus;
   tempus = ( ref[0] == "tp" ) ? " Paschæ" : tempus;
   tempus = ( ref[0] == "pa" ) ? " post Pent." : tempus;
-  feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + " post Dom. " + roman_lowercase_numerals[ref[1]-1] + tempus;
+  if ( ref[0] == "sept" ) 
+    feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + " post Dom. " + tempus;
+  else if ( ref[0] == "ash" ) 
+    feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + tempus;
+  else feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + " post Dom. " + roman_lowercase_numerals[ref[1]-1] + tempus;
   if ( ref[2] == "0" ) feria_readable = "Dom. " + roman_lowercase_numerals[ref[1]-1] + tempus;
-  return feria_readable;
+  feria_short = "Fer. " + roman_lowercase_numerals[ref[2]];
+
+  feria_short = feria_short.replace("Fer. vij.","Sabb.");
+  feria_readable = feria_readable.replace("Fer. vij.","Sabb.");
+  feria_short = feria_short.replace("Fer. j.","Dom.");
+  feria_readable = feria_readable.replace("Fer. j. post ","");
+
+  if (short) return feria_short;
+  else return feria_readable;
   }
 
 function get_winner(ref_tempo, ref_sancto) {
@@ -495,8 +510,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             }
           else if ( commemoratio['laudes_commemoratio'].length > 3 ) { 
               laudes = laudes + dash + "Com. " + titulum + et + comm;}
-          else if (comm_laudes) laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes;
-          else laudes = laudes + dash + "Com. " + titulum + " " + comm;
+          else if ( commemoratio['laudes_commemoratio'] && commemoratio['laudes_commemoratio'].length <= 3 ) laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes;
+          else if ( commemoratio['laudes'].match("Com. ") ) laudes = "Com. " + comm_laudes;
+          else laudes = laudes + dash + "Com. " + comm;
 
           //BACKUP else laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes;
 
@@ -519,13 +535,26 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_missa = comm_missa.replace(/-.*/, ""); 
           win_missa = winner['missa'];
           win_missa = win_missa.replace(/2.*? - /,"");
+          win_missa_post = winner['missa_post'];
+          win_missa_post = win_missa_post.replace(/2.*? - /,"");
           //win_missa = win_missa.replace(/3.*? -/,"");  
-          if (winner['missa'].match("Glo."))
-            missa = win_missa.replace("Glo.", "Glo. – " + comm_missa);
-          else missa = comm_missa + "-" + win_missa;
+
+          // We have to check, whether the missa field exists.
+          // Sometimes, in order to add exceptions, only missa_post exists
+          // with differences between missa privata and conventualis
+          if (winner['missa'] != "") {
+            if (winner['missa'].match("Glo."))
+              missa = win_missa.replace("Glo.", "Glo. – " + comm_missa);
+            else missa = comm_missa + "-" + win_missa; }
+          else if (winner['missa_post'] != "") {
+            if (winner['missa_post'].match("Glo."))
+              missa_post = win_missa_post.replace("Glo.", "Glo. – " + comm_missa);
+            else missa_post = comm_missa + "-" + win_missa_post; }
           // Cleanup:
           missa = missa.replace("  ", " "); missa = missa.replace("..", ".");
           if ( !ref_tempo.match(/(lent|ash|sept)/) ) missa = missa.replace("- Tractus ", "");
+
+          if (winner == days_tempo[ref_tempo] && !winner['missa'].match("Glo.") && commemoratio['missa'] != "") missa = translate_feria(ref_tempo) + " - " + missa;
         }
 
       /////////////////////////////////
@@ -692,7 +721,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (trans_vesperae != "") vesperae = vesperae_split[0] + "Com. " + trans_vesperae;
         else vesperae = vesperae_split[0] + "Com. " + vesperae_replace; }
 
+    //// Postprocessing \\\\
     vesperae = vesperae.replace(/ -  $/, "");
+    vesperae = vesperae.replace(/Feria [-–]/, translate_feria(ref_tempo, 1) + " - ");
 
     /////////////////////|\\\\\\\\\\\\\\\\\\\\\\
     /////////  Lectiones in Refectorio  \\\\\\\\\
@@ -855,13 +886,16 @@ if (laudes_post != "") {
   } else if ( laudes_post.match(/[Vv]ig[ií]l[íi]a/) && winner['force'] < 90 ) {
     block_jejunium = '<span class="rank"> – <font color="red">jejunatur</font></span>';
   } else { block_jejunium = ''; }
+
+  // if we have narrower screen, we want to take up more space
+  if (window.innerWidth < 950) width = "75"; else width = "50";
 //////////////////////////////////////////////////////////////
 
   // Result:
   return (
     block_new_year
     + block_new_month
-    + '<div class="d-flex flex-column w-75 mb-2">' // w-50 was here originally
+    + '<div class="d-flex flex-column w-' + width + ' mb-2">' // w-50 was here originally
     + block_before
     + '<div class="head d-flex m-0">'
     + '<span class="first_line"><b>'  + add_zero(day) + day + "." 
