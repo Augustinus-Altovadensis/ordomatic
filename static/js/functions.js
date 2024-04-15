@@ -545,16 +545,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (winner['missa'] != "") {
             if (winner['missa'].match("Glo."))
               missa = win_missa.replace("Glo.", "Glo. – " + comm_missa);
-            else missa = comm_missa + "-" + win_missa; }
+            else missa = comm_missa + " - " + win_missa; }
           else if (winner['missa_post'] != "") {
             if (winner['missa_post'].match("Glo."))
               missa_post = win_missa_post.replace("Glo.", "Glo. – " + comm_missa);
-            else missa_post = comm_missa + "-" + win_missa_post; }
+            else missa_post = comm_missa + " - " + win_missa_post; }
           // Cleanup:
           missa = missa.replace("  ", " "); missa = missa.replace("..", ".");
           if ( !ref_tempo.match(/(lent|ash|sept)/) ) missa = missa.replace("- Tractus ", "");
 
-          if (winner == days_tempo[ref_tempo] && !winner['missa'].match("Glo.") && commemoratio['missa'] != "") missa = translate_feria(ref_tempo) + " - " + missa;
+          if (winner['missa'] != "" && winner == days_tempo[ref_tempo] && !winner['missa'].match("Glo.") && commemoratio['missa'] != "") missa = translate_feria(ref_tempo) + " - " + missa;
         }
 
       /////////////////////////////////
@@ -888,7 +888,7 @@ if (laudes_post != "") {
   } else { block_jejunium = ''; }
 
   // if we have narrower screen, we want to take up more space
-  if (window.innerWidth < 950) width = "75"; else width = "50";
+  if (window.innerWidth < 1100) width = "75"; else width = "50";
 //////////////////////////////////////////////////////////////
 
   // Result:

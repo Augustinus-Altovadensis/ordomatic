@@ -865,7 +865,7 @@ const days_sancto = {
     'laudes': 'Com. S. Julianæ V. et M. Símile est ... sagénæ',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'Glo. - 2a A cunctis. 3a Omnipotens. - Praef. Comm.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
