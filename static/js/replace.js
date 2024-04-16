@@ -34,7 +34,8 @@ function addtags(winner) {
     winner = winner.replace("(Ex Processionale Cisterciense)", '<font color="red">(Ex Processionale Cisterciense)</font>');
     winner = winner.replace(/℟. maj.|R. maj./, '<font color="red">℟. maj.</font>');
     winner = winner.replace("(in „Schaller“ etiam)", '<font color="red">(in „Schaller“ etiam)</font>');
-    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace(/In fine Evangelium feriae./i, '<font color="red">In fine Evangelium Feriae.</font>');
+    winner = winner.replace(/In fine Missæ Evangelium feriae./i, '<font color="red">In fine Missæ Evangelium Feriae.</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
@@ -75,6 +76,7 @@ function addtags(winner) {
     winner = winner.replace("Iste Sanctus pro lege", '<i><b>Iste Sanctus pro lege</i></b>');
     winner = winner.replace(/Iste [Ss]anctus/, '<i><b>Iste Sanctus</i></b>');
     winner = winner.replace("Euge, serve bone", '<i><b>Euge, serve bone</i></b>');
+    winner = winner.replace(/Euge, serve|Euge serve/, '<i><b>Euge, serve</i></b>');
     winner = winner.replace("Euge", '<i><b>Euge</i></b>');
     winner = winner.replace("Dum stetéritis", '<i><b>Dum stetéritis</i></b>');
     winner = winner.replace("Amávit eum Dóminus", '<i><b>Amávit eum Dóminus</i></b>');

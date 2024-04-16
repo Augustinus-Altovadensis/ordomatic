@@ -310,6 +310,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( ref_sancto == "02_25" && is_leap_year(year) && weekday != 0 ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo];}
     if ( ((ref_sancto == "02_25" && is_leap_year(year)) || (ref_sancto == "02_24" && !is_leap_year(year))) && weekday == 0 ) {translated_matthias = true; subtitulum = "Festum S. Matthiæ translatum in Feriam ij.";}
     if ( translated_matthias && weekday == 1 ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo]; translated_matthias = false; translated = true; }
+    // TO DO: second Vespers on translated feast: include St. Mechtildis
 
     ///////// Missa Votiva de Beata \\\\\\\\\\
     if (weekday == 6 && winner['force'] < 35 && i != (duration-1))
@@ -372,9 +373,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       comm_vesperae = "Anniversarium Dedicationis Ecclesiæ Altovadensis (translatum) ℟. maj. Terríbilis" + comm_vesperae;
 
     ////// S. Matthias ///////
-    if ( ref_sancto == "02_23" && !is_leap_year(year) ) { vesperae = "de seq.";}
-    if ( ref_sancto == "02_24" && is_leap_year(year) && weekday != 6 ) { vesperae = "de seq.";}
-    if ( ref_sancto == "02_25" && is_leap_year(year) && weekday == 0 ) { vesperae = "de seq.";}
+    if (winner['vesperae_commemoratio'] != "") dash = " - ";
+    else dash = "";
+    if ( ref_sancto == "02_23" && !is_leap_year(year) ) { vesperae = "de seq." + dash + winner['vesperae_commemoratio'];}
+    if ( ref_sancto == "02_24" && is_leap_year(year) && weekday != 6 ) { vesperae = "de seq." + dash + winner['vesperae_commemoratio'];}
+    if ( ref_sancto == "02_25" && is_leap_year(year) && weekday == 0 ) { vesperae = "de seq. - " + winner['vesperae_commemoratio'];}
 
     ///// Missa Votiva de Beata - I. Vespers \\\\\
     if (weekday == 5 && winner_next['force'] < 35 && winner['force'] < 35 )
@@ -501,6 +504,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           et = " & ";
           dash = " – ";
           if ( titulum == "" ) et = "";
+          if ( comm_laudes == "" ) et = "";
           if ( laudes == "" ) dash = "";
 
           if ( commemoratio['laudes_commemoratio'].match(/^Com\. /) )
@@ -510,7 +514,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             }
           else if ( commemoratio['laudes_commemoratio'].length > 3 ) { 
               laudes = laudes + dash + "Com. " + titulum + et + comm;}
-          else if ( commemoratio['laudes_commemoratio'] && commemoratio['laudes_commemoratio'].length <= 3 ) laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes;
+          else if ( commemoratio['laudes_commemoratio'] && commemoratio['laudes_commemoratio'].length <= 3 ) {
+            if ( comm_laudes == "" ) et = "";
+            laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes; }
           else if ( commemoratio['laudes'].match("Com. ") ) laudes = "Com. " + comm_laudes;
           else laudes = laudes + dash + "Com. " + comm;
 
@@ -527,6 +533,18 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (commemoratio['missa'] != "") 
         { 
           if (comm_missa == "") comm_missa = commemoratio['missa'];
+          
+          // Replacing the word "Feria" in [missa] field to keep other commemorations, while only the Feria is commemorated (like at feasts of St. Peter and Paul in Lent)
+          if (missa.match(/Feria/i) && ref_tempo.match("lent"))
+             {
+              missa = missa.replace(/Feria/i, translate_feria(ref_tempo, 1));
+             }
+          else if (missa_post.match(/Feria/i) && commemoratio == days_tempo[ref_tempo])
+             {
+              missa_post = missa_post.replace(/Feria/i, translate_feria(ref_tempo, 1));
+             }
+          else 
+          {
           comm_missa = comm_missa.match(/2a .* -/);
           comm_missa += " "; // looks stupid, but converts the variable into a string that the replace function can take
           comm_missa = comm_missa.replace(/3.*/,""); 
@@ -536,8 +554,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           win_missa = winner['missa'];
           win_missa = win_missa.replace(/2.*? - /,"");
           win_missa_post = winner['missa_post'];
-          win_missa_post = win_missa_post.replace(/2.*? - /,"");
-          //win_missa = win_missa.replace(/3.*? -/,"");  
+          win_missa_post = win_missa_post.replace(/2.*? - /,""); // non-greedy modifier "?"
 
           // We have to check, whether the missa field exists.
           // Sometimes, in order to add exceptions, only missa_post exists
@@ -550,9 +567,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (winner['missa_post'].match("Glo."))
               missa_post = win_missa_post.replace("Glo.", "Glo. – " + comm_missa);
             else missa_post = comm_missa + " - " + win_missa_post; }
+          }
           // Cleanup:
           missa = missa.replace("  ", " "); missa = missa.replace("..", ".");
-          if ( !ref_tempo.match(/(lent|ash|sept)/) ) missa = missa.replace("- Tractus ", "");
+          if ( !ref_tempo.match(/(lent|ash|sept)/) ) missa = missa.replace("- Tractus ", ""); // Quatember???
 
           if (winner['missa'] != "" && winner == days_tempo[ref_tempo] && !winner['missa'].match("Glo.") && commemoratio['missa'] != "") missa = translate_feria(ref_tempo) + " - " + missa;
         }
@@ -584,6 +602,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm = ( comm == "C7") ? "Símile est ... hómini " : comm;
           comm = ( comm == "C8") ? "Pax ætérna " : comm;
           comm = ( comm == "C82") ? "O quam metuéndus " : comm;
+
+          if (vesperae.match(/Feria/i) && ref_tempo.match("lent"))
+             {
+              vesperae = vesperae.replace(/Feria/i, comm);
+              comm = "";
+             }
 
           dash = " - ";
           dash1 = " + ";
@@ -624,6 +648,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               + winner['vesperae'] + " "  // more testing needed
               + winner['vesperae_commemoratio'];
             vesperae = vesperae.replace(/- sine Com.|sine Com./, "");
+
+            if (vesperae.match(/Feria/i) && ref_tempo.match("lent") && winner['vesperae_commemoratio'])
+             {
+              vesperae = vesperae.replace(/Feria/i, feria['vesperae_commemoratio'].replace("Com. ", ""));
+             }
             }
 
           comm = null;
@@ -723,7 +752,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     //// Postprocessing \\\\
     vesperae = vesperae.replace(/ -  $/, "");
-    vesperae = vesperae.replace(/Feria [-–]/, translate_feria(ref_tempo, 1) + " - ");
+    vesperae = vesperae.replace(/Feria [-–]/, translate_feria(ref_tempo, 1) + " - "); // short version (Fer. ij.)
 
     /////////////////////|\\\\\\\\\\\\\\\\\\\\\\
     /////////  Lectiones in Refectorio  \\\\\\\\\
