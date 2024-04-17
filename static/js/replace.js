@@ -35,7 +35,7 @@ function addtags(winner) {
     winner = winner.replace(/℟. maj.|R. maj./, '<font color="red">℟. maj.</font>');
     winner = winner.replace("(in „Schaller“ etiam)", '<font color="red">(in „Schaller“ etiam)</font>');
     winner = winner.replace(/In fine Evangelium feriae./i, '<font color="red">In fine Evangelium Feriae.</font>');
-    winner = winner.replace(/In fine Missæ Evangelium feriae./i, '<font color="red">In fine Missæ Evangelium Feriae.</font>');
+    winner = winner.replace(/In fine Miss(æ|ae) Evangelium feri(æ|ae)./i, '<font color="red">In fine Missæ Evangelium Feriae.</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
@@ -50,6 +50,7 @@ function addtags(winner) {
     winner = winner.replaceAll("(suppl. brev. Cist. 1965)", '<font color="red">(suppl. brev. Cist. 1965)</font>');
     winner = winner.replace("et ℟.", '<font color="red">et ℟.</font>');
     winner = winner.replace("Processio sollemnissima cum pluviali et dalmaticis", '<font color="red">Processio sollemnissima cum pluviali et dalmaticis</font>');
+    winner = winner.replace("Processio cum pluviali et", '<font color="red">Processio cum pluviali et</font>');
     winner = winner.replace(/Duo Acolythi\. |Duo Acolythi /, '<font color="red">Duo Acolythi. </font>');
     winner = winner.replace(/Cum incenso ad [oO]blata\. |Cum incenso ad [oO]blata /, '<font color="red">Cum incenso ad oblata. </font>');
     winner = winner.replace("de Officio diei", '<font color="red">de Officio diei</font>');

@@ -310,7 +310,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( ref_sancto == "02_25" && is_leap_year(year) && weekday != 0 ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo];}
     if ( ((ref_sancto == "02_25" && is_leap_year(year)) || (ref_sancto == "02_24" && !is_leap_year(year))) && weekday == 0 ) {translated_matthias = true; subtitulum = "Festum S. Matthiæ translatum in Feriam ij.";}
     if ( translated_matthias && weekday == 1 ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo]; translated_matthias = false; translated = true; }
-    // TO DO: second Vespers on translated feast: include St. Mechtildis
+    // second Vespers on translated feast: + St. Mechtildis: at the end of Vesper section
 
     ///////// Missa Votiva de Beata \\\\\\\\\\
     if (weekday == 6 && winner['force'] < 35 && i != (duration-1))
@@ -419,7 +419,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_tempo == "ash_1_4") { vigil_lent_counter = 1; }
     if (ref_tempo.match("lent") && weekday == 1) { vigil_lent_counter = 0; }
     if (ref_tempo.match(/lent|ash/) )
-      { if ( winner['force'] < 50 ) { vigiliae = '<b>iij. Lect. <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[vigil_lent_counter] + '</font>'; vigil_lent_counter++; }} 
+      { if ( winner['force'] < 40 ) { vigiliae = '<b>iij. Lect. <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[vigil_lent_counter] + '</font>'; vigil_lent_counter++; }} 
 
     ///// if 16.1. comes to Sunday - and ceases to be "dies non impedita" \\\\\
     //if (ref_sancto == "01_16" && weekday == 0 ) { comm_missa = "2a S. Marcelli. 3a de Beata" }
@@ -535,7 +535,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (comm_missa == "") comm_missa = commemoratio['missa'];
           
           // Replacing the word "Feria" in [missa] field to keep other commemorations, while only the Feria is commemorated (like at feasts of St. Peter and Paul in Lent)
-          if (missa.match(/Feria/i) && ref_tempo.match("lent"))
+          if (missa.match(/Feria/i) && ref_tempo.match("lent") && commemoratio == days_tempo[ref_tempo])
              {
               missa = missa.replace(/Feria/i, translate_feria(ref_tempo, 1));
              }
@@ -545,7 +545,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
              }
           else 
           {
-          comm_missa = comm_missa.match(/2a .* -/);
+          comm_missa = comm_missa.match(/2a.*? -/);
           comm_missa += " "; // looks stupid, but converts the variable into a string that the replace function can take
           comm_missa = comm_missa.replace(/3.*/,""); 
           comm_missa = comm_missa.replace("2a", "3a"); 
@@ -617,7 +617,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           if ( commemoratio['vesperae_commemoratio'].match("^Com\. ") )
             { 
-             vesperae = vesperae + dash + commemoratio['vesperae_commemoratio'];
+             if ( comm == "" ) dash = "";
+             vesperae = vesperae + dash + comm;
             }
           else if ( commemoratio['vesperae_commemoratio'].length > 3 && commemoratio['force'] > 35 ) { vesperae = vesperae + dash + "Com. " + titulum + et + commemoratio['vesperae_commemoratio'];}
           else if ( commemoratio['vesperae_commemoratio'].length > 3 && commemoratio['force'] <= 35 ) { vesperae = vesperae + dash + "Com. " + commemoratio['vesperae_commemoratio'];} // CHECK!!!
@@ -644,6 +645,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             { 
              vesperae = commemoratio['vesperae'] + " – " + winner['vesperae_commemoratio'];
             }
+            else if (commemoratio['vesperae'].match(/Feria/i)) vesperae = commemoratio['vesperae']; //  + " – Com. " + winner['vesperae_commemoratio']
             else vesperae = commemoratio['vesperae'] + " – Com. " 
               + winner['vesperae'] + " "  // more testing needed
               + winner['vesperae_commemoratio'];
@@ -654,6 +656,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               vesperae = vesperae.replace(/Feria/i, feria['vesperae_commemoratio'].replace("Com. ", ""));
              }
             }
+
+          ////// Some special cases \\\\\\\\\
+
+          // Transferred Matthias needs to have comm. of S. Mechtildis, but as the winner is special (Matthias) and commemoratio the Feria, the S. Mechtildis comm. needs to be added manually
+          if ( winner == days_sancto['matthias'] && ref_sancto == "02_26" ) vesperae += " & S. Mechtildis Virg. Veni, sponsa (suppl. brev. Cist. 1965)";
 
           comm = null;
         }
@@ -692,7 +699,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       {
       if ( weekday == 2 ) laudes_bmv += " & B. B. R.";
       if ( weekday == 3 ) laudes_bmv += " & S. Joseph";
-      if ( weekday == 6 ) laudes_bmv += " & De pace";
+      if ( weekday == 6 ) laudes_bmv += " & De Pace";
 
       if ( laudes.match("& B.M.V. ") ) laudes = laudes.replace("B.M.V. ", "B.M.V. " + laudes_bmv + " ");
       else if ( laudes.match(/Com\. /) ) laudes = laudes + et + laudes_bmv;
@@ -710,7 +717,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       {
       if ( weekday == 1 ) vesperae_bmv += " & B. B. R.";
       if ( weekday == 2 ) vesperae_bmv += " & S. Joseph"; 
-      if ( weekday == 5 ) vesperae_bmv += " " + et + " De pace";
+      if ( weekday == 5 ) vesperae_bmv += " " + et + " De Pace";
 
       if ( vesperae.match("& B.M.V. ") ) vesperae = vesperae.replace("B.M.V. ", "B.M.V. " + vesperae_bmv + " ");
       else if ( vesperae.match(/Com\. /) ) vesperae = vesperae + et + vesperae_bmv;
@@ -751,6 +758,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         else vesperae = vesperae_split[0] + "Com. " + vesperae_replace; }
 
     //// Postprocessing \\\\
+    vesperae = vesperae.replace("Com. Com.", "Com."); // to be removed, hopefully
     vesperae = vesperae.replace(/ -  $/, "");
     vesperae = vesperae.replace(/Feria [-–]/, translate_feria(ref_tempo, 1) + " - "); // short version (Fer. ij.)
 
