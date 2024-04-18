@@ -25,6 +25,8 @@ function addtags(winner) {
     winner = winner.replaceAll("Comme.", '<font color="blue"><b>Comme.</b></font> ');
     winner = winner.replace("sine Glo.", 'sine <del>Glo.</del>');
     //winner = winner.replace("&", '<font color="green"><b>&</b></font> ');
+    winner = winner.replace("1a ", '1<sup>a</sup> ');
+    winner = winner.replace("1o ", '1<sup>o</sup> ');
     winner = winner.replace("2a ", '2<sup>a</sup> ');
     winner = winner.replace("3a ", '3<sup>a</sup> ');
     winner = winner.replaceAll('Aña\.', '<font color="red">Aña.</font>');
@@ -36,7 +38,7 @@ function addtags(winner) {
     winner = winner.replace("(in „Schaller“ etiam)", '<font color="red">(in „Schaller“ etiam)</font>');
     winner = winner.replace(/In fine Evangelium feriae./i, '<font color="red">In fine Evangelium Feriae.</font>');
     winner = winner.replace(/In fine Miss(æ|ae) Evangelium feri(æ|ae)./i, '<font color="red">In fine Missæ Evangelium Feriae.</font>');
-    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace(/non dicitur./, '<font color="red">non dicitur.</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
@@ -51,6 +53,7 @@ function addtags(winner) {
     winner = winner.replace("et ℟.", '<font color="red">et ℟.</font>');
     winner = winner.replace("Processio sollemnissima cum pluviali et dalmaticis", '<font color="red">Processio sollemnissima cum pluviali et dalmaticis</font>');
     winner = winner.replace("Processio cum pluviali et", '<font color="red">Processio cum pluviali et</font>');
+    winner = winner.replace("Processio et", '<font color="red">Processio et</font>');
     winner = winner.replace(/Duo Acolythi\. |Duo Acolythi /, '<font color="red">Duo Acolythi. </font>');
     winner = winner.replace(/Cum incenso ad [oO]blata\. |Cum incenso ad [oO]blata /, '<font color="red">Cum incenso ad oblata. </font>');
     winner = winner.replace("de Officio diei", '<font color="red">de Officio diei</font>');
@@ -61,8 +64,9 @@ function addtags(winner) {
     winner = winner.replace("O Doctor óptime", '<i><b>O Doctor óptime</i></b>');
     winner = winner.replace("O Doctor", '<i><b>O Doctor</i></b>');
     winner = winner.replace("Beátus vir", '<i><b>Beátus vir</i></b>');
-    winner = winner.replace("Iste cognovit", '<i><b>Iste cognóvit</i></b>');
-    winner = winner.replace("Iste cognóvit", '<i><b>Iste cognóvit</i></b>');
+    winner = winner.replace(/Fulg[eé]bunt [ij]usti/, '<i><b>Fulgébunt justi</i></b>');
+    winner = winner.replace(/Fulg[eé]bunt/, '<i><b>Fulgébunt</i></b>');
+    winner = winner.replace(/Iste cogn[óo]vit/, '<i><b>Iste cognóvit</i></b>');
     winner = winner.replace("Ecclesiae", '<i><b>Ecclesiae</i></b>');
     winner = winner.replace("Sancte Paule", '<i><b>Sancte Paule</i></b>');
     winner = winner.replace("Veni, sponsa Christi", '<i><b>Veni, sponsa Christi</i></b>');

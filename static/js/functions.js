@@ -210,6 +210,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     translated = false;
     trans_vesperae = "";
+    martyrologium = "";
     comm_vesperae = "";
     comm_missa = "";
     subtitulum = "";
@@ -224,9 +225,20 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( ref_sancto == "03_21" && ref_tempo.match(/lent_6_|tp_1_/) )
       { commemoratio = ""; translated_benedict = true; subtitulum = "Festum S.P.N. Benedicti translatum post Octavam Paschæ.";}
     if ( ref_sancto == "03_24" && ref_tempo.match(/lent_6_|tp_1_/) )
-      { commemoratio = ""; translated_gabriel = true; subtitulum = "Festum S. Gabrielis Archangeli translatum post Octavam Paschæ.";}
+      { commemoratio = ""; translated_gabriel = true; subtitulum = "Festum S. Gabrielis Archangeli translatum post Octavam Paschæ.";
+        martyrologium = '<li><div class="small"><u>in Capit.:</u> <red>In Martyr. 1o loco:</red> <ib>Apud Názareth Civitátem Galiléae * Annunciátio Domínica. ✝ - <blue>Ve městě Nazaret v Galileji * Zvěstování Páně. ✝</blue></ib> <red>Hodie <b>non</b> dicitur </red> <ib>Ave Maria.</ib></div></li>';}
     if ( ref_sancto == "03_25" && ref_tempo.match(/lent_6_|tp_1_/) )
       { commemoratio = ""; translated_annunt = true; subtitulum = "Festum Annuntiationis B.M.V. translatum post Octavam Paschæ.";}
+
+    ////// Martyrologium of feasts that can be translated \\\\\\\\\\
+    if ( ref_sancto == "03_18" && !ref_tempo.match(/lent_6_|tp_1_/) )
+      { martyrologium = '<div class="small"><li><u>in Capit.:</u> <font color="red">In Martyr. 1o loco:</font> <i><b>In Judæa, * natális sancti Joseph Sponsi beatíssimae Virginis Maríae, § quem Pius nonus Póntifex Máximus votis et précibus annuens totíus Cathólici orbis, * universális ecclésiae Patrónum declarávit. - <font color="blue">V Judsku narození (pro nebe) svatého Josefa, snoubence nejblahoslavenější Panny Marie, jehož nejvyšší velekněz Pius IX. na prosby celého katolického světa prohlásil za Patrona veškeré Církve.</i></b></font></li></div>'; }
+    if ( ref_sancto == "03_19" && !ref_tempo.match(/lent_6_|tp_1_/) )
+      { martyrologium = '<div class="small"><li><u>in Capit.:</u> <font color="red">In Martyr. 1o loco:</font> <i><b>In Judæa, * sancti Jóachim patris beatíssimae Vírginis Genitrícis Dei Maríae. - <font color="blue">V Judsku svatého Jáchima, otce nejblahoslavenější Panny Marie, vyznavače a patrona veškeré církve.</i></b></font></li></div>'; }
+    //if ( ref_sancto == "03_20" && !ref_tempo.match(/lent_6_|tp_1_/) )
+      { martyrologium = ''; }
+    if ( ref_sancto == "03_24" && !ref_tempo.match(/lent_6_|tp_1_/) )
+      { martyrologium = '<li><div class="small"><u>in Capit.:</u> <red>In Martyr. 1o loco:</red> <ib>Apud Názareth Civitátem Galiléae * Annunciátio Domínica. ✝ - <blue>Ve městě Nazaret v Galileji * Zvěstování Páně. ✝</blue></ib> <red>Hodie <b>non</b> dicitur </red> <ib>Ave Maria.</ib></div></li>'; }
     
     if ( ref_tempo == "tp_2_1" )
       { if (translated_joseph) {winner = days_sancto['03_19']; translated_joseph = false; translated = true;}
@@ -340,6 +352,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       //comm_missa = commemoratio['missa']; 
       comm_vesperae = commemoratio['vesperae']; }
 
+    if (martyrologium) { laudes_post += martyrologium; martyrologium = ""; }
+
     if (trans_vesperae != "" && comm_vesperae != "") comm_vesperae = trans_vesperae + " & " + comm_vesperae;
     else if (trans_vesperae != "" ) comm_vesperae = trans_vesperae;
 
@@ -356,7 +370,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
      ///////////  First Vespers to moved feasts  ////////////
     ////////////////////////////////////////////////////////
 
-    /////  First Vespers SS: Nominis Jesu  //////////
+    /////  First Vespers SS. Nominis Jesu  //////////
     if ( ref_sancto == "01_01" && ( weekday < 2 || weekday == 6 ) ) { vesperae = vesperae + ' - Com. SS. Nominis Jesu <b><i>Fecit mihi magna</i></b>'; }
     if ( (ref_sancto == "01_02" || ref_sancto == "01_03" ) && weekday == 6 ) { vesperae = "SS. Nominis Jesu - sine Com."; }
     if ( ref_sancto == "01_04" && weekday == 6 ) { vesperae = "SS. Nominis Jesu - Com. S. Telesphori Papæ et Martyris Iste sanctus"; }
@@ -507,6 +521,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if ( comm_laudes == "" ) et = "";
           if ( laudes == "" ) dash = "";
 
+          if (laudes.match(/Feria/i) && ref_tempo.match("lent"))
+             {
+              laudes = laudes.replace(/Feria\.|Feria/i, comm);
+              comm = "";
+             }
+          else {
           if ( commemoratio['laudes_commemoratio'].match(/^Com\. /) )
             { 
               if (laudes.match(/Com\. /)) laudes = laudes + " & " + comm;
@@ -517,8 +537,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           else if ( commemoratio['laudes_commemoratio'] && commemoratio['laudes_commemoratio'].length <= 3 ) {
             if ( comm_laudes == "" ) et = "";
             laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes; }
-          else if ( commemoratio['laudes'].match("Com. ") ) laudes = "Com. " + comm_laudes;
+          else if ( commemoratio['laudes'].match("Com. ") ) laudes = laudes + dash + "Com. " + comm_laudes;
           else laudes = laudes + dash + "Com. " + comm;
+          }
 
           //BACKUP else laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes;
 
@@ -614,11 +635,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           //et = " & ";
           if ( winner['vesperae'] == "" || vesperae == "" ) dash = ""; 
           if ( comm == "" && titulum_next == "" ) dash = ""; 
-
-          if ( commemoratio['vesperae_commemoratio'].match("^Com\. ") )
+          if ( commemoratio['vesperae_commemoratio'].match(/^Com\. /) )
             { 
              if ( comm == "" ) dash = "";
-             vesperae = vesperae + dash + comm;
+             vesperae = vesperae + dash + commemoratio['vesperae_commemoratio'];
             }
           else if ( commemoratio['vesperae_commemoratio'].length > 3 && commemoratio['force'] > 35 ) { vesperae = vesperae + dash + "Com. " + titulum + et + commemoratio['vesperae_commemoratio'];}
           else if ( commemoratio['vesperae_commemoratio'].length > 3 && commemoratio['force'] <= 35 ) { vesperae = vesperae + dash + "Com. " + commemoratio['vesperae_commemoratio'];} // CHECK!!!
@@ -646,6 +666,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
              vesperae = commemoratio['vesperae'] + " – " + winner['vesperae_commemoratio'];
             }
             else if (commemoratio['vesperae'].match(/Feria/i)) vesperae = commemoratio['vesperae']; //  + " – Com. " + winner['vesperae_commemoratio']
+            else if (winner['vesperae'].match(/Fer\.|Sabb./i)) vesperae = commemoratio['vesperae'] + " – Com. " + winner['vesperae_commemoratio'];
             else vesperae = commemoratio['vesperae'] + " – Com. " 
               + winner['vesperae'] + " "  // more testing needed
               + winner['vesperae_commemoratio'];
@@ -761,6 +782,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     vesperae = vesperae.replace("Com. Com.", "Com."); // to be removed, hopefully
     vesperae = vesperae.replace(/ -  $/, "");
     vesperae = vesperae.replace(/Feria [-–]/, translate_feria(ref_tempo, 1) + " - "); // short version (Fer. ij.)
+    //vesperae = vesperae.replace(/Feria./, translate_feria(ref_tempo, 1)); // short version (Fer. ij.)
 
     /////////////////////|\\\\\\\\\\\\\\\\\\\\\\
     /////////  Lectiones in Refectorio  \\\\\\\\\
@@ -774,10 +796,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( ref_tempo == "tp_8_0") lectio_ref++;
     if ( weekday == 0 && month > 6 && month < 11 && day < 8) {dominica_prima = true; lectio_ref++;}
 
-    if (missa_post != "") row = "<br>"; else row = "";
+    //if (missa_post != "") row = "<br>"; else row = ""; // hopefully not needed anymore
 
     if ((lectio_ref > lectio_ref_prev) || (month > 6 && dominica_prima)) {
-        missa_post = missa_post + row + '¶ <font color="red">In Refectorio ab hodierna die ' + lectiones[lectio_ref] + ', prout Cæremoniarius indicat (Rit.)</font>'; 
+        missa_post = missa_post + '<div class="small">¶ <font color="red">In Refectorio ab hodierna die ' + lectiones[lectio_ref] + ', prout Cæremoniarius indicat (Rit.)</font></div>'; 
         lectio_ref_prev++;
         dominica_prima = false;
         }
@@ -787,7 +809,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //////  Replacement section (HTML tags) and output  \\\\\\\
     //\\\\\\\\\\\\\\\\\\\\\\\\\\\////////////////////////////\\
 
-    for (let j of ["before"]) { winner[j] = addtags(winner[j]); }
+    before = addtags(before);
     header = addtags(header);
     vigiliae = addtags(vigiliae);
     laudes = addtags(laudes); 
