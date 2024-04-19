@@ -117,6 +117,13 @@ ul {
     line-height: 120%;
 }
 
+.small_pg {
+    font-size: smaller;
+    line-height: 120%;
+    padding-top: 6px;
+    text-indent: 1em;
+}
+
 .small-caps {
     font-variant: small-caps;
     font-family: Libertine;
@@ -132,6 +139,11 @@ ul {
 
 .bold {
     font-weight: bold;
+}
+
+u {
+  text-decoration: underline;
+  text-decoration-style: double;
 }
 
 .before,
@@ -202,6 +214,11 @@ ul {
     font-family: LibertineSC;
     font-size: 1.10em;
     font-variant: small-caps;
+}
+
+.header_non_SC {
+    font-family: Libertine;
+    font-size: 1.00em;
 }
 
 .de-ea {

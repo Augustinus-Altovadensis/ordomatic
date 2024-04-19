@@ -39,6 +39,10 @@ function addtags(winner) {
     winner = winner.replace(/In fine Evangelium feriae./i, '<font color="red">In fine Evangelium Feriae.</font>');
     winner = winner.replace(/In fine Miss(æ|ae) Evangelium feri(æ|ae)./i, '<font color="red">In fine Missæ Evangelium Feriae.</font>');
     winner = winner.replace(/non dicitur./, '<font color="red">non dicitur.</font>');
+    winner = winner.replaceAll("℣.", '<font color="red"><b>℣.</b></font>');
+    winner = winner.replaceAll("℟.", '<font color="red">℟.</font>');
+    winner = winner.replace("Magn.", '<font color="red">Magn.</font>');
+    winner = winner.replace("Ben.", '<font color="red">Ben.</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
@@ -67,7 +71,7 @@ function addtags(winner) {
     winner = winner.replace(/Fulg[eé]bunt [ij]usti/, '<i><b>Fulgébunt justi</i></b>');
     winner = winner.replace(/Fulg[eé]bunt/, '<i><b>Fulgébunt</i></b>');
     winner = winner.replace(/Iste cogn[óo]vit/, '<i><b>Iste cognóvit</i></b>');
-    winner = winner.replace("Ecclesiae", '<i><b>Ecclesiae</i></b>');
+    winner = winner.replace(/Eccl[eé]si(ae|æ)/, '<i><b>Ecclésiæ</i></b>');
     winner = winner.replace("Sancte Paule", '<i><b>Sancte Paule</i></b>');
     winner = winner.replace("Veni, sponsa Christi", '<i><b>Veni, sponsa Christi</i></b>');
     winner = winner.replace("Veni sponsa", '<i><b>Veni sponsa</i></b>');
