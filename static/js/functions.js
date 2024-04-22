@@ -820,7 +820,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //if (missa_post != "") row = "<br>"; else row = ""; // hopefully not needed anymore
 
     if ((lectio_ref > lectio_ref_prev) || (month > 6 && dominica_prima)) {
-        missa_post = missa_post + '<div class="small">¶ <font color="red">In Refectorio ab hodierna die ' + lectiones[lectio_ref] + ', prout Cæremoniarius indicat (Rit.)</font></div>'; 
+        missa_post = missa_post + '<div class="small_pg">¶ <font color="red">In Refectorio ab hodierna die ' + lectiones[lectio_ref] + ', prout Cæremoniarius indicat (Rit.)</font></div>'; 
         lectio_ref_prev++;
         dominica_prima = false;
         }
