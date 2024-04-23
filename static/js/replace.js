@@ -71,7 +71,7 @@ function addtags(winner) {
     winner = winner.replace(/Fulg[eé]bunt [ij]usti/, '<i><b>Fulgébunt justi</i></b>');
     winner = winner.replace(/Fulg[eé]bunt/, '<i><b>Fulgébunt</i></b>');
     winner = winner.replace(/Iste cogn[óo]vit/, '<i><b>Iste cognóvit</i></b>');
-    winner = winner.replace(/Eccl[eé]si(ae|æ)/, '<i><b>Ecclésiæ</i></b>');
+    winner = winner.replace(/Eccl[eé]si(ae|æ) /, '<i><b>Ecclésiæ</i></b> ');
     winner = winner.replace("Sancte Paule", '<i><b>Sancte Paule</i></b>');
     winner = winner.replace("Veni, sponsa Christi", '<i><b>Veni, sponsa Christi</i></b>');
     winner = winner.replace("Veni sponsa", '<i><b>Veni sponsa</i></b>');
@@ -115,6 +115,11 @@ function addtags(winner) {
     winner = winner.replace("A cunctis", '<i><b>A cunctis</i></b>');
     winner = winner.replace(/Omn[ií]potens/, '<i><b>Omnípotens</i></b>');
     winner = winner.replace("Benedicámus Dómino, Deo grátias.", '<i><b><font color="red">B</font>enedicámus Dómino, <font color="red">D</font>eo grátias.</i></b>');
+    winner = winner.replace("Hanc ígitur", '<i><b>Hanc ígitur</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replaceAll('<ib>', '<i><b>');
