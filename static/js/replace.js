@@ -20,10 +20,10 @@ function addtags(winner) {
     winner = winner.replace(/B.M.V.|B. M. V./, 'B. M. V.');
     winner = winner.replace(/S\.P\.N\.|S\. P\. N\./, 'S. P. N.');
     winner = winner.replace(/O\.N\.|O\. N\./, 'O. N.');
-    winner = winner.replace("sine Com.", 'sine <font color="green"><b><del>Com.</del></b></font> ');
+    winner = winner.replace("sine Com.", 'sine <font color="green"><b><s>Com.</s></b></font> ');
     winner = winner.replace("Com.", '<font color="green"><b>Com.</b></font> ');
     winner = winner.replaceAll("Comme.", '<font color="blue"><b>Comme.</b></font> ');
-    winner = winner.replace("sine Glo.", 'sine <del>Glo.</del>');
+    winner = winner.replace("sine Glo.", 'sine <s>Glo.</s>');
     //winner = winner.replace("&", '<font color="green"><b>&</b></font> ');
     winner = winner.replace("1a ", '1<sup>a</sup> ');
     winner = winner.replace("1o ", '1<sup>o</sup> ');
