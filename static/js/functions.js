@@ -217,7 +217,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     trans_before = "";
 
     ////// Removing Commemorations during the Holy Week and Easter Octave
-    if ( commemoratio && ref_tempo.match(/lent_6_|tp_1_/) )
+    if ( commemoratio && ( ref_tempo.match(/lent_6_|tp_1_[01]/) || (ref_tempo.match(/tp_1_2/) && !commemoratio['header'].match(/de sequenti/i) )))
       { trans_before = "Nihil fit hoc anno de festo " + commemoratio['header']; 
         commemoratio = ""; }
 
@@ -482,6 +482,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (commemoratio)
       { titulum = commemoratio['header'].split("+", 1);
         titulum_missa = commemoratio['header'].split(",", 1);
+        if ( commemoratio['header'].match(/\+/) ) titulum_missa = commemoratio['header'].split("+", 1) + "";
         if ( commemoratio['header'].match(/De ea/i) ) { titulum_missa = translate_feria(ref_tempo); }
         if ( commemoratio['header'].match(/ Oct\.|Octav|De ea/i) ) { titulum = ""; titulum_missa = titulum_missa + ""; titulum_missa = titulum_missa.replace(/.*Oct/i, "Oct"); }
 
@@ -703,6 +704,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           // Transferred Matthias needs to have comm. of S. Mechtildis, but as the winner is special (Matthias) and commemoratio the Feria, the S. Mechtildis comm. needs to be added manually
           if ( winner == days_sancto['matthias'] && ref_sancto == "02_26" ) vesperae += " & S. Mechtildis Virg. Veni, sponsa (suppl. brev. Cist. 1965)";
+
+          // some antiphons change at Easter
+          if ( ref_tempo.match("tp") ) {
+            vesperae = vesperae.replace(/Iste cogn[óo]vit/,"Beátus vir");
+
+            laudes = laudes.replace(/Simil[áa]bo eum/,"Qui manet in me");
+          }
 
           comm = null;
         }
