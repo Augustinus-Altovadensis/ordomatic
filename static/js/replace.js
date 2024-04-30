@@ -26,6 +26,8 @@ function addtags(winner) {
     winner = winner.replaceAll("Comme.", '<font color="blue"><b>Comme.</b></font> ');
     winner = winner.replace("sine Glo.", 'sine <s>Glo.</s>');
     //winner = winner.replace("&", '<font color="green"><b>&</b></font> ');
+    winner = winner.replace(/2a Eccl[eé]si(ae|æ) /, '2a <i><b>Ecclésiæ</i></b> ');
+    winner = winner.replace(/3a Eccl[eé]si(ae|æ) /, '3a <i><b>Ecclésiæ</i></b> ');
     winner = winner.replace("1a ", '1<sup>a</sup> ');
     winner = winner.replace("1o ", '1<sup>o</sup> ');
     winner = winner.replace("2a ", '2<sup>a</sup> ');
@@ -72,7 +74,7 @@ function addtags(winner) {
     winner = winner.replace(/Fulg[eé]bunt [ij]usti/, '<i><b>Fulgébunt justi</i></b>');
     winner = winner.replace(/Fulg[eé]bunt/, '<i><b>Fulgébunt</i></b>');
     winner = winner.replace(/Iste cogn[óo]vit/, '<i><b>Iste cognóvit</i></b>');
-    winner = winner.replace(/Eccl[eé]si(ae|æ) /, '<i><b>Ecclésiæ</i></b> ');
+    //winner = winner.replace(/Eccl[eé]si(ae|æ) /, '<i><b>Ecclésiæ</i></b> ');
     winner = winner.replace("Sancte Paule", '<i><b>Sancte Paule</i></b>');
     winner = winner.replace(/Veni(, | )sponsa Christi/i, '<i><b>Veni, sponsa Christi</i></b>');
     winner = winner.replace("Veni sponsa", '<i><b>Veni sponsa</i></b>');

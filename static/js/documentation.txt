@@ -43,6 +43,9 @@ const days_sancto = {
     'rank': 'Serm. min.',
     'subtitulum': '',
     'vigiliae': '',
+    'vesperae_j':'',
+    'vesperae_j_commemoratio':'',
+    'martyrologium':'',
     'laudes': 'Hym. <b><i>A solis ortu.</i></b> ad Ben. Ant. <i>Mirabile</i> <font color="red">extra stalla & flexis genibus ad</font> <b><i>Deus homo factus est.</i></b> - sine <font color="green"><del>Com.</del></font>',
     'laudes_commemoratio':'',
     'laudes_post':'',
@@ -61,6 +64,9 @@ const days_sancto = {
     'header': '',
     'rank': '',
     'subtitulum': '',
+    'vesperae_j':'',
+    'vesperae_j_commemoratio':'',
+    'martyrologium':'',
     'vigiliae': '',
     'laudes': '',
     'laudes_commemoratio':'',
@@ -82,6 +88,9 @@ const days_sancto = {
     'header': '',               Name of the day/feast, must contain ","
     'rank': '',                 Cistercian rank (Commemoratio...Serm. maj.)
     'subtitulum': '',           Subtitle (usually rubric of the day, in red)
+    'vesperae_j':'',            First Vespers
+    'vesperae_j_commemoratio':'', Commemorated First Vespers
+    'martyrologium':'',         Martyrologium (read previous day)
     'vigiliae': '',             Vigiliae: block started with In Vigil (undelined)
     'laudes': '',               Laudes: block started with In Laud. (undelined)
     'laudes_commemoratio':'',   Format: Cx or Antiphon Incipit, used in Com. section
