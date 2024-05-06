@@ -20,11 +20,12 @@ function addtags(winner) {
     winner = winner.replace(/B.M.V.|B. M. V./, 'B. M. V.');
     winner = winner.replace(/S\.P\.N\.|S\. P\. N\./, 'S. P. N.');
     winner = winner.replace(/O\.N\.|O\. N\./, 'O. N.');
-    winner = winner.replace("sine Com.", 'sine <font color="green"><b><s>Com.</s></b></font> ');
+    winner = winner.replace("sine Com.", 'sine <font color="green"><b><s>Com.</s></b></font>');
     winner = winner.replace(/^Com\./, '<font color="green"><b>Com.</b></font> ');
     winner = winner.replace(/Com\. /, '<font color="green"><b>Com.</b></font> ');
     winner = winner.replaceAll("Comme.", '<font color="blue"><b>Comme.</b></font> ');
     winner = winner.replace("sine Glo.", 'sine <s>Glo.</s>');
+    // Following will be switched off probably
     //winner = winner.replace("&", '<font color="green"><b>&</b></font> ');
     winner = winner.replace(/2a Eccl[eé]si(ae|æ) /, '2a <i><b>Ecclésiæ</i></b> ');
     winner = winner.replace(/3a Eccl[eé]si(ae|æ) /, '3a <i><b>Ecclésiæ</i></b> ');
@@ -35,13 +36,13 @@ function addtags(winner) {
     winner = winner.replaceAll("Dicitur", '<font color="red">Dicitur</font> ');
     winner = winner.replace("⇓", '<font color="red">⇓</font>');
     winner = winner.replace("(Ex Processionale Cisterciense)", '<font color="red">(Ex Processionale Cisterciense)</font>');
-    winner = winner.replace(/℟. maj.|R. maj./, '<font color="red">℟. maj.</font>');
+    winner = winner.replace(/℟. maj.|R. maj./, '<font color="red">℟. maj.</font>');
     winner = winner.replace("(in „Schaller“ etiam)", '<font color="red">(in „Schaller“ etiam)</font>');
     winner = winner.replace(/In fine Evangelium feriae./i, '<font color="red">In fine Evangelium Feriae.</font>');
     winner = winner.replace(/In fine Miss(æ|ae) Evangelium feri(æ|ae)./i, '<font color="red">In fine Missæ Evangelium Feriae.</font>');
     winner = winner.replace(/non dicitur./, '<font color="red">non dicitur.</font>');
-    winner = winner.replaceAll("℣.", '<font color="red"><b>℣.</b></font>');
-    winner = winner.replaceAll("℟.", '<font color="red">℟.</font>');
+    winner = winner.replaceAll("℣. ", '<font color="red"><b>℣.</b></font> ');
+    winner = winner.replaceAll("℟. ", '<font color="red">℟.</font> ');
     //winner = winner.replaceAll(/Aña\. |Aña /, '<font color="red">Aña.</font> ');
     //winner = winner.replace("Magn.", '<font color="red">Magn.</font>');
     //winner = winner.replace("Mag.", '<font color="red">Mag.</font>');
