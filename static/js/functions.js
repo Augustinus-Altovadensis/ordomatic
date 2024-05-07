@@ -841,9 +841,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     vesperae = vesperae.replace("&", '<font color="green"><b>&</b></font> ');
 
     //// Postprocessing \\\\
-    vesperae = vesperae.replace("Com. Com.", "Com."); // to be removed, hopefully
-    vesperae = vesperae.replace(/ -  $/, "");
-    vesperae = vesperae.replace(/Feria [-–]/, translate_feria(ref_tempo, 1) + " - "); // short version (Fer. ij.)
+    //vesperae = vesperae.replace("Com. Com.", "Com."); // to be removed, hopefully
+    //vesperae = vesperae.replace(/ -  $/, "");
+    //vesperae = vesperae.replace(/Feria [-–]/, translate_feria(ref_tempo, 1) + " - "); // short version (Fer. ij.)
     //vesperae = vesperae.replace(/Feria./, translate_feria(ref_tempo, 1)); // short version (Fer. ij.)
 
     /////////////////////|\\\\\\\\\\\\\\\\\\\\\\
