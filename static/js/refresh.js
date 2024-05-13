@@ -36,11 +36,11 @@ function refresh_ordo(year) {
 
   // Advent:
   advent_duration = 21 + christmas_weekday;
-  content = content.concat(period(advent_duration, first_sunday_of_advent, 'adv_', 0, 0, 0));
+  content = content.concat(period(advent_duration+1, first_sunday_of_advent, 'adv_', 0, 0, 0));
 
   // Christmas time:
   christmas_time_duration = 19 - ((christmas_weekday + 5) % 7);
-  content = content.concat(period(christmas_time_duration, christmas, 'christmas_', 0, 0, 0));
+  content = content.concat(period(christmas_time_duration+1, christmas, 'christmas_', 0, 0, 0));
 
   baptism = new Date(christmas.getTime() + (christmas_time_duration * day_in_milliseconds));
 
@@ -74,28 +74,28 @@ function refresh_ordo(year) {
   if ( num_after_epiphany < 6 && ( num_after_epiphany + (num_after_dom_xxiij / 7) == 5 )) extra_sunday = 1; else extra_sunday = 0; 
 
   // Tempus per Annum until Septuagesima:
-  content = content.concat(period(tempus_per_annum_until_septuagesima, baptism, 'pe_', 0, 0, extra_sunday));
+  content = content.concat(period(tempus_per_annum_until_septuagesima+1, baptism, 'pe_', 0, 0, extra_sunday));
 
   // Septuagesima Period:
-  content = content.concat(period(17, septuagesima, 'sept_', 0, 0, 0));
+  content = content.concat(period(17+1, septuagesima, 'sept_', 0, 0, 0));
 
   // Lent:
   // Days after Ash wednesday:
-  content = content.concat(period(4, ash_wednesday, 'ash_', 0, 3, 0));
+  content = content.concat(period(4+1, ash_wednesday, 'ash_', 0, 3, 0));
   // Rest of Lent:
-  content = content.concat(period(42, new Date(ash_wednesday.getTime() + (4 * day_in_milliseconds)), 'lent_', 0, 0, 0));
+  content = content.concat(period(42+1, new Date(ash_wednesday.getTime() + (4 * day_in_milliseconds)), 'lent_', 0, 0, 0));
 
   // Paschaltide:
-  content = content.concat(period(56, easter, 'tp_', 0, 0, 0));
+  content = content.concat(period(56+1, easter, 'tp_', 0, 0, 0));
 
   // Tempus per Annum after Pentecost (23 weeks):
-  content = content.concat(period( 23 * 7, new Date(easter.getTime() + (56 * day_in_ms)), 'pa_', 0, 0, 0));
+  content = content.concat(period( 23 * 7 + 1, new Date(easter.getTime() + (56 * day_in_ms)), 'pa_', 0, 0, 0));
 
   // Remaining Sundays after Epiphany:
-  content = content.concat(period(num_after_dom_xxiij, dominica_xxiij, 'pe_', num_after_epiphany + extra_sunday, 0, 0));
+  content = content.concat(period(num_after_dom_xxiij+1, dominica_xxiij, 'pe_', num_after_epiphany + extra_sunday, 0, 0));
   
   // Dominica xxiv. et ultima post Pentecosten et hebdomada ejus:
-  content = content.concat(period(((advent_new - dominica_ultima) / day_in_ms), dominica_ultima, 'pa_', 23, 0, 0));
+  content = content.concat(period(((advent_new - dominica_ultima) / day_in_ms)+1, dominica_ultima, 'pa_', 23, 0, 0));
 
   content = content.concat('<div class="body text-justify">num_after_epiphany = ' + num_after_epiphany + "  |  num_after_dom_xxiij = " + (num_after_dom_xxiij/7) + "  |  Sum of all days = " + (advent_duration + christmas_time_duration + tempus_per_annum_until_septuagesima + 280 + num_after_dom_xxiij + ((advent_new - dominica_ultima) / day_in_ms)) +'</div>');
 

@@ -27,6 +27,7 @@ function addtags(winner) {
     winner = winner.replace("sine Glo.", 'sine <s>Glo.</s>');
     // Following will be switched off probably
     //winner = winner.replace("&", '<font color="green"><b>&</b></font> ');
+    winner = winner.replace("&.", '&');
     winner = winner.replace(/2a Eccl[eé]si(ae|æ) /, '2a <i><b>Ecclésiæ</i></b> ');
     winner = winner.replace(/3a Eccl[eé]si(ae|æ) /, '3a <i><b>Ecclésiæ</i></b> ');
     winner = winner.replace("1a ", '1<sup>a</sup> ');
@@ -66,6 +67,7 @@ function addtags(winner) {
     winner = winner.replace(/Cum incenso ad [oO]blata\. |Cum incenso ad [oO]blata /, '<font color="red">Cum incenso ad oblata. </font>');
     winner = winner.replace("de Officio diei", '<font color="red">de Officio diei</font>');
     winner = winner.replace("Hymnus, in quo dicitur:", '<font color="red">Hymnus, in quo dicitur:</font> ');
+    winner = winner.replace(/Aña Sub tuum|Aña. Sub tuum/, '<font color="red">Aña.</font> <i><b>Sub tuum</i></b>');
     winner = winner.replace("Sub tuum", '<i><b>Sub tuum</i></b>');
     winner = winner.replace("Asperges", '<i><b>Asperges</i></b>');
     winner = winner.replace("Qui vult", '<i><b>Qui vult</i></b>');
@@ -120,8 +122,8 @@ function addtags(winner) {
     winner = winner.replace(/Omn[ií]potens/, '<i><b>Omnípotens</i></b>');
     winner = winner.replace("Benedicámus Dómino, Deo grátias.", '<i><b><font color="red">B</font>enedicámus Dómino, <font color="red">D</font>eo grátias.</i></b>');
     winner = winner.replace("Hanc ígitur", '<i><b>Hanc ígitur</i></b>');
-    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
-    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace(/Conc[ée]de nos/, '<i><b>Concéde nos</i></b>');
+    winner = winner.replace("Vidi aquam", '<i><b>Vidi aquam</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
