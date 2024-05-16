@@ -13,6 +13,7 @@ function month_human_readable_genitive(month) {
 function liturgical_color(color) {
   if (color == "white" ) { return '<span class="outline">Alb.</span>';}
   if (color == "violet/white" ) { return '<font color="#9c29c1">Viol.</font>/<span class="outline">Alb.</span>';}
+  if (color == "violet/red" ) { return '<font color="#9c29c1">Viol.</font>/<font color="red">Rub.</font>';}
   if (color == "green" ) { return '<font color="green">Vir.</font>';}
   if (color == "violet" ) { return '<font color="#9c29c1">Viol.</font>';}
   if (color == "red" ) { return '<font color="red">Rub.</font>';}
@@ -242,8 +243,17 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio = "";
       }
 
+    if ( commemoratio && ref_tempo.match(/tp_7_6|tp_8|pa_1_0/) && commemoratio['force'] > 50 )
+      {
+        moved.push(ref_sancto);
+        //subtitulum = "Odstřelili jsme tento svátek: " + commemoratio['header'];
+        trans_titulum = commemoratio['header'].split(",", 1);
+        trans_before = "Festum " + trans_titulum[0] + " transfertur post Octavam Pentecostes."
+        commemoratio = "";
+      }
+
     // Completely removing feasts iij. Lect. and lower during Holy Week and Monday and Tuesday of Easter Octave
-    if ( commemoratio && ( ref_tempo.match(/lent_6_[3456]|tp_1_[012]/) ))
+    if ( commemoratio && ( ref_tempo.match(/lent_6_[3456]|tp_1_[012]|tp_7_6|tp_8|pa_1_0/) ))
       { trans_before = "Nihil fit hoc anno de festo " + commemoratio['header']; 
         commemoratio = ""; }
 

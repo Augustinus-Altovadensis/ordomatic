@@ -4444,26 +4444,26 @@ const days_tempo = {
     'after': ''
   },
   'tp_7_6': {
-    'force': 20,
+    'force': 120,
     'before': '',
-    'color': 'white',
-    'header': 'De ea.',
-    'rank': '',
+    'color': 'violet/red',
+    'header': 'de ea - Vigilia Pentecostes.',
+    'rank': 'iij. Lect. et M. privileg.',
     'subtitulum': '',
     'vesperae_j':'',
     'vesperae_j_commemoratio':'',
     'martyrologium':'',
     'vigiliae': '',
-    'laudes': '',
+    'laudes': 'Psalmi fer. - sine Com. ',
     'laudes_commemoratio':'',
-    'laudes_post':'',
+    'laudes_post':'<li><div class="small"><u>in Capit.:</u> <red>in Martyr. 1o loco:</red> <ib>Dies Pentecóstes, * quando Spíritus sanctus Jerosólymis super discípulos ígneis linguis advénit.✝ - <blue>Den Letnic, kdy Duch svatý v Jerusalémě sestoupil na učedníky v ohnivých jazycích.</blue></ib></div></li>',
     'missa': '',
-    'missa_post': '',
-    'vesperae': '',
+    'missa_post': '<li><u>in Miss. priv.:</u> Omissis prophetiis et litaniis Missa incipitur a Introitu positum in fine missae – Kyrie – Gloria – Ora. unica <ib>Praesta</ib></li> <li><u>in Miss. conv.:</u> (post Nonam)  Lectiones et Orationes - Prima pars Litaniarum - Præparatio Altaris, Celebrantis et Ministrorum - Secunda pars Litaniarum – sine Introitu – Kyrie (sine org.) - Glo. (pulsantur campanae usque ad Domine Deus Rex) - ad Evang. non deferuntur luminaria, sed incensum - Ora. unica <ib>Praesta</ib> - Præf. Pent. & Communicántes & Hanc ígitur</li>',
+    'vesperae': 'de seq. ℟. maj. <ib>Repléti sunt</ib> - sine Com.',
     'vesperae_commemoratio': '',
     'vesperae_post': '',
     'body': '',
-    'after': ''
+    'after': '<div class="small">¶ <font color="red">Ad Hymnos Completorii et Horarum usque ad Vesperas SS. Trinitatis exclusive, dicitur: <i><b>G</font>lória Patri, Dómine, Natóque, qui a mórtuis Surréxit, ac Paráclito, In saeculórum saecula. Amen.</i></b></div>'
   },
   'tp_8_0': {
     'force': 120,
@@ -4488,7 +4488,7 @@ const days_tempo = {
     'after': ''
   },
     'tp_8_1': {
-    'force': 20,
+    'force': 120,
     'before': '',
     'color': 'white',
     'header': 'De ea. Feria ij. Oct. Pentecostes',
@@ -4510,7 +4510,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_8_2': {
-    'force': 20,
+    'force': 120,
     'before': '',
     'color': 'white',
     'header': 'De ea. Feria iij. Oct. Pentecostes',
@@ -4532,7 +4532,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_8_3': {
-    'force': 20,
+    'force': 80,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -4554,7 +4554,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_8_4': {
-    'force': 20,
+    'force': 80,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -4576,7 +4576,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_8_5': {
-    'force': 20,
+    'force': 80,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -4598,7 +4598,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_8_6': {
-    'force': 20,
+    'force': 80,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
