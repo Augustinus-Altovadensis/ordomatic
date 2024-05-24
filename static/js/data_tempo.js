@@ -3542,7 +3542,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_2_0': {
-    'force': 80,
+    'force': 100,
     'before': '',
     'color': 'white',
     'header': 'Dominica in Albis in Octava Paschæ (Dom. I. post Pascha).',
@@ -3564,7 +3564,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_2_1': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3577,7 +3577,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'De Dominica in albis - Glo - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
@@ -3586,7 +3586,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_2_2': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3599,7 +3599,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'De Dominica in albis - Glo - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
@@ -3608,7 +3608,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_2_3': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3621,7 +3621,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'De Dominica in albis - Glo - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
@@ -3630,7 +3630,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_2_4': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3643,7 +3643,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'De Dominica in albis - Glo - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
@@ -3652,7 +3652,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_2_5': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3665,7 +3665,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'De Dominica in albis - Glo - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
@@ -3674,7 +3674,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_2_6': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3687,7 +3687,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'De Dominica in albis - Glo - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
@@ -3696,29 +3696,29 @@ const days_tempo = {
     'after': ''
   },
   'tp_3_0': {
-    'force': 120,
+    'force': 70,
     'before': '',
     'color': 'white',
     'header': 'II. post Pascha.',
     'rank': '',
     'subtitulum': '',
-    'vesperae_j':'',
+    'vesperae_j':'Sabbato ante Dom. II. post Pascha',
     'vesperae_j_commemoratio':'',
     'martyrologium':'',
     'vigiliae': '',
-    'laudes': '',
+    'laudes': 'sine Com.',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'Processio per Claustrum - Vidi aquam - Glo. - Cre. - Præf. Pasch.',
     'missa_post': '',
-    'vesperae': '',
+    'vesperae': 'sine Com.',
     'vesperae_commemoratio': '',
     'vesperae_post': '',
     'body': '',
     'after': ''
   },
   'tp_3_1': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3731,7 +3731,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'Glo. - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa. - Praef. Pasch.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
@@ -3740,7 +3740,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_3_2': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3753,7 +3753,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'Glo. - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa. - Praef. Pasch.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
@@ -3762,29 +3762,29 @@ const days_tempo = {
     'after': ''
   },
   'tp_3_3': {
-    'force': 20,
+    'force': 120,
     'before': '',
     'color': 'white',
-    'header': 'De ea.',
-    'rank': '',
+    'header': 'S. Joseph, Sponsi B. M. V. Conf. et Eccl. Univ. Patroni',
+    'rank': 'Serm. maj.',
     'subtitulum': '',
-    'vesperae_j':'',
+    'vesperae_j':'de seq. ℟. maj. <ib>Fecit me Dóminus.</ib>',
     'vesperae_j_commemoratio':'',
     'martyrologium':'',
     'vigiliae': '',
-    'laudes': '',
+    'laudes': 'sine Com.',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'Glo. - Cre - Praef. S. Joseph.',
     'missa_post': '',
-    'vesperae': '',
+    'vesperae': 'de festo - sine Com.',
     'vesperae_commemoratio': '',
     'vesperae_post': '',
     'body': '',
     'after': ''
   },
   'tp_3_4': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3797,7 +3797,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'Glo. - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa. - Praef. Pasch.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
@@ -3806,7 +3806,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_3_5': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3819,7 +3819,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'Glo. - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa. - Praef. Pasch.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
@@ -3828,7 +3828,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_3_6': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3841,7 +3841,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '',
+    'missa': 'Glo. - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa. - Praef. Pasch.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
@@ -3850,7 +3850,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_4_0': {
-    'force': 60,
+    'force': 70,
     'before': '',
     'color': 'white',
     'header': 'III. post Pascha.',
@@ -3872,7 +3872,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_4_1': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3894,7 +3894,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_4_2': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3916,7 +3916,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_4_3': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3938,7 +3938,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_4_4': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3960,7 +3960,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_4_5': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -3982,7 +3982,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_4_6': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -4004,7 +4004,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_5_0': {
-    'force': 120,
+    'force': 70,
     'before': '',
     'color': 'white',
     'header': 'IV. post Pascha.',
@@ -4026,7 +4026,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_5_1': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -4048,7 +4048,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_5_2': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -4070,7 +4070,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_5_3': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -4092,7 +4092,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_5_4': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -4114,7 +4114,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_5_5': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -4136,7 +4136,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_5_6': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -4158,7 +4158,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_6_0': {
-    'force': 120,
+    'force': 70,
     'before': '',
     'color': 'white',
     'header': 'V. post Pascha.',
@@ -4180,7 +4180,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_6_1': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -4202,7 +4202,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_6_2': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',
@@ -4224,7 +4224,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_6_3': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',

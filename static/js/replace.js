@@ -124,8 +124,8 @@ function addtags(winner) {
     winner = winner.replace("Hanc ígitur", '<i><b>Hanc ígitur</i></b>');
     winner = winner.replace(/Conc[ée]de nos/, '<i><b>Concéde nos</i></b>');
     winner = winner.replace("Vidi aquam", '<i><b>Vidi aquam</i></b>');
-    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
-    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace(/F[íi]li(æ|ae) Jer[úu]salem/, '<i><b>Fíliæ Jerúsalem</i></b>');
+    winner = winner.replace(/Lux perp[ée]tua/, '<i><b>Lux perpétua</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replaceAll('<ib>', '<i><b>');
