@@ -14,6 +14,7 @@ function liturgical_color(color) {
   if (color == "white" ) { return '<span class="outline">Alb.</span>';}
   if (color == "violet/white" ) { return '<font color="#9c29c1">Viol.</font>/<span class="outline">Alb.</span>';}
   if (color == "violet/red" ) { return '<font color="#9c29c1">Viol.</font>/<font color="red">Rub.</font>';}
+  if (color == "red/violet" ) { return '<font color="red">Rub.</font>/<font color="#9c29c1">Viol.</font>';}
   if (color == "green" ) { return '<font color="green">Vir.</font>';}
   if (color == "violet" ) { return '<font color="#9c29c1">Viol.</font>';}
   if (color == "red" ) { return '<font color="red">Rub.</font>';}
@@ -90,6 +91,8 @@ function translate_feria(ref_tempo, short) {
     feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + tempus;
   else if ( ref[0] == "lent" ) 
     feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + " infra hebd. " + roman_lowercase_numerals[ref[1]-1] + tempus;
+  else if ( ref[0] == "tp" ) 
+    feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + " infra hebd. " + roman_lowercase_numerals[ref[1]-2] + tempus;
   else feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + " post Dom. " + roman_lowercase_numerals[ref[1]-1] + tempus;
   if ( ref[2] == "0" ) feria_readable = "Dom. " + roman_lowercase_numerals[ref[1]-1] + tempus;
   feria_short = "Fer. " + roman_lowercase_numerals[ref[2]];
@@ -98,6 +101,7 @@ function translate_feria(ref_tempo, short) {
   feria_readable = feria_readable.replace("Fer. vij.","Sabb.");
   feria_short = feria_short.replace("Fer. j.","Dom.");
   feria_readable = feria_readable.replace("Fer. j. post ","");
+  if (ref_tempo.match(/tp_6_[123]/)) feria_readable = feria_readable.replace("infra hebd. v. Paschæ","Rogationum");
 
   if (short) return feria_short;
   else return feria_readable;
@@ -253,7 +257,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
 
     // Completely removing feasts iij. Lect. and lower during Holy Week and Monday and Tuesday of Easter Octave
-    if ( commemoratio && ( ref_tempo.match(/lent_6_[3456]|tp_1_[012]|tp_7_6|tp_8|pa_1_0/) ))
+    if ( commemoratio && ( ref_tempo.match(/lent_6_[3456]|tp_1_[012]|tp_7_6|tp_8_[012]|pa_1_0/) ))
       { trans_before = "Nihil fit hoc anno de festo " + commemoratio['header']; 
         commemoratio = ""; }
 
@@ -475,12 +479,18 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( ref_sancto == "02_24" && is_leap_year(year) && weekday != 6 ) { vesperae = "de seq." + dash + winner['vesperae_commemoratio'];}
     if ( ref_sancto == "02_25" && is_leap_year(year) && weekday == 0 ) { vesperae = "de seq. - " + winner['vesperae_commemoratio'];}
 
-    ///// Missa Votiva de Beata - I. Vespers \\\\\
-    //if (weekday == 5 && winner_next['force'] < 35 && winner['force'] < 35 )
-    //  { vesperae = "de seq."; } //winner_next = days_sancto['votiva_bmv']; }
-    //if (weekday == 5 && winner_next['force'] < 35)
-    //  after = '<div class="small">¶ <font color="red">Ad Completorium et per Horas in die, in fine Hymnorum dicitur: <i><b>G</font>lória tibi, Dómine, Qui natus es de Vírgine.</i></b></div>'; 
+     ////////////|\\\\\\\\\\\\
+    /////  Special Cases  \\\\\
+   //////////////|\\\\\\\\\\\\\\
 
+    // Feria iij. Rogationum - gets commemorated in the Office only on Festa Commemorationum.
+    // However, in the Holy Mass, it gets commemorated anyway.
+    // Also, in Feasts iij. Lect. et lower, Vespers are still from Fer. iij. Rogationum!
+    if (ref_tempo == "tp_6_2" && winner['force'] > 10) { comm_laudes = ""; comm_missa = commemoratio['missa']; commemoratio = ""; commemoratio['missa'] = comm_missa; }
+    if (ref_tempo == "tp_6_2" && winner['force'] > 10 && winner['force'] < 40 ) 
+      { comm_laudes = ""; vesperae = feria['vesperae']; comm_vesperae = ""; }
+
+    // TO DO: Finish!
 
     ////////////////////////////////////////////////////////
 
@@ -817,9 +827,22 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           // some antiphons change at Easter
           if ( ref_tempo.match("tp") ) {
+            // Commune Confessoris non Pontificis
             vesperae = vesperae.replace(/Iste cogn[óo]vit/,"Beátus vir");
-
             laudes = laudes.replace(/Simil[áa]bo eum/,"Qui manet in me");
+
+            // Commune Unius Martyris
+            vesperae = vesperae.replace(/Be[aá]tus vir|Iste Sanctus/i,"Fíliæ Jerúsalem");
+            laudes = laudes.replace(/Qui vult ven[ií]re post me|Qui vult ven[ií]re|Qui vult|Qui odit/,"Lux perpétua");
+
+            // Commune Martyrum
+            vesperae = vesperae.replace(/Be[aá]tus vir|Iste Sanctus/i,"Fíliæ Jerúsalem");
+            laudes = laudes.replace(/Qui vult ven[ií]re post me|Qui vult ven[ií]re|Qui vult|Qui odit/,"Lux perpétua");
+          }
+          if ( !ref_tempo.match("tp") ) {
+            // Commune Confessoris non Pontificis
+            vesperae = vesperae.replace(/Be[aá]tus vir/,"Iste cognóvit");
+            laudes = laudes.replace(/Qui manet in me|Qui manet/,"Similábo eum");
           }
 
           comm = null;
@@ -1054,6 +1077,11 @@ if (laudes_post) {
     block_vesperae_post = '<div class="body text-justify"><ul>' + vesperae_post + '</ul></div>';
   } else { block_vesperae_post = ''; }
 
+  ///////////////  Special days  ///////////////////
+
+  if (ref_tempo.match(/tp_6_[123]/) && winner == days_tempo[ref_tempo]) addition = " Rogationum";
+  else addition = "";
+
   /////////////   jejunatur   ///////////////////////////////
 
   if ((weekday == 3 || weekday == 5) && winner['force'] < 90 ) {
@@ -1079,7 +1107,7 @@ if (laudes_post) {
     + '<div class="head d-flex m-0">'
     + '<span class="first_line"><b>'  + add_zero(day) + day + "." 
     + " – " + liturgical_color(color) + " – " 
-    + weekday_human_readable(weekday) + ' – </b>'
+    + weekday_human_readable(weekday) + addition + ' – </b>'
     + header 
     + block_rank 
     + block_jejunium + '</span>'

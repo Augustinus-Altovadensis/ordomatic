@@ -24,7 +24,9 @@ function addtags(winner) {
     winner = winner.replace(/^Com\./, '<font color="green"><b>Com.</b></font> ');
     winner = winner.replace(/Com\. /, '<font color="green"><b>Com.</b></font> ');
     winner = winner.replaceAll("Comme.", '<font color="blue"><b>Comme.</b></font> ');
+    // Maybe the "sine" word will be removed
     winner = winner.replace("sine Glo.", 'sine <s>Glo.</s>');
+    winner = winner.replace("sine Cre.", 'sine <s>Cre.</s>');
     // Following will be switched off probably
     //winner = winner.replace("&", '<font color="green"><b>&</b></font> ');
     winner = winner.replace("&.", '&');
@@ -51,7 +53,6 @@ function addtags(winner) {
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
-    winner = winner.replace("xx", '<font color="red">xx</font>');
     //winner = winner.replace("✠", '<font color="red">✠</font>');
     winner = winner.replaceAll("*", '<font color="red">*</font>');
     winner = winner.replaceAll("§", '<font color="red">§</font>');
@@ -63,6 +64,7 @@ function addtags(winner) {
     winner = winner.replace("Processio sollemnissima cum pluviali et dalmaticis", '<font color="red">Processio sollemnissima cum pluviali et dalmaticis</font>');
     winner = winner.replace("Processio cum pluviali et", '<font color="red">Processio cum pluviali et</font>');
     winner = winner.replace("Processio et", '<font color="red">Processio et</font>');
+    winner = winner.replace("Processio per Claustrum", '<font color="red">Processio per Claustrum</font>');
     winner = winner.replace(/Duo Acolythi\. |Duo Acolythi /, '<font color="red">Duo Acolythi. </font>');
     winner = winner.replace(/Cum incenso ad [oO]blata\. |Cum incenso ad [oO]blata /, '<font color="red">Cum incenso ad oblata. </font>');
     winner = winner.replace("de Officio diei", '<font color="red">de Officio diei</font>');
@@ -128,6 +130,13 @@ function addtags(winner) {
     winner = winner.replace(/Lux perp[ée]tua/, '<i><b>Lux perpétua</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
     winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("xxx", '<i><b>xxx</i></b>');
+    winner = winner.replace("in Miss. Conv.:", '<u>in Miss. Conv.:</u>');
+    winner = winner.replace("in Miss. Priv.:", '<u>in Miss. Conv.:</u>');
     winner = winner.replaceAll('<ib>', '<i><b>');
     winner = winner.replaceAll('</ib>', '</i></b>');
     winner = winner.replaceAll('<bi>', '<i><b>');
