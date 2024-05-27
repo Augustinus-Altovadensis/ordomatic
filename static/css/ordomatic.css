@@ -235,6 +235,12 @@ u {
     position: relative;
 }
 
+.rank-normal {
+    font-family: Libertine;
+    font-size: 1.12em;
+    position: relative;
+}
+
 .dominica {
     background-color: rgb(230, 230, 230);
     border: 1px solid grey;

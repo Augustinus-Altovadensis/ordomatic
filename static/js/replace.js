@@ -17,6 +17,8 @@ function addtags(winner) {
     ///////////////////////////////////////////////
     ///// Replacement section (HTML tags) /////////
     ///////////////////////////////////////////////
+    winner = winner.replace("-date-", day + ". " + month_usual_number + ".");
+
     winner = winner.replace(/B.M.V.|B. M. V./, 'B. M. V.');
     winner = winner.replace(/S\.P\.N\.|S\. P\. N\./, 'S. P. N.');
     winner = winner.replace(/O\.N\.|O\. N\./, 'O. N.');
@@ -35,11 +37,12 @@ function addtags(winner) {
     winner = winner.replace("1a ", '1<sup>a</sup> ');
     winner = winner.replace("1o ", '1<sup>o</sup> ');
     winner = winner.replace("2a ", '2<sup>a</sup> ');
+    winner = winner.replace("2o ", '2<sup>o</sup> ');
     winner = winner.replace("3a ", '3<sup>a</sup> ');
     winner = winner.replaceAll("Dicitur", '<font color="red">Dicitur</font> ');
     winner = winner.replace("⇓", '<font color="red">⇓</font>');
     winner = winner.replace("(Ex Processionale Cisterciense)", '<font color="red">(Ex Processionale Cisterciense)</font>');
-    winner = winner.replace(/℟. maj.|R. maj./, '<font color="red">℟. maj.</font>');
+    winner = winner.replace(/[℟R]\. maj\./, '<font color="red"><b>℟. maj.</b></font>');
     winner = winner.replace("(in „Schaller“ etiam)", '<font color="red">(in „Schaller“ etiam)</font>');
     winner = winner.replace(/In fine Evangelium feriae./i, '<font color="red">In fine Evangelium Feriae.</font>');
     winner = winner.replace(/In fine Miss(æ|ae) Evangelium feri(æ|ae)./i, '<font color="red">In fine Missæ Evangelium Feriae.</font>');
@@ -75,7 +78,9 @@ function addtags(winner) {
     winner = winner.replace("Qui vult", '<i><b>Qui vult</i></b>');
     winner = winner.replace("O Doctor óptime", '<i><b>O Doctor óptime</i></b>');
     winner = winner.replace(/O Doctor/i, '<i><b>O Doctor</i></b>');
+    winner = winner.replace(/Be[áa]tus vir, qui m[eé]tuit/, '<i><b>Beátus vir, qui métuit</i></b>');
     winner = winner.replace("Beátus vir", '<i><b>Beátus vir</i></b>');
+    winner = winner.replace("Qui manet in me", '<i><b>Qui manet in me</i></b>');
     winner = winner.replace(/Fulg[eé]bunt [ij]usti/, '<i><b>Fulgébunt justi</i></b>');
     winner = winner.replace(/Fulg[eé]bunt/, '<i><b>Fulgébunt</i></b>');
     winner = winner.replace(/Iste cogn[óo]vit/, '<i><b>Iste cognóvit</i></b>');
@@ -85,7 +90,7 @@ function addtags(winner) {
     winner = winner.replace("Veni sponsa", '<i><b>Veni sponsa</i></b>');
     winner = winner.replace("Veni, sponsa", '<i><b>Veni, sponsa</i></b>');
     winner = winner.replace(/S[íi]mile est ... sag[ée]n(æ|ae)/, '<i><b>Símile est … sagénæ</i></b>');
-    winner = winner.replace("Sacérdos et Póntifex", '<i><b>Sacérdos et Póntifex</i></b>');
+    winner = winner.replace(/Sac[ée]rdos et P[óo]ntifex/, '<i><b>Sacérdos et Póntifex</i></b>');
     winner = winner.replace("Hac die ... suprémos", '<i><b>Hac die … suprémos</i></b>');
     winner = winner.replace("Isti sunt duæ", '<i><b>Isti sunt duæ</i></b>');
     winner = winner.replace("Isti sunt Sancti", '<i><b>Isti sunt Sancti</i></b>');
@@ -146,5 +151,6 @@ function addtags(winner) {
     winner = winner.replaceAll('</red>', '</font>');
     winner = winner.replaceAll('</blue>', '</font>');
     winner = winner.replaceAll('</f>', '</font>');
+
     return winner;
 }
