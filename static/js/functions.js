@@ -415,7 +415,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Before Ascensione Domini, we don't need any Sanctoral feasts.
     // Either they are transferred, or deleted, so there is no Sanctoral.
-    if ( ref_tempo.match(/tp_6_3/) )
+    if ( ref_tempo.match(/tp_6_3|tp_7_6/) )
       {
       comm_vesperae_j = "";
       }
@@ -719,17 +719,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               missa = missa.replace(/Feria/i, translate_feria(ref_tempo, 1));
           else if (missa_post.match(/Feria/i) && commemoratio == days_tempo[ref_tempo])
               missa_post = missa_post.replace(/Feria/i, translate_feria(ref_tempo, 1));
-          else if (missa.match(/Commemoratio -vel-/i) && !commemoratio )
-              missa = missa.replace(/Commemoratio -vel-/i, "" );
-          else if (missa_post.match(/Commemoratio -vel-/i) && !commemoratio )
-              missa_post = missa_post.replace(/Commemoratio -vel-/i, "" );
-          else if (missa.match(/Commemoratio -vel-/i) && commemoratio ) {
-              secunda_comm = missa.match(/vel.*? -/i) + "";
-              missa = missa.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " 3a " + secunda_comm.replace(/-vel- /i, "")); }
-          else if (missa_post.match(/Commemoratio -vel-/i) && commemoratio )
-              missa_post = missa_post.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " - " );
-
-          /// TO DO: Finish, so that the "Commemoratio -vel-" gets deleted, when no commemoratio is present. 16.5.2025.
+          else if (missa.match(/Commemoratio -vel-/i) ) {
+              secunda_comm = missa.match(/-vel-.*? -/i) + "";
+              if (missa.match("3a non dicitur")) missa = missa.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " <u>3a non dicitur</u> - ");
+              else missa = missa.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " 3a " + secunda_comm.replace(/-vel- /i, "")); }
+          else if (missa_post.match(/Commemoratio -vel-/i) ) {
+              secunda_comm = missa_post.match(/-vel-.*? -/i) + "";
+              missa_post = missa_post.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " 3a " + secunda_comm.replace(/-vel- /i, "")); }
             
           else 
           {
@@ -827,26 +823,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           // Transferred Matthias needs to have comm. of S. Mechtildis, but as the winner is special (Matthias) and commemoratio the Feria, the S. Mechtildis comm. needs to be added manually
           //if ( winner == days_sancto['matthias'] && ref_sancto == "02_26" ) vesperae += " & S. Mechtildis Virg. Veni, sponsa (suppl. brev. Cist. 1965)";
 
-          // some antiphons change at Easter
-          if ( ref_tempo.match("tp") ) {
-            // Commune Confessoris non Pontificis
-            vesperae = vesperae.replace(/Iste cogn[óo]vit/,"Beátus vir");
-            laudes = laudes.replace(/Simil[áa]bo eum/,"Qui manet in me");
-
-            // Commune Unius Martyris
-            vesperae = vesperae.replace(/Be[aá]tus vir\.|Iste Sanctus\.?/i,"Fíliæ Jerúsalem.");
-            laudes = laudes.replace(/Qui vult ven[ií]re post me|Qui vult ven[ií]re|Qui vult|Qui odit/,"Lux perpétua");
-
-            // Commune Martyrum
-            //vesperae = vesperae.replace(/Be[aá]tus vir|Iste Sanctus/i,"Fíliæ Jerúsalem");
-            //laudes = laudes.replace(/Qui vult ven[ií]re post me|Qui vult ven[ií]re|Qui vult|Qui odit/,"Lux perpétua");
-          }
-          if ( !ref_tempo.match("tp") ) {
-            // Commune Confessoris non Pontificis
-            vesperae = vesperae.replace(/Be[aá]tus vir/,"Iste cognóvit");
-            laudes = laudes.replace(/Qui manet in me|Qui manet/,"Similábo eum");
-          }
-
           comm = null;
         }
     }
@@ -861,9 +837,26 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     /////////////    Postprocessing of Laudes/Vesperae   \\\\\\\\\\\\\\
     //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////\\
 
-    // Provision for j. Vesperae, if the day before is nothing
-    //dash = " – "; if (!vesperae) dash = "";
-    //if (!commemoratio && comm_vesperae) vesperae = vesperae + dash + "Com. " + comm_vesperae;
+    // some antiphons change at Easter
+     if ( ref_tempo.match("tp") ) {
+        // Commune Confessoris non Pontificis
+        vesperae = vesperae.replace(/Iste cogn[óo]vit/,"Beátus vir");
+        laudes = laudes.replace(/Simil[áa]bo eum/,"Qui manet in me");
+
+       // Commune Unius Martyris
+         vesperae = vesperae.replace(/Be[aá]tus vir\.?|Iste Sanctus\.?/i,"Fíliæ Jerúsalem.");
+         laudes = laudes.replace(/Qui vult ven[ií]re post me|Qui vult ven[ií]re|Qui vult|Qui odit/,"Lux perpétua");
+
+       // Commune Martyrum
+          //vesperae = vesperae.replace(/Be[aá]tus vir|Iste Sanctus/i,"Fíliæ Jerúsalem");
+          //laudes = laudes.replace(/Qui vult ven[ií]re post me|Qui vult ven[ií]re|Qui vult|Qui odit/,"Lux perpétua");
+          }
+
+      if ( !ref_tempo.match("tp") ) {
+        // Commune Confessoris non Pontificis
+         vesperae = vesperae.replace(/Be[aá]tus vir/,"Iste cognóvit");
+         laudes = laudes.replace(/Qui manet in me|Qui manet/,"Similábo eum");
+         }
 
     /// Final commemoration of B.M.V. on Festa xij. Lect. et M. and lower \\\
     laudes_bmv = " B.M.V.";
@@ -933,6 +926,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         missa = missa.replace(/.a Feria\.? -/i, "" );
       if (ref_tempo.match("lent_5")) missa = missa.replace(/Pr(ae|æ)f\. Quadr\./, "Præf. de S. Cruce.");
       if (ref_tempo.match("tp_")) missa = missa.replace(/Pr(ae|æ)f\. Comm\.|Pr(ae|æ)f\. Quadr\./, "Præf. Pasch.");
+
+      // Removing "Commemoratio -vel-"
+      if (missa.match(/Commemoratio -vel-/i) && !commemoratio)
+          missa = missa.replace(/Commemoratio -vel-/i, "" );
+      else if (missa_post.match(/Commemoratio -vel-/i) && !commemoratio)
+          missa_post = missa_post.replace(/Commemoratio -vel-/i, "" );
 
     /////////////////////|\\\\\\\\\\\\\\\\\\\\\\
     /////////  Lectiones in Refectorio  \\\\\\\\\

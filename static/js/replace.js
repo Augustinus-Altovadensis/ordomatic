@@ -46,7 +46,7 @@ function addtags(winner) {
     winner = winner.replace("(in „Schaller“ etiam)", '<font color="red">(in „Schaller“ etiam)</font>');
     winner = winner.replace(/In fine Evangelium feriae./i, '<font color="red">In fine Evangelium Feriae.</font>');
     winner = winner.replace(/In fine Miss(æ|ae) Evangelium feri(æ|ae)./i, '<font color="red">In fine Missæ Evangelium Feriae.</font>');
-    winner = winner.replace(/non dicitur./, '<font color="red">non dicitur.</font>');
+    winner = winner.replace(/non dicitur\./, '<font color="red">non dicitur.</font>');
     winner = winner.replaceAll("℣. ", '<font color="red"><b>℣.</b></font> ');
     winner = winner.replaceAll("℟. ", '<font color="red">℟.</font> ');
     //winner = winner.replaceAll(/Aña\. |Aña /, '<font color="red">Aña.</font> ');
