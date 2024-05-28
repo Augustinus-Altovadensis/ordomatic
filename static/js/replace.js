@@ -75,6 +75,7 @@ function addtags(winner) {
     winner = winner.replace(/Aña Sub tuum|Aña. Sub tuum/, '<font color="red">Aña.</font> <i><b>Sub tuum</i></b>');
     winner = winner.replace("Sub tuum", '<i><b>Sub tuum</i></b>');
     winner = winner.replace("Asperges", '<i><b>Asperges</i></b>');
+    winner = winner.replace(/Qui vult ven[ií]re/, '<i><b>Qui vult veníre</i></b>');
     winner = winner.replace("Qui vult", '<i><b>Qui vult</i></b>');
     winner = winner.replace("O Doctor óptime", '<i><b>O Doctor óptime</i></b>');
     winner = winner.replace(/O Doctor/i, '<i><b>O Doctor</i></b>');
