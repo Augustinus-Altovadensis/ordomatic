@@ -75,6 +75,10 @@ function add_zero(number) {
   return zero;
 }
 
+const matchCount = (str, re) => {
+      return str?.match(re)?.length ?? 0;
+    };
+
 function translate_feria(ref_tempo, short) {
   roman_lowercase_numerals = ["j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
   ref = ref_tempo.split("_");
@@ -679,10 +683,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check 
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check 
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force']    
-      + " extra_sunday = " + extra + "  --- i = " + i + "/" + duration + '. <br>'
+      //+ " extra_sunday = " + extra + "  --- i = " + i + "/" + duration + '. <br>'
       //+ 'Feria = "' + feria['header'] + '", &emsp;Vesperæ: "' + feria['vesperae'] + '".<br>'
-      + 'Moved feasts [0] "' + moved[0] + '" [1] "' + moved[1] + '" [2] "' + moved[2] + '" [3] "' + moved[3] + '". Length = "' + moved.length
-      + '".</div>';
+      //+ 'Moved feasts [0] "' + moved[0] + '" [1] "' + moved[1] + '" [2] "' + moved[2] + '" [3] "' + moved[3] + '". Length = "' + moved.length
+      + '.<br>Sacérdos et Pontifex: "' + matchCount(vesperae,/Sacérdos et Póntifex/) + '" - Fíliæ Jerúsalem: "' + matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/);
+      //+ '".</div>';
     //\\\---- end of diagnostics -----///\\
 
     if (winner_next) titulum_next = winner_next['header'].split("+", 1);
@@ -818,10 +823,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           else if (missa.match(/Commemoratio -vel-/i) ) {
               secunda_comm = missa.match(/-vel-.*? -/i) + "";
               if (missa.match("3a non dicitur")) missa = missa.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " <u>3a non dicitur</u> - ");
+              else if (missa.match(/3a Commemoratio -vel-/i) ) missa = missa.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " - "); 
               else missa = missa.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " 3a " + secunda_comm.replace(/-vel- /i, "")); }
           else if (missa_post.match(/Commemoratio -vel-/i) ) {
               secunda_comm = missa_post.match(/-vel-.*? -/i) + "";
               if (missa_post.match("3a non dicitur")) missa_post = missa_post.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " <u>3a non dicitur</u> - ");
+              else if (missa_post.match(/3a Commemoratio -vel-/i) ) missa_post = missa_post.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " - ");
               else missa_post = missa_post.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " 3a " + secunda_comm.replace(/-vel- /i, "")); }
             
           else 
@@ -983,11 +990,19 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           laudes = laudes.replace(/Fulg[ée]bunt justi/,"Lux perpétua");
           }
 
-      if ( !ref_tempo.match("tp") ) {
-        // Commune Confessoris non Pontificis
-         vesperae = vesperae.replace(/Be[aá]tus vir/,"Iste cognóvit");
-         laudes = laudes.replace(/Qui manet in me|Qui manet/,"Similábo eum");
-         }
+      check_next += '.<br>Sacérdos et Pontifex: "' + matchCount(vesperae,/Sacérdos et Póntifex/) + '" - Fíliæ Jerúsalem: "' + matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/g)
+      + '".</div>';
+
+      if ( matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/g) == 2 ) { t = 0;
+        vesperae = vesperae.replace(/F[íi]li(æ|ae) Jer[úu]salem/g, match => ++t == 2 ? "Lux perpétua" : match); }
+      if ( matchCount(laudes,/Lux perp[ée]tua/g) == 2 ) { t = 0;
+        laudes = laudes.replace(/Lux perp[ée]tua/g, match => ++t == 2 ? "Fíliæ Jerúsalem" : match); }
+
+      if ( matchCount(vesperae,/Sac[ée]rdos et P[óo]ntifex/) == 1 ) { t = 0;
+        vesperae = vesperae.replace(/Sac[ée]rdos et P[óo]ntifex/g, match => ++t == 2 ? "Euge serve bone" : match); }
+      if ( matchCount(laudes,/Euge,? serve bone|Euge,? serve|Euge/) == 1 ) { t = 0;
+        laudes = laudes.replace(/Euge,? serve bone|Euge,? serve|Euge/g, match => ++t == 2 ? "Sacérdos et Póntifex" : match); }
+
 
     /// Final commemoration of B.M.V. on Festa xij. Lect. et M. and lower \\\
     laudes_bmv = " B.M.V.";
@@ -999,7 +1014,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( winner['header'].match("B.M.V.") ) { laudes_bmv = ""; et = "";}
     
     // Com. B.M.V. ad Laudes 
-    if ( winner['force'] < 41 ) // !header.match(/Infra Oct/i)
+    if ( winner['force'] < 41 && !header.match(/Infra Oct/i)) // !header.match(/Infra Oct/i)
       {
       laudes = laudes.replace(/(?: - )?sine Com\.?/, "");
       if ( weekday == 2 ) laudes_bmv += " & B. B. R.";
@@ -1018,7 +1033,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( vesperae.match("B.M.V.") || weekday == 6) { vesperae_bmv = ""; et = "";}
     if ( weekday == 5 && winner_next['force'] < 35 ) { vesperae_bmv = ""; et = ""; }
 
-    if ( winner_next['force'] < 41 && winner['force'] < 41 ) // && !header.match(/Infra Oct/i)
+    if ( winner_next['force'] < 41 && winner['force'] < 41 && !header.match(/Infra Oct/i)) // && !header.match(/Infra Oct/i)
       {
       vesperae = vesperae.replace(/(?: - )?sine Com\.?/, "");
       if ( weekday == 1 ) vesperae_bmv += " & B. B. R.";
@@ -1035,7 +1050,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( ref_sancto.match(/02_0[345]/) ) 
       { laudes = laudes.replace("B.M.V.", "B.M.V. <red>℣. <ib>D</red>ignáre me.</ib> Ora. <ib><red>C</red>oncéde misericors.</ib>");
         vesperae = vesperae.replace("B.M.V.", "B.M.V. <ib><red>A</red>ve Regína cœlórum</ib> <red>℣. <ib>D</red>ignáre me.</ib> Ora. <ib><red>C</red>oncéde misericors.</ib>"); }
-    
+
+
     /////////  Getting rid of unused "Feria"  \\\\\\\\\\\\\
     if (!ref_tempo.match("lent") || weekday == 0) {
       laudes = laudes.replace(/Feria(?: & )?/, "");
@@ -1272,6 +1288,6 @@ if (laudes_post) {
     //+ '<div class="body blue text-justify ms-1">' + body + '</div>'
     + block_after
     + '</div>'
-    //+ check // switch off and on here
+    // + check // switch off and on here
   );
 }

@@ -90,7 +90,7 @@ function addtags(winner) {
     winner = winner.replace(/Veni(, | )sponsa Christi/i, '<i><b>Veni, sponsa Christi</i></b>');
     winner = winner.replace("Veni sponsa", '<i><b>Veni sponsa</i></b>');
     winner = winner.replace("Veni, sponsa", '<i><b>Veni, sponsa</i></b>');
-    winner = winner.replace(/S[íi]mile est ... sag[ée]n(æ|ae)/, '<i><b>Símile est … sagénæ</i></b>');
+    winner = winner.replace(/S[íi]mile est ?\.\.\. ?sag[ée]n(æ|ae)/, '<i><b>Símile est … sagénæ</i></b>');
     winner = winner.replace(/Sac[ée]rdos et P[óo]ntifex/, '<i><b>Sacérdos et Póntifex</i></b>');
     winner = winner.replace("Hac die ... suprémos", '<i><b>Hac die … suprémos</i></b>');
     winner = winner.replace("Isti sunt duæ", '<i><b>Isti sunt duæ</i></b>');
@@ -98,8 +98,8 @@ function addtags(winner) {
     winner = winner.replace("Isti sunt", '<i><b>Isti sunt</i></b>');
     winner = winner.replace("Iste Sanctus pro lege", '<i><b>Iste Sanctus pro lege</i></b>');
     winner = winner.replace(/Iste [Ss]anctus/, '<i><b>Iste Sanctus</i></b>');
-    winner = winner.replace("Euge, serve bone", '<i><b>Euge, serve bone</i></b>');
-    winner = winner.replace(/Euge, serve|Euge serve/, '<i><b>Euge, serve</i></b>');
+    winner = winner.replace(/Euge,? serve bone/, '<i><b>Euge serve bone</i></b>');
+    winner = winner.replace(/Euge,? serve/, '<i><b>Euge serve</i></b>');
     winner = winner.replace("Euge", '<i><b>Euge</i></b>');
     winner = winner.replace("Dum stetéritis", '<i><b>Dum stetéritis</i></b>');
     winner = winner.replace("Amávit eum Dóminus", '<i><b>Amávit eum Dóminus</i></b>');
