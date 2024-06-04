@@ -148,6 +148,46 @@ function antiphon_sabb(sabb_mensis, month_sabb) {
   else return "alia Antiphona."
   }
 
+function get_ref_sancto(offset)
+  { 
+    ref_sancto_next = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day + offset) + (day + offset);
+
+      ref_sancto_next = ref_sancto_next.replace("010", "10");
+
+      ref_sancto_next = ( ref_sancto_next == "12_32") ? "01_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "01_32") ? "02_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "02_30" && is_leap_year(year) ) ? "03_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "02_29" && !is_leap_year(year) ) ? "03_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "03_32") ? "04_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "04_31") ? "05_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "05_32") ? "06_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "06_31") ? "07_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "07_32") ? "08_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "08_32") ? "09_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "09_31") ? "10_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "10_32") ? "11_01" : ref_sancto_next;
+      ref_sancto_next = ( ref_sancto_next == "11_31") ? "12_01" : ref_sancto_next;
+
+      return ref_sancto_next;
+  }
+
+function get_ref_tempo(offset)
+  { 
+    ref_tempo_next = prefix_tempo + (week_start + Math.ceil((i + 2) / 7)) + '_' + (day_start + ((i+1) % 7));
+
+      ref_tempo_next = ( ref_tempo_next == "tp_9_0") ? "pa_1_0" : ref_tempo_next;
+      ref_tempo_next = ( ref_tempo_next == "adv_5_0") ? "christmas_1_0" : ref_tempo_next;
+      ref_tempo_next = ( prefix_tempo == "adv_" && i == (duration-2)) ? "christmas_1_0" : ref_tempo_next;
+      ref_tempo_next = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_next;
+      ref_tempo_next = ( ref_tempo_next == "sept_3_3") ? "ash_1_3" : ref_tempo_next;
+      ref_tempo_next = ( ref_tempo_next == "ash_1_7") ? "lent_1_0" : ref_tempo_next;
+      ref_tempo_next = ( ref_tempo_next == "lent_7_0") ? "tp_1_0" : ref_tempo_next;
+      ref_tempo_next = ( ref_tempo_next == "pe_7_0" && month_usual_number > 9) ? "pa_24_0" : ref_tempo_next;
+      ref_tempo_next = ( ref_tempo_next == "pa_35_0") ? "adv_1_0" : ref_tempo_next;
+
+      return ref_tempo_next;
+  }
+
 function get_winner(ref_tempo, ref_sancto) {
   winner = days_tempo[ref_tempo];
   if ( !days_tempo[ref_tempo] ) { winner = days_sancto[ref_sancto]; }
@@ -329,7 +369,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio = ""; }
 
     // Translating every feast higher than MM. min. that falls on Sunday
-      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] < 100 && !ref_tempo.match(/christmas/i))
+      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] < 80 && !ref_tempo.match(/christmas/i))
       {
         moved.push(ref_sancto);
         trans_titulum = winner['header'].split(",", 1);
@@ -411,8 +451,30 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( translated_matthias && weekday == 1 ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo]; translated_matthias = false; translated = true; }
     // second Vespers on translated feast: + St. Mechtildis: at the end of Vesper section
 
+    //////  Vigiliæ: Translated if on Sunday  \\\\\\\
+
+    saints_tomorrow = days_sancto[ref_sancto_next];
+    if (weekday == 6 && saints_tomorrow && saints_tomorrow['header'].match(/Vig[ií]lia/i)) {
+      commemoratio = days_sancto[ref_sancto];
+      winner = days_sancto[ref_sancto_next]; }
+
+    // Let's find out, whether (translated) Vigilia falls on Saturday
+    vigilia_sabb = false;
+    after_tomorrow = days_sancto[get_ref_sancto(2)];
+    if (after_tomorrow && after_tomorrow['header'].match(/Vig[ií]lia/i)) vigilia_sabb = true;
+
+    // For Vigil of St. Peter and Paul, if it falls on Sunday, it will be translated to Saturday, but Comm. of St. Leo will remain on Sunday. Therefore following lines...
+
+    if (ref_sancto == "06_28" && weekday != 0) {
+        winner = days_sancto[ref_sancto + "v"];
+        commemoratio = days_sancto[ref_sancto]; }
+    if (ref_sancto == "06_27" && weekday == 6) {
+        winner = days_sancto["06_28v"];
+        commemoratio = days_sancto[ref_sancto]; }
+    if (ref_sancto == "06_26" && weekday == 5) vigilia_sabb = true;
+
     ///////// Missa Votiva de Beata \\\\\\\\\\
-    if (weekday == 5 && winner_next['force'] < 35 && i != (duration-1))
+    if (weekday == 5 && winner_next['force'] < 35 && i != (duration-1) && !vigilia_sabb)
       { winner_next = days_sancto['votiva_bmv']; commemoratio_next = days_sancto[ref_sancto_next]; }
     if (weekday == 6 && winner['force'] < 35 && i != (duration-1))
       { winner = days_sancto['votiva_bmv']; commemoratio = days_sancto[ref_sancto]; }
@@ -779,8 +841,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
              }
           else if (laudes.match("Com.") && comm) 
             { // we need to sort the commemorations according to their force
-             if (commemoratio['force'] > 30 ) laudes = laudes.replace("Com.", "Com. " + comm + " & ");
-             comm = "";}
+             if (commemoratio['force'] > 30 ) {
+              if (!laudes.match(/Tu es pastor/i)) laudes = laudes.replace("Com.", "Com. " + comm + " & ");
+              else laudes += " & " + comm; }
+              comm = "";}
           else {
           if ( commemoratio['laudes_commemoratio'].match(/^Com\. /) && comm )
             { 
@@ -820,6 +884,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               missa = missa.replace(/Feria/i, translate_feria(ref_tempo, 1));
           else if (missa_post.match(/Feria/i) && commemoratio == days_tempo[ref_tempo])
               missa_post = missa_post.replace(/Feria/i, translate_feria(ref_tempo, 1));
+
+          // Sorting out Commemoratio -vel-
           else if (missa.match(/Commemoratio -vel-/i) ) {
               secunda_comm = missa.match(/-vel-.*? -/i) + "";
               if (missa.match("3a non dicitur")) missa = missa.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " <u>3a non dicitur</u> - ");
@@ -830,6 +896,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               if (missa_post.match("3a non dicitur")) missa_post = missa_post.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " <u>3a non dicitur</u> - ");
               else if (missa_post.match(/3a Commemoratio -vel-/i) ) missa_post = missa_post.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " - ");
               else missa_post = missa_post.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " 3a " + secunda_comm.replace(/-vel- /i, "")); }
+
+          // Sorting out Commemoratio et M., so the Comm. work as supposed 
+          // and Missa is still taken from the Comm.
+          else if (commemoratio['rank'].match(/Commemoratio et M/i) && winner['force'] == 10) missa = commemoratio['missa'];
             
           else 
           {
@@ -916,8 +986,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           if (vesperae.match("Com.") && comm_vesperae) 
             { // we need to sort the commemorations according to their force
-             if (commemoratio['force'] > 30 ) vesperae = vesperae.replace("Com.", "Com. " + comm_vesperae + " & ");
-             else if (commemoratio['force'] <= commemoratio_next['force']) vesperae += " & " + comm_vesperae;
+             if (commemoratio['force'] > 30 && !ref_tempo.match(/06_29|06_30/)) vesperae = vesperae.replace("Com.", "Com. " + comm_vesperae + " & ");
+             // TO DO: solve this for 30.6.2024! (Sunday needs to go last)
+             else if ((commemoratio['force'] <= commemoratio_next['force']) ) vesperae += " & " + comm_vesperae;
              else vesperae = vesperae.replace("Com.", "Com. " + comm_vesperae + " & ");
             }
           else if (comm_vesperae) vesperae += " - Com. " + comm_vesperae;
