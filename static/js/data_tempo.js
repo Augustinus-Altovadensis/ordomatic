@@ -5308,7 +5308,7 @@ const days_tempo = {
     'header': 'Dominica V. post Pentecosten.',
     'rank': '',
     'subtitulum': '',
-    'vesperae_j':'Sabb. ante Dom. V. post Pent. <ib>Quis enim.</ib>',
+    'vesperae_j':'Sabb. ante Dom. v. post Pent. <ib>Quis enim.</ib>',
     'vesperae_j_commemoratio':'',
     'martyrologium':'',
     'vigiliae': '',

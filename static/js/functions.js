@@ -986,9 +986,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           if (vesperae.match("Com.") && comm_vesperae) 
             { // we need to sort the commemorations according to their force
-             if (commemoratio['force'] > 30 && !ref_tempo.match(/06_29|06_30/)) vesperae = vesperae.replace("Com.", "Com. " + comm_vesperae + " & ");
+             if (commemoratio['force'] > 30 && !ref_sancto.match(/06_30/)) vesperae = vesperae.replace("Com.", "Com. " + comm_vesperae + " & ");
              // TO DO: solve this for 30.6.2024! (Sunday needs to go last)
-             else if ((commemoratio['force'] <= commemoratio_next['force']) ) vesperae += " & " + comm_vesperae;
+             else if ((commemoratio['force'] <= commemoratio_next['force']) || ref_sancto.match(/06_30/)) vesperae += " & " + comm_vesperae;
              else vesperae = vesperae.replace("Com.", "Com. " + comm_vesperae + " & ");
             }
           else if (comm_vesperae) vesperae += " - Com. " + comm_vesperae;
