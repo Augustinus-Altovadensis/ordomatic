@@ -53,7 +53,7 @@ function addtags(winner) {
     //winner = winner.replace("Magn.", '<font color="red">Magn.</font>');
     //winner = winner.replace("Mag.", '<font color="red">Mag.</font>');
     //winner = winner.replace("Ben.", '<font color="red">Ben.</font>');
-    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace("Processio ", '<font color="red">Processio</font> ');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     //winner = winner.replace("✠", '<font color="red">✠</font>');
@@ -63,6 +63,7 @@ function addtags(winner) {
     winner = winner.replace("cum Ora.", '<font color="red">cum Ora.</font>');
     winner = winner.replaceAll("(supplementum bre. Cist. 1965)", '<font color="red">(supplementum bre. Cist. 1965)</font>');
     winner = winner.replaceAll("(suppl. brev. Cist. 1965)", '<font color="red">(suppl. brev. Cist. 1965)</font>');
+    winner = winner.replaceAll("(Suppl. brev. Cist. 1965)", '<font color="red">(Suppl. brev. Cist. 1965)</font>');
     winner = winner.replace("et ℟.", '<font color="red">et ℟.</font>');
     winner = winner.replace("Processio sollemnissima cum pluviali et dalmaticis", '<font color="red">Processio sollemnissima cum pluviali et dalmaticis</font>');
     winner = winner.replace("Processio cum pluviali et", '<font color="red">Processio cum pluviali et</font>');
@@ -98,9 +99,9 @@ function addtags(winner) {
     winner = winner.replace("Isti sunt", '<i><b>Isti sunt</i></b>');
     winner = winner.replace("Iste Sanctus pro lege", '<i><b>Iste Sanctus pro lege</i></b>');
     winner = winner.replace(/Iste [Ss]anctus/, '<i><b>Iste Sanctus</i></b>');
-    winner = winner.replace(/Euge,? serve bone/, '<i><b>Euge serve bone</i></b>');
+    winner = winner.replace(/Euge,? serve bone/, '<i><b>Euge serve bone.</i></b>');
     winner = winner.replace(/Euge,? serve/, '<i><b>Euge serve</i></b>');
-    winner = winner.replace("Euge", '<i><b>Euge</i></b>');
+    winner = winner.replace(/Euge\.? /, '<i><b>Euge</i></b> ');
     winner = winner.replace("Dum stetéritis", '<i><b>Dum stetéritis</i></b>');
     winner = winner.replace("Amávit eum Dóminus", '<i><b>Amávit eum Dóminus</i></b>');
     winner = winner.replace("Amávit eum", '<i><b>Amávit eum</i></b>');
