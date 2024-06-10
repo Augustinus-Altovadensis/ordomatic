@@ -2962,7 +2962,7 @@ const days_sancto = {
     'force': 9,
     'before': '',
     'color': 'white',
-    'header': 'S. Alberti de Sestri, Conf.',
+    'header': 'SS. Martyrum Septem Fratrum, ac Rufinæ et Secundæ, Virg. et Mart.',
     'rank': 'Commemoratio et M.',
     'subtitulum': '',
     'vesperae_j':'Com. Ss. Martyrum Septem Fratrum ac Rufinæ et Secundæ Virginum et Martyrum (Com. et M.) Isti sunt Sancti',

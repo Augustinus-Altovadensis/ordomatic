@@ -466,6 +466,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     //////  Vigiliæ: Translated if on Sunday  \\\\\\\
 
+    vigilia_sabb = false; // do not delete, used further in the text
+
     saints_tomorrow = days_sancto[ref_sancto_next];
     if (weekday == 6 && saints_tomorrow && saints_tomorrow['header'].match(/Vig[ií]lia/i)) {
       commemoratio = days_sancto[ref_sancto];
@@ -949,7 +951,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           missa = missa.replace("  ", " "); missa = missa.replace("..", ".");
           if ( !ref_tempo.match(/(lent|ash|sept)/) ) missa = missa.replace("- Tractus ", ""); // Quatember???
 
-          if (winner['missa'] && winner == days_tempo[ref_tempo] && !winner['missa'].match("Glo.") && commemoratio['missa'] != "") missa = translate_feria(ref_tempo) + " - " + missa;
+          if (winner['missa'] && winner == days_tempo[ref_tempo] && !winner['missa'].match("Glo.") && commemoratio['missa'] && ref_tempo.match("lent")) missa = translate_feria(ref_tempo) + " - " + missa;
         }
 
       /////////////////////////////////
