@@ -54,6 +54,11 @@ function addtags(winner) {
     //winner = winner.replace("Mag.", '<font color="red">Mag.</font>');
     //winner = winner.replace("Ben.", '<font color="red">Ben.</font>');
     winner = winner.replace("Processio ", '<font color="red">Processio</font> ');
+    winner = winner.replace("ad libitum", '<font color="red">ad libitum</font>');
+    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     winner = winner.replace("xx", '<font color="red">xx</font>');
     //winner = winner.replace("✠", '<font color="red">✠</font>');
@@ -99,7 +104,7 @@ function addtags(winner) {
     winner = winner.replace("Isti sunt", '<i><b>Isti sunt</i></b>');
     winner = winner.replace("Iste Sanctus pro lege", '<i><b>Iste Sanctus pro lege</i></b>');
     winner = winner.replace(/Iste [Ss]anctus/, '<i><b>Iste Sanctus</i></b>');
-    winner = winner.replace(/Euge,? serve bone/, '<i><b>Euge serve bone.</i></b>');
+    winner = winner.replace(/Euge,? serve bone/, '<i><b>Euge serve bone</i></b>');
     winner = winner.replace(/Euge,? serve/, '<i><b>Euge serve</i></b>');
     winner = winner.replace(/Euge\.? /, '<i><b>Euge</i></b> ');
     winner = winner.replace("Dum stetéritis", '<i><b>Dum stetéritis</i></b>');
