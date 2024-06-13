@@ -615,6 +615,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
          || (month_usual_number.in(9) && day >=27 )
          || (month_usual_number.in(9,11) && day <=4 ))
             sabb_mensis = 1;
+
+        // TO DO: 8.8.2026: why does it not recognize Sunday and makes the Sabb. a Comm.?
         if (sabb_mensis && winner_next == days_tempo[ref_tempo_next] ) 
           vesperae_j = "Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <ib>" + antiphon_sabb(sabb_mensis, month_sabb) + "</ib>";
         else if (sabb_mensis) comm_vesperae_j = "Com. Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <ib>" + antiphon_sabb(sabb_mensis, month_sabb) + "</ib>";
@@ -653,7 +655,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         comm_vesperae = ""; commemoratio_vesperae = "";
       }
 
-    commemoratio_vesperae = commemoratio_vesperae.replaceAll("Com. ", "");
+    commemoratio_vesperae = commemoratio_vesperae.replace("Com. ", "");
     if (vesperae) dash = " - "; else dash = "";
     if (commemoratio_vesperae) vesperae = vesperae.replace(/(?: - )?sine Com\.?/, "");
     if ( vesperae.match("Com.") && commemoratio_vesperae ) {
@@ -1057,8 +1059,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           if (vesperae.match("Com.") && comm_vesperae) 
             { // we need to sort the commemorations according to their force
-
-            // TO DO: solve for 4.8.2024 and 6.8.2023
              if (commemoratio['force'] < winner['force'] ) 
                 vesperae += " & " + comm_vesperae;
              else if (commemoratio['force'] > 30 && !ref_sancto.match(/06_30/)) vesperae = vesperae.replace("Com.", "Com. " + comm_vesperae + " & ");
@@ -1085,11 +1085,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Sometimes, a Sabb. or Dom. Comm. gets stuck behind a Comm. from a higher Feast. To remedy this, we need to swap /Dom./ and /(Com.)/
 
-    // TO DO: Why doesn't this work on 6.8.2023 Vesp.?
-
-    if ((weekday == 0 || weekday == 6 ) && vesperae.match("(Com.)")) 
+    if ((weekday == 0 || weekday == 6 ) && vesperae.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
       {
-        all_comm_vesp = vesperae.split("&");
+        vesperae_parts = vesperae.split(" - Com. "); 
+        all_comm_vesp = (vesperae_parts[1] + "").split("&");
         // Let's push all "iij. Lect." Comms. to the end
         for (k = 0; k < all_comm_vesp.length; k++) {
             temp_comm = all_comm_vesp[k] + "";
@@ -1103,11 +1102,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
                 all_comm_vesp.splice(k,1);
                 all_comm_vesp.push(temp_comm); } }
           temp_comm = null;
-          vesperae = "";
-        for (k = (all_comm_vesp.length-1); k >= 0; k--)
+          vesperae = vesperae_parts[0] + " - Com. ";
+        //for (k = (all_comm_vesp.length-1); k >= 0; k--)
+        for (k = 0; k < all_comm_vesp.length; k++)
           {
           vesperae += all_comm_vesp[k];
-          if (k > 0) vesperae += "& " + k + " ";
+          if (k < all_comm_vesp.length-1) vesperae += " & ";
           }
       }
 
@@ -1235,7 +1235,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     check_next += '.<br>Comm. in Laudibus: "' + getComm(laudes) + '" - et in Vesperis: "' + getComm(vesperae)
       + '".</div>';
 
-
     /////////  Getting rid of unused "Feria"  \\\\\\\\\\\\\
     if (!ref_tempo.match("lent") || weekday == 0) {
       //laudes = laudes.replace(/Feria(?: & )?/, "");
@@ -1244,7 +1243,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       vesperae = vesperae.replace(/Feria & /, ""); }
 
     //// Postprocessing \\\\
-    //vesperae = vesperae.replace("Com. &", "Com."); // to be removed, hopefully
+    vesperae = vesperae.replace("(et M.)", "(Com. et M.)"); // to be removed, hopefully. For some reason, the code doesn't work without replaceAll("Com. ","") in line 814 (Comm. of first Vesper) and I'm too tired to find out why.
 
     ////  Adding the green "&" sign \\\\
     laudes = laudes.replaceAll("& ", '<font color="green"><b>&</b></font> ');
