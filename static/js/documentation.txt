@@ -19,6 +19,7 @@ Documentation of data files
   Commemoratio:       15
   Commemoratio et M.  20
   iij. Lect. et M.    30
+  Vigilia             40
   xij. Lect. et M.    40
   MM. min.            50
   Dominica            60 (+)

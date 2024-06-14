@@ -582,8 +582,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         comm_laudes_post = "";
         comm_missa = commemoratio['missa'];
         comm_missa = comm_missa.replace(/2a Vigilia.*? 3a/i, "2a") }
-    //if (ref_sancto == "07_23" && weekday == 6) {
-    //    missa += " - <red>Evangelium Vigiliæ in fine.</red>"; } // doesn't work on this spot...
+
+    /////  Vigilia S. Bartholomæi, if it falls on Sunday \\\\\
+    if (ref_sancto == "08_23" && weekday == 0) { commemoratio = ""; 
+        before += '<div class="small">¶ <red>Nihil fit hoc anno de Vigilia S. Bartholomæi Apostoli.</red></div>'; }
 
     ////////////////////////////////////////\\\\\\\
     //// Deleting first Vespers of moved Feasts \\\\
@@ -654,6 +656,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio_vesperae = vesperae_j;
         today_wins = true; 
         }
+      else if ( winner['force'] == winner_next['force'] ) {
+        // a capitulo de sequenti, ut in 28. & 29.8.
+        vesperae_j = "";
+        commemoratio_vesperae = winner_next['vesperae_j'];
+        today_wins = true; 
+        }
       else { 
         // tomorrow wins
         if (winner['vesperae_commemoratio'] && !vesperae.match(/Feria/i)) vesperae = winner['vesperae_commemoratio'];
@@ -674,7 +682,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (vesperae) dash = " - "; else dash = "";
     if (commemoratio_vesperae) vesperae = vesperae.replace(/(?: - )?sine Com\.?/, "");
     if ( vesperae.match("Com.") && commemoratio_vesperae ) {
-      if ((today_wins && winner_next['force'] < 30) || (vesperae.match("Dom") && winner_next['force'] < 60) || ref_sancto.match('08_01')) vesperae += " & " + commemoratio_vesperae;
+      if ((today_wins && winner_next['force'] < 30) || (vesperae.match("Dom") && winner_next['force'] < 60) || ref_sancto.match('08_01') || (today_wins && winner['force'] == winner_next['force'])) vesperae += " & " + commemoratio_vesperae;
       else vesperae = vesperae.replace("Com.", "Com. " + commemoratio_vesperae + " & ");
       }
     else if (commemoratio_vesperae) vesperae += dash + "Com. " + commemoratio_vesperae;
@@ -1006,7 +1014,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             missa = missa.replace("Glo.", "Asperges - Glo.");
             missa = missa.replace(/Duo Acolythi\.?(?: -)?/, "");
             missa = missa.replace(/Cum incenso ad oblata\.?(?: - )?/, "");
-            missa = 'Processio per Claustrum - ' + missa;
+            if (!missa.match("Processio")) missa = 'Processio per Claustrum - ' + missa;
             missa += ' - <red>In fine Missæ legitur Evangelium Dominicae.</red>';
             if (winner['laudes'].match("Com.") && !winner['laudes'].match("sine Com."))
               { 
