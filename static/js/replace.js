@@ -22,7 +22,7 @@ function addtags(winner) {
     winner = winner.replace(/B.M.V.|B. M. V./, 'B. M. V.');
     winner = winner.replace(/S\.P\.N\.|S\. P\. N\./, 'S. P. N.');
     winner = winner.replace(/O\.N\.|O\. N\./, 'O. N.');
-    winner = winner.replace("sine Com.", 'sine <font color="green"><b><s>Com.</s></b></font>');
+    winner = winner.replace("sine Com.", '<font color="green"><b><s>Com.</s></b></font>');
     winner = winner.replace(/^Com\./, '<font color="green"><b>Com.</b></font> ');
     winner = winner.replace(/Com\. /, '<font color="green"><b>Com.</b></font> ');
     winner = winner.replaceAll("Comme.", '<font color="blue"><b>Comme.</b></font> ');
