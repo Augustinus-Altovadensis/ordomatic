@@ -16,6 +16,7 @@ Documentation of data files
 
   Force:
   ======
+  Feria:              10
   Commemoratio:       15
   Commemoratio et M.  20
   iij. Lect. et M.    30
@@ -26,6 +27,8 @@ Documentation of data files
   MM. maj.            80
   Serm. min.          90
   Serm. maj.          100
+
+  N.B. Standard Feria that isn't commemorated needs to have force = 10. Otherwise Comm. et M. and other things don't work.
 
   Commemorationes:
   ================

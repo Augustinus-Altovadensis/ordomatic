@@ -633,7 +633,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
          || (month_usual_number.in(9,11) && day <=4 ))
             sabb_mensis = 1;
 
-        // TO DO: 8.8.2026: why does it not recognize Sunday and makes the Sabb. a Comm.?
         if (sabb_mensis && winner_next == days_tempo[ref_tempo_next] ) 
           vesperae_j = "Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <ib>" + antiphon_sabb(sabb_mensis, month_sabb) + "</ib>";
         else if (sabb_mensis) comm_vesperae_j = "Com. Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <ib>" + antiphon_sabb(sabb_mensis, month_sabb) + "</ib>";
@@ -825,7 +824,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       //+ '".</div>';
     //\\\---- end of diagnostics -----///\\
 
-    if (winner_next) titulum_next = winner_next['header'].split("+", 1);
+    if (winner_next) {
+        titulum_next = winner_next['header'].split(",", 1) + "";
+        titulum_next = winner_next['header'].split("+", 1) + "";
+        }
 
     ////////////////////////////////////////
     /////  Commemoratio First Vespers  /////
@@ -976,14 +978,20 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               else if (missa_post.match(/3a Commemoratio -vel-/i) ) missa_post = missa_post.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " - ");
               else missa_post = missa_post.replace(/Commemoratio -vel-.*? -/i, titulum_missa + " 3a " + secunda_comm.replace(/-vel- /i, "")); }
 
-          // Sorting out Commemoratio et M., so the Comm. work as supposed 
-          // and Missa is still taken from the Comm.
+          // Sorting out Commemoratio et M., so the Comm. work as supposed, while Missa is taken from the Comm.
           else if (commemoratio['rank'].match(/Commemoratio et M/i) && winner['force'] == 10) missa = commemoratio['missa'];
             
           else 
           {
-          comm_missa = comm_missa.match(/2a.*? -/);
-          comm_missa += " "; // looks stupid, but converts the variable into a string that the replace function can take
+          comm_missa = comm_missa.match(/2a.*? -/) + ""; // looks stupid, but converts the variable into a string that the replace function can take
+
+          // if we commemorate something, apart from lent, we don't commemorate the Ferias
+          if (!ref_tempo.match(/(lent|ash)/)) {
+            if (comm_missa.match(/de feria/i)) comm_missa = comm_missa.replace(/a de feria\. 3/i,""); 
+            if (comm_missa.match(/de feria/i)) comm_missa = comm_missa.replace(/.a de feria\./i,""); 
+            if (comm_missa.match(/de (Off\.|Officio) diei/i)) comm_missa = comm_missa.replace(/a de (Off\.|Officio) diei\. 3/i,""); 
+            if (comm_missa.match(/de (Off\.|Officio) diei/i)) comm_missa = comm_missa.replace(/.a de (Off\.|Officio) diei\./i,""); }
+
           comm_missa = comm_missa.replace(/3a.*/,""); 
           comm_missa = comm_missa.replace("2a", "3a"); 
           if (comm_missa.length > 5) comm_missa = "2a " + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
@@ -1105,6 +1113,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     /////////////    Postprocessing of Laudes/Vesperae   \\\\\\\\\\\\\\
     //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////\\
 
+    // sometimes, we need to replace Com. festum with Com. de seq.
+    next_com_title = "Com. " + winner_next['header'];
+    if ( vesperae.match(next_com_title) ) {
+       vesperae = vesperae.replace(next_com_title, "Com. de seq.")
+      }
 
     // Sometimes, a Sabb. or Dom. Comm. gets stuck behind a Comm. from a higher Feast. To remedy this, we need to swap /Dom./ and /(Com.)/
 
