@@ -23,7 +23,7 @@ function addtags(winner) {
     winner = winner.replace(/S\.P\.N\.|S\. P\. N\./, 'S. P. N.');
     winner = winner.replace(/O\.N\.|O\. N\./, 'O. N.');
     winner = winner.replace("sine Com.", '<font color="green"><b><s>Com.</s></b></font>');
-    winner = winner.replace(/^Com\./, '<font color="green"><b>Com.</b></font> ');
+    //winner = winner.replace(/^Com\./, '<font color="green"><b>Com.</b></font> ');
     winner = winner.replace(/Com\. /, '<font color="green"><b>Com.</b></font> ');
     winner = winner.replaceAll("Comme.", '<font color="blue"><b>Comme.</b></font> ');
     // Maybe the "sine" word will be removed
@@ -54,13 +54,13 @@ function addtags(winner) {
     //winner = winner.replace("Magn.", '<font color="red">Magn.</font>');
     //winner = winner.replace("Mag.", '<font color="red">Mag.</font>');
     //winner = winner.replace("Ben.", '<font color="red">Ben.</font>');
-    winner = winner.replace("ad libitum", '<font color="red">ad libitum</font>');
+    //winner = winner.replace("ad libitum", '<font color="red">ad libitum</font>');
     winner = winner.replace("in Hymno", '<font color="red">in Hymno</font>');
-    winner = winner.replace("xx", '<font color="red"></font>');
-    winner = winner.replace("xx", '<font color="red">xx</font>');
-    winner = winner.replace("xx", '<font color="red">xx</font>');
-    winner = winner.replace("xx", '<font color="red">xx</font>');
-    winner = winner.replace("xx", '<font color="red">xx</font>');
+    winner = winner.replace("-xx", '<font color="red">xx</font>');
+    winner = winner.replace("-xx", '<font color="red">xx</font>');
+    winner = winner.replace("-xx", '<font color="red">xx</font>');
+    winner = winner.replace("-xx", '<font color="red">xx</font>');
+    winner = winner.replace("-xx", '<font color="red">xx</font>');
     //winner = winner.replace("✠", '<font color="red">✠</font>');
     winner = winner.replaceAll("*", '<font color="red">*</font>');
     winner = winner.replaceAll("§", '<font color="red">§</font>');

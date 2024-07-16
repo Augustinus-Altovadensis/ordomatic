@@ -443,6 +443,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           commemoratio = days_sancto[ref_sancto];
           winner = days_sancto['anniversarium_dedicationis']; }
 
+    ////  Angeli Custodes in September (Sunday, main text) \\\\
+    if ( weekday == 0 && ((month == 7 && day == 1) || (month == 8 && day < 8)) ) {
+        // There is a bug, where the first of a month, the month number remains of the old month, and I don't want to fix it, as I don't know, what it may break...
+        winner = days_sancto['angeli_custodes_sept'];
+        commemoratio = days_sancto[ref_sancto]; 
+        }
+
     ///////////  Sunday after Epiphany that doesn't fit:  ///////////
     // Sets the anticipated Sunday to previous Thursday
     if ( extra == 1 && i == (duration - 3) )
@@ -586,6 +593,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     /////  Vigilia S. Bartholomæi, if it falls on Sunday \\\\\
     if (ref_sancto == "08_23" && weekday == 0) { commemoratio = ""; 
         before += '<div class="small">¶ <red>Nihil fit hoc anno de Vigilia S. Bartholomæi Apostoli.</red></div>'; }
+
+    ////  Angeli Custodes in September (adding Sunday texts) \\\\
+    if ( weekday == 0 && ((month == 7 && day == 1) || (month == 8 && day < 8)) ) {
+        // There is a bug, where the first of a month, the month number remains of the old month, and I don't want to fix it, as I don't know, what it may break...
+        laudes = days_tempo[ref_tempo]['laudes_commemoratio'];        
+        missa = missa.replace("Glo.", "Glo. - 2a de " + days_tempo[ref_tempo]['vesperae'] + " ");
+
+        vesperae += " - Com. " + days_tempo[ref_tempo]['vesperae_commemoratio'];
+        }
+
 
     ////////////////////////////////////////\\\\\\\
     //// Deleting first Vespers of moved Feasts \\\\
@@ -821,7 +838,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       //+ 'Feria = "' + feria['header'] + '", &emsp;Vesperæ: "' + feria['vesperae'] + '".<br>'
       //+ 'Moved feasts [0] "' + moved[0] + '" [1] "' + moved[1] + '" [2] "' + moved[2] + '" [3] "' + moved[3] + '". Length = "' + moved.length
       //+ '.<br>Sacérdos et Pontifex: "' + matchCount(vesperae,/Sacérdos et Póntifex/) + '" - Fíliæ Jerúsalem: "' + matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/);
-      //+ '".</div>';
+      + " - Day = " + day + ", Month = " + month
+      + '".</div>';
     //\\\---- end of diagnostics -----///\\
 
     if (winner_next) {
@@ -920,7 +938,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               laudes = laudes.replace(/Feria\.?/i, comm);
               comm = "";
              }
-          else if (laudes.match("Com.") && comm) 
+          else if (laudes.match(/^Com\. | - Com\./) && comm) 
             { // we need to sort the commemorations according to their force
              if (commemoratio['force'] > 30 ) {
               if (!laudes.match(/Tu es pastor/i)) laudes = laudes.replace("Com.", "Com. " + comm + " & ");
@@ -929,8 +947,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           else {
           if ( commemoratio['laudes_commemoratio'].match(/^Com\. /) && comm )
             { 
-              if (laudes.match(/Com\. /)) laudes = laudes + " & " + comm;
-              else if (laudes != "") laudes += " - Com. " + comm;
+              if (laudes.match(/^Com\. | - Com\./)) laudes = laudes + " & " + comm;
+              else if (laudes) laudes += " - Com. " + comm;
               else laudes = "Com. " + comm;
             }
           else if ( commemoratio['laudes_commemoratio'].length > 3 && comm ) { 
@@ -938,6 +956,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           else if ( commemoratio['laudes_commemoratio'] && commemoratio['laudes_commemoratio'].length <= 3 && comm ) {
             if ( !comm_laudes ) et = "";
             laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes; }
+          else if ( laudes.match(/^Com\. | - Com\./) ) laudes = laudes + et + comm_laudes;
           else if ( commemoratio['laudes'].match("Com. ") ) laudes = laudes + dash + "Com. " + comm_laudes;
           else if (comm) laudes = laudes + dash + "Com. " + comm;
           }
@@ -996,7 +1015,18 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_missa = comm_missa.replace("2a", "3a"); 
           if (comm_missa.length > 5) comm_missa = "2a " + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
           comm_missa = comm_missa.replace(/-.*/, ""); 
-          win_missa = winner['missa'];
+          //win_missa = winner['missa'];
+          win_missa = missa;
+          if (win_missa.match("2a") && winner['force'] > 40) 
+            { 
+            win_missa_com = win_missa.match(/2a.*? -/) + "";
+            win_missa_com = win_missa_com.replace(" -", "") + "";
+            } else win_missa_com = "";
+          if (win_missa_com) {
+            comm_missa = comm_missa.replace(/3a.*/,""); 
+            comm_missa = comm_missa.replace("2a", "3a"); 
+            comm_missa = win_missa_com + comm_missa; }
+
           win_missa = win_missa.replace(/2a.*? - /,"");
           win_missa_post = winner['missa_post'];
           win_missa_post = win_missa_post.replace(/2a.*? - /,""); // non-greedy modifier "?"
@@ -1107,7 +1137,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (commemoratio) {
       if (comm_head.match(/De ea/i)) comm_head = translate_feria(ref_tempo);
       else comm_head = comm_header_check;
-      if ( weekday == 0 && winner != days_tempo[ref_tempo] ) comm_head = "<i>Dominica </i>" + comm_head; }
+      //if ( weekday == 0 && winner != days_tempo[ref_tempo] ) comm_head = "<i>Dominica </i>" + comm_head; 
+      }
 
     ////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     /////////////    Postprocessing of Laudes/Vesperae   \\\\\\\\\\\\\\
@@ -1148,6 +1179,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (k < all_comm_vesp.length-1) vesperae += " & ";
           }
       }
+
+    ////  Angeli Custodes in September (Saturday, first Vesper) \\\\
+    if ( weekday == 6 && ((month == 7 && (day == 1)|| (day == 31)) || (month == 8 && day < 7)) ) {
+        vesperae = days_sancto['angeli_custodes_sept']['vesperae_j'] + " - Com. " + vesperae.replace("- Com.", "&");
+        }
 
     // For (translated) Anniversary (1.6.1259), that happens to fall into the Octave
     // Corporis Christi or Ascens., the Octave Comm. from unused temporale must be filled in
