@@ -141,7 +141,7 @@ function antiphon_sabb(sabb_mensis, month_sabb) {
   else if (sabb_mensis == 4 && month_sabb == 8) return "Atténde, fili mi.";
   else if (sabb_mensis == 5 && month_sabb == 8) return "Dóminus possédit me.";
   // September
-  else if (sabb_mensis == 1 && month_sabb == 9) return "Cum audísse Job.";
+  else if (sabb_mensis == 1 && month_sabb == 9) return "Cum audísset Job.";
   else if (sabb_mensis == 2 && month_sabb == 9) return "Quare detraxístis.";
   else if (sabb_mensis == 3 && month_sabb == 9) return "Ne reminiscáris.";
   else if (sabb_mensis == 4 && month_sabb == 9) return "Adónai.";
@@ -163,42 +163,43 @@ function antiphon_sabb(sabb_mensis, month_sabb) {
 
 function get_ref_sancto(offset)
   { 
-    ref_sancto_next = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day + offset) + (day + offset);
+    ref_sancto_n = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day + offset) + (day + offset);
 
-      ref_sancto_next = ref_sancto_next.replace("010", "10");
+      ref_sancto_n = ref_sancto_n.replace("010", "10");
 
-      ref_sancto_next = ( ref_sancto_next == "12_32") ? "01_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "01_32") ? "02_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "02_30" && is_leap_year(year) ) ? "03_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "02_29" && !is_leap_year(year) ) ? "03_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "03_32") ? "04_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "04_31") ? "05_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "05_32") ? "06_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "06_31") ? "07_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "07_32") ? "08_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "08_32") ? "09_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "09_31") ? "10_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "10_32") ? "11_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "11_31") ? "12_01" : ref_sancto_next;
+      ref_sancto_n = ( ref_sancto_n == "12_32") ? "01_01" : ref_sancto_n;
+      ref_sancto_n = ( ref_sancto_n == "01_32") ? "02_01" : ref_sancto_n;
+      ref_sancto_n = ( ref_sancto_n == "02_30" && is_leap_year(year) ) ? "03_01" : ref_sancto_n;
+      ref_sancto_n = ( ref_sancto_n == "02_29" && !is_leap_year(year) ) ? "03_01" : ref_sancto_n;
+      ref_sancto_n = ( ref_sancto_n == "03_32") ? "04_01" : ref_sancto_n;
+      ref_sancto_n = ( ref_sancto_n == "04_31") ? "05_01" : ref_sancto_n;
+      ref_sancto_n = ( ref_sancto_n == "05_32") ? "06_01" : ref_sancto_n;
+      ref_sancto_n = ( ref_sancto_n == "06_31") ? "07_01" : ref_sancto_n;
+      ref_sancto_n = ( ref_sancto_n == "07_32") ? "08_01" : ref_sancto_n;
+      ref_sancto_n = ( ref_sancto_n == "08_32") ? "09_01" : ref_sancto_n;
+      ref_sancto_n = ( ref_sancto_n == "09_31") ? "10_01" : ref_sancto_n;
+      ref_sancto_n = ( ref_sancto_n == "10_32") ? "11_01" : ref_sancto_n;
+      ref_sancto_n = ( ref_sancto_n == "11_31") ? "12_01" : ref_sancto_n;
 
-      return ref_sancto_next;
+      return ref_sancto_n;
   }
 
-function get_ref_tempo(offset)
+function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
   { 
-    ref_tempo_next = prefix_tempo + (week_start + Math.ceil((i + 2) / 7)) + '_' + (day_start + ((i+1) % 7));
+    ref_tempo_n = prefix_tempo + (week_start + Math.ceil((i + 2) / 7)) + '_' + (day_start + ((i+1) % 7));
 
-      ref_tempo_next = ( ref_tempo_next == "tp_9_0") ? "pa_1_0" : ref_tempo_next;
-      ref_tempo_next = ( ref_tempo_next == "adv_5_0") ? "christmas_1_0" : ref_tempo_next;
-      ref_tempo_next = ( prefix_tempo == "adv_" && i == (duration-2)) ? "christmas_1_0" : ref_tempo_next;
-      ref_tempo_next = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_next;
-      ref_tempo_next = ( ref_tempo_next == "sept_3_3") ? "ash_1_3" : ref_tempo_next;
-      ref_tempo_next = ( ref_tempo_next == "ash_1_7") ? "lent_1_0" : ref_tempo_next;
-      ref_tempo_next = ( ref_tempo_next == "lent_7_0") ? "tp_1_0" : ref_tempo_next;
-      ref_tempo_next = ( ref_tempo_next == "pe_7_0" && month_usual_number > 9) ? "pa_24_0" : ref_tempo_next;
-      ref_tempo_next = ( ref_tempo_next == "pa_35_0") ? "adv_1_0" : ref_tempo_next;
+      ref_tempo_n = ( ref_tempo_n == "tp_9_0") ? "pa_1_0" : ref_tempo_n;
+      ref_tempo_n = ( ref_tempo_n == "adv_5_0") ? "christmas_1_0" : ref_tempo_n;
+      ref_tempo_n = ( prefix_tempo == "adv_" && i == (duration-2)) ? "christmas_1_0" : ref_tempo_n;
+      ref_tempo_n = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_n;
+      ref_tempo_n = ( ref_tempo_n == "sept_3_3") ? "ash_1_3" : ref_tempo_n;
+      ref_tempo_n = ( ref_tempo_n == "ash_1_7") ? "lent_1_0" : ref_tempo_n;
+      ref_tempo_n = ( ref_tempo_n == "lent_7_0") ? "tp_1_0" : ref_tempo_n;
+      ref_tempo_n = ( ref_tempo_n == "pe_7_0" && month_usual_number > 9) ? "pa_24_0" : ref_tempo_n;
+      ref_tempo_n = ( ref_tempo_n == "pa_25_0") ? "adv_1_0" : ref_tempo_n;
+      ref_tempo_n = ( ref_tempo_n == "pa_35_0") ? "adv_1_0" : ref_tempo_n;
 
-      return ref_tempo_next;
+      return ref_tempo_n;
   }
 
 function get_winner(ref_tempo, ref_sancto) {
@@ -276,34 +277,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // zeroing moved feasts at the start of liturgical year.
     if (ref_tempo.match("adv_1_0")) moved = []; 
 
-    ref_tempo_next = prefix_tempo + (week_start + Math.ceil((i + 2) / 7)) + '_' + (day_start + ((i+1) % 7));
-    ref_sancto_next = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + (day + 1);
-
-      ref_sancto_next = ref_sancto_next.replace("010", "10");
-
-      ref_sancto_next = ( ref_sancto_next == "12_32") ? "01_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "01_32") ? "02_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "02_30" && is_leap_year(year) ) ? "03_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "02_29" && !is_leap_year(year) ) ? "03_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "03_32") ? "04_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "04_31") ? "05_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "05_32") ? "06_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "06_31") ? "07_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "07_32") ? "08_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "08_32") ? "09_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "09_31") ? "10_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "10_32") ? "11_01" : ref_sancto_next;
-      ref_sancto_next = ( ref_sancto_next == "11_31") ? "12_01" : ref_sancto_next;
-
-      ref_tempo_next = ( ref_tempo_next == "tp_9_0") ? "pa_1_0" : ref_tempo_next;
-      ref_tempo_next = ( ref_tempo_next == "adv_5_0") ? "christmas_1_0" : ref_tempo_next;
-      ref_tempo_next = ( prefix_tempo == "adv_" && i == (duration-2)) ? "christmas_1_0" : ref_tempo_next;
-      ref_tempo_next = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_next;
-      ref_tempo_next = ( ref_tempo_next == "sept_3_3") ? "ash_1_3" : ref_tempo_next;
-      ref_tempo_next = ( ref_tempo_next == "ash_1_7") ? "lent_1_0" : ref_tempo_next;
-      ref_tempo_next = ( ref_tempo_next == "lent_7_0") ? "tp_1_0" : ref_tempo_next;
-      ref_tempo_next = ( ref_tempo_next == "pe_7_0" && month_usual_number > 9) ? "pa_24_0" : ref_tempo_next;
-      ref_tempo_next = ( ref_tempo_next == "pa_35_0") ? "adv_1_0" : ref_tempo_next;
+    ref_tempo_next = get_ref_tempo(1, prefix_tempo, week_start, day_start, duration);
+    ref_sancto_next = get_ref_sancto(1);
 
     /////////////////////////////////////////////////////
     ///////////////  Let's find a WINNER  ///////////////
@@ -597,7 +572,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ////  Angeli Custodes in September (adding Sunday texts) \\\\
     if ( weekday == 0 && ((month == 7 && day == 1) || (month == 8 && day < 8)) ) {
         // There is a bug, where the first of a month, the month number remains of the old month, and I don't want to fix it, as I don't know, what it may break...
-        laudes = days_tempo[ref_tempo]['laudes_commemoratio'];        
+        laudes = days_tempo[ref_tempo]['laudes_commemoratio'];
         missa = missa.replace("Glo.", "Glo. - 2a de " + days_tempo[ref_tempo]['vesperae'] + " ");
 
         vesperae += " - Com. " + days_tempo[ref_tempo]['vesperae_commemoratio'];
@@ -907,7 +882,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if ((commemoratio['laudes'] || commemoratio['laudes_commemoratio'] ) && !no_comm_laudes)
         { 
           comm_laudes = comm_laudes.replace(/- sine Com\.|sine Com\./, "");
-          laudes = laudes.replace(/- sine Com\.|sine Com\./, "");
+          //laudes = laudes.replace(/- sine Com\.|sine Com\./, "");
           comm_laudes = comm_laudes.replace("Com\. ", "");
           comm = commemoratio['laudes_commemoratio'];
           comm = comm.replace("Com\. ", "");
@@ -941,7 +916,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           else if (laudes.match(/^Com\. | - Com\./) && comm) 
             { // we need to sort the commemorations according to their force
              if (commemoratio['force'] > 30 ) {
-              if (!laudes.match(/Tu es pastor/i)) laudes = laudes.replace("Com.", "Com. " + comm + " & ");
+              if (!laudes.match(/Tu es pastor/i) && weekday != 0) laudes = laudes.replace("Com.", "Com. " + comm + " & ");
               else laudes += " & " + comm; }
               comm = "";}
           else {
@@ -1180,13 +1155,41 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           }
       }
 
+    if ((weekday == 0 || weekday == 6 ) && laudes.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
+      {
+        laudes = laudes.replaceAll(/Com\. /g, "")
+        if (laudes.match(/^Com\./)) {
+          all_comm_laudes = laudes.split("&"); laudes_parts = "";}
+        else { laudes_parts = laudes.split(" - Com. "); 
+        all_comm_laudes = (laudes_parts[1] + "").split("&"); }
+        // Let's push all "iij. Lect." Comms. to the end
+        for (k = 0; k < all_comm_laudes.length; k++) {
+            temp_comm = all_comm_laudes[k] + "";
+            if (temp_comm.match("(iij. Lect. et M.)")) { 
+                all_comm_laudes.splice(k,1);
+                all_comm_laudes.push(temp_comm); } }
+        // And now all "Com."
+        for (k = 0; k < all_comm_laudes.length; k++) {
+            temp_comm = all_comm_laudes[k] + "";
+            if (temp_comm.match("(Com.)")) { 
+                all_comm_laudes.splice(k,1);
+                all_comm_laudes.push(temp_comm); } }
+          temp_comm = null;
+          if (laudes_parts) laudes = laudes_parts[0] + " - Com. ";
+        for (k = (all_comm_laudes.length-1); k >= 0; k--)
+        //for (k = 0; k < all_comm_laudes.length; k++)
+          {
+          laudes += all_comm_laudes[k];
+          if (k < all_comm_laudes.length-1) laudes += " & ";
+          }
+      }
+
     ////  Angeli Custodes in September (Saturday, first Vesper) \\\\
     if ( weekday == 6 && ((month == 7 && (day == 1)|| (day == 31)) || (month == 8 && day < 7)) ) {
         vesperae = days_sancto['angeli_custodes_sept']['vesperae_j'] + " - Com. " + vesperae.replace("- Com.", "&");
         }
 
-    // For (translated) Anniversary (1.6.1259), that happens to fall into the Octave
-    // Corporis Christi or Ascens., the Octave Comm. from unused temporale must be filled in
+    // For (translated) Anniversary (1.6.1259), that happens to fall into the Octave of Corporis Christi or Ascens., the Octave Comm. from unused temporale must be filled in
 
     if (winner == days_sancto['anniversarium_dedicationis'] && ref_tempo.match(/pa_1_[56]|pa_2_[01234]/i) && commemoratio == days_sancto[ref_sancto])
     {
