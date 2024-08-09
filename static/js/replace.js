@@ -104,6 +104,7 @@ function addtags(winner) {
     winner = winner.replace("Isti sunt Sancti", '<i><b>Isti sunt Sancti</i></b>');
     winner = winner.replace("Isti sunt", '<i><b>Isti sunt</i></b>');
     winner = winner.replace("Iste Sanctus pro lege", '<i><b>Iste Sanctus pro lege</i></b>');
+    winner = winner.replace(/Iste [Ss]anctus digne/, '<i><b>Iste Sanctus digne</i></b>');
     winner = winner.replace(/Iste [Ss]anctus/, '<i><b>Iste Sanctus</i></b>');
     winner = winner.replace(/Euge,? serve bone/, '<i><b>Euge serve bone</i></b>');
     winner = winner.replace(/Euge,? serve/, '<i><b>Euge serve</i></b>');

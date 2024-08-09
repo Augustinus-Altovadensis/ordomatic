@@ -916,7 +916,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           else if (laudes.match(/^Com\. | - Com\./) && comm) 
             { // we need to sort the commemorations according to their force
              if (commemoratio['force'] > 30 ) {
-              if (!laudes.match(/Tu es pastor/i) && weekday != 0) laudes = laudes.replace("Com.", "Com. " + comm + " & ");
+              if (!laudes.match(/Tu es pastor/i)) laudes = laudes.replace("Com.", "Com. " + comm + " & ");
               else laudes += " & " + comm; }
               comm = "";}
           else {
@@ -1155,7 +1155,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           }
       }
 
-    if ((weekday == 0 || weekday == 6 ) && laudes.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
+    // original: (weekday == 0 || weekday == 6 )
+    if ((weekday == 8 || weekday == 9 ) && laudes.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
       {
         laudes = laudes.replaceAll(/Com\. /g, "")
         if (laudes.match(/^Com\./)) {
