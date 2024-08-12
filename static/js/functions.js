@@ -882,7 +882,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if ((commemoratio['laudes'] || commemoratio['laudes_commemoratio'] ) && !no_comm_laudes)
         { 
           comm_laudes = comm_laudes.replace(/- sine Com\.|sine Com\./, "");
-          //laudes = laudes.replace(/- sine Com\.|sine Com\./, "");
+          laudes = laudes.replace(/- sine Com\.|sine Com\./, "");
           comm_laudes = comm_laudes.replace("Com\. ", "");
           comm = commemoratio['laudes_commemoratio'];
           comm = comm.replace("Com\. ", "");
@@ -916,8 +916,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           else if (laudes.match(/^Com\. | - Com\./) && comm) 
             { // we need to sort the commemorations according to their force
              if (commemoratio['force'] > 30 ) {
-              if (!laudes.match(/Tu es pastor/i)) laudes = laudes.replace("Com.", "Com. " + comm + " & ");
-              else laudes += " & " + comm; }
+              if (!laudes.match(/Tu es pastor/i)) laudes = laudes.replace("Com.", "Com. " + comm + " & ");}
+              else laudes += " & " + comm; 
               comm = "";}
           else {
           if ( commemoratio['laudes_commemoratio'].match(/^Com\. /) && comm )
@@ -1322,6 +1322,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     //// Postprocessing \\\\
     vesperae = vesperae.replace("(et M.)", "(Com. et M.)"); // to be removed, hopefully. For some reason, the code doesn't work without replaceAll("Com. ","") in line 814 (Comm. of first Vesper) and I'm too tired to find out why.
+    laudes = laudes.replace('- Com. + <u>Vesp. Def.', " + <u>Vesp. Def.");
+    vesperae = vesperae.replace('- Com. + <u>Vesp. Def.', " + <u>Vesp. Def.");
 
     ////  Adding the green "&" sign \\\\
     laudes = laudes.replaceAll("& ", '<font color="green"><b>&</b></font> ');

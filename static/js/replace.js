@@ -25,6 +25,7 @@ function addtags(winner) {
     winner = winner.replace("sine Com.", '<font color="green"><b><s>Com.</s></b></font>');
     //winner = winner.replace(/^Com\./, '<font color="green"><b>Com.</b></font> ');
     winner = winner.replace(/Com\. /, '<font color="green"><b>Com.</b></font> ');
+    winner = winner.replace(/Com\.- /, 'Com. ');
     winner = winner.replaceAll("Comme.", '<font color="blue"><b>Comme.</b></font> ');
     // Maybe the "sine" word will be removed
     winner = winner.replace("sine Glo.", 'sine <s>Glo.</s>');
