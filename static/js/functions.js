@@ -114,6 +114,8 @@ function translate_feria(ref_tempo, short) {
     feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + tempus;
   else if ( ref[0] == "lent" ) 
     feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + " infra hebd. " + roman_lowercase_numerals[ref[1]-1] + tempus;
+  else if ( ref[0].match(/quatember/) ) 
+    feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + " Quatuor Temporum"
   else if ( ref[0] == "tp" ) 
     feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + " infra hebd. " + roman_lowercase_numerals[ref[1]-2] + tempus;
   else feria_readable = "Fer. " + roman_lowercase_numerals[ref[2]] + " post Dom. " + roman_lowercase_numerals[ref[1]-1] + tempus;
@@ -244,9 +246,11 @@ const lectiones = ["", "usque ad Circumcisionem legitur ex <i>Isaia</i>",
 
 var translated_annivers = false;
 var translated_matthias = false;
+var quatember_septembris = false;
 var moved = [];
 var sabb_mensis = 0;
 var titulus_dom = "";
+
 const roman_lc = ["nullus","j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
 const roman_uc = ["NULLUS","I.","II.","III.","IV.","V.","VI.","VII.","VIII.","IX.","X."];
 
@@ -279,6 +283,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     ref_tempo_next = get_ref_tempo(1, prefix_tempo, week_start, day_start, duration);
     ref_sancto_next = get_ref_sancto(1);
+
+    ///////// Quatuor Temporum Septembris (Quatember) \\\\\\\\\\
+    if (weekday == 3 && month_usual_number == 9 && day > 14 && day < 22) {
+      ref_tempo = 'quatember_septembris_3'; quatember_septembris = true; }
+    if (weekday == 5 && quatember_septembris ) 
+      ref_tempo = 'quatember_septembris_5';
+    if (weekday == 6 && quatember_septembris ) 
+      ref_tempo = 'quatember_septembris_6'; 
 
     /////////////////////////////////////////////////////
     ///////////////  Let's find a WINNER  ///////////////
@@ -489,7 +501,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_sancto == "08_14" && weekday != 0) { winner = days_sancto['08_14v']; }
 
     if (ref_sancto.match(/08_07|08_12/) && weekday == 5) { vigilia_sabb = true; }
-
 
     ///////// Officium Votivum de Beata Sabbato \\\\\\\\\\
     if (weekday == 5 && winner_next['force'] < 35 && i != (duration-1) && !vigilia_sabb)
@@ -1324,6 +1335,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     vesperae = vesperae.replace("(et M.)", "(Com. et M.)"); // to be removed, hopefully. For some reason, the code doesn't work without replaceAll("Com. ","") in line 814 (Comm. of first Vesper) and I'm too tired to find out why.
     laudes = laudes.replace('- Com. + <u>Vesp. Def.', " + <u>Vesp. Def.");
     vesperae = vesperae.replace('- Com. + <u>Vesp. Def.', " + <u>Vesp. Def.");
+
+    if (weekday == 6 && quatember_septembris ) quatember_septembris = false; 
 
     ////  Adding the green "&" sign \\\\
     laudes = laudes.replaceAll("& ", '<font color="green"><b>&</b></font> ');
