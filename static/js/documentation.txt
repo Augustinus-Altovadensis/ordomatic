@@ -1,7 +1,11 @@
 Documentation of data files
 ===========================
   
-  TO DO: February 5+, 1. a 2. 2. 2025
+  TO DO: 
+  - February 5+ (Verš v Mariánském Suffragiu), 1. a 2. 2. 2025
+  - 5.1.2025: SS. Nominis Jesu? Musí být Vesp. j. z Epiphania 
+  - September 18: Commemoratio Fratrum, Parentum et Benefactorum O.N. + Solemne Tricenarium 
+  - 20.9.2024: zkombinovat Quatember, Tricenarium a Vigilii S. Matthaei v každém roce
 
   Header
   ------

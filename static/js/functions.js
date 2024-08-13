@@ -594,7 +594,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //// Deleting first Vespers of moved Feasts \\\\
     //\\\\\\\\\\\\\\\\\\\\\/////////////////////////
 
-    if ( weekday == 6 && winner_next == days_sancto[ref_sancto_next] && winner_next['force'] > 60 && winner_next['force'] < 100)
+    if ( weekday == 6 && winner_next == days_sancto[ref_sancto_next] && winner_next['force'] > 60 && winner_next['force'] < 90)
       {
       winner_next = days_tempo[ref_tempo_next];
       vesperae_j = winner_next['vesperae_j'];
