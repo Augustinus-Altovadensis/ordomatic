@@ -149,13 +149,13 @@ function antiphon_sabb(sabb_mensis, month_sabb) {
   else if (sabb_mensis == 4 && month_sabb == 9) return "Adónai.";
   else if (sabb_mensis == 5 && month_sabb == 9) return "Adónai."; // Nisi sit dimitténda eo quod proximior sit Kalendis Octobris.
   // October
-  else if (sabb_mensis == 1 && month_sabb == 10) return "Adapériat";
+  else if (sabb_mensis == 1 && month_sabb == 10) return "Adapériat.";
   else if (sabb_mensis == 2 && month_sabb == 10) return "Exáudiat Dóminus.";
   else if (sabb_mensis == 3 && month_sabb == 10) return "Ornavérunt.";
   else if (sabb_mensis == 4 && month_sabb == 10) return "Tu, Dómine universórum.";
   else if (sabb_mensis == 5 && month_sabb == 10) return "Tua est poténtia."; // Nisi sit dimitténda eo quod proximior sit Kalendis Novembris.
   // November
-  else if (sabb_mensis == 1 && month_sabb == 11) return "Vidi Dóminum sedéntem";
+  else if (sabb_mensis == 1 && month_sabb == 11) return "Vidi Dóminum sedéntem.";
   else if (sabb_mensis == 2 && month_sabb == 11) return "Aspice Dómine.";
   else if (sabb_mensis == 3 && month_sabb == 11) return "Super muros tuos.";
   else if (sabb_mensis == 4 && month_sabb == 11) return "Muro tuo.";
@@ -594,7 +594,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //// Deleting first Vespers of moved Feasts \\\\
     //\\\\\\\\\\\\\\\\\\\\\/////////////////////////
 
-    if ( weekday == 6 && winner_next == days_sancto[ref_sancto_next] && winner_next['force'] > 60 && winner_next['force'] < 90)
+    if ( weekday == 6 && winner_next == days_sancto[ref_sancto_next] && winner_next['force'] > 60 && winner_next['force'] < 90 && ref_tempo.match(/ash|lent|tp/) )
       {
       winner_next = days_tempo[ref_tempo_next];
       vesperae_j = winner_next['vesperae_j'];
@@ -1107,7 +1107,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (vesperae.match("Com.") && comm_vesperae) 
             { // we need to sort the commemorations according to their force
              if (commemoratio['force'] < winner['force'] ) 
-                vesperae += " & " + comm_vesperae;
+             {
+                if (commemoratio['force'] > winner_next['force'] )
+                    vesperae = vesperae.replace("Com.", "Com. " + comm_vesperae + " & ");
+                else vesperae += " & " + comm_vesperae;
+             }
              else if (commemoratio['force'] > 30 && !ref_sancto.match(/06_30/)) vesperae = vesperae.replace("Com.", "Com. " + comm_vesperae + " & ");
              // For 30.6.2024, Comm. of St. Peter should always go first and MM.maj. supersedes the Sunday, but not Pretiosissimum Sanguinem...
              else if ((commemoratio['force'] <= commemoratio_next['force']) || ref_sancto.match(/06_30/)) vesperae += " & " + comm_vesperae;
@@ -1138,6 +1142,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Sometimes, a Sabb. or Dom. Comm. gets stuck behind a Comm. from a higher Feast. To remedy this, we need to swap /Dom./ and /(Com.)/
 
+    const all_new_vesp = [];
+
     if ((weekday == 0 || weekday == 6 ) && vesperae.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
       {
         if (vesperae.match(/^Com\./)) {
@@ -1149,51 +1155,36 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             temp_comm = all_comm_vesp[k] + "";
             if (temp_comm.match("(iij. Lect. et M.)")) { 
                 all_comm_vesp.splice(k,1);
-                all_comm_vesp.push(temp_comm); } }
+                all_new_vesp.push(temp_comm); } 
+            temp_comm = null; }
+        // And now all "Com. et M."
+        for (k = 0; k < all_comm_vesp.length; k++) {
+            temp_comm = all_comm_vesp[k] + "";
+            if (temp_comm.match("(Com. et M.)")) { 
+                all_comm_vesp.splice(k,1);
+                all_new_vesp.push(temp_comm); }
+            temp_comm = null; }
         // And now all "Com."
         for (k = 0; k < all_comm_vesp.length; k++) {
             temp_comm = all_comm_vesp[k] + "";
             if (temp_comm.match("(Com.)")) { 
                 all_comm_vesp.splice(k,1);
-                all_comm_vesp.push(temp_comm); } }
-          temp_comm = null;
+                all_new_vesp.push(temp_comm); }
+            temp_comm = null; }
           vesperae = vesperae_parts[0] + " - Com. ";
+        //all_comm_vesp = all_comm_vesp.concat(all_new_vesp);
         //for (k = (all_comm_vesp.length-1); k >= 0; k--)
         for (k = 0; k < all_comm_vesp.length; k++)
           {
           vesperae += all_comm_vesp[k];
           if (k < all_comm_vesp.length-1) vesperae += " & ";
           }
-      }
-
-    // original: (weekday == 0 || weekday == 6 )
-    if ((weekday == 8 || weekday == 9 ) && laudes.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
-      {
-        laudes = laudes.replaceAll(/Com\. /g, "")
-        if (laudes.match(/^Com\./)) {
-          all_comm_laudes = laudes.split("&"); laudes_parts = "";}
-        else { laudes_parts = laudes.split(" - Com. "); 
-        all_comm_laudes = (laudes_parts[1] + "").split("&"); }
-        // Let's push all "iij. Lect." Comms. to the end
-        for (k = 0; k < all_comm_laudes.length; k++) {
-            temp_comm = all_comm_laudes[k] + "";
-            if (temp_comm.match("(iij. Lect. et M.)")) { 
-                all_comm_laudes.splice(k,1);
-                all_comm_laudes.push(temp_comm); } }
-        // And now all "Com."
-        for (k = 0; k < all_comm_laudes.length; k++) {
-            temp_comm = all_comm_laudes[k] + "";
-            if (temp_comm.match("(Com.)")) { 
-                all_comm_laudes.splice(k,1);
-                all_comm_laudes.push(temp_comm); } }
-          temp_comm = null;
-          if (laudes_parts) laudes = laudes_parts[0] + " - Com. ";
-        for (k = (all_comm_laudes.length-1); k >= 0; k--)
-        //for (k = 0; k < all_comm_laudes.length; k++)
-          {
-          laudes += all_comm_laudes[k];
-          if (k < all_comm_laudes.length-1) laudes += " & ";
-          }
+        if (all_new_vesp) {
+          vesperae += " & ";
+        for (k = 0; k < all_new_vesp.length; k++)
+          { vesperae += all_new_vesp[k];
+          if (k < all_new_vesp.length-1) vesperae += " & ";
+          } }
       }
 
     ////  Angeli Custodes in September (Saturday, first Vesper) \\\\
@@ -1538,7 +1529,7 @@ if (laudes_post) {
   } else { block_jejunium = ''; }
 
   // if we have narrower screen, we want to take up more space
-  if (window.innerWidth/screen.width > 0.9) width = "75"; else width = "50";
+  if (window.innerWidth/screen.width < 0.9) width = "75"; else width = "50";
 //////////////////////////////////////////////////////////////
 
   // Result:
