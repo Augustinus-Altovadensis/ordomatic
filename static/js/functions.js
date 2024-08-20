@@ -304,6 +304,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (weekday == 5 && quatember_septembris ) 
       ref_tempo_next = 'quatember_septembris_6'; 
 
+    /////  Vigilia S. Matthæi, if it falls on Sunday \\\\\
+    if (ref_sancto == "09_19" && weekday == 6) { ref_sancto += "v"; }
+    if (ref_sancto == "09_20" && weekday != 0) { ref_sancto += "v"; }
+
+
+
     /////////////////////////////////////////////////////
     ///////////////  Let's find a WINNER  ///////////////
     /////////////////////////////////////////////////////
@@ -395,8 +401,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }  
 
     // Removing Quatember in case of higher feasts -CHECK!-
-    if ( ref_tempo.match('quatember_septembris') && winner['force'] > 50)
-      commemoratio = "";
+    //if ( ref_tempo.match('quatember_septembris') && winner['force'] > 50) commemoratio = "";
 
     // Determining, whether we celebrate the Tricenarium magnum or not
     if ( ((day >= 18 && month == 8)|(day < 18 && month == 9)) && winner_next['force'] < 30) tricenarium_vesperae = true;
@@ -454,7 +459,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           winner = days_sancto['anniversarium_dedicationis']; }
 
     ////  Angeli Custodes in September (Sunday, main text) \\\\
-    if ( weekday == 0 && ((month == 7 && day == 1) || (month == 8 && day < 8)) ) {
+    if ( weekday == 0 && (month_usual_number == 9 && day < 8) ) {
         // There is a bug, where the first of a month, the month number remains of the old month, and I don't want to fix it, as I don't know, what it may break...
         winner = days_sancto['angeli_custodes_sept'];
         commemoratio = days_sancto[ref_sancto]; 
@@ -525,9 +530,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     if (ref_sancto.match(/08_07|08_12/) && weekday == 5) { vigilia_sabb = true; }
 
+
     ///////// Officium Votivum de Beata Sabbato \\\\\\\\\\
     if (weekday == 5 && winner_next['force'] < 35 && i != (duration-1) && !vigilia_sabb)
-      { winner_next = days_sancto['votiva_bmv']; commemoratio_next = days_sancto[get_ref_sancto(1)]; }
+      { winner_next = days_sancto['votiva_bmv']; commemoratio_next = days_sancto[get_ref_sancto(1)]; tricenarium_vesperae = false;}
     if (weekday == 6 && winner['force'] < 35 && i != (duration-1))
       { if (day < 8) {
           winner = days_sancto['votiva_bmv_prima_sabb']; 
@@ -535,6 +541,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         else { 
           winner = days_sancto['votiva_bmv']; 
           commemoratio = days_sancto[ref_sancto]; }
+        tricenarium = false;
       }
 
     
@@ -603,8 +610,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_sancto == "08_23" && weekday == 0) { commemoratio = ""; 
         before += '<div class="small">¶ <red>Nihil fit hoc anno de Vigilia S. Bartholomæi Apostoli.</red></div>'; }
 
+    //////////  Vigilia S. Matthæi in Quatuor Tempora Septembris  \\\\\\\\\\\
+    if (ref_sancto == "09_19v" && quatember_septembris) 
+      { comm_laudes = days_sancto['09_19']['laudes_commemoratio']; }
+    if (ref_sancto == "09_20v" && quatember_septembris) 
+      { comm_laudes = days_sancto['09_20']['laudes']; }
+
     ////  Angeli Custodes in September (adding Sunday texts) \\\\
-    if ( weekday == 0 && ((month == 7 && day == 1) || (month == 8 && day < 8)) ) {
+    if ( weekday == 0 && (month_usual_number == 9 && day < 8) ) {
         // There is a bug, where the first of a month, the month number remains of the old month, and I don't want to fix it, as I don't know, what it may break...
         laudes = days_tempo[ref_tempo]['laudes_commemoratio'];
         missa = missa.replace("Glo.", "Glo. - 2a de " + days_tempo[ref_tempo]['vesperae'] + " ");
@@ -660,8 +673,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             sabb_mensis = 1;
 
         if (sabb_mensis && winner_next == days_tempo[ref_tempo_next] ) 
-          vesperae_j = "Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <ib>" + antiphon_sabb(sabb_mensis, month_sabb) + "</ib>";
-        else if (sabb_mensis) comm_vesperae_j = "Com. Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <ib>" + antiphon_sabb(sabb_mensis, month_sabb) + "</ib>";
+          vesperae_j = "Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <i>" + antiphon_sabb(sabb_mensis, month_sabb) + "</i>";
+        else if (sabb_mensis) comm_vesperae_j = "Com. Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <i>" + antiphon_sabb(sabb_mensis, month_sabb) + "</i>";
         titulus_dom = roman_uc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb);
 
         // First Sabbath of August, following remark is displayed in "after":
@@ -913,7 +926,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       /////  Commemoratio Laudes  /////
       /////////////////////////////////
 
-      if ((commemoratio['laudes'] || commemoratio['laudes_commemoratio'] ) && !no_comm_laudes)
+      if ((commemoratio['laudes'] || commemoratio['laudes_commemoratio'] || comm_laudes) && !no_comm_laudes)
         { 
           comm_laudes = comm_laudes.replace(/- sine Com\.|sine Com\./, "");
           laudes = laudes.replace(/- sine Com\.|sine Com\./, "");
@@ -1347,8 +1360,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     //// Postprocessing \\\\
     vesperae = vesperae.replace("(et M.)", "(Com. et M.)"); // to be removed, hopefully. For some reason, the code doesn't work without replaceAll("Com. ","") in line 814 (Comm. of first Vesper) and I'm too tired to find out why.
+    laudes = laudes.replace(/\(Com\.\) |\(Com\. et M\.\) |\(iij\. Lect\. et M\.\) /, "");
+
     laudes = laudes.replace('- Com. + <u>Vesp. Def.', " + <u>Vesp. Def.");
     vesperae = vesperae.replace('- Com. + <u>Vesp. Def.', " + <u>Vesp. Def.");
+
+    missa = missa.replace("  ", " ");
 
     if (tricenarium_vesperae)
       {
@@ -1362,6 +1379,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       {
       laudes += " " + days_sancto['tricenarium']['laudes'];
       // add: Missa
+      }
+
+    if ( ref_sancto.match(/09_20v|09_19v/) && quatember_septembris ) 
+      {
+        laudes = laudes.replace("Vigiliæ S. Matthæi, Ap. et Evang. & ", "")
+        laudes += ' <red>De Vigilia S. Matthæi in Laudibus nihil fit.</red>';
       }
 
     if (weekday == 6 && quatember_septembris ) quatember_septembris = false; 
