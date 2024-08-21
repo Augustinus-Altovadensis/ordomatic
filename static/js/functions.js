@@ -23,8 +23,16 @@ function liturgical_color(color) {
   if (color == "violet" ) { return '<font color="#9c29c1">Viol.</font>';}
   if (color == "red" ) { return '<font color="red">Rub.</font>';}
   if (color == "black" ) { return '<font color="black">Nig.</font>';}
+  if (color == "green/black" ) { return '<font color="green">Vir.</font>/<font color="black">Nig.</font>';}
+  if (color == "white/black" ) { return '<span class="outline">Alb.</span>/<font color="black">Nig.</font>';}
+  if (color == "red/black" ) { return '<font color="red">Rub.</font>/<font color="black">Nig.</font>';}
+  if (color == "violet/black" ) { return '<font color="#9c29c1">Viol.</font>/<font color="black">Nig.</font>';}
+  if (color == "black/green" ) { return '<font color="black">Nig.</font>/<font color="green">Vir.</font>';}
+  if (color == "black/white" ) { return '<font color="black">Nig.</font>/<span class="outline">Alb.</span>';}
+  if (color == "black/red" ) { return '<font color="black">Nig.</font>/<font color="red">Rub.</font>';}
+  if (color == "black/violet" ) { return '<font color="black">Nig.</font>/<font color="#9c29c1">Viol.</font>';}
   if (color == "blue" ) { return '<font color="blue">Cær.</font>';}
-  else { return '<font color="red">A</font><font color="gree">li</font><font color="blue">a.</font>'; }
+  else { return '<font color="red">A</font><font color="green">li</font><font color="blue">a.</font>: ' + color; }
 }
 
 function is_leap_year(year) {
@@ -256,6 +264,10 @@ var sabb_mensis = 0;
 var titulus_dom = "";
 var noct_defunct_counter = 1;
 
+var off_feriale = true;
+var off_s_bernardi = true;
+var off_ss_sacramenti = true;
+
 const roman_lc = ["nullus","j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
 const roman_uc = ["NULLUS","I.","II.","III.","IV.","V.","VI.","VII.","VIII.","IX.","X."];
 
@@ -285,6 +297,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     
     // zeroing moved feasts at the start of liturgical year.
     if (ref_tempo.match("adv_1_0")) moved = []; 
+
+    // zeroing Officium feriale, S. Bernardi and SS. Sacramenti
+    if (day == 1) {
+      off_feriale = true;
+      off_s_bernardi = true;
+      off_ss_sacramenti = true; }
+
 
     ref_tempo_next = get_ref_tempo(1, prefix_tempo, week_start, day_start, duration);
     ref_sancto_next = get_ref_sancto(1);
@@ -532,6 +551,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
 
     ///////// Officium Votivum de Beata Sabbato \\\\\\\\\\
+    
     if (weekday == 5 && winner_next['force'] < 35 && i != (duration-1) && !vigilia_sabb)
       { winner_next = days_sancto['votiva_bmv']; commemoratio_next = days_sancto[get_ref_sancto(1)]; tricenarium_vesperae = false;}
     if (weekday == 6 && winner['force'] < 35 && i != (duration-1))
@@ -542,6 +562,34 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           winner = days_sancto['votiva_bmv']; 
           commemoratio = days_sancto[ref_sancto]; }
         tricenarium = false;
+      }
+
+    ////////  Officium Votivum de SS. Sacramento  \\\\\\\\\
+
+    // Check Officium Mensis...
+    OM_dates_all = days_sancto['officium_mensis']['body'].match(/2024.*?\;/i) + "";
+    OM_date = OM_dates_all.split(",");
+
+    if (weekday == 3 && winner_next['force'] < 30 && off_ss_sacramenti && day != (OM_date[month_usual_number]-1) && month_usual_number != 6)
+      { winner_next = days_sancto['votiva_sacramentum']; commemoratio_next = days_sancto[get_ref_sancto(1)]; tricenarium_vesperae = false;}
+    if (weekday == 4 && winner['force'] < 30 && off_ss_sacramenti && day != OM_date[month_usual_number] &&month_usual_number != 6)
+      { 
+        winner = days_sancto['votiva_sacramentum']; 
+        commemoratio = days_sancto[ref_sancto]; 
+        tricenarium = false;
+        off_ss_sacramenti = false;
+      }
+
+    ////////  Officium Votivum de S. Bernardo  \\\\\\\\\
+
+    if (weekday == 1 && winner_next['force'] < 30 && off_s_bernardi && day != (OM_date[month_usual_number]-1) && month_usual_number != 8)
+      { winner_next = days_sancto['votiva_bernardi']; commemoratio_next = days_sancto[get_ref_sancto(1)]; tricenarium_vesperae = false;}
+    if (weekday == 2 && winner['force'] < 30 && off_s_bernardi && day != OM_date[month_usual_number] &&month_usual_number != 8)
+      { 
+        winner = days_sancto['votiva_bernardi']; 
+        commemoratio = days_sancto[ref_sancto]; 
+        tricenarium = false;
+        off_s_bernardi = false;
       }
 
     
@@ -1427,15 +1475,38 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //----------------------------------------------\\
     // First, the dates need to be found:
     //OM_dates_all = days_sancto['officium_mensis']['body'].match(/${year}.*?\;/i);
+
     OM_dates_all = days_sancto['officium_mensis']['body'].match(/2024.*?\;/i) + "";
     OM_date = OM_dates_all.split(",");
+
+    if ( day == (OM_date[month_usual_number]-1) ) {
+        vesperae += " " + days_sancto['officium_mensis']['vesperae_j'];
+        noct_defunct_counter++;
+    }
+    
     if ( day == OM_date[month_usual_number]) {
-        color = days_sancto['officium_mensis']['color'];
+        color = days_sancto['officium_mensis']['color'] + '/' + color;
         laudes += " " + days_sancto['officium_mensis']['laudes'];
         missa_post = days_sancto['officium_mensis']['missa'] + missa; missa = "";
         if (header.match(/de ea/i)) header = days_sancto['officium_mensis']['header'];
         else header += " atque " + days_sancto['officium_mensis']['header'];
     }
+
+    // Officium feriale TO DO: kick out the entire week of OM
+
+    if ( winner_next['force'] < 30 && off_feriale && day != (OM_date[month_usual_number]-1) )
+      { vesperae += " " + days_sancto['officium_mensis']['vesperae_j']; noct_defunct_counter++;}
+    if (weekday == 4 && winner['force'] < 30 && off_feriale && day != OM_date[month_usual_number] )
+      { 
+        color = days_sancto['officium_mensis']['color'] + '/' + color;
+        laudes += " " + days_sancto['officium_mensis']['laudes'];
+        missa_post = days_sancto['officium_mensis']['missa'] + missa; missa = "";
+        missa_post = missa_post.replace("Anniv. Def. (3. Req.)", "Missa Quotidiana Defunct. (4. Req.)");
+        if (header.match(/de ea/i)) header = days_sancto['officium_mensis']['header'];
+        else header += " atque " + days_sancto['officium_mensis']['header'];
+        header = header.replace(/mensis/i, "Feriale");
+        off_feriale = false;
+      }
 
 
     /////////////////////|\\\\\\\\\\\\\\\\\\\\\\
@@ -1540,7 +1611,8 @@ function component(date, year, month, day, weekday, before, color, header, rank,
 
   if (rank) {
     rank = rank.replace(" ", " ");
-    block_rank = '<b> – ' + rank + '</b>';
+    //block_rank = '<b> – ' + rank + '</b>';
+    block_rank = ' – ' + rank + '</b>';
     block_rank = block_rank.replace("  ", " "); // for some reason, font color doesn't work here, unless preceded by a space. This deletes it.
   } else { block_rank = ''; }
 
@@ -1612,7 +1684,7 @@ if (laudes_post) {
   } else { block_jejunium = ''; }
 
   // if we have narrower screen, we want to take up more space
-  if (window.innerWidth/screen.width < 0.9) width = "75"; else width = "50";
+  if (window.innerWidth/screen.width < 0.9 || window.innerWidth < 1300) width = "75"; else width = "50";
 //////////////////////////////////////////////////////////////
 
   // Result:
