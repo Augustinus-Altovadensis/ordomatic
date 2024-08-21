@@ -550,6 +550,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //||\\\\\\\\\\\\\\\\\\\\\\\\\|//////////////////////////||\\
     if (!winner) {winner = commemoratio; subtitulum = "---- NOT A WINNER ----";} // this shouldn't happen!
     before = winner['before'];
+    color = winner['color'];
     header = winner['header'];
     rank = winner['rank']; 
     laudes = winner['laudes']; 
@@ -624,7 +625,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         vesperae += " - Com. " + days_tempo[ref_tempo]['vesperae_commemoratio'];
         }
-
 
     ////////////////////////////////////////\\\\\\\
     //// Deleting first Vespers of moved Feasts \\\\
@@ -1085,6 +1085,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               }
             }
 
+          // If we need to fill in current Sunday, e.g. on Officium mense...
+          if (missa.match(/-De Dominica-/i) ) {
+            dominica = ref_tempo.slice(0, -1) + '0';
+            missa = missa.replace(/-De Dominica-/i, days_tempo[dominica]['vesperae']);
+            }
+
           // Cleanup:
           missa = missa.replace("  ", " "); missa = missa.replace("..", ".");
           if ( !ref_tempo.match(/(lent|ash|sept)/) ) missa = missa.replace("- Tractus ", ""); // Quatember???
@@ -1415,6 +1421,23 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (ref_sancto == "07_23" && weekday == 6) {
         missa += " - <red>Evangelium Vigiliæ in fine.</red>"; }
 
+
+    ////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\
+    //////////      Officium mensis     \\\\\\\\\\\\\
+    //----------------------------------------------\\
+    // First, the dates need to be found:
+    //OM_dates_all = days_sancto['officium_mensis']['body'].match(/${year}.*?\;/i);
+    OM_dates_all = days_sancto['officium_mensis']['body'].match(/2024.*?\;/i) + "";
+    OM_date = OM_dates_all.split(",");
+    if ( day == OM_date[month_usual_number]) {
+        color = days_sancto['officium_mensis']['color'];
+        laudes += " " + days_sancto['officium_mensis']['laudes'];
+        missa_post = days_sancto['officium_mensis']['missa'] + missa; missa = "";
+        if (header.match(/de ea/i)) header = days_sancto['officium_mensis']['header'];
+        else header += " atque " + days_sancto['officium_mensis']['header'];
+    }
+
+
     /////////////////////|\\\\\\\\\\\\\\\\\\\\\\
     /////////  Lectiones in Refectorio  \\\\\\\\\
     //||\\\\\\\\\\\\\\\\\|///////////////////////
@@ -1459,7 +1482,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       day,
       weekday,
       before,
-      winner['color'],
+      color,
       header,
       rank,
       comm_head,

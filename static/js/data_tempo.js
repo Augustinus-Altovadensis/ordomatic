@@ -2457,7 +2457,7 @@ const days_tempo = {
     'laudes_post':'',
     'missa': 'Sabb. post Cineres. - 2a A cunctis. 3a Omnipotens - Praef. Quadr.',
     'missa_post': '<div class="centered, pars">PARS VERNALIS</div>',
-    'vesperae': 'Sabb. ante Dom. j. quadr. <red><b>℟. maj.</red> <i>Paradísi portas.</i>',
+    'vesperae': 'Sabb. ante Dom. j. quadr. <red>℟. maj.</red> <i>Paradísi portas.</i>',
     'vesperae_commemoratio': '',
     'vesperae_post': '',
     'body': '',
