@@ -264,7 +264,8 @@ var sabb_mensis = 0;
 var titulus_dom = "";
 var noct_defunct_counter = 1;
 
-var off_feriale = true;
+var off_mensis = false;
+var off_feriale = false;
 var off_s_bernardi = true;
 var off_ss_sacramenti = true;
 
@@ -300,7 +301,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // zeroing Officium feriale, S. Bernardi and SS. Sacramenti
     if (day == 1) {
-      off_feriale = true;
+      off_mensis = false;
+      off_feriale = false;
       off_s_bernardi = true;
       off_ss_sacramenti = true; }
 
@@ -326,6 +328,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     /////  Vigilia S. Matthæi, if it falls on Sunday \\\\\
     if (ref_sancto == "09_19" && weekday == 6) { ref_sancto += "v"; }
     if (ref_sancto == "09_20" && weekday != 0) { ref_sancto += "v"; }
+
+    /////  Beginning of Tricenarium solemne  \\\\\
+    if (ref_sancto == "09_17" && weekday != 6) { ref_sancto_next += "tr"; }
+    if (ref_sancto == "09_18" && weekday != 0) { ref_sancto += "tr"; }
+
+    if (ref_sancto == "09_19" && weekday == 1) { ref_sancto_next = "09_18tr"; }
+    if (ref_sancto == "09_20" && weekday == 2) { ref_sancto = "09_18tr"; }
 
 
 
@@ -423,9 +432,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //if ( ref_tempo.match('quatember_septembris') && winner['force'] > 50) commemoratio = "";
 
     // Determining, whether we celebrate the Tricenarium magnum or not
-    if ( ((day >= 18 && month == 8)|(day < 18 && month == 9)) && winner_next['force'] < 30) tricenarium_vesperae = true;
+    if ( ((day >= 18 && month == 8)|(day < 18 && month == 9)) && (winner_next['force'] < 30 || ref_tempo_next.match("quatember_septembris"))) tricenarium_vesperae = true;
 
-    if ( ((day >= 18 && month == 8)|(day < 18 && month == 9)) && winner['force'] < 30) tricenarium = true;
+    if ( ((day > 18 && month == 8)|(day < 18 && month == 9)) && (winner['force'] < 30 || ref_tempo.match("quatember_septembris"))) tricenarium = true;
 
     // "Returning" translated feasts on Monday that is not in Holy Week and any Octave
     if ( weekday > 0 && moved.length > 0 && !ref_tempo.match(/lent_6_|tp_1_/) 
@@ -704,6 +713,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       {
       comm_vesperae_j = "";
       }
+
+    // Tricenarium solemne (1)
+    if (commemoratio_next == days_sancto['09_18tr']) comm_vesperae_j = "";
+    if (winner_next == days_sancto['09_18tr']) vesperae_j = "";
+
+    if (commemoratio == days_sancto['09_18tr']) comm_laudes = "";
+    if (winner == days_sancto['09_18tr']) laudes = "";
 
     ////////////////////////////////////////////////
     ////// Saturday's Vespers from August on \\\\\\\
@@ -1377,6 +1393,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       else laudes = laudes + dash + "Com. " + laudes_bmv;
       }
 
+    if (winner == days_sancto['votiva_bernardi']) laudes = laudes.replace("B. B. R.", "B. R. <red>(nomen S. Bernardi hic omittitur)</red>");
+
     // Com. B.M.V. ad Vesperas
     et = " &"
     dash = " – ";
@@ -1396,6 +1414,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       //else if ( vesperae.match(/Com\. /) ) vesperae += vesperae_bmv;
       else if (vesperae_bmv) vesperae = vesperae + dash + "Com. " + vesperae_bmv;
       }
+
+    if (winner_next == days_sancto['votiva_bernardi']) vesperae = vesperae.replace("B. B. R.", "B. R. <red>(nomen S. Bernardi hic omittitur)</red>");
 
     // TO DO: cite the Antiphon and verse first time they change
     if ( ref_sancto.match(/02_0[345]/) ) 
@@ -1421,6 +1441,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     missa = missa.replace("  ", " ");
 
+    if ( ref_sancto.match(/09_20v|09_19v/) && quatember_septembris ) 
+      {
+        laudes = laudes.replace("Vigiliæ S. Matthæi, Ap. et Evang. & ", "")
+        laudes += ' <red>De Vigilia S. Matthæi in Laudibus nihil fit.</red>';
+      }
+
     if (tricenarium_vesperae)
       {
       vesperae += " " + days_sancto['tricenarium']['vesperae_j'];
@@ -1433,12 +1459,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       {
       laudes += " " + days_sancto['tricenarium']['laudes'];
       // add: Missa
-      }
-
-    if ( ref_sancto.match(/09_20v|09_19v/) && quatember_septembris ) 
-      {
-        laudes = laudes.replace("Vigiliæ S. Matthæi, Ap. et Evang. & ", "")
-        laudes += ' <red>De Vigilia S. Matthæi in Laudibus nihil fit.</red>';
       }
 
     if (weekday == 6 && quatember_septembris ) quatember_septembris = false; 
@@ -1471,10 +1491,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
 
     ////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\
-    //////////      Officium mensis     \\\\\\\\\\\\\
+    //////////     Officium Defunctorum    \\\\\\\\\\
     //----------------------------------------------\\
+    
+    // Officium mensis
+
     // First, the dates need to be found:
+    OM_dates_search = year + '.*?\;';
     //OM_dates_all = days_sancto['officium_mensis']['body'].match(/${year}.*?\;/i);
+
+    //OM_dates_all = days_sancto['officium_mensis']['body'].match(OM_dates_search);
 
     OM_dates_all = days_sancto['officium_mensis']['body'].match(/2024.*?\;/i) + "";
     OM_date = OM_dates_all.split(",");
@@ -1490,13 +1516,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         missa_post = days_sancto['officium_mensis']['missa'] + missa; missa = "";
         if (header.match(/de ea/i)) header = days_sancto['officium_mensis']['header'];
         else header += " atque " + days_sancto['officium_mensis']['header'];
+        off_mensis = true;
     }
 
-    // Officium feriale TO DO: kick out the entire week of OM
+    // Officium feriale: find a day
+    if (off_mensis && weekday == 0) {off_feriale = true; off_mensis = false;}
 
+    // Implement the Off. feriale
     if ( winner_next['force'] < 30 && off_feriale && day != (OM_date[month_usual_number]-1) )
       { vesperae += " " + days_sancto['officium_mensis']['vesperae_j']; noct_defunct_counter++;}
-    if (weekday == 4 && winner['force'] < 30 && off_feriale && day != OM_date[month_usual_number] )
+    if ( winner['force'] < 30 && off_feriale && day != OM_date[month_usual_number] )
       { 
         color = days_sancto['officium_mensis']['color'] + '/' + color;
         laudes += " " + days_sancto['officium_mensis']['laudes'];
@@ -1507,6 +1536,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         header = header.replace(/mensis/i, "Feriale");
         off_feriale = false;
       }
+
+    // Tricenarium solemne (1)
+    if (winner_next == days_sancto['09_18tr'] || commemoratio_next == days_sancto['09_18tr']) { vesperae += " " + days_sancto['09_18tr']['vesperae_j']; noct_defunct_counter++;}
+
+    if (winner == days_sancto['09_18tr'] || commemoratio == days_sancto['09_18tr']) { laudes += " " + days_sancto['09_18tr']['laudes']; }
 
 
     /////////////////////|\\\\\\\\\\\\\\\\\\\\\\
