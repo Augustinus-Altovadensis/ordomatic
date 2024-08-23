@@ -35,12 +35,12 @@ function addtags(winner) {
     winner = winner.replace("&.", '&');
     winner = winner.replace(/2a Eccl[eé]si(ae|æ) /, '2a <i>Ecclésiæ</i> ');
     winner = winner.replace(/3a Eccl[eé]si(ae|æ) /, '3a <i>Ecclésiæ</i> ');
-    winner = winner.replace("1a ", '1<sup>a</sup> ');
-    winner = winner.replace("1o ", '1<sup>o</sup> ');
-    winner = winner.replace("2a ", '2<sup>a</sup> ');
-    winner = winner.replace("2o ", '2<sup>o</sup> ');
-    winner = winner.replace("3a ", '3<sup>a</sup> ');
-    winner = winner.replace("4a ", '4<sup>a</sup> ');
+    winner = winner.replaceAll("1a ", '1<sup>a</sup> ');
+    winner = winner.replaceAll("1o ", '1<sup>o</sup> ');
+    winner = winner.replaceAll("2a ", '2<sup>a</sup> ');
+    winner = winner.replaceAll("2o ", '2<sup>o</sup> ');
+    winner = winner.replaceAll("3a ", '3<sup>a</sup> ');
+    winner = winner.replaceAll("4a ", '4<sup>a</sup> ');
     winner = winner.replaceAll("Dicitur", '<font color="red">Dicitur</font> ');
     winner = winner.replace("⇓", '<font color="red">⇓</font>');
     winner = winner.replace("(Ex Processionale Cisterciense)", '<font color="red">(Ex Processionale Cisterciense)</font>');

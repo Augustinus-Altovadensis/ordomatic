@@ -432,9 +432,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //if ( ref_tempo.match('quatember_septembris') && winner['force'] > 50) commemoratio = "";
 
     // Determining, whether we celebrate the Tricenarium magnum or not
-    if ( ((day >= 18 && month == 8)|(day < 18 && month == 9)) && (winner_next['force'] < 30 || ref_tempo_next.match("quatember_septembris"))) tricenarium_vesperae = true;
+    if ( ((day >= 18 && month == 8)|(day < 18 && month == 9)) && (winner_next['force'] < 30 || (ref_tempo_next.match("quatember_septembris") && winner_next['force'] < 40)) ) tricenarium_vesperae = true;
 
-    if ( ((day > 18 && month == 8)|(day < 18 && month == 9)) && (winner['force'] < 30 || ref_tempo.match("quatember_septembris"))) tricenarium = true;
+    if ( ((day > 18 && month == 8)|(day < 18 && month == 9)) && (winner['force'] < 30 || (ref_tempo.match("quatember_septembris") && winner['force'] < 40)) ) tricenarium = true;
 
     // "Returning" translated feasts on Monday that is not in Holy Week and any Octave
     if ( weekday > 0 && moved.length > 0 && !ref_tempo.match(/lent_6_|tp_1_/) 
@@ -718,8 +718,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (commemoratio_next == days_sancto['09_18tr']) comm_vesperae_j = "";
     if (winner_next == days_sancto['09_18tr']) vesperae_j = "";
 
-    if (commemoratio == days_sancto['09_18tr']) comm_laudes = "";
-    if (winner == days_sancto['09_18tr']) laudes = "";
+    if (commemoratio == days_sancto['09_18tr']) {comm_laudes = ""; comm_missa = "";}
+    if (winner == days_sancto['09_18tr']) {laudes = "";}
 
     ////////////////////////////////////////////////
     ////// Saturday's Vespers from August on \\\\\\\
@@ -1434,7 +1434,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     //// Postprocessing \\\\
     vesperae = vesperae.replace("(et M.)", "(Com. et M.)"); // to be removed, hopefully. For some reason, the code doesn't work without replaceAll("Com. ","") in line 814 (Comm. of first Vesper) and I'm too tired to find out why.
-    laudes = laudes.replace(/\(Com\.\) |\(Com\. et M\.\) |\(iij\. Lect\. et M\.\) /, "");
+    laudes = laudes.replaceAll(/\(Com\.\) |\(Com\. et M\.\) |\(iij\. Lect\. et M\.\) /g, "");
 
     laudes = laudes.replace('- Com. + <u>Vesp. Def.', " + <u>Vesp. Def.");
     vesperae = vesperae.replace('- Com. + <u>Vesp. Def.', " + <u>Vesp. Def.");
@@ -1458,7 +1458,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (tricenarium)
       {
       laudes += " " + days_sancto['tricenarium']['laudes'];
-      // add: Missa
+      missa = missa.replace("3a SS. Eustachii", "3a <i>Deus veniae.</i> 4a SS. Eustachii") // for 20.9.
+      missa = missa.replace("de officio diei", "<i>Deus veniae</i>")
+      if (winner['header'].match(/de ea/i) && winner['force'] < 20 && ( !commemoratio || (commemoratio && commemoratio['rank'] != "Commemoratio et M.") ) ) 
+        { missa_post = "<li>- <u>in Missa Convent.:</u> Missa Anniv. Defunct. (3. Requi.) - 1a <i>Deus véniae.</i> 2a <i>Deus cui proprium.</i> 3a <i>Fidélium Deus.</i></li> <li>- <u>in Missis privatis:</u> " + missa + '</li>'; missa = "";} 
       }
 
     if (weekday == 6 && quatember_septembris ) quatember_septembris = false; 
@@ -1489,6 +1492,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (ref_sancto == "07_23" && weekday == 6) {
         missa += " - <red>Evangelium Vigiliæ in fine.</red>"; }
 
+      if ( commemoratio && commemoratio['header'].match(/Quatuor Temporum/i) ) missa += " - <red>Evangelium Feriæ Quatuor Temp. in fine.</red>";
+
 
     ////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\
     //////////     Officium Defunctorum    \\\\\\\\\\
@@ -1497,8 +1502,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // Officium mensis
 
     // First, the dates need to be found:
-    OM_dates_search = year + '.*?\;';
-    //OM_dates_all = days_sancto['officium_mensis']['body'].match(/${year}.*?\;/i);
+    //var OM_dates_search = new RegExp(`${year}` + ".*?\;");
+    //OM_dates_all = days_sancto['officium_mensis']['body'].match(/`${year}`.*?\;/i);
 
     //OM_dates_all = days_sancto['officium_mensis']['body'].match(OM_dates_search);
 
@@ -1540,7 +1545,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // Tricenarium solemne (1)
     if (winner_next == days_sancto['09_18tr'] || commemoratio_next == days_sancto['09_18tr']) { vesperae += " " + days_sancto['09_18tr']['vesperae_j']; noct_defunct_counter++;}
 
-    if (winner == days_sancto['09_18tr'] || commemoratio == days_sancto['09_18tr']) { laudes += " " + days_sancto['09_18tr']['laudes']; }
+    if (winner == days_sancto['09_18tr'] || commemoratio == days_sancto['09_18tr']) { 
+      laudes += " " + days_sancto['09_18tr']['laudes']; 
+      missa = missa.replace("2a Commemoratio Fratrum", "2a <i>Deus veniae.</i> 3a A cunctis");
+      missa += "<li>- <u>in Miss. priv.:</u> Anniv. Def. (3. Req.)";
+      }
+
+    if (commemoratio == days_sancto['09_18tr']) header += '<span class="header text-justify ms-1"><b> atque ' + commemoratio['header'] + '</b></span>';
 
 
     /////////////////////|\\\\\\\\\\\\\\\\\\\\\\
@@ -1702,19 +1713,19 @@ if (laudes_post) {
   /////////////   jejunatur   ///////////////////////////////
 
   if ((weekday == 3 || weekday == 5) && winner['force'] < 90 && !ref_tempo.match(/tp/)) {
-    block_jejunium = '<span class="rank"> – <font color="red">jejunatur</font></span>';
+    block_jejunium = ' – <font color="red">jejunatur</font>';
   } else if ( ref_tempo == "ash_1_3" || ref_tempo == "lent_6_5" ) { 
-    block_jejunium = '<span class="rank"> – <font color="red">jejunatur</font> <font color="blue">(den přísného postu)</font></span>';
+    block_jejunium = ' – <font color="red">jejunatur</font> <font color="blue">(den přísného postu)</font>';
   } else if ( ref_tempo.match(/adv|lent|ash/) && winner['force'] < 100 ) {
-    block_jejunium = '<span class="rank"> – <font color="red">jejunatur</font></span>';
+    block_jejunium = ' – <font color="red">jejunatur</font>';
   } else if ( ref_tempo.match(/lent_6_[123]/)) {
-    block_jejunium = '<span class="rank"> – <font color="red">jejunatur</font></span>';
+    block_jejunium = ' – <font color="red">jejunatur</font>';
   } else if ( laudes_post.match(/[Vv]ig[ií]l[íi]a/) && winner['force'] < 90 ) {
-    block_jejunium = '<span class="rank"> – <font color="red">jejunatur</font></span>';
-  } else if ( header.match(/[Vv]ig[ií]l[íi]a/)) {
-    block_jejunium = '<span class="rank"> – <font color="red">jejunatur</font></span>';
+    block_jejunium = ' – <font color="red">jejunatur</font>';
+  } else if ( header.match(/[Vv]ig[ií]l[íi]a|Quatuor Temporum/i)) {
+    block_jejunium = ' – <font color="red">jejunatur</font>';
   } else if (winner_next['force'] >= 100 && weekday != 0) {
-    block_jejunium = '<span class="rank"> – <font color="red">jejunatur</font></span>';
+    block_jejunium = ' – <font color="red">jejunatur</font>';
   } else { block_jejunium = ''; }
 
   // if we have narrower screen, we want to take up more space
