@@ -5910,7 +5910,7 @@ const days_sancto = {
     'rank': 'iij. Lect. et M.',
     'subtitulum': '',
     'vesperae_j':'de seq.',
-    'vesperae_j_commemoratio':'Com. de seq. <i>O Pani vitæ.</i>.',
+    'vesperae_j_commemoratio':'Com. de seq. <i>O Panis vitæ.</i>.',
     'martyrologium':'',
     'vigiliae': 'iij. Lect.',
     'laudes': '',

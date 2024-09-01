@@ -100,21 +100,6 @@ function refresh_ordo(year) {
   content = content.concat('<div class="body text-justify">num_after_epiphany = ' + num_after_epiphany + "  |  num_after_dom_xxiij = " + (num_after_dom_xxiij/7) + "  |  Sum of all days = " + (advent_duration + christmas_time_duration + tempus_per_annum_until_septuagesima + 280 + num_after_dom_xxiij + ((advent_new - dominica_ultima) / day_in_ms)) + "<br>Window inner width = " + window.innerWidth + ", Screen width = " + screen.width + ", Ratio = " + window.innerWidth/screen.width + ". " + '</div>');
 
 
-  //   TODO:
-  //   switch (i) {
-  //     case 0:
-  //       winner = days_tempo['trinity'];
-  //       break;
-  //     case 4:
-  //       winner = days_tempo['corpus_domini'];
-  //       break;
-  //     case 12:
-  //       winner = days_tempo['cor_jesu'];
-  //       break;
-  //     case 13:
-  //       winner = days_tempo['cor_mariæ_immaculatum'];
-  //       break;
-
   $('#ordo').html(content);
 
   replace();

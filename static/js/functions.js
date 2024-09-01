@@ -175,7 +175,7 @@ function antiphon_sabb(sabb_mensis, month_sabb) {
   else return "alia Antiphona."
   }
 
-function get_ref_sancto(offset)
+function get_ref_sancto_old(offset)
   { 
     ref_sancto_n = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day + offset) + (day + offset);
 
@@ -198,11 +198,28 @@ function get_ref_sancto(offset)
       return ref_sancto_n;
   }
 
+function get_ref_sancto(offset)
+  { 
+    var date_temp = new Date(date.valueOf());
+    date_temp.setDate(date_temp.getDate() + offset);
+
+    day_temp = date_temp.getDate();
+    month_temp = date_temp.getMonth() + 1;
+
+    ref_sancto_n = add_zero(month_temp) + month_temp + '_' + add_zero(day_temp) + day_temp;
+
+    return ref_sancto_n;
+  }
+
 function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
   { 
     ref_tempo_n = prefix_tempo + (week_start + Math.ceil((i + 2) / 7)) + '_' + (day_start + ((i+1) % 7));
 
       ref_tempo_n = ( ref_tempo_n == "tp_9_0") ? "pa_1_0" : ref_tempo_n;
+      if (ref_tempo_n.match("tp_9")) ref_tempo_n.replace("tp_9", "pa_1");
+      if (ref_tempo_n.match("tp_10")) ref_tempo_n.replace("tp_10", "pa_2");
+      if (ref_tempo_n.match("tp_11")) ref_tempo_n.replace("tp_11", "pa_3");
+      if (ref_tempo_n.match("tp_12")) ref_tempo_n.replace("tp_12", "pa_4");
       ref_tempo_n = ( ref_tempo_n == "adv_5_0") ? "christmas_1_0" : ref_tempo_n;
       ref_tempo_n = ( prefix_tempo == "adv_" && i == (duration-2)) ? "christmas_1_0" : ref_tempo_n;
       ref_tempo_n = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_n;
@@ -268,6 +285,11 @@ var off_mensis = false;
 var off_feriale = false;
 var off_s_bernardi = true;
 var off_ss_sacramenti = true;
+
+var OM_dates = [];
+var date_s_bernardi = "";
+
+var check_next_new = "";
 
 const roman_lc = ["nullus","j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
 const roman_uc = ["NULLUS","I.","II.","III.","IV.","V.","VI.","VII.","VIII.","IX.","X."];
@@ -591,9 +613,23 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     ////////  Officium Votivum de S. Bernardo  \\\\\\\\\
 
-    if (weekday == 1 && winner_next['force'] < 30 && off_s_bernardi && day != (OM_date[month_usual_number]-1) && month_usual_number != 8)
+    check_next_new = "";
+
+    // vynulovat na nový měsíc, pořešit neplatná data
+
+    if (weekday == 1 && day < 8) {
+      for (j = 0; j <= 4; j++) {
+        temp_bernardi = get_ref_sancto((j*7)+1);
+        check_next_new += "j = " + j + ", date = " + temp_bernardi + ". ";
+        if ( (!days_sancto[temp_bernardi] || days_sancto[temp_bernardi]['force'] < 30 )
+          && (day+(j*7)) != OM_date[month_usual_number] && temp_bernardi.match(month_usual_number + "_")) date_s_bernardi = temp_bernardi; }
+        check_next_new += "Date S. Bernardi: " + date_s_bernardi;
+      }
+
+    //if (weekday == 1 && winner_next['force'] < 30 && off_s_bernardi && day != (OM_date[month_usual_number]-1) 
+    if (weekday == 1 && date_s_bernardi == ref_sancto_next && month_usual_number != 8)
       { winner_next = days_sancto['votiva_bernardi']; commemoratio_next = days_sancto[get_ref_sancto(1)]; tricenarium_vesperae = false;}
-    if (weekday == 2 && winner['force'] < 30 && off_s_bernardi && day != OM_date[month_usual_number] &&month_usual_number != 8)
+    if (weekday == 2 && date_s_bernardi == ref_sancto && month_usual_number != 8)
       { 
         winner = days_sancto['votiva_bernardi']; 
         commemoratio = days_sancto[ref_sancto]; 
@@ -917,6 +953,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (!commemoratio_next) comm_next_header_check = '<font color="black">N/A</font>';
     else comm_next_header_check = "<i><b>" + commemoratio_next['header'] + "</i></b>";
 
+    j = 1;
+
     check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check 
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check 
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force']    
@@ -924,8 +962,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       //+ 'Feria = "' + feria['header'] + '", &emsp;Vesperæ: "' + feria['vesperae'] + '".<br>'
       //+ 'Moved feasts [0] "' + moved[0] + '" [1] "' + moved[1] + '" [2] "' + moved[2] + '" [3] "' + moved[3] + '". Length = "' + moved.length
       //+ '.<br>Sacérdos et Pontifex: "' + matchCount(vesperae,/Sacérdos et Póntifex/) + '" - Fíliæ Jerúsalem: "' + matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/);
-      + " - Day = " + day + ", Month = " + month
-      + '".</div>';
+      + " - Day = " + day + ", Month = " + month + ". Header + a week: " + get_ref_sancto(j*7) + " - "
+
+      if (days_sancto[get_ref_sancto(j*7)]) check_next += days_sancto[get_ref_sancto(j*7)]['header'];
+      else check_next += get_ref_sancto(j*7) + " doesn't exist.";
+
+      if (check_next_new) check_next += "<br>" + check_next_new
+      //+ ". j = 2: " + (day+(j*7)) + "_" + month_usual_number
+      check_next += '".</div>';
     //\\\---- end of diagnostics -----///\\
 
     if (winner_next) {
@@ -1501,27 +1545,27 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     
     // Officium mensis
 
-    // First, the dates need to be found:
-    //var OM_dates_search = new RegExp(`${year}` + ".*?\;");
-    //OM_dates_all = days_sancto['officium_mensis']['body'].match(/`${year}`.*?\;/i);
+    // First, the dates need to be inserted. If not inserted here, Officium mensis is not added.
+    OM_dates['2024'] = "2024,30,7,11,10,23,20,19,26,5,30,28;"
+    OM_dates['2025'] = "2025,29,7,11,10,23,20,19,26,5,30,28;" // draft for testing only
 
-    //OM_dates_all = days_sancto['officium_mensis']['body'].match(OM_dates_search);
+    if (OM_dates[year]) 
+    {
+      OM_date = OM_dates[year].split(",");
 
-    OM_dates_all = days_sancto['officium_mensis']['body'].match(/2024.*?\;/i) + "";
-    OM_date = OM_dates_all.split(",");
-
-    if ( day == (OM_date[month_usual_number]-1) ) {
+      if ( day == (OM_date[month_usual_number]-1) ) {
         vesperae += " " + days_sancto['officium_mensis']['vesperae_j'];
         noct_defunct_counter++;
-    }
+      }
     
-    if ( day == OM_date[month_usual_number]) {
+      if ( day == OM_date[month_usual_number]) {
         color = days_sancto['officium_mensis']['color'] + '/' + color;
         laudes += " " + days_sancto['officium_mensis']['laudes'];
         missa_post = days_sancto['officium_mensis']['missa'] + missa; missa = "";
         if (header.match(/de ea/i)) header = days_sancto['officium_mensis']['header'];
         else header += " atque " + days_sancto['officium_mensis']['header'];
         off_mensis = true;
+      }
     }
 
     // Officium feriale: find a day
