@@ -212,15 +212,19 @@ function get_ref_sancto(offset)
   }
 
 function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
-  { 
-    ref_tempo_n = prefix_tempo + (week_start + Math.ceil((i + 2) / 7)) + '_' + (day_start + ((i+1) % 7));
+  { // Currently, this function works only about a month to the future
+    ref_tempo_n = prefix_tempo + (week_start + Math.ceil((i + 1 + offset) / 7)) + '_' + (day_start + ((i+offset) % 7));
 
       ref_tempo_n = ( ref_tempo_n == "tp_9_0") ? "pa_1_0" : ref_tempo_n;
-      if (ref_tempo_n.match("tp_9")) ref_tempo_n.replace("tp_9", "pa_1");
-      if (ref_tempo_n.match("tp_10")) ref_tempo_n.replace("tp_10", "pa_2");
-      if (ref_tempo_n.match("tp_11")) ref_tempo_n.replace("tp_11", "pa_3");
-      if (ref_tempo_n.match("tp_12")) ref_tempo_n.replace("tp_12", "pa_4");
+      if (ref_tempo_n.match("tp_9")) ref_tempo_n = ref_tempo_n.replace("tp_9", "pa_1");
+      if (ref_tempo_n.match("tp_10")) ref_tempo_n = ref_tempo_n.replace("tp_10", "pa_2");
+      if (ref_tempo_n.match("tp_11")) ref_tempo_n = ref_tempo_n.replace("tp_11", "pa_3");
+      if (ref_tempo_n.match("tp_12")) ref_tempo_n = ref_tempo_n.replace("tp_12", "pa_4");
       ref_tempo_n = ( ref_tempo_n == "adv_5_0") ? "christmas_1_0" : ref_tempo_n;
+      //if (ref_tempo_n.match("adv_5")) ref_tempo_n = ref_tempo_n.replace("adv_5", "christmas_1");
+      //if (ref_tempo_n.match("adv_6")) ref_tempo_n = ref_tempo_n.replace("adv_6", "christmas_2");
+      if ( ref_tempo_n.match("adv_") && (i+offset) > (duration-2) )
+        {}
       ref_tempo_n = ( prefix_tempo == "adv_" && i == (duration-2)) ? "christmas_1_0" : ref_tempo_n;
       ref_tempo_n = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "sept_3_3") ? "ash_1_3" : ref_tempo_n;
@@ -236,7 +240,6 @@ function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
 function get_winner(ref_tempo, ref_sancto) {
   winner = days_tempo[ref_tempo];
   if ( !days_tempo[ref_tempo] ) { winner = days_sancto[ref_sancto]; }
-  //days_tempo[ref_tempo]['force'] = 10;
   if (days_sancto[ref_sancto] && days_tempo[ref_tempo] && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force']) {
     winner = days_sancto[ref_sancto];
   }
@@ -968,6 +971,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       else check_next += get_ref_sancto(j*7) + " doesn't exist.";
 
       if (check_next_new) check_next += "<br>" + check_next_new
+      check_next += '<br>ref_tempo + 1: "' + get_ref_tempo(1, prefix_tempo, week_start, day_start, duration) + '", + 2: "' + get_ref_tempo(2, prefix_tempo, week_start, day_start, duration) + '", + 3: "' + get_ref_tempo(3, prefix_tempo, week_start, day_start, duration) + '", + 4: "' + get_ref_tempo(4, prefix_tempo, week_start, day_start, duration) + '", + 5: "' + get_ref_tempo(5, prefix_tempo, week_start, day_start, duration) + '", + 30: "' + get_ref_tempo(30, prefix_tempo, week_start, day_start, duration) + '". '
       //+ ". j = 2: " + (day+(j*7)) + "_" + month_usual_number
       check_next += '".</div>';
     //\\\---- end of diagnostics -----///\\
@@ -1804,6 +1808,6 @@ if (laudes_post) {
     //+ '<div class="body blue text-justify ms-1">' + body + '</div>'
     + block_after
     + '</div>'
-    // + check // switch off and on here
+    + check // switch off and on here
   );
 }
