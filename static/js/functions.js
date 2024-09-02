@@ -175,29 +175,6 @@ function antiphon_sabb(sabb_mensis, month_sabb) {
   else return "alia Antiphona."
   }
 
-function get_ref_sancto_old(offset)
-  { 
-    ref_sancto_n = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day + offset) + (day + offset);
-
-      ref_sancto_n = ref_sancto_n.replace("010", "10");
-
-      ref_sancto_n = ( ref_sancto_n == "12_32") ? "01_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "01_32") ? "02_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "02_30" && is_leap_year(year) ) ? "03_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "02_29" && !is_leap_year(year) ) ? "03_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "03_32") ? "04_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "04_31") ? "05_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "05_32") ? "06_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "06_31") ? "07_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "07_32") ? "08_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "08_32") ? "09_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "09_31") ? "10_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "10_32") ? "11_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "11_31") ? "12_01" : ref_sancto_n;
-
-      return ref_sancto_n;
-  }
-
 function get_ref_sancto(offset)
   { 
     var date_temp = new Date(date.valueOf());
@@ -212,7 +189,8 @@ function get_ref_sancto(offset)
   }
 
 function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
-  { // Currently, this function works only about a month to the future
+  { // Currently, this function works only about a month from the asking date
+    var weekday_end = 0;
     ref_tempo_n = prefix_tempo + (week_start + Math.ceil((i + 1 + offset) / 7)) + '_' + (day_start + ((i+offset) % 7));
 
       ref_tempo_n = ( ref_tempo_n == "tp_9_0") ? "pa_1_0" : ref_tempo_n;
@@ -223,9 +201,14 @@ function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
       ref_tempo_n = ( ref_tempo_n == "adv_5_0") ? "christmas_1_0" : ref_tempo_n;
       //if (ref_tempo_n.match("adv_5")) ref_tempo_n = ref_tempo_n.replace("adv_5", "christmas_1");
       //if (ref_tempo_n.match("adv_6")) ref_tempo_n = ref_tempo_n.replace("adv_6", "christmas_2");
+      if ( ref_tempo_n.match("adv_") && (i+offset) == (duration-2) ) weekday_end = (day_start + ((i+offset) % 7))
       if ( ref_tempo_n.match("adv_") && (i+offset) > (duration-2) )
-        {}
-      ref_tempo_n = ( prefix_tempo == "adv_" && i == (duration-2)) ? "christmas_1_0" : ref_tempo_n;
+        {
+          jj = i + offset - duration + 1;
+          ref_tempo_n = "christmas_" + ( 0 + (Math.ceil((i + offset + 2 - duration ) / 7))) + '_' + (weekday_end + ((i+offset) % 7));
+          // TO DO: weekdays are OK, but the first number still doesn't always work
+        }
+      //ref_tempo_n = ( prefix_tempo == "adv_" && i == (duration-2)) ? "christmas_1_0" : ref_tempo_n;
       ref_tempo_n = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "sept_3_3") ? "ash_1_3" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "ash_1_7") ? "lent_1_0" : ref_tempo_n;
@@ -961,17 +944,17 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check 
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check 
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force']    
-      //+ " extra_sunday = " + extra + "  --- i = " + i + "/" + duration + '. <br>'
+      + " extra_sunday = " + extra + "  --- i = " + i + "/" + duration // + '. <br>'
       //+ 'Feria = "' + feria['header'] + '", &emsp;Vesperæ: "' + feria['vesperae'] + '".<br>'
       //+ 'Moved feasts [0] "' + moved[0] + '" [1] "' + moved[1] + '" [2] "' + moved[2] + '" [3] "' + moved[3] + '". Length = "' + moved.length
       //+ '.<br>Sacérdos et Pontifex: "' + matchCount(vesperae,/Sacérdos et Póntifex/) + '" - Fíliæ Jerúsalem: "' + matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/);
-      + " - Day = " + day + ", Month = " + month + ". Header + a week: " + get_ref_sancto(j*7) + " - "
+      //+ " - Day = " + day + ", Month = " + month + ". Header + a week: " + get_ref_sancto(j*7) + " - "
 
-      if (days_sancto[get_ref_sancto(j*7)]) check_next += days_sancto[get_ref_sancto(j*7)]['header'];
-      else check_next += get_ref_sancto(j*7) + " doesn't exist.";
+      //if (days_sancto[get_ref_sancto(j*7)]) check_next += days_sancto[get_ref_sancto(j*7)]['header'];
+      //else check_next += get_ref_sancto(j*7) + " doesn't exist.";
 
       if (check_next_new) check_next += "<br>" + check_next_new
-      check_next += '<br>ref_tempo + 1: "' + get_ref_tempo(1, prefix_tempo, week_start, day_start, duration) + '", + 2: "' + get_ref_tempo(2, prefix_tempo, week_start, day_start, duration) + '", + 3: "' + get_ref_tempo(3, prefix_tempo, week_start, day_start, duration) + '", + 4: "' + get_ref_tempo(4, prefix_tempo, week_start, day_start, duration) + '", + 5: "' + get_ref_tempo(5, prefix_tempo, week_start, day_start, duration) + '", + 30: "' + get_ref_tempo(30, prefix_tempo, week_start, day_start, duration) + '". '
+      check_next += '<br>ref_tempo + 1: "' + get_ref_tempo(1, prefix_tempo, week_start, day_start, duration) + '", + 2: "' + get_ref_tempo(2, prefix_tempo, week_start, day_start, duration) + '", + 3: "' + get_ref_tempo(3, prefix_tempo, week_start, day_start, duration) + '", + 4: "' + get_ref_tempo(4, prefix_tempo, week_start, day_start, duration) + '", + 5: "' + get_ref_tempo(5, prefix_tempo, week_start, day_start, duration) + '", + 6: "' + get_ref_tempo(6, prefix_tempo, week_start, day_start, duration) + '", + 7: "' + get_ref_tempo(7, prefix_tempo, week_start, day_start, duration) + '", + 8: "' + get_ref_tempo(8, prefix_tempo, week_start, day_start, duration) + '",<br> + 30: "' + get_ref_tempo(30, prefix_tempo, week_start, day_start, duration) + '". '
       //+ ". j = 2: " + (day+(j*7)) + "_" + month_usual_number
       check_next += '".</div>';
     //\\\---- end of diagnostics -----///\\
