@@ -465,7 +465,7 @@ const days_tempo = {
     'force': 100,
     'before': '',
     'color': 'violet',
-    'header': '<span class="small-caps fw-bold">Dominica IV Adventus.</span>',
+    'header': 'Dominica IV. Adventus.',
     'rank': '',
     'subtitulum': '',
     'vesperae_j':'',
@@ -473,11 +473,11 @@ const days_tempo = {
     'martyrologium':'',
     'vigiliae': '',
     'laudes': '',
-    'laudes_commemoratio':'',
+    'laudes_commemoratio':'Com. Dominicae iv. Adv. <i>Ave Maria.</i>',
     'laudes_post':'',
-    'missa': '',
+    'missa': '(cum dalmaticis) Aña Sub tuum. - Asperges - sine Glo. - 2a De S. Maria <i>Deus, qui de beátae.</i> 3a <i>Ecclésiae tuae.</i> vel pro Papa - Cre. - Praef. SS. Trin.',
     'missa_post': '',
-    'vesperae': '',
+    'vesperae': 'Dominica iv. Adventus.',
     'vesperae_commemoratio': '',
     'vesperae_post': '',
     'body': '',
@@ -616,7 +616,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_0': {
-    'force': 150,
+    'force': 40,
     'before': '<span class="before-large">Hic incipit Tempus Nativitatis.</span>',
     'color': 'white',
     'header': '<span class="solemnitas-major">In Nativitate Domini Nostri Iesu Christi.</span>',
@@ -638,7 +638,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_1': {
-    'force': 50,
+    'force': 40,
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
@@ -660,7 +660,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_2': {
-    'force': 50,
+    'force': 40,
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
@@ -682,7 +682,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_3': {
-    'force': 50,
+    'force': 40,
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
@@ -704,7 +704,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_4': {
-    'force': 50,
+    'force': 40,
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
@@ -726,7 +726,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_5': {
-    'force': 50,
+    'force': 40,
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
@@ -748,7 +748,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_6': {
-    'force': 50,
+    'force': 40,
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',

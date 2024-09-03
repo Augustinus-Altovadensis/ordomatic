@@ -3,6 +3,7 @@ function refresh_ordo(year) {
 
   christmas = get_christmas_date(year - 1);
   christmas_weekday = get_christmas_weekday(christmas);
+  xmas_weekday = christmas.getDay(); // getting real Christmas weekday to get correct starting day
   first_sunday_of_advent = get_first_sunday_of_advent(christmas, christmas_weekday);
   year = first_sunday_of_advent.getFullYear();
   month = first_sunday_of_advent.getMonth();
@@ -40,7 +41,7 @@ function refresh_ordo(year) {
 
   // Christmas time:
   christmas_time_duration = 19 - ((christmas_weekday + 5) % 7);
-  content = content.concat(period(christmas_time_duration+1, christmas, 'christmas_', 0, 0, 0));
+  content = content.concat(period(christmas_time_duration+1, christmas, 'christmas_', 0, xmas_weekday, 0));
 
   baptism = new Date(christmas.getTime() + (christmas_time_duration * day_in_milliseconds));
 
