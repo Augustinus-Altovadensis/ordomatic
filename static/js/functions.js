@@ -208,6 +208,7 @@ function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
       ref_tempo_n = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "sept_3_3") ? "ash_1_3" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "ash_1_7") ? "lent_1_0" : ref_tempo_n;
+      ref_tempo_n = ( ref_tempo_n == "ash_2_0") ? "lent_1_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "lent_7_0") ? "tp_1_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "pe_7_0" && month_usual_number > 9) ? "pa_24_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "pa_25_0") ? "adv_1_0" : ref_tempo_n;
@@ -603,23 +604,19 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     check_next_new = "";
 
-    // vynulovat na nový měsíc, pořešit neplatná data
-
     if (weekday == 1 && day < 8) {
       date_s_bernardi = "";
-      for (j = 0; j <= 4; j++) {
+      for (j = 0; j <= 5; j++) {
         temp_bernardi = get_ref_sancto((j*7)+1);
-        day_temp_b = temp_bernardi.replace("12_","");
 
         check_next_new += "j = " + j + ", date = " + temp_bernardi + ". ";
         if ( (!days_sancto[temp_bernardi] || days_sancto[temp_bernardi]['force'] < 30 )
-          && (day+(j*7)) != OM_date[month_usual_number] && temp_bernardi.match(month_usual_number + "_") ) 
-            if (month_usual_number == 12 && day_temp_b < 17) date_s_bernardi = temp_bernardi; 
-            else date_s_bernardi = temp_bernardi;}
+          && (day+(j*7)) != OM_date[month_usual_number] && temp_bernardi.match(month_usual_number + "_")  
+          && !(month_usual_number == 12 && temp_bernardi.replace("12_","") >= 17) ) 
+            date_s_bernardi = temp_bernardi; }
         check_next_new += "Date S. Bernardi: " + date_s_bernardi;
       }
 
-    //if (weekday == 1 && winner_next['force'] < 30 && off_s_bernardi && day != (OM_date[month_usual_number]-1) 
     if (weekday == 1 && date_s_bernardi == ref_sancto_next && month_usual_number != 8)
       { winner_next = days_sancto['votiva_bernardi']; commemoratio_next = days_sancto[get_ref_sancto(1)]; tricenarium_vesperae = false;}
     if (weekday == 2 && date_s_bernardi == ref_sancto && month_usual_number != 8)
@@ -627,7 +624,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         winner = days_sancto['votiva_bernardi']; 
         commemoratio = days_sancto[ref_sancto]; 
         tricenarium = false;
-        off_s_bernardi = false;
       }
 
     
@@ -787,7 +783,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio_vesperae = vesperae_j;
         today_wins = true; 
         }
-      else if ( winner['force'] == winner_next['force'] ) {
+      else if ( winner['force'] == winner_next['force'] && winner['force'] > 35 ) {
         // a capitulo de sequenti, ut in 28. & 29.8.
         vesperae_j = "";
         commemoratio_vesperae = winner_next['vesperae_j'];
@@ -1289,6 +1285,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     const all_new_vesp = [];
 
+    // CHECK: 12. a 13. 10.2024 (Com. &), 7.10.2023 + 22.9.2024 - Vesp. (špatné pořadí Com.)
+
     if ((weekday == 0 || weekday == 6 ) && vesperae.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
       {
         if (vesperae.match(/^Com\./)) {
@@ -1506,9 +1504,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (weekday == 6 && quatember_septembris ) quatember_septembris = false; 
 
     ////  Adding the green "&" sign \\\\
-    laudes = laudes.replaceAll("& ", '<font color="green"><b>&</b></font> ');
-    missa = missa.replaceAll("& ", '<font color="green"><b>&</b></font> ');
-    vesperae = vesperae.replaceAll("& ", '<font color="green"><b>&</b></font> ');
+    laudes = laudes.replaceAll("& ", '<font color="green">&</font> ');
+    missa = missa.replaceAll("& ", '<font color="green">&</font> ');
+    vesperae = vesperae.replaceAll("& ", '<font color="green">&</font> ');
 
     ///////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ////////    Postprocessing Missa   \\\\\\\\\\\
@@ -1799,6 +1797,6 @@ if (laudes_post) {
     //+ '<div class="body blue text-justify ms-1">' + body + '</div>'
     + block_after
     + '</div>'
-    + check // switch off and on here
+    // + check // switch off and on here
   );
 }
