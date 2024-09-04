@@ -1286,6 +1286,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     const all_new_vesp = [];
 
     // CHECK: 12. a 13. 10.2024 (Com. &), 7.10.2023 + 22.9.2024 - Vesp. (špatné pořadí Com.)
+    // proč se druhé "(Com.)" nedostanou do all_new_vesp?
 
     if ((weekday == 0 || weekday == 6 ) && vesperae.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
       {
@@ -1293,6 +1294,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           all_comm_vesp = vesperae.split("&"); }
         else { vesperae_parts = vesperae.split(" - Com. "); 
         all_comm_vesp = (vesperae_parts[1] + "").split("&"); }
+        // Let's push all "xij. Lect." Comms. to the end
+        for (k = 0; k < all_comm_vesp.length; k++) {
+            temp_comm = all_comm_vesp[k] + "";
+            if (temp_comm.match("(xij. Lect. et M.)")) { 
+                all_comm_vesp.splice(k,1);
+                all_new_vesp.push(temp_comm); } 
+            temp_comm = null; }
         // Let's push all "iij. Lect." Comms. to the end
         for (k = 0; k < all_comm_vesp.length; k++) {
             temp_comm = all_comm_vesp[k] + "";
@@ -1319,13 +1327,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         //for (k = (all_comm_vesp.length-1); k >= 0; k--)
         for (k = 0; k < all_comm_vesp.length; k++)
           {
-          vesperae += all_comm_vesp[k];
+          vesperae += 'all [' + k + ']' + all_comm_vesp[k];
+          //vesperae += all_comm_vesp[k];
           if (k < all_comm_vesp.length-1) vesperae += " & ";
           }
         if (all_new_vesp) {
-          vesperae += " & ";
+          if (all_comm_vesp.length > 0) vesperae += " & ";
         for (k = 0; k < all_new_vesp.length; k++)
-          { vesperae += all_new_vesp[k];
+          { 
+          vesperae += 'new [' + k + ']' + all_new_vesp[k];
+          //vesperae += all_new_vesp[k];
           if (k < all_new_vesp.length-1) vesperae += " & ";
           } }
       }
