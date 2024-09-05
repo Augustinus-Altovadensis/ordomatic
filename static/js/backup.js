@@ -1,3 +1,10 @@
+    ///// Workaround for First Vespers S. Familiae //////
+    if ( ref_tempo.match("christmas") && i == (duration-2) ) 
+      {  if ( winner['force'] > 100 ) 
+          vesperae = winner['vesperae'] + " – " + 'Com. de seq. <i>Verbum caro.</i>';
+          else vesperae = 'Sanctæ Familiæ: Jesu, Mariæ et Joseph <font color="red">(supple. bre. Cist. 1965)</font>'; }
+
+
         if ( ref_sancto == "everything works")
           { // beginning of former Vespers
           dash = " - ";
@@ -48,3 +55,56 @@
              }
             }
           } // end of former Vespers
+
+    if ((weekday == 0 || weekday == 6 ) && vesperae.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
+      {
+        if (vesperae.match(/^Com\./)) {
+          all_comm_vesp = vesperae.split("&"); }
+        else { vesperae_parts = vesperae.split(" - Com. "); 
+        all_comm_vesp = (vesperae_parts[1] + "").split("&"); }
+        // Let's push all "xij. Lect." Comms. to the end
+        for (k = 0; k < all_comm_vesp.length; k++) {
+            temp_comm = all_comm_vesp[k] + "";
+            if (temp_comm.match("(xij. Lect. et M.)")) { 
+                all_comm_vesp.splice(k,1);
+                all_new_vesp.push(temp_comm); } 
+            temp_comm = null; }
+        // Let's push all "iij. Lect." Comms. to the end
+        for (k = 0; k < all_comm_vesp.length; k++) {
+            temp_comm = all_comm_vesp[k] + "";
+            if (temp_comm.match("(iij. Lect. et M.)")) { 
+                all_comm_vesp.splice(k,1);
+                all_new_vesp.push(temp_comm); } 
+            temp_comm = null; }
+        // And now all "Com. et M."
+        for (k = 0; k < all_comm_vesp.length; k++) {
+            temp_comm = all_comm_vesp[k] + "";
+            if (temp_comm.match("(Com. et M.)")) { 
+                all_comm_vesp.splice(k,1);
+                all_new_vesp.push(temp_comm); }
+            temp_comm = null; }
+        // And now all "Com."
+        for (k = 0; k < all_comm_vesp.length; k++) {
+            temp_comm = all_comm_vesp[k] + "";
+            if (temp_comm.match("(Com.)")) { 
+                all_comm_vesp.splice(k,1);
+                all_new_vesp.push(temp_comm); }
+            temp_comm = null; }
+          vesperae = vesperae_parts[0] + " - Com. ";
+        //all_comm_vesp = all_comm_vesp.concat(all_new_vesp);
+        //for (k = (all_comm_vesp.length-1); k >= 0; k--)
+        for (k = 0; k < all_comm_vesp.length; k++)
+          {
+          vesperae += 'all [' + k + ']' + all_comm_vesp[k];
+          //vesperae += all_comm_vesp[k];
+          if (k < all_comm_vesp.length-1) vesperae += " & ";
+          }
+        if (all_new_vesp) {
+          if (all_comm_vesp.length > 0) vesperae += " & ";
+        for (k = 0; k < all_new_vesp.length; k++)
+          { 
+          vesperae += 'new [' + k + ']' + all_new_vesp[k];
+          //vesperae += all_new_vesp[k];
+          if (k < all_new_vesp.length-1) vesperae += " & ";
+          } }
+      }

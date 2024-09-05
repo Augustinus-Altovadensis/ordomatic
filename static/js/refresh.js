@@ -35,14 +35,13 @@ function refresh_ordo(year) {
     '<div class="month green">' + month_human_readable(month) + '</div>'
   );
 
-  // Advent:
+  //////////////////////////////|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  //  All the temporal variables to determine the correct dates  \\
+  //////////////////////////////|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+  // Anvent and Christmas:
   advent_duration = 21 + christmas_weekday;
-  content = content.concat(period(advent_duration+1, first_sunday_of_advent, 'adv_', 0, 0, 0));
-
-  // Christmas time:
   christmas_time_duration = 19 - ((christmas_weekday + 5) % 7);
-  content = content.concat(period(christmas_time_duration+1, christmas, 'christmas_', 0, xmas_weekday, 0));
-
   baptism = new Date(christmas.getTime() + (christmas_time_duration * day_in_milliseconds));
 
   // Septuagesima:
@@ -74,6 +73,16 @@ function refresh_ordo(year) {
   // Sum of Sundays after Epiphany. If it eq. 5, one is missing
   if ( num_after_epiphany < 6 && ( num_after_epiphany + (num_after_dom_xxiij / 7) == 5 )) extra_sunday = 1; else extra_sunday = 0; 
 
+  ///////////////////|\\\\\\\\\\\\\\\\\
+  //// Creating the actual content  \\\\
+  //////////////////|||\\\\\\\\\\\\\\\\\\
+
+  // Advent:
+  content = content.concat(period(advent_duration+1, first_sunday_of_advent, 'adv_', 0, 0, 0));
+
+  // Christmas time:
+  content = content.concat(period(christmas_time_duration+1, christmas, 'christmas_', 0, xmas_weekday, 0));
+
   // Tempus per Annum until Septuagesima:
   content = content.concat(period(tempus_per_annum_until_septuagesima+1, baptism, 'pe_', 0, 0, extra_sunday));
 
@@ -98,7 +107,7 @@ function refresh_ordo(year) {
   // Dominica xxiv. et ultima post Pentecosten et hebdomada ejus:
   content = content.concat(period(((advent_new - dominica_ultima) / day_in_ms)+1, dominica_ultima, 'pa_', 23, 0, 0));
 
-  content = content.concat('<div class="body text-justify">num_after_epiphany = ' + num_after_epiphany + "  |  num_after_dom_xxiij = " + (num_after_dom_xxiij/7) + "  |  Sum of all days = " + (advent_duration + christmas_time_duration + tempus_per_annum_until_septuagesima + 280 + num_after_dom_xxiij + ((advent_new - dominica_ultima) / day_in_ms)) + "<br>Window inner width = " + window.innerWidth + ", Screen width = " + screen.width + ", Ratio = " + window.innerWidth/screen.width + ". " + '</div>');
+  content = content.concat('<div class="body text-justify">num_after_epiphany = ' + num_after_epiphany + "  |  num_after_dom_xxiij = " + (num_after_dom_xxiij/7) + "  |  Sum of all days = " + (advent_duration + christmas_time_duration + tempus_per_annum_until_septuagesima + 280 + num_after_dom_xxiij + ((advent_new - dominica_ultima) / day_in_ms)) + "<br>Window inner width = " + window.innerWidth + ", Screen width = " + screen.width + ", Ratio = " + (window.innerWidth/screen.width).toFixed(2) + ". " + '</div>');
 
 
   $('#ordo').html(content);

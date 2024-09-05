@@ -190,6 +190,7 @@ function get_ref_sancto(offset)
 
 function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
   { // Currently, this function works only about a month from the asking date
+    // Variables used here can be found in "refresh.js"
     ref_tempo_n = prefix_tempo + (week_start + Math.ceil((i + 1 + day_start + offset) / 7)) + '_' + ((day_start + i + offset) % 7);
 
       ref_tempo_n = ( ref_tempo_n == "tp_9_0") ? "pa_1_0" : ref_tempo_n;
@@ -198,13 +199,56 @@ function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
       if (ref_tempo_n.match("tp_11")) ref_tempo_n = ref_tempo_n.replace("tp_11", "pa_3");
       if (ref_tempo_n.match("tp_12")) ref_tempo_n = ref_tempo_n.replace("tp_12", "pa_4");
 
-      if ( ref_tempo_n.match("adv_") && (i+offset) == (duration-2) ) weekday_end = ( ((day_start + i + offset) % 7))
+      if ( ref_tempo_n.match("pe_") && (i+offset) == (duration-2) ) weekday_end_pe = ( ((day_start + i + offset) % 7))
+      if ( ref_tempo_n.match("pe_") && (i+offset) > (duration-2) )
+        {
+          // TO DO: Check all the durations
+
+          if ( (i + offset) < (duration + tempus_per_annum_until_septuagesima - 2) )
+            { 
+            jj = i + offset - duration + 2;
+            if (!check_next_tempo) check_next_tempo += 'weekday_end Christmas= "' + weekday_end_pe + '". day_start = "' + day_start + '" Christmas time duration: "' + christmas_time_duration + '" Post Epiphaniam duration: "' + tempus_per_annum_until_septuagesima + '"';
+            ref_tempo_n = "sept_" + ( 0 + Math.ceil((jj + weekday_end_c + 1)/ 7) - 1) + '_' + ((weekday_end_pe + jj) % 7);
+            }
+          else if ( ((i + offset) >= (duration + tempus_per_annum_until_septuagesima - 1)) && ((i + offset) < (duration + tempus_per_annum_until_septuagesima + 17 - 2))) // Septuagesima has 17 days
+            { 
+            if (!check_next_tempo) check_next_tempo += 'weekday_end Christmas= "' + weekday_end_pe + '". day_start = "' + day_start + '" Christmas time duration: "' + christmas_time_duration + '" Post Epiphaniam duration: "' + tempus_per_annum_until_septuagesima + '"';
+            kk = i + offset - tempus_per_annum_until_septuagesima - 17 + 1; // Septuagesima has 17 days
+             ref_tempo_n = "ash_1" + '_' + ((weekday_end_pe + kk) % 7);
+            }
+            else 
+            { 
+            if (!check_next_tempo) check_next_tempo += 'weekday_end Christmas= "' + weekday_end_pe + '". day_start = "' + day_start + '" Christmas time duration: "' + christmas_time_duration + '" Post Epiphaniam duration: "' + tempus_per_annum_until_septuagesima + '"';
+            ll = i + offset - tempus_per_annum_until_septuagesima - 17 - 4 + 1; // Septuagesima has 17 days, ash_ 4 days
+             ref_tempo_n = "lent_" + ( 0 + Math.ceil((ll + weekday_end_c + 1)/ 7)) + '_' + ((weekday_end_c + ll) % 7);
+            }
+        }
+
+      if ( ref_tempo_n.match("christmas_") && (i+offset) == (duration-2) ) weekday_end_c = ( ((day_start + i + offset) % 7))
+      if ( ref_tempo_n.match("christmas_") && (i+offset) > (duration-2) )
+        {
+          if ( (i + offset) < (duration + tempus_per_annum_until_septuagesima - 2) )
+            { 
+            jj = i + offset - duration + 2;
+            //if (!check_next_tempo) check_next_tempo += 'weekday_end Christmas= "' + weekday_end_c + '". day_start = "' + day_start + '" Christmas time duration: "' + christmas_time_duration + '" Post Epiphaniam duration: "' + tempus_per_annum_until_septuagesima + '"';
+            ref_tempo_n = "pe_" + ( 0 + Math.ceil((jj + weekday_end_c + 1)/ 7) - 1) + '_' + ((weekday_end_c + jj) % 7);
+            }
+          else
+            { 
+            //if (!check_next_tempo) check_next_tempo += 'weekday_end Christmas= "' + weekday_end_c + '". day_start = "' + day_start + '" Christmas time duration: "' + christmas_time_duration + '" Post Epiphaniam duration: "' + tempus_per_annum_until_septuagesima + '"';
+            kk = i + offset - christmas_time_duration - tempus_per_annum_until_septuagesima + 1;
+             ref_tempo_n = "sept_" + ( 0 + Math.ceil((jj + weekday_end_c + 1)/ 7) - 1) + '_' + ((weekday_end_c + kk) % 7);
+            }
+        }
+
+      if ( ref_tempo_n.match("adv_") && (i+offset) == (duration-2) ) weekday_end_a = ( ((day_start + i + offset) % 7))
       if ( ref_tempo_n.match("adv_") && (i+offset) > (duration-2) )
         {
-          jj = i + offset - duration + 2;
-          //check_next_tempo += 'weekday_end = "' + weekday_end + '" ';
-          ref_tempo_n = "christmas_" + ( 0 + Math.ceil((jj + day_start + weekday_end + 1)/ 7)) + '_' + ((weekday_end + jj) % 7);
+          jj = i + offset - duration + 2; // beginning of Christmas cycle from Advent
+          //check_next_tempo += 'weekday_end Advent= "' + weekday_end_a + '" ';
+          ref_tempo_n = "christmas_" + ( 0 + Math.ceil((jj + day_start + weekday_end_a + 1)/ 7)) + '_' + ((weekday_end_a + jj) % 7);
         }
+
       ref_tempo_n = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "sept_3_3") ? "ash_1_3" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "ash_1_7") ? "lent_1_0" : ref_tempo_n;
@@ -263,7 +307,12 @@ var moved = [];
 var sabb_mensis = 0;
 var titulus_dom = "";
 var noct_defunct_counter = 1;
-var weekday_end = 0;
+var weekday_end_a = 0;  // Advent
+var weekday_end_c = 0;  // Christmas
+var weekday_end_pe = 0; // Post Epiphaniam
+var weekday_end_l = 0;  // Lent
+var weekday_end_e = 0;  // Easter
+var weekday_end_pa = 0; // Per Annum (post Pentecosten)
 
 var off_mensis = false;
 var off_feriale = false;
@@ -300,7 +349,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     weekday = date.getDay();
     week_number = date.getWeek();
     month_usual_number = date.getMonth() + 1;
-    ref_tempo = prefix_tempo + (week_start + Math.ceil((i + 1) / 7)) + '_' + (day_start + (i % 7));
+    ref_tempo = prefix_tempo + (week_start + Math.ceil((day_start + i + 1) / 7)) + '_' + ((day_start + i) % 7);
     ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
     
     // zeroing moved feasts at the start of liturgical year.
@@ -835,13 +884,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( (ref_sancto == "01_02" || ref_sancto == "01_03" ) && weekday == 6 ) { vesperae = "SS. Nominis Jesu - sine Com."; }
     if ( ref_sancto == "01_04" && weekday == 6 ) { vesperae = "SS. Nominis Jesu - Com. S. Telesphori Papæ et Martyris Iste sanctus"; }
 
-    ///// Workaround for First Vespers S. Familiae //////
-    if ( ref_tempo_next.match("christmas") && i == (duration-1) ) 
-      {  if ( winner['force'] > 100 ) 
-          vesperae = winner['vesperae'] + " – " + 'Com. seq. <i>Verbum caro.</i>';
-          else vesperae = 'Sanctæ Familiæ: Jesu, Mariæ et Joseph <font color="red">(supple. bre. Cist. 1965)</font>'; 
-          after = 'Officium et Missa Sanctæ Familiæ: Jesu, Mariæ et Joseph (suppl. brev. Cist. 1965) Oratio. <ib>Dómine Jesu Christe, qui, Maríae et Joseph súbditus, § domésticam vitam ineffabílibus virtútibus consecrásti: * fac nos, utriúsque auxílio, Famíliæ sanctae tuae exémplis ínstrui; § et consórtium cónsequi sempitérnum. Qui vivis et regnas cum Deo Patre in unitáte Spiritus Sancti, Deus: * per...</ib>'; }
-
     ///// Martyrologium of moved Annuntiatio \\\\\\
     if ( ref_sancto == "03_24" && ref_tempo.match(/lent_5_6|lent_6_|tp_1/) )
       { martyrologium = '<li><div class="small">– <u>in Capit.:</u> <red>In Martyr. 1o loco:</red> <ib>Apud Názareth Civitátem Galiléae * Annunciátio Domínica. ✝ - <blue>Ve městě Nazaret v Galileji Zvěstování Páně. ✝</blue></ib> <red>Hodie <b>non</b> dicitur</red> <ib>Ave Maria.</ib></div></li>';
@@ -958,7 +1000,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
       if (check_next_new) check_next += "<br>" + check_next_new
       if (check_next_tempo) {check_next += "<br>" + check_next_tempo; check_next_tempo = "";}
-      check_next += '<br>ref_tempo + 1: "' + get_ref_tempo(1, prefix_tempo, week_start, day_start, duration) + '", + 2: "' + get_ref_tempo(2, prefix_tempo, week_start, day_start, duration) + '", + 3: "' + get_ref_tempo(3, prefix_tempo, week_start, day_start, duration) + '", + 4: "' + get_ref_tempo(4, prefix_tempo, week_start, day_start, duration) + '", + 5: "' + get_ref_tempo(5, prefix_tempo, week_start, day_start, duration) + '", + 6: "' + get_ref_tempo(6, prefix_tempo, week_start, day_start, duration) + '", + 7: "' + get_ref_tempo(7, prefix_tempo, week_start, day_start, duration) + '", + 8: "' + get_ref_tempo(8, prefix_tempo, week_start, day_start, duration) + '",<br> + 30: "' + get_ref_tempo(30, prefix_tempo, week_start, day_start, duration) + '". '
+      check_next += '<br>ref_tempo + 1: "' + get_ref_tempo(1, prefix_tempo, week_start, day_start, duration) + '", + 2: "' + get_ref_tempo(2, prefix_tempo, week_start, day_start, duration) + '", + 3: "' + get_ref_tempo(3, prefix_tempo, week_start, day_start, duration) + '", + 4: "' + get_ref_tempo(4, prefix_tempo, week_start, day_start, duration) + '", + 5: "' + get_ref_tempo(5, prefix_tempo, week_start, day_start, duration) + '", + 6: "' + get_ref_tempo(6, prefix_tempo, week_start, day_start, duration) + '", + 7: "' + get_ref_tempo(7, prefix_tempo, week_start, day_start, duration) + '", + 8: "' + get_ref_tempo(8, prefix_tempo, week_start, day_start, duration) + '",<br> + 28: "' + get_ref_tempo(28, prefix_tempo, week_start, day_start, duration) + '". '
       //+ ". j = 2: " + (day+(j*7)) + "_" + month_usual_number
       check_next += '".</div>';
     //\\\---- end of diagnostics -----///\\
@@ -1283,12 +1325,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Sometimes, a Sabb. or Dom. Comm. gets stuck behind a Comm. from a higher Feast. To remedy this, we need to swap /Dom./ and /(Com.)/
 
-    const all_new_vesp = [];
+    var all_new_vesp = [];
 
-    // CHECK: 12. a 13. 10.2024 (Com. &), 7.10.2023 + 22.9.2024 - Vesp. (špatné pořadí Com.)
-    // proč se druhé "(Com.)" nedostanou do all_new_vesp?
-
-    if ((weekday == 0 || weekday == 6 ) && vesperae.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
+    if ((weekday == 0 || weekday == 6 ) && true && vesperae.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
       {
         if (vesperae.match(/^Com\./)) {
           all_comm_vesp = vesperae.split("&"); }
@@ -1298,47 +1337,51 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         for (k = 0; k < all_comm_vesp.length; k++) {
             temp_comm = all_comm_vesp[k] + "";
             if (temp_comm.match("(xij. Lect. et M.)")) { 
-                all_comm_vesp.splice(k,1);
                 all_new_vesp.push(temp_comm); } 
             temp_comm = null; }
-        // Let's push all "iij. Lect." Comms. to the end
+        // Now all "iij. Lect." Comms. to the end
         for (k = 0; k < all_comm_vesp.length; k++) {
             temp_comm = all_comm_vesp[k] + "";
             if (temp_comm.match("(iij. Lect. et M.)")) { 
-                all_comm_vesp.splice(k,1);
                 all_new_vesp.push(temp_comm); } 
             temp_comm = null; }
         // And now all "Com. et M."
         for (k = 0; k < all_comm_vesp.length; k++) {
             temp_comm = all_comm_vesp[k] + "";
-            if (temp_comm.match("(Com. et M.)")) { 
-                all_comm_vesp.splice(k,1);
+            if (temp_comm.match(/\(Com\. et M\.\)/)) {
                 all_new_vesp.push(temp_comm); }
             temp_comm = null; }
         // And now all "Com."
         for (k = 0; k < all_comm_vesp.length; k++) {
             temp_comm = all_comm_vesp[k] + "";
-            if (temp_comm.match("(Com.)")) { 
-                all_comm_vesp.splice(k,1);
+            if (temp_comm.match(/\(Com\.\)/)) { 
                 all_new_vesp.push(temp_comm); }
             temp_comm = null; }
+        // And now we need to delete all of the above from the original array,
+        // otherwise if we splice an element from the array, the for cycle 
+        // won't repeat the "0" element, but the "1" element doesn't exist anymore.
+        for (k = (all_comm_vesp.length-1); k >= 0; k--) {
+            temp_comm = all_comm_vesp[k] + "";
+            if (temp_comm.match(/\(Com\.\)|\(Com\. et M\.\)|\(iij\. Lect\. et M\.\)|\(xij\. Lect\. et M\.\)/)) { 
+                all_comm_vesp.splice(k,1);}
+            temp_comm = null; }
           vesperae = vesperae_parts[0] + " - Com. ";
-        //all_comm_vesp = all_comm_vesp.concat(all_new_vesp);
         //for (k = (all_comm_vesp.length-1); k >= 0; k--)
         for (k = 0; k < all_comm_vesp.length; k++)
           {
-          vesperae += 'all [' + k + ']' + all_comm_vesp[k];
-          //vesperae += all_comm_vesp[k];
+          //vesperae += 'all [' + k + ']' + all_comm_vesp[k];
+          vesperae += all_comm_vesp[k];
           if (k < all_comm_vesp.length-1) vesperae += " & ";
           }
         if (all_new_vesp) {
           if (all_comm_vesp.length > 0) vesperae += " & ";
-        for (k = 0; k < all_new_vesp.length; k++)
-          { 
-          vesperae += 'new [' + k + ']' + all_new_vesp[k];
-          //vesperae += all_new_vesp[k];
-          if (k < all_new_vesp.length-1) vesperae += " & ";
-          } }
+            for (k = 0; k < all_new_vesp.length; k++)
+              { 
+              //vesperae += 'new [' + k + ']' + all_new_vesp[k];
+              vesperae += all_new_vesp[k];
+              if (k < all_new_vesp.length-1) vesperae += " & ";
+              } 
+          }
       }
 
     ////  Angeli Custodes in September (Saturday, first Vesper) \\\\
@@ -1808,6 +1851,6 @@ if (laudes_post) {
     //+ '<div class="body blue text-justify ms-1">' + body + '</div>'
     + block_after
     + '</div>'
-    // + check // switch off and on here
+     + check // switch off and on here
   );
 }
