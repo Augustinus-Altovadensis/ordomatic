@@ -227,29 +227,22 @@ function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
       if ( ref_tempo_n.match("christmas_") && (i+offset) == (duration-2) ) weekday_end_c = ( ((day_start + i + offset) % 7))
       if ( ref_tempo_n.match("christmas_") && (i+offset) > (duration-2) )
         {
-          if ( (i + offset) < (duration + tempus_per_annum_until_septuagesima - 2) )
-            { 
+          if ( (i + offset) < (duration + tempus_per_annum_until_septuagesima - 2) ) { 
             jj = i + offset - duration + 2;
-            //if (!check_next_tempo) check_next_tempo += 'weekday_end Christmas= "' + weekday_end_c + '". day_start = "' + day_start + '" Christmas time duration: "' + christmas_time_duration + '" Post Epiphaniam duration: "' + tempus_per_annum_until_septuagesima + '"';
-            ref_tempo_n = "pe_" + ( 0 + Math.ceil((jj + weekday_end_c + 1)/ 7) - 1) + '_' + ((weekday_end_c + jj) % 7);
-            }
-          else
-            { 
-            //if (!check_next_tempo) check_next_tempo += 'weekday_end Christmas= "' + weekday_end_c + '". day_start = "' + day_start + '" Christmas time duration: "' + christmas_time_duration + '" Post Epiphaniam duration: "' + tempus_per_annum_until_septuagesima + '"';
+            ref_tempo_n = "pe_" + ( 0 + Math.ceil((jj + weekday_end_c + 1)/ 7) - 1) + '_' + ((weekday_end_c + jj) % 7); }
+          else { 
             kk = i + offset - christmas_time_duration - tempus_per_annum_until_septuagesima + 1;
-             ref_tempo_n = "sept_" + ( 0 + Math.ceil((jj + weekday_end_c + 1)/ 7) - 1) + '_' + ((weekday_end_c + kk) % 7);
-            }
+            ref_tempo_n = "sept_" + ( 0 + Math.ceil((jj + weekday_end_c + 1)/ 7) - 1) + '_' + ((weekday_end_c + kk) % 7); }
         }
 
       if ( ref_tempo_n.match("adv_") && (i+offset) == (duration-2) ) weekday_end_a = ( ((day_start + i + offset) % 7))
       if ( ref_tempo_n.match("adv_") && (i+offset) > (duration-2) )
         {
           jj = i + offset - duration + 2; // beginning of Christmas cycle from Advent
-          //check_next_tempo += 'weekday_end Advent= "' + weekday_end_a + '" ';
           ref_tempo_n = "christmas_" + ( 0 + Math.ceil((jj + day_start + weekday_end_a + 1)/ 7)) + '_' + ((weekday_end_a + jj) % 7);
         }
 
-      ref_tempo_n = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_n;
+      //ref_tempo_n = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "sept_3_3") ? "ash_1_3" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "ash_1_7") ? "lent_1_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "ash_2_0") ? "lent_1_0" : ref_tempo_n;
