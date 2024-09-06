@@ -199,29 +199,44 @@ function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
       if (ref_tempo_n.match("tp_11")) ref_tempo_n = ref_tempo_n.replace("tp_11", "pa_3");
       if (ref_tempo_n.match("tp_12")) ref_tempo_n = ref_tempo_n.replace("tp_12", "pa_4");
 
-      if ( ref_tempo_n.match("pe_") && (i+offset) == (duration-2) ) weekday_end_pe = ( ((day_start + i + offset) % 7))
-      if ( ref_tempo_n.match("pe_") && (i+offset) > (duration-2) )
+      if ( ref_tempo_n.match("lent_") && (i+offset) > (duration-2) )
         {
-          // TO DO: Check all the durations
+          jj = i + offset - duration + 2;
 
-          if ( (i + offset) < (duration + tempus_per_annum_until_septuagesima - 2) )
-            { 
-            jj = i + offset - duration + 2;
-            if (!check_next_tempo) check_next_tempo += 'weekday_end Christmas= "' + weekday_end_pe + '". day_start = "' + day_start + '" Christmas time duration: "' + christmas_time_duration + '" Post Epiphaniam duration: "' + tempus_per_annum_until_septuagesima + '"';
-            ref_tempo_n = "sept_" + ( 0 + Math.ceil((jj + weekday_end_c + 1)/ 7) - 1) + '_' + ((weekday_end_pe + jj) % 7);
-            }
-          else if ( ((i + offset) >= (duration + tempus_per_annum_until_septuagesima - 1)) && ((i + offset) < (duration + tempus_per_annum_until_septuagesima + 17 - 2))) // Septuagesima has 17 days
-            { 
-            if (!check_next_tempo) check_next_tempo += 'weekday_end Christmas= "' + weekday_end_pe + '". day_start = "' + day_start + '" Christmas time duration: "' + christmas_time_duration + '" Post Epiphaniam duration: "' + tempus_per_annum_until_septuagesima + '"';
-            kk = i + offset - tempus_per_annum_until_septuagesima - 17 + 1; // Septuagesima has 17 days
-             ref_tempo_n = "ash_1" + '_' + ((weekday_end_pe + kk) % 7);
-            }
-            else 
-            { 
-            if (!check_next_tempo) check_next_tempo += 'weekday_end Christmas= "' + weekday_end_pe + '". day_start = "' + day_start + '" Christmas time duration: "' + christmas_time_duration + '" Post Epiphaniam duration: "' + tempus_per_annum_until_septuagesima + '"';
-            ll = i + offset - tempus_per_annum_until_septuagesima - 17 - 4 + 1; // Septuagesima has 17 days, ash_ 4 days
-             ref_tempo_n = "lent_" + ( 0 + Math.ceil((ll + weekday_end_c + 1)/ 7)) + '_' + ((weekday_end_c + ll) % 7);
-            }
+          if ( (i + offset) <= (duration + 56 - 2) )
+            { ref_tempo_n = "tp_" + ( Math.ceil(jj / 7) ) + '_' + ((i + offset) % 7); }
+          else { ref_tempo_n = "pa_" + ( Math.ceil((0 + jj + 1)/ 7)) + '_' + (jj % 7); } // not tested, probably wrong
+        }
+
+      if ( ref_tempo_n.match("ash_") && (i+offset) > (duration-2) )
+        {
+          jj = i + offset - duration + 2;
+
+          if ( ((i + offset) <= (duration + 42 - 2)) )
+            { ref_tempo_n = "lent_" + ( Math.ceil(jj / 7) ) + '_' + ((i + offset + 3) % 7); }
+          else { ref_tempo_n = "tp_" + ( Math.ceil((0 + jj + 1)/ 7)) + '_' + (jj % 7); } // not tested, probably wrong
+        }
+
+      if ( ref_tempo_n.match("sept_") && (i+offset) > (duration-2) )
+        {
+          jj = i + offset - duration - 4 + 2;
+
+          if ( (i + offset) < (duration + 4 - 1) ) // post Epiphaniam + Septuagesima
+            { ref_tempo_n = "ash_1" + '_' + ((i+offset) % 7); }
+          else if ( ((i + offset) >= (duration + 4 - 2)) && ((i + offset) <= (duration + 42 - 2)))
+            { ref_tempo_n = "lent_" + ( Math.ceil(jj / 7) ) + '_' + ((i+offset) % 7); }
+          else { ref_tempo_n = "tp_" + ( Math.ceil((0 + jj + 1)/ 7)) + '_' + (jj % 7); } // not tested, probably wrong
+        }
+
+      if ( ref_tempo_n.match("pe_") && (i+offset) > (duration-2) && month_usual_number < 9 )
+        {
+          jj = i + offset - duration + 1;
+
+          if ( (i + offset) < (duration + 17 - 1) ) // post Epiphaniam + Septuagesima 
+            { ref_tempo_n = "sept_" + ( Math.ceil((jj + 1)/ 7) ) + '_' + (jj % 7); }
+          else if ( ((i + offset) >= (duration + 17 - 2)) && ((i + offset) <= (duration + 17 + 4 - 2))) // Septuagesima has 17 days
+            { ref_tempo_n = "ash_1" + '_' + (jj % 7);}
+          else { ref_tempo_n = "lent_" + ( Math.ceil((jj + 1 - tempus_per_annum_until_septuagesima)/ 7)) + '_' + (jj % 7); }
         }
 
       if ( ref_tempo_n.match("christmas_") && (i+offset) == (duration-2) ) weekday_end_c = ( ((day_start + i + offset) % 7))
@@ -243,9 +258,9 @@ function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
         }
 
       //ref_tempo_n = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_n;
-      ref_tempo_n = ( ref_tempo_n == "sept_3_3") ? "ash_1_3" : ref_tempo_n;
-      ref_tempo_n = ( ref_tempo_n == "ash_1_7") ? "lent_1_0" : ref_tempo_n;
-      ref_tempo_n = ( ref_tempo_n == "ash_2_0") ? "lent_1_0" : ref_tempo_n;
+      //ref_tempo_n = ( ref_tempo_n == "sept_3_3") ? "ash_1_3" : ref_tempo_n;
+      //ref_tempo_n = ( ref_tempo_n == "ash_1_7") ? "lent_1_0" : ref_tempo_n;
+      //ref_tempo_n = ( ref_tempo_n == "ash_2_0") ? "lent_1_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "lent_7_0") ? "tp_1_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "pe_7_0" && month_usual_number > 9) ? "pa_24_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "pa_25_0") ? "adv_1_0" : ref_tempo_n;
@@ -302,10 +317,6 @@ var titulus_dom = "";
 var noct_defunct_counter = 1;
 var weekday_end_a = 0;  // Advent
 var weekday_end_c = 0;  // Christmas
-var weekday_end_pe = 0; // Post Epiphaniam
-var weekday_end_l = 0;  // Lent
-var weekday_end_e = 0;  // Easter
-var weekday_end_pa = 0; // Per Annum (post Pentecosten)
 
 var off_mensis = false;
 var off_feriale = false;
@@ -481,9 +492,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //if ( ref_tempo.match('quatember_septembris') && winner['force'] > 50) commemoratio = "";
 
     // Determining, whether we celebrate the Tricenarium magnum or not
-    if ( ((day >= 18 && month == 8)|(day < 18 && month == 9)) && (winner_next['force'] < 30 || (ref_tempo_next.match("quatember_septembris") && winner_next['force'] < 40)) ) tricenarium_vesperae = true;
+    if ( ((day >= 18 && month_usual_number == 9)|(day < 18 && month_usual_number == 10)) && (winner_next['force'] < 30 || (ref_tempo_next.match("quatember_septembris") && winner_next['force'] < 40)) ) tricenarium_vesperae = true;
 
-    if ( ((day > 18 && month == 8)|(day < 18 && month == 9)) && (winner['force'] < 30 || (ref_tempo.match("quatember_septembris") && winner['force'] < 40)) ) tricenarium = true;
+    if ( ((day > 18 && month_usual_number == 9)|(day < 18 && month_usual_number == 10)) && (winner['force'] < 30 || (ref_tempo.match("quatember_septembris") && winner['force'] < 40)) ) tricenarium = true;
 
     // "Returning" translated feasts on Monday that is not in Holy Week and any Octave
     if ( weekday > 0 && moved.length > 0 && !ref_tempo.match(/lent_6_|tp_1_/) 
@@ -650,9 +661,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       date_s_bernardi = "";
       for (j = 0; j <= 5; j++) {
         temp_bernardi = get_ref_sancto((j*7)+1);
+        temporale_bernardi = get_ref_tempo((j*7)+1, prefix_tempo, week_start, day_start, duration);
 
         check_next_new += "j = " + j + ", date = " + temp_bernardi + ". ";
         if ( (!days_sancto[temp_bernardi] || days_sancto[temp_bernardi]['force'] < 30 )
+          && !temporale_bernardi.match("lent") && days_tempo[temporale_bernardi] && days_tempo[temporale_bernardi]['force'] < 30
           && (day+(j*7)) != OM_date[month_usual_number] && temp_bernardi.match(month_usual_number + "_")  
           && !(month_usual_number == 12 && temp_bernardi.replace("12_","") >= 17) ) 
             date_s_bernardi = temp_bernardi; }
@@ -1844,6 +1857,6 @@ if (laudes_post) {
     //+ '<div class="body blue text-justify ms-1">' + body + '</div>'
     + block_after
     + '</div>'
-     + check // switch off and on here
+    // + check // switch off and on here
   );
 }
