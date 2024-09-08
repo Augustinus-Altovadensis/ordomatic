@@ -104,6 +104,18 @@ function getComm(str) {
   return count;
   };
 
+function roman_upper_to_lower(str) {
+  str = str.replaceAll("X","x");
+  str = str.replaceAll("V","v");
+  str = str.replaceAll("C","c");
+  str = str.replaceAll("I","i"); 
+
+  var pos = str.lastIndexOf('i');
+  str = str.substring(0,pos) + 'j' + str.substring(pos+1)
+
+  return str;
+  };
+
 function translate_feria(ref_tempo, short) {
   roman_lowercase_numerals = ["j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
   ref = ref_tempo.split("_");
@@ -421,6 +433,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     martyrologium = "";
     comm_martyrologium = "";
     commemoratio_vesperae = "";
+    commemoratio_add = [];
     comm_vesperae = "";
     comm_vesperae_j = "";
     comm_missa = "";
@@ -431,6 +444,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     today_wins = true;
     tricenarium_vesperae = false;
     tricenarium = false;
+    Christus_Rex = false;
+    Christus_Rex_vespera = false;
 
     ////// Removing Commemorations during the Holy Week and Easter Octave
 
@@ -581,9 +596,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     vigilia_sabb = false; // do not delete, used further in the text
 
     saints_tomorrow = days_sancto[ref_sancto_next];
-    if (weekday == 6 && saints_tomorrow && saints_tomorrow['header'].match(/Vig[ií]lia/i) && ref_sancto != "12_23") {
+    if (weekday == 6 && saints_tomorrow && saints_tomorrow['header'].match(/Vig[ií]lia/i) && ref_sancto != "12_23" ) {
       commemoratio = days_sancto[ref_sancto];
-      winner = days_sancto[ref_sancto_next]; }
+      winner = days_sancto[ref_sancto_next]; vigilia_sabb = true;}
 
     if (weekday == 0 && commemoratio && commemoratio['header'].match(/Vig[ií]lia/i)) { commemoratio = ""; }
 
@@ -616,8 +631,26 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // To deal with S. Eusebius, if Vigil. Assumpt. B.M.V. falls on Sunday
     if (ref_sancto == "08_14" && weekday != 0) { winner = days_sancto['08_14v']; }
 
-    if (ref_sancto.match(/08_07|08_12/) && weekday == 5) { vigilia_sabb = true; }
+    if (ref_sancto.match(/08_07|08_12|10_29/) && weekday == 5) { vigilia_sabb = true; }
 
+
+    /////////  Festum Domini Nostri Jesu Christi Regis (Dominica ultima Octobris)  \\\\\\\\
+    if (weekday == 6 && month_usual_number == 10 && day >= 24 && day < 31 ) Christus_Rex_vespera = true;
+    if (weekday == 0 && month_usual_number == 10 && day >= 25 ) Christus_Rex = true;
+
+    if (Christus_Rex && !commemoratio)
+        {
+          commemoratio = winner;
+          winner = days_sancto['Christus_Rex'];
+          Christus_Rex = false;
+        }
+
+    else if (Christus_Rex && commemoratio)
+        {
+          commemoratio_add = commemoratio;
+          commemoratio = winner;
+          winner = days_sancto['Christus_Rex'];
+        }
 
     ///////// Officium Votivum de Beata Sabbato \\\\\\\\\\
     
@@ -1043,6 +1076,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         titulum_missa = titulum_missa.replace(/Dominica/i, "Dom."); 
         titulum_missa = titulum_missa.replace(/Pentecoste./i, "Pent"); 
 
+        if (titulum_missa.match("Dom.")) 
+        {
+          //number = titulum_missa.match(/Dom\. .*? post/) + "";
+          number = titulum_missa.match(/(?<=Dom\.\s).*(?=\spost)/) + "";
+          number = roman_upper_to_lower(number);
+          titulum_missa = titulum_missa.replace(/Dom\. .*? post/, "Dom. " + number + " post");
+        }
+
       // merging various commentaries, in case of both winner and commemoratio have one
       if (commemoratio['before']) 
         { if (winner['before'])
@@ -1218,11 +1259,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           // If Sunday yields to another Feast with Comm., it needs to be added.
           if (weekday == 0 && commemoratio == days_tempo[ref_tempo]) {
-            missa = missa.replace("Glo.", "Asperges - Glo.");
+            if (!missa.match("Asperges")) missa = missa.replace("Glo.", "Asperges - Glo.");
             missa = missa.replace(/Duo Acolythi\.?(?: -)?/, "");
             missa = missa.replace(/Cum incenso ad oblata\.?(?: - )?/, "");
             if (!missa.match("Processio")) missa = 'Processio per Claustrum - ' + missa;
-            missa += ' - <red>In fine Missæ legitur Evangelium Dominicae.</red>';
+            if (!missa.match("In fine Miss")) missa += ' - <red>In fine Missæ Evangelium Dominicae.</red>';
             if (winner['laudes'].match("Com.") && !winner['laudes'].match("sine Com."))
               { 
                 tertia_oratio = winner['missa'].match(/2a.*? -/i);
@@ -1563,6 +1604,28 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     if (weekday == 6 && quatember_septembris ) quatember_septembris = false; 
 
+    /////////  Festum Domini Nostri Jesu Christi Regis (Dominica ultima Octobris)  \\\\\\\\
+    if (Christus_Rex_vespera) {
+      vesperae = vesperae.replace(/de festo/i, winner['vesperae_commemoratio'].replace(/^Com\. /, ""));
+      vesperae = vesperae.replace(/de seq\./, winner['vesperae_j_commemoratio']);
+      vesperae = vesperae.replace(/^Com\. /, "");
+      vesperae = vesperae.replace(/ - Com\. /, " & ");
+      vesperae = days_sancto['Christus_Rex']['vesperae_j'] + " - Com. " + vesperae;
+      Christus_Rex_vespera = false;
+      }
+
+    if (Christus_Rex) {
+      if (commemoratio_add['laudes_commemoratio']) laudes += " & " + commemoratio_add['laudes_commemoratio'];
+      if (commemoratio_add['missa']) missa = missa.replace("- Cre.", "3a " + commemoratio_add['header'].replace(/,.*/,"") + ". - Cre.");
+      if (commemoratio_add['vesperae_commemoratio']) vesperae += " & " + commemoratio_add['vesperae_commemoratio'];
+      //vesperae = vesperae.replace(/de seq\./, winner['vesperae_j_commemoratio']);
+      //vesperae = vesperae.replace(/^Com\. /, "");
+      //vesperae = vesperae.replace(/ - Com\. /, " & ");
+      //vesperae = days_sancto['Christus_Rex']['vesperae_j'] + " - Com. " + vesperae;
+      Christus_Rex = false;
+      }
+
+
     ////  Adding the green "&" sign \\\\
     laudes = laudes.replaceAll("& ", '<font color="green">&</font> ');
     missa = missa.replaceAll("& ", '<font color="green">&</font> ');
@@ -1649,7 +1712,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
 
     if (commemoratio == days_sancto['09_18tr']) header += '<span class="header text-justify ms-1"><b> atque ' + commemoratio['header'] + '</b></span>';
-
 
     /////////////////////|\\\\\\\\\\\\\\\\\\\\\\
     /////////  Lectiones in Refectorio  \\\\\\\\\
