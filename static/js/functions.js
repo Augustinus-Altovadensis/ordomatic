@@ -865,7 +865,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
   ///////////////////////////////////////////////////////////
 
     if ( vesperae_j ) {
-      if ( winner['force'] > winner_next['force'] ) {
+      if ( winner['force'] > winner_next['force'] && !winner['header'].match(/Quatt?uor Temp/i)) {
         // today wins
         if (winner_next['vesperae_j_commemoratio']) vesperae_j = winner_next['vesperae_j_commemoratio'];
         commemoratio_vesperae = vesperae_j;
