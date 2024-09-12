@@ -846,7 +846,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if ((month_usual_number.in(7,8,10) && day >=28 ) 
          || (month_usual_number.in(8,10) && day <=3 )
          || (month_usual_number.in(9) && day >=27 )
-         || (month_usual_number.in(9,11) && day <=4 ))
+         || (month_usual_number.in(9,11) && day <4 )) // was: day <=4
             sabb_mensis = 1;
 
         if (sabb_mensis && winner_next == days_tempo[ref_tempo_next] ) 
@@ -1001,6 +1001,25 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_tempo.match("lent") && weekday == 1) { vigil_lent_counter = 0; }
     if (ref_tempo.match(/lent|ash/) )
       { if ( winner['force'] < 40 ) { vigiliae = '<b>iij. Lect. <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[vigil_lent_counter] + '</font>'; vigil_lent_counter++; }} 
+
+    vigil_novembris_1 = ['<font color="red">Prima Die non impedita infra Hebd. Dominicae j. Novembris</font> <i>De Ezechiéle Prophéta. Et audívi.</i> <font color="red">cum Responsoriis suis;</font>','<font color="red">Secunda die</font> <i>Et dixit ad me.</i>','<font color="red">Tertia die</font> <i>Et factus est sermo... Finis venit.</i>','<font color="red">Quarta die</font> <i>Et factus est sermo... Audíte verbum Dómini.</i>','<font color="red">Quinta die</font>'];
+    vigil_novembris_2 = ['<font color="red">Prima Die</font> <i>Et factus... Terra cum indúxero.</i>','<font color="red">Secunda die</font> <i>Et factus... Væ pastóribus Israël.</i>','<font color="red">Tertia die</font> <i>Proptérea pastóres.</i>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
+    vigil_novembris_3 = ['<font color="red">Prima Die</font> <i>Tu rex vidébas.</i>','<font color="red">Secunda die</font> <i>Respóndit Baltásar.</i>','<font color="red">Tertia die</font> <i>In anno primo Daríi.</i>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
+    vigil_novembris_4 = ['<font color="red">Prima Die</font> <i>Verbum Dómini.</i>','<font color="red">Secunda die</font> <i>Verba Amos.</i>','<font color="red">Tertia die</font>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
+    vigil_novembris_5 = ['<font color="red">Prima Die</font> <i>Onus Nínive.</i>','<font color="red">Secunda die</font> <i>Onus, quod vídit Hábacuc.</i>','<font color="red">Tertia die</font> <i>Verbum Dómini.</i>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
+
+    if (month_usual_number == 11 && weekday > 0 )
+      { 
+        if (sabb_mensis == 1) vigil_buffer = vigil_novembris_1;
+        if (sabb_mensis == 2) vigil_buffer = vigil_novembris_2;
+        if (sabb_mensis == 3) vigil_buffer = vigil_novembris_3;
+        if (sabb_mensis == 4) vigil_buffer = vigil_novembris_4;
+        if (sabb_mensis == 5) vigil_buffer = vigil_novembris_5;
+
+        if (weekday == 1) vigil_novembris = 0
+
+        if ( winner['force'] < 30 ) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; vigil_novembris++; }} 
+
 
     ///// if 16.1. comes to Sunday - and ceases to be "dies non impedita" \\\\\
     //if (ref_sancto == "01_16" && weekday == 0 ) { comm_missa = "2a S. Marcelli. 3a de Beata" }
