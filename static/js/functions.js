@@ -654,9 +654,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     ///////// Officium Votivum de Beata Sabbato \\\\\\\\\\
     
-    if (weekday == 5 && winner_next['force'] < 35 && i != (duration-1) && !vigilia_sabb)
+    if (weekday == 5 && winner_next['force'] < 35 && i != (duration-1) && !vigilia_sabb && ref_sancto != "11_01")
       { winner_next = days_sancto['votiva_bmv']; commemoratio_next = days_sancto[get_ref_sancto(1)]; tricenarium_vesperae = false;}
-    if (weekday == 6 && winner['force'] < 35 && i != (duration-1))
+    if (weekday == 6 && winner['force'] < 35 && i != (duration-1) && ref_sancto != "11_02")
       { if (day < 8) {
           winner = days_sancto['votiva_bmv_prima_sabb']; 
           commemoratio = days_sancto[ref_sancto]; }
@@ -1008,7 +1008,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     vigil_novembris_4 = ['<font color="red">Prima Die</font> <i>Verbum Dómini.</i>','<font color="red">Secunda die</font> <i>Verba Amos.</i>','<font color="red">Tertia die</font>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
     vigil_novembris_5 = ['<font color="red">Prima Die</font> <i>Onus Nínive.</i>','<font color="red">Secunda die</font> <i>Onus, quod vídit Hábacuc.</i>','<font color="red">Tertia die</font> <i>Verbum Dómini.</i>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
 
-    if (month_usual_number == 11 && weekday > 0 )
+    vigil_novembris = 0;
+
+    if ((month_usual_number == 11 && weekday > 0 ) || (month_usual_number == 10 && day > 20 && sabb_mensis == 1))
       { 
         if (sabb_mensis == 1) vigil_buffer = vigil_novembris_1;
         if (sabb_mensis == 2) vigil_buffer = vigil_novembris_2;
@@ -1644,6 +1646,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       Christus_Rex = false;
       }
 
+    /////  All Souls Day  \\\\\
+    if (ref_sancto == "11_01" && weekday != 6 || ref_sancto == "11_02" && weekday == 0) vesperae += days_sancto['all_souls']['vesperae_j'];
+
+    if (ref_sancto == "11_02" && weekday != 0 || ref_sancto == "11_03" && weekday == 1)
+      {
+        header = days_sancto['all_souls']['header'];
+        laudes += days_sancto['all_souls']['laudes'];
+        laudes_post += days_sancto['all_souls']['laudes_post'];
+        missa = days_sancto['all_souls']['missa'];
+      }
 
     ////  Adding the green "&" sign \\\\
     laudes = laudes.replaceAll("& ", '<font color="green">&</font> ');
