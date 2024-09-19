@@ -1247,6 +1247,18 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (comm_missa.length > 5) comm_missa = "2a " + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
           comm_missa = comm_missa.replace(/-.*/, ""); 
           //win_missa = winner['missa'];
+
+          var comm_temp = "";
+          if (commemoratio['missa'].match(/4a | 3a S\./i)) {
+            comm_temp = commemoratio['missa'].match(/3a.*? -/) + "";
+            comm_temp = comm_temp.replace(" -", ""); 
+            comm_temp = comm_temp.replace("4a", "5a"); 
+            comm_temp = comm_temp.replace("3a", "4a"); 
+            comm_temp = comm_temp.replace("2a", "3a"); 
+            }
+
+          if (comm_temp) comm_missa += " " + comm_temp;
+          
           win_missa = missa;
           if (win_missa.match("2a") && winner['force'] > 40) 
             { 
@@ -1387,9 +1399,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // sometimes, we need to replace Com. festum with Com. de seq.
     next_com_title = "Com. " + winner_next['header'];
-    if ( vesperae.match(next_com_title) ) {
-       vesperae = vesperae.replace(next_com_title, "Com. de seq.")
-      }
+    next_et_title = "&  " + winner_next['header']; // the Com. doesn't need to be as first
+    if ( vesperae.match(next_com_title) ) vesperae = vesperae.replace(next_com_title, "Com. de seq.")
+    if ( vesperae.match(next_et_title) ) vesperae = vesperae.replace(next_et_title, "& de seq.")
 
     // Sometimes, a Sabb. or Dom. Comm. gets stuck behind a Comm. from a higher Feast. To remedy this, we need to swap /Dom./ and /(Com.)/
 
