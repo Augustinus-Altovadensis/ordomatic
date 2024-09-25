@@ -1942,8 +1942,12 @@ if (laudes_post) {
   if (display_format == "output") 
     {
     //header += '<span class="body text-justify">'
+    if (missa) missa = missa.replaceAll(/<\/?li>/g, "");
+    if (missa_post) missa_post = missa_post.replaceAll(/<\/?li>/g, "");
+    if (laudes_post) laudes_post = laudes_post.replaceAll(/<\/?li>/g, "");
+
     if (subtitulum) block_subtitulum = '<span class="body text-justify">' + subtitulum + ' ';
-    else { block_subtitulum = '<span class="body text-justify">'; }
+    else { block_subtitulum = '<span class="body text-justify"> '; }
 
     if (vigiliae) block_vigiliae = '– <u>ad Vigil.:</u> ' + vigiliae + ' ';
     else { block_vigiliae = ''; }
@@ -1970,19 +1974,48 @@ if (laudes_post) {
     block_after += '</span>'
     }
 
+    if (display_format != "output") separator = '</span></div>'; else separator = '';
+
   // if we have narrower screen, we want to take up more space
   //if (window.innerWidth/screen.width < 0.9 || window.innerWidth < 1300) width = "75"; else width = "50"; 
   width = "75";
 //////////////////////////////////////////////////////////////
 
   // Result:
-  return (
+  if (display_format == "output") { 
+    // output for Ordo version
+    return (
+     block_new_year
+     + block_new_month
+     + '<div class="d-flex flex-column w-' + width + ' mb-2">' // w-50 was here originally
+     + block_before
+     + '<span class="body text-justify">'  + add_zero(day) + day + "." 
+     + " – <b>" + liturgical_color(color) + "</b> – " 
+     + weekday_human_short(weekday) + addition + ' – '
+     + header 
+     + block_rank 
+     + block_jejunium 
+     + block_subtitulum
+     + block_vigiliae
+     + block_laudes
+     + block_laudes_post
+     + block_missa
+     + block_missa_post
+     + block_vesperae
+     + block_vesperae_post
+     + block_after
+     + '</div>'
+     //+ check // switch off and on here
+    );
+  }
+  // standard output version
+  else return (
     block_new_year
     + block_new_month
     + '<div class="d-flex flex-column w-' + width + ' mb-2">' // w-50 was here originally
     + block_before
-    + '<div class="head d-flex m-0">'
-    + '<span class="first_line">'  + add_zero(day) + day + "." 
+    + '<div class="head d-flex mb-0">'
+    + '<span class="body text-justify">'  + add_zero(day) + day + "." 
     + " – <b>" + liturgical_color(color) + "</b> – " 
     + weekday_human_short(weekday) + addition + ' – '
     + header 
