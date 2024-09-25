@@ -1057,10 +1057,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
       //if (days_sancto[get_ref_sancto(j*7)]) check_next += days_sancto[get_ref_sancto(j*7)]['header'];
       //else check_next += get_ref_sancto(j*7) + " doesn't exist.";
+      check_next += "<br>Display format = " + display_format;
 
       if (check_next_new) check_next += "<br>" + check_next_new
-      if (check_next_tempo) {check_next += "<br>" + check_next_tempo; check_next_tempo = "";}
-      check_next += '<br>ref_tempo + 1: "' + get_ref_tempo(1, prefix_tempo, week_start, day_start, duration) + '", + 2: "' + get_ref_tempo(2, prefix_tempo, week_start, day_start, duration) + '", + 3: "' + get_ref_tempo(3, prefix_tempo, week_start, day_start, duration) + '", + 4: "' + get_ref_tempo(4, prefix_tempo, week_start, day_start, duration) + '", + 5: "' + get_ref_tempo(5, prefix_tempo, week_start, day_start, duration) + '", + 6: "' + get_ref_tempo(6, prefix_tempo, week_start, day_start, duration) + '", + 7: "' + get_ref_tempo(7, prefix_tempo, week_start, day_start, duration) + '", + 8: "' + get_ref_tempo(8, prefix_tempo, week_start, day_start, duration) + '",<br> + 28: "' + get_ref_tempo(28, prefix_tempo, week_start, day_start, duration) + '". '
+      //if (check_next_tempo) {check_next += "<br>" + check_next_tempo; check_next_tempo = "";}
+      //check_next += '<br>ref_tempo + 1: "' + get_ref_tempo(1, prefix_tempo, week_start, day_start, duration) + '", + 2: "' + get_ref_tempo(2, prefix_tempo, week_start, day_start, duration) + '", + 3: "' + get_ref_tempo(3, prefix_tempo, week_start, day_start, duration) + '", + 4: "' + get_ref_tempo(4, prefix_tempo, week_start, day_start, duration) + '", + 5: "' + get_ref_tempo(5, prefix_tempo, week_start, day_start, duration) + '", + 6: "' + get_ref_tempo(6, prefix_tempo, week_start, day_start, duration) + '", + 7: "' + get_ref_tempo(7, prefix_tempo, week_start, day_start, duration) + '", + 8: "' + get_ref_tempo(8, prefix_tempo, week_start, day_start, duration) + '",<br> + 28: "' + get_ref_tempo(28, prefix_tempo, week_start, day_start, duration) + '". '
       //+ ". j = 2: " + (day+(j*7)) + "_" + month_usual_number
       check_next += '".</div>';
     //\\\---- end of diagnostics -----///\\
@@ -1207,11 +1208,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (!comm_missa) comm_missa = commemoratio['missa'];
           
           // Replacing the word "Feria" in [missa] field to keep other commemorations, while only the Feria is commemorated (like at feasts of St. Peter and Paul in Lent)
-          if (missa.match(/Feria/i) && !ref_tempo.match("lent") )
-              missa = missa.replace(/.a Feria\.? -/i, "" );
-          else if (missa_post.match(/Feria/i) && !ref_tempo.match("lent") )
-              missa_post = missa_post.replace(/.a Feria\.? -/i, "" );
-          else if (missa.match(/Feria/i) && ref_tempo.match("lent") && commemoratio == days_tempo[ref_tempo])
+          if (missa.match(/Feria/i) && !ref_tempo.match(/lent|adv/) )
+              missa = missa.replace(/.a Feria\.? -/i, "-" );
+          else if (missa_post.match(/Feria/i) && !ref_tempo.match(/lent|adv/) )
+              missa_post = missa_post.replace(/.a Feria\.? -/i, "-" );
+          //else if (missa.match(/Feria/i) && ref_tempo.match(/lent|adv/) && commemoratio == days_tempo[ref_tempo])
+          else if (missa.match(/Feria/i) && ref_tempo.match(/lent|adv/))
               missa = missa.replace(/Feria/i, translate_feria(ref_tempo, 1));
           else if (missa_post.match(/Feria/i) && commemoratio == days_tempo[ref_tempo])
               missa_post = missa_post.replace(/Feria/i, translate_feria(ref_tempo, 1));
@@ -1525,6 +1527,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           vesperae = vesperae.replace('de seq. <ib>Beátam me dicent.</ib>','de seq. <ib>Regína cœli lætáre.</ib>');
         } // finis T.P.
 
+      if (ref_tempo.match("adv")) 
+        {
+          missa = missa.replace("A cunctis", "Deus qui de beatæ")
+        }
+
       check_next += '.<br>Sacérdos et Póntifex: "' + matchCount(vesperae,/Sac[ée]rdos et P[óo]ntifex/) + '" - Fíliæ Jerúsalem: "' + matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/g)
       + '.<br>Comm. in Laudibus: "' + getComm(laudes) + '" - et in Vesperis: "' + getComm(vesperae)
       //+ '".</div>';
@@ -1681,8 +1688,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       /// Praefationes
       if (ref_tempo.match("lent")) 
         missa = missa.replace(/Pr(ae|æ)f\. Comm\./, "Præf. Quadr.");
-      if (!ref_tempo.match("lent"))
-        missa = missa.replace(/.a Feria\.? -/i, "" );
+      if (!ref_tempo.match(/ash|lent|adv/))
+        missa = missa.replace(/.a Feria\.? -/i, "-" );
       if (ref_tempo.match("lent_5")) missa = missa.replace(/Pr(ae|æ)f\. Quadr\./, "Præf. de S. Cruce.");
       if (ref_tempo.match("tp_")) missa = missa.replace(/Pr(ae|æ)f\. Comm\.|Pr(ae|æ)f\. Quadr\./, "Præf. Pasch.");
 
@@ -1866,7 +1873,7 @@ function component(date, year, month, day, weekday, before, color, header, rank,
   header = header.replace("+","");
   if ( !header.match(/De ea|De ea./i) ) header = '<span class="header text-justify ms-1"><b>' + header + '</b></span>';
 
-  if (comm_header == "Zázrak") { // original: if (comm_header) {
+  if (comm_header && false) { // original: if (comm_header) {
     comm_header = comm_header.replace("+","");
     if (comm_header.match(/De ea\./i)) comm_header = titulum_missa;
     block_commemoratio = '<span class="body text-justify"><ul><font color="black"><i>Commemoratio:</i></font><font color="Fuchsia"><b> ' + comm_header + '</b></font></ul></span>';
@@ -1882,7 +1889,8 @@ function component(date, year, month, day, weekday, before, color, header, rank,
   } else { block_vigiliae = ''; }
 
   if (laudes) {
-    block_laudes = '<div class="body text-justify"><ul><li>– <u>in Laud.:</u> ' + laudes + '</li></ul></div>';
+    if (display_format == "output") laudes = laudes.replaceAll("green", "blue");
+    block_laudes = '<div class="body text-justify"><ul><li>– <u>in Laud.:</u> ' + laudes + ' </li></ul></div>';
   } else { block_laudes = ''; }
 
   if (missa) {
@@ -1930,8 +1938,41 @@ if (laudes_post) {
     block_jejunium = ' – <font color="red">jejunatur</font>';
   } else { block_jejunium = ''; }
 
+  ////////  Output format  \\\\\\\\\
+  if (display_format == "output") 
+    {
+    //header += '<span class="body text-justify">'
+    if (subtitulum) block_subtitulum = '<span class="body text-justify">' + subtitulum + ' ';
+    else { block_subtitulum = '<span class="body text-justify">'; }
+
+    if (vigiliae) block_vigiliae = '– <u>ad Vigil.:</u> ' + vigiliae + ' ';
+    else { block_vigiliae = ''; }
+
+    if (laudes) {
+      laudes = laudes.replaceAll("green", "blue");
+      block_laudes = '– <u>in Laud.:</u> ' + laudes + ' ';
+    } else { block_laudes = ''; }
+
+    if (missa) block_missa = '– <u>in Missa:</u> ' + missa + ' ';
+    else { block_missa = ''; }
+
+    if (vesperae) block_vesperae = '– <u>in Vesp.:</u> ' + vesperae + ' ';
+    else { block_vesperae = ''; }
+
+    if (laudes_post) block_laudes_post = laudes_post + ' ';
+    else { block_laudes_post = ''; }
+
+    if (missa_post) block_missa_post = missa_post + ' ';
+    else { block_missa_post = ''; }
+
+    if (vesperae_post) block_vesperae_post = vesperae_post + ' ';
+    else { block_vesperae_post = ''; }
+    block_after += '</span>'
+    }
+
   // if we have narrower screen, we want to take up more space
-  if (window.innerWidth/screen.width < 0.9 || window.innerWidth < 1300) width = "75"; else width = "50";
+  //if (window.innerWidth/screen.width < 0.9 || window.innerWidth < 1300) width = "75"; else width = "50"; 
+  width = "75";
 //////////////////////////////////////////////////////////////
 
   // Result:
@@ -1962,6 +2003,6 @@ if (laudes_post) {
     //+ '<div class="body blue text-justify ms-1">' + body + '</div>'
     + block_after
     + '</div>'
-    // + check // switch off and on here
+    //+ check // switch off and on here
   );
 }

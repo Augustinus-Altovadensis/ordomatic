@@ -136,6 +136,7 @@ function addtags(winner) {
     winner = winner.replace("Laudémus virum", '<i>Laudémus virum</i>');
     winner = winner.replace("Terríbilis", '<i>Terríbilis</i>');
     winner = winner.replace("A cunctis", '<i>A cunctis</i>');
+    winner = winner.replace(/Deus qui de beat(æ|ae)/, '<i>Deus qui de beatæ</i>');
     winner = winner.replace(/Omn[ií]potens/, '<i>Omnípotens</i>');
     winner = winner.replace("Benedicámus Dómino, Deo grátias.", '<i><font color="red">B</font>enedicámus Dómino, <font color="red">D</font>eo grátias.</i>');
     winner = winner.replace("Hanc ígitur", '<i>Hanc ígitur</i>');

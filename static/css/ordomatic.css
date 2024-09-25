@@ -10,12 +10,12 @@ ul_original {
 
 
 #logo {
-    font-size: 1.5em;
+    font-size: 24pt;
 }
 
 #title {
     font-family: Cloister;
-    font-size: 2.2em;
+    font-size: 28pt;
 }
 
 .title,
@@ -52,7 +52,7 @@ ul_original {
     background-color: lightgray;
     border-top: solid 1px grey;
     border-bottom: solid 1px grey;
-    font-size: 1.5em;
+    font-size: 22pt;
     font-weight: bold;
     padding: 5px 0 5px 0;
     text-align: center;
@@ -190,46 +190,46 @@ u {
 
 .before-small,
 .after-small {
-    font-size: 0.9em;
+    font-size: 12pt;
 }
 
 .first_line {
     font-family: Libertine;
-    font-size: 1.12em;
+    font-size: 15pt;
     padding-left: 1.8em;
     text-indent:-1.8em;
 }
 
 .body {
     font-family: Libertine;
-    font-size: 1.12em;
+    font-size: 15pt;
     font-variant-numeric: oldstyle-nums;
 }
 
 .day {
     font-family: Libertine;
-    font-size: 1.12em;
+    font-size: 15pt;
 }
 
 .weekday {
     font-family: Libertine;
-    font-size: 1.12em;
+    font-size: 15pt;
 }
 
 .header {
     font-family: LibertineSC;
-    font-size: 1.10em;
+    font-size: 15pt;
     font-variant: small-caps;
 }
 
 .header_non_SC {
     font-family: Libertine;
-    font-size: 1.00em;
+    font-size: 15pt;
 }
 
 .de-ea {
     font-family: Libertine;
-    font-size: 1.00em;
+    font-size: 15pt;
     font-variant: none;
     font-weight: normal;
 }
@@ -237,13 +237,13 @@ u {
 .rank {
     font-family: Libertine;
     font-weight: bold;
-    font-size: 1.12em;
+    font-size: 15pt;
     position: relative;
 }
 
 .rank-normal {
     font-family: Libertine;
-    font-size: 1.12em;
+    font-size: 15pt;
     position: relative;
 }
 
@@ -253,6 +253,10 @@ u {
     border-radius: 4px;
     font-variant: small-caps;
     padding: 1px 4px 1px 4px;
+}
+
+.select {
+   background-color: lightgray;
 }
 
 .solemnitas-major {

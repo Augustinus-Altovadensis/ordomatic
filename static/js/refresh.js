@@ -1,4 +1,4 @@
-function refresh_ordo(year) {
+function refresh_ordo(year, display_format) {
   content = "";
 
   christmas = get_christmas_date(year - 1);
