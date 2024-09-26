@@ -1610,6 +1610,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       laudes = laudes.replace(/Feria & /, "");
       vesperae = vesperae.replace(/Feria & /, ""); }
 
+    /////////  Reminder of Ferial Hymn change after All Saints  \\\\\\\\\\\\\
+    if (day > 1 && day < 8 && month_usual_number == 11 && winner == days_tempo[ref_tempo])
+      { 
+        if (laudes.match(/^Com\./)) minus = "- "; else minus = "";
+        vigiliae = "Hymn. <i>Ætérne rerum cónditor;</i> " + vigiliae;
+        laudes = "Hymn. <i>Splendor patérnæ glóriæ;</i> " + minus + laudes;
+        // ADD: only once!
+      }
+
     //// Postprocessing \\\\
     vesperae = vesperae.replace("(et M.)", "(Com. et M.)"); // to be removed, hopefully. For some reason, the code doesn't work without replaceAll("Com. ","") in line 814 (Comm. of first Vesper) and I'm too tired to find out why.
     laudes = laudes.replaceAll(/\(Com\.\) |\(Com\. et M\.\) |\(iij\. Lect\. et M\.\) /g, "");
@@ -1847,7 +1856,10 @@ function component(date, year, month, day, weekday, before, color, header, rank,
     block_new_year = '';
     if (day == 1 && month != 11) {
       month = date.getMonth();
-      block_new_month = '<div class="month blue my-3">' + month_human_readable(month) + '</div>';
+      // !!!!!!! Officium mensis must be solved (computed?) !!!!!!!
+      off_mensis_text = "";
+      if (OM_date[(month+1)]) off_mensis_text = '<div class="body blue">O. M. ' + OM_date[(month+1)] + '</div>';
+      block_new_month = '<div class="month blue my-3">' + month_human_readable(month) + off_mensis_text + '</div>';
     } else {
       block_new_month = '';
     }
@@ -1873,12 +1885,11 @@ function component(date, year, month, day, weekday, before, color, header, rank,
   header = header.replace("+","");
   if ( !header.match(/De ea|De ea./i) ) header = '<span class="header text-justify ms-1"><b>' + header + '</b></span>';
 
-  if (comm_header && false) { // original: if (comm_header) {
+  if (comm_header && false) {
     comm_header = comm_header.replace("+","");
     if (comm_header.match(/De ea\./i)) comm_header = titulum_missa;
-    block_commemoratio = '<span class="body text-justify"><ul><font color="black"><i>Commemoratio:</i></font><font color="Fuchsia"><b> ' + comm_header + '</b></font></ul></span>';
+    block_commemoratio = '<div class="body text-justify"><ul><font color="black"><i>Commemoratio:</i></font><font color="Fuchsia"><b> ' + comm_header + '</b></font></ul></div>';
   } else { block_commemoratio = ''; }
-  //block_commemoratio = ''; // this should be enabled by default, used for debugging only
 
   if (subtitulum) {
     block_subtitulum = '<div class="body text-justify"><ul>' + subtitulum + '</ul></div>';
@@ -1889,7 +1900,6 @@ function component(date, year, month, day, weekday, before, color, header, rank,
   } else { block_vigiliae = ''; }
 
   if (laudes) {
-    if (display_format == "output") laudes = laudes.replaceAll("green", "blue");
     block_laudes = '<div class="body text-justify"><ul><li>– <u>in Laud.:</u> ' + laudes + ' </li></ul></div>';
   } else { block_laudes = ''; }
 
@@ -1941,40 +1951,30 @@ if (laudes_post) {
   ////////  Output format  \\\\\\\\\
   if (display_format == "output") 
     {
-    //header += '<span class="body text-justify">'
     if (missa) missa = missa.replaceAll(/<\/?li>/g, "");
     if (missa_post) missa_post = missa_post.replaceAll(/<\/?li>/g, "");
     if (laudes_post) laudes_post = laudes_post.replaceAll(/<\/?li>/g, "");
 
+    if (block_jejunium && subtitulum) block_jejunium += " – ";
     if (subtitulum) block_subtitulum = '<span class="body text-justify">' + subtitulum + ' ';
-    else { block_subtitulum = '<span class="body text-justify"> '; }
+    else block_subtitulum = '<span class="body text-justify"> '; 
 
     if (vigiliae) block_vigiliae = '– <u>ad Vigil.:</u> ' + vigiliae + ' ';
-    else { block_vigiliae = ''; }
-
-    if (laudes) {
-      laudes = laudes.replaceAll("green", "blue");
-      block_laudes = '– <u>in Laud.:</u> ' + laudes + ' ';
-    } else { block_laudes = ''; }
-
+      else block_vigiliae = '';
+    if (laudes) block_laudes = '– <u>in Laud.:</u> ' + laudes + ' ';
+      else block_laudes = '';
     if (missa) block_missa = '– <u>in Missa:</u> ' + missa + ' ';
-    else { block_missa = ''; }
-
+      else block_missa = '';
     if (vesperae) block_vesperae = '– <u>in Vesp.:</u> ' + vesperae + ' ';
-    else { block_vesperae = ''; }
+      else block_vesperae = '';
 
     if (laudes_post) block_laudes_post = laudes_post + ' ';
-    else { block_laudes_post = ''; }
-
+      else block_laudes_post = ''; 
     if (missa_post) block_missa_post = missa_post + ' ';
-    else { block_missa_post = ''; }
-
+      else block_missa_post = '';
     if (vesperae_post) block_vesperae_post = vesperae_post + ' ';
-    else { block_vesperae_post = ''; }
-    block_after += '</span>'
+      else block_vesperae_post = ''; 
     }
-
-    if (display_format != "output") separator = '</span></div>'; else separator = '';
 
   // if we have narrower screen, we want to take up more space
   //if (window.innerWidth/screen.width < 0.9 || window.innerWidth < 1300) width = "75"; else width = "50"; 
@@ -2004,8 +2004,7 @@ if (laudes_post) {
      + block_vesperae
      + block_vesperae_post
      + block_after
-     + '</div>'
-     //+ check // switch off and on here
+     + '</span></div>'
     );
   }
   // standard output version
@@ -2022,8 +2021,7 @@ if (laudes_post) {
     + block_rank 
     + block_jejunium + '</span>'
     + '</div>'
-    + block_commemoratio
-    //+ '</div>'
+    + block_commemoratio 
     + block_subtitulum
     + block_vigiliae
     + block_laudes

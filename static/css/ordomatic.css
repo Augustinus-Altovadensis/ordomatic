@@ -49,11 +49,11 @@ ul_original {
 
 .month {
     font-family: Libertine;
+    text-transform: uppercase;
     background-color: lightgray;
     border-top: solid 1px grey;
     border-bottom: solid 1px grey;
     font-size: 22pt;
-    font-weight: bold;
     padding: 5px 0 5px 0;
     text-align: center;
     width: 100%;

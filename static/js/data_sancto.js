@@ -6174,7 +6174,7 @@ const days_sancto = {
     'laudes': '+ <u>post Laudes:</u> Laud. Defunct.',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '<li>- <u>in Miss. conv.:</u> Anniv. Def. (3. Req.) - Ora. <i>Præsta.</i> - Præf. Defunct.</li><li> - <u>in Miss. priv.:</u> ',
+    'missa': '<li>- <u>in Miss. conv.:</u> Anniv. Def. (3. Req.) - Ora. <i>Præsta.</i> - Præf. Defunct.</li> <li>- <u>in Miss. priv.:</u> ',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
