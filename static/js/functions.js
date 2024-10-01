@@ -325,6 +325,7 @@ var translated_matthias = false;
 var quatember_septembris = false;
 var moved = [];
 var sabb_mensis = 0;
+var vigil_novembris = 0;
 var titulus_dom = "";
 var noct_defunct_counter = 1;
 var weekday_end_a = 0;  // Advent
@@ -337,6 +338,7 @@ var off_ss_sacramenti = true;
 
 var OM_dates = [];
 var date_s_bernardi = "";
+var winter_hymns = true;
 
 var check_next_new = "";
 var check_next_tempo = "";
@@ -834,6 +836,50 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (commemoratio == days_sancto['09_18tr']) {comm_laudes = ""; comm_missa = "";}
     if (winner == days_sancto['09_18tr']) {laudes = "";}
 
+
+    /////////////////////////////////////
+    ///  Vigiliae: dies non impedita  ///
+    /////////////////////////////////////
+
+    vigiliae = winner['vigiliae'];
+
+    vigil_newyear = ['<i>Christus natus</i> iij. Lect.<font color="red">(Prima Die non impedita)</font> <i>Justificáti ergo.</i>',
+      'iij. Lect. <font color="red">(Secunda Die non impedita; ut die 3. Jan.)</font> <i>An ignorátis fratres.</i>',
+      'iij. Lect. <font color="red">(Tertia Die non impedita; ut die 3. Jan.)</font> <i>Fratres, debitóres sumus.</i>'];
+    if (ref_sancto == "01_02") { vigil_newyear_counter = 0; }
+    if (month_usual_number == 1 && day > 1 && day < 5 )
+      { if ( winner['force'] < 50 ) { vigiliae = vigil_newyear[vigil_newyear_counter]; vigil_newyear_counter++; }} 
+
+    vigil_epiphania = ['<font color="red">Prima Die non impedita post Epiph.</font> <i>Veritátem dico.</i>','<font color="red">Secunda die</font> <i>Paulus vocátus.</i>','<font color="red">Tertia die</font> <i>Et ego.</i>','<font color="red">Quarta die</font> <i>Omníno audítur.</i>','<font color="red">Quinta die</font> <i>Audet aliquis.</i>','<font color="red">Sexta die</font>'];
+    if (ref_sancto == "01_07") { vigil_epiphania_counter = 0; }
+    if (month_usual_number == 1 && day > 6 && day < 13 )
+      { if ( winner['force'] < 50 ) { vigiliae = vigil_epiphania[vigil_epiphania_counter]; vigil_epiphania_counter++; }} 
+
+    vigil_lent = ['1,2,3','4,5,6','7,8,9','10,11,12','1,2,3','4,5,6','7,8,9','10,11,12'];
+    if (ref_tempo == "ash_1_4") { vigil_lent_counter = 1; }
+    if (ref_tempo.match("lent") && weekday == 1) { vigil_lent_counter = 0; }
+    if (ref_tempo.match(/lent|ash/) )
+      { if ( winner['force'] < 40 ) { vigiliae = '<b>iij. Lect. <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[vigil_lent_counter] + '</font>'; vigil_lent_counter++; }} 
+
+    vigil_novembris_1 = ['<font color="red">Prima Die non impedita infra Hebd. Dominicae j. Novembris</font> <i>De Ezechiéle Prophéta. Et audívi.</i> <font color="red">cum Responsoriis suis;</font>','<font color="red">Secunda die</font> <i>Et dixit ad me.</i>','<font color="red">Tertia die</font> <i>Et factus est sermo... Finis venit.</i>','<font color="red">Quarta die</font> <i>Et factus est sermo... Audíte verbum Dómini.</i>','<font color="red">Quinta die</font>'];
+    vigil_novembris_2 = ['<font color="red">Prima Die</font> <i>Et factus... Terra cum indúxero.</i>','<font color="red">Secunda die</font> <i>Et factus... Væ pastóribus Israël.</i>','<font color="red">Tertia die</font> <i>Proptérea pastóres.</i>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
+    vigil_novembris_3 = ['<font color="red">Prima Die</font> <i>Tu rex vidébas.</i>','<font color="red">Secunda die</font> <i>Respóndit Baltásar.</i>','<font color="red">Tertia die</font> <i>In anno primo Daríi.</i>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
+    vigil_novembris_4 = ['<font color="red">Prima Die</font> <i>Verbum Dómini.</i>','<font color="red">Secunda die</font> <i>Verba Amos.</i>','<font color="red">Tertia die</font>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
+    vigil_novembris_5 = ['<font color="red">Prima Die</font> <i>Onus Nínive.</i>','<font color="red">Secunda die</font> <i>Onus, quod vídit Hábacuc.</i>','<font color="red">Tertia die</font> <i>Verbum Dómini.</i>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
+
+    if ((month_usual_number == 11 && weekday > 0 ) || (month_usual_number == 10 && day > 20 && sabb_mensis == 1))
+      { 
+        if (sabb_mensis == 1) vigil_buffer = vigil_novembris_1;
+        if (sabb_mensis == 2) vigil_buffer = vigil_novembris_2;
+        if (sabb_mensis == 3) vigil_buffer = vigil_novembris_3;
+        if (sabb_mensis == 4) vigil_buffer = vigil_novembris_4;
+        if (sabb_mensis == 5) vigil_buffer = vigil_novembris_5;
+
+        if (weekday == 1) vigil_novembris = 0
+
+        if ( winner['force'] <= 35 && !(sabb_mensis == 5 && day < 10)) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; vigil_novembris++; }} 
+
+
     ////////////////////////////////////////////////
     ////// Saturday's Vespers from August on \\\\\\\
     ////////////////////////////////////////////////
@@ -978,53 +1024,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( weekday == 5 && ref_tempo.match(/lent|ash/) && winner['force'] < 40) 
       missa_post += '<div class="small">¶ <font color="red">Post <s>Capitulum</s> <blue>Tertiam</blue> fit Processio cum 7 Psalmis pœnit. cum cruce discooperta, et sine</font> <ib>Glória Patri</ib>, <font color="red">nisi in fine ultimi Psalmi, sed absque inclinatione; porro Cantor incipit Litanias cum Collectis in fine.</font> (Rit. Cist.) </div>';
 
-    /////////////////////////////////////
-    ///  Vigiliae: dies non impedita  ///
-    /////////////////////////////////////
-
-    vigiliae = winner['vigiliae'];
-
-    vigil_newyear = ['<i>Christus natus</i> iij. Lect.<font color="red">(Prima Die non impedita)</font> <i>Justificáti ergo.</i>',
-      'iij. Lect. <font color="red">(Secunda Die non impedita; ut die 3. Jan.)</font> <i>An ignorátis fratres.</i>',
-      'iij. Lect. <font color="red">(Tertia Die non impedita; ut die 3. Jan.)</font> <i>Fratres, debitóres sumus.</i>'];
-    if (ref_sancto == "01_02") { vigil_newyear_counter = 0; }
-    if (month_usual_number == 1 && day > 1 && day < 5 )
-      { if ( winner['force'] < 50 ) { vigiliae = vigil_newyear[vigil_newyear_counter]; vigil_newyear_counter++; }} 
-
-    vigil_epiphania = ['<font color="red">Prima Die non impedita post Epiph.</font> <i>Veritátem dico.</i>','<font color="red">Secunda die</font> <i>Paulus vocátus.</i>','<font color="red">Tertia die</font> <i>Et ego.</i>','<font color="red">Quarta die</font> <i>Omníno audítur.</i>','<font color="red">Quinta die</font> <i>Audet aliquis.</i>','<font color="red">Sexta die</font>'];
-    if (ref_sancto == "01_07") { vigil_epiphania_counter = 0; }
-    if (month_usual_number == 1 && day > 6 && day < 13 )
-      { if ( winner['force'] < 50 ) { vigiliae = vigil_epiphania[vigil_epiphania_counter]; vigil_epiphania_counter++; }} 
-
-    vigil_lent = ['1,2,3','4,5,6','7,8,9','10,11,12','1,2,3','4,5,6','7,8,9','10,11,12'];
-    if (ref_tempo == "ash_1_4") { vigil_lent_counter = 1; }
-    if (ref_tempo.match("lent") && weekday == 1) { vigil_lent_counter = 0; }
-    if (ref_tempo.match(/lent|ash/) )
-      { if ( winner['force'] < 40 ) { vigiliae = '<b>iij. Lect. <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[vigil_lent_counter] + '</font>'; vigil_lent_counter++; }} 
-
-    vigil_novembris_1 = ['<font color="red">Prima Die non impedita infra Hebd. Dominicae j. Novembris</font> <i>De Ezechiéle Prophéta. Et audívi.</i> <font color="red">cum Responsoriis suis;</font>','<font color="red">Secunda die</font> <i>Et dixit ad me.</i>','<font color="red">Tertia die</font> <i>Et factus est sermo... Finis venit.</i>','<font color="red">Quarta die</font> <i>Et factus est sermo... Audíte verbum Dómini.</i>','<font color="red">Quinta die</font>'];
-    vigil_novembris_2 = ['<font color="red">Prima Die</font> <i>Et factus... Terra cum indúxero.</i>','<font color="red">Secunda die</font> <i>Et factus... Væ pastóribus Israël.</i>','<font color="red">Tertia die</font> <i>Proptérea pastóres.</i>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
-    vigil_novembris_3 = ['<font color="red">Prima Die</font> <i>Tu rex vidébas.</i>','<font color="red">Secunda die</font> <i>Respóndit Baltásar.</i>','<font color="red">Tertia die</font> <i>In anno primo Daríi.</i>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
-    vigil_novembris_4 = ['<font color="red">Prima Die</font> <i>Verbum Dómini.</i>','<font color="red">Secunda die</font> <i>Verba Amos.</i>','<font color="red">Tertia die</font>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
-    vigil_novembris_5 = ['<font color="red">Prima Die</font> <i>Onus Nínive.</i>','<font color="red">Secunda die</font> <i>Onus, quod vídit Hábacuc.</i>','<font color="red">Tertia die</font> <i>Verbum Dómini.</i>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
-
-    vigil_novembris = 0;
-
-    if ((month_usual_number == 11 && weekday > 0 ) || (month_usual_number == 10 && day > 20 && sabb_mensis == 1))
-      { 
-        if (sabb_mensis == 1) vigil_buffer = vigil_novembris_1;
-        if (sabb_mensis == 2) vigil_buffer = vigil_novembris_2;
-        if (sabb_mensis == 3) vigil_buffer = vigil_novembris_3;
-        if (sabb_mensis == 4) vigil_buffer = vigil_novembris_4;
-        if (sabb_mensis == 5) vigil_buffer = vigil_novembris_5;
-
-        if (weekday == 1) vigil_novembris = 0
-
-        if ( winner['force'] < 30 ) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; vigil_novembris++; }} 
-
-
-    ///// if 16.1. comes to Sunday - and ceases to be "dies non impedita" \\\\\
-    //if (ref_sancto == "01_16" && weekday == 0 ) { comm_missa = "2a S. Marcelli. 3a de Beata" }
 
     ////////////////////////////////////////////////
     /////////  The COMMEMORATIONS Section  /////////
@@ -1275,6 +1274,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           win_missa = win_missa.replace(/2a.*? - /,"");
           win_missa_post = winner['missa_post'];
           win_missa_post = win_missa_post.replace(/2a.*? - /,""); // non-greedy modifier "?"
+
+          // Sometimes, a lower feast is comm. on Sunday, and we need to add "3a de Beata"
+          if (commemoratio['force'] >= 40 && !winner['header'].match(/B\.M\.V\.|B\. M\. V\./) && !comm_missa.match("3a")) comm_missa += " 3a A cunctis. ";
 
           // We have to check, whether the missa field exists.
           // Sometimes, in order to add exceptions, only missa_post exists
@@ -1611,12 +1613,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       vesperae = vesperae.replace(/Feria & /, ""); }
 
     /////////  Reminder of Ferial Hymn change after All Saints  \\\\\\\\\\\\\
-    if (day > 1 && day < 8 && month_usual_number == 11 && winner == days_tempo[ref_tempo])
+    if (winter_hymns && day > 1 && day < 8 && month_usual_number == 11 && winner == days_tempo[ref_tempo])
       { 
-        if (laudes.match(/^Com\./)) minus = "- "; else minus = "";
+        if (laudes.match(/^Com\.|^sine Com\./)) minus = "- "; else minus = "";
         vigiliae = "Hymn. <i>Ætérne rerum cónditor;</i> " + vigiliae;
         laudes = "Hymn. <i>Splendor patérnæ glóriæ;</i> " + minus + laudes;
-        // ADD: only once!
+        winter_hymns = false;
       }
 
     //// Postprocessing \\\\
