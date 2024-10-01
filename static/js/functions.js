@@ -1723,8 +1723,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // Officium mensis
 
     // First, the dates need to be inserted. If not inserted here, Officium mensis is not added.
-    OM_dates['2024'] = "2024,30,7,11,10,23,20,19,26,5,30,28;"
-    OM_dates['2025'] = "2025,29,7,11,10,23,20,19,26,5,30,28;" // draft for testing only
+    OM_dates['2024'] = "2024,30,7,11,10,23,20,19,26,5,30,28,2;"
+    OM_dates['2025'] = "2025,29,7,11,10,23,20,19,26,5,30,28,2;" // draft for testing only
 
     if (OM_dates[year]) 
     {

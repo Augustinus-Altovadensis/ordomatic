@@ -5390,7 +5390,7 @@ const days_sancto = {
     'vesperae_j_commemoratio':'',
     'martyrologium':'',
     'vigiliae': '',
-    'laudes': 'Com. S. Martini Papæ et Mart. Qui vult.',
+    'laudes': 'Com. S. Martini, Papæ et Mart. Qui vult.',
     'laudes_commemoratio':'',
     'laudes_post':'',
     'missa': 'Glo. - 2a A cunctis. 3a ad libitum - Præf. Comm.',
