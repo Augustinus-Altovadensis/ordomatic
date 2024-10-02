@@ -401,6 +401,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_sancto == "09_19" && weekday == 6) { ref_sancto += "v"; }
     if (ref_sancto == "09_20" && weekday != 0) { ref_sancto += "v"; }
 
+    /////  Vigilia S. Andreæ, if it falls on Sunday \\\\\
+    if (ref_sancto == "11_28" && weekday == 6) { ref_sancto += "v"; }
+    if (ref_sancto == "11_29" && weekday != 0) { ref_sancto += "v"; }
+
     /////  Beginning of Tricenarium solemne  \\\\\
     if (ref_sancto == "09_17" && weekday != 6) { ref_sancto_next += "tr"; }
     if (ref_sancto == "09_18" && weekday != 0) { ref_sancto += "tr"; }
@@ -494,7 +498,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio = ""; }
 
     // Translating every feast higher than MM. min. that falls on Sunday
-      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] < 80 && !ref_tempo.match(/christmas|pa_/i))
+      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] <= 80 && !ref_tempo.match(/christmas|pa_/i))
       {
         moved.push(ref_sancto);
         trans_titulum = winner['header'].split(",", 1);
@@ -503,8 +507,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio = "";
       }  
 
-    // Removing Quatember in case of higher feasts -CHECK!-
-    //if ( ref_tempo.match('quatember_septembris') && winner['force'] > 50) commemoratio = "";
+    // Translating every feast higher than MM. maj. that falls on Sunday
+      if ( weekday == 0 && commemoratio && commemoratio['force'] > 60 && ref_tempo.match(/adv_|lent_/i))
+      {
+        moved.push(ref_sancto);
+        trans_titulum = winner['header'].split(",", 1);
+        trans_before = "Festum " + trans_titulum[0] + " transfertur post Dominicam."
+        winner = feria;
+        commemoratio = "";
+      }  
 
     // Determining, whether we celebrate the Tricenarium magnum or not
     if ( ((day >= 18 && month_usual_number == 9)|(day < 18 && month_usual_number == 10)) && (winner_next['force'] < 30 || (ref_tempo_next.match("quatember_septembris") && winner_next['force'] < 40)) ) tricenarium_vesperae = true;
@@ -808,6 +819,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       vesperae_j = winner_next['vesperae_j'];
       comm_vesperae_j = "";
       }
+
+      // Translating every feast higher than MM. maj. that falls on Sunday: First Vespers
+      if ( weekday == 6 && commemoratio_next && commemoratio_next['force'] > 60 && ref_tempo_next.match(/adv_|lent_/i))
+      {
+        comm_vesperae_j = "";
+      }  
 
     if (ref_tempo.match(/lent_5_6|lent_6_|tp_1_[01]/)) {vesperae_j = ""; comm_vesperae_j = ""; comm_vesperae = ""; }
     // TO DO (maybe): can we find a more elegant way to determine First Vespers of translated feasts?
@@ -1208,15 +1225,19 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (!comm_missa) comm_missa = commemoratio['missa'];
           
           // Replacing the word "Feria" in [missa] field to keep other commemorations, while only the Feria is commemorated (like at feasts of St. Peter and Paul in Lent)
-          if (missa.match(/Feria/i) && !ref_tempo.match(/lent|adv/) )
+          if (missa.match(/Feria/i) && !ref_tempo.match(/lent/) )
               missa = missa.replace(/.a Feria\.? -/i, "-" );
-          else if (missa_post.match(/Feria/i) && !ref_tempo.match(/lent|adv/) )
+          else if (missa_post.match(/Feria/i) && !ref_tempo.match(/lent/) )
               missa_post = missa_post.replace(/.a Feria\.? -/i, "-" );
           //else if (missa.match(/Feria/i) && ref_tempo.match(/lent|adv/) && commemoratio == days_tempo[ref_tempo])
-          else if (missa.match(/Feria/i) && ref_tempo.match(/lent|adv/))
+          else if (missa.match(/Feria/i) && ref_tempo.match(/lent/))
               missa = missa.replace(/Feria/i, translate_feria(ref_tempo, 1));
           else if (missa_post.match(/Feria/i) && commemoratio == days_tempo[ref_tempo])
               missa_post = missa_post.replace(/Feria/i, translate_feria(ref_tempo, 1));
+
+          else if (missa.match(/Dominica/i) && ref_tempo.match(/adv/)) {
+              missa = missa.replace(/Dominica/i, "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv.");
+              }
 
           // Sorting out Commemoratio -vel-
           else if (missa.match(/Commemoratio -vel-/i) ) {
@@ -1879,7 +1900,7 @@ function component(date, year, month, day, weekday, before, color, header, rank,
     }
   } else {
     block_new_year = '';
-    if (day == 1 && month != 11) {
+    if (day == 1 ) {
       month = date.getMonth();
       // !!!!!!! Officium mensis must be solved (computed?) !!!!!!!
       off_mensis_text = "";
