@@ -696,7 +696,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         temp_bernardi = get_ref_sancto((j*7)+1);
         temporale_bernardi = get_ref_tempo((j*7)+1, prefix_tempo, week_start, day_start, duration);
 
-        check_next_new += "j = " + j + ", date = " + temp_bernardi + ", temp. = " + temporale_bernardi + ". ";
+        check_next_new += "j = " + j + ", date = " + temp_bernardi 
+        //+ ", temp. = " + temporale_bernardi 
+        + ". ";
         if ( (!days_sancto[temp_bernardi] || days_sancto[temp_bernardi]['force'] < 30 )
           && !temporale_bernardi.match("lent") && days_tempo[temporale_bernardi] && days_tempo[temporale_bernardi]['force'] < 30
           && (day+(j*7)) != OM_date[month_usual_number] && temp_bernardi.match(month_usual_number + "_")  
