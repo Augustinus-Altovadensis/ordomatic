@@ -98,7 +98,7 @@ function addtags(winner) {
     winner = winner.replace(/Veni(, | )sponsa Christi/i, '<i>Veni, sponsa Christi</i>');
     winner = winner.replace("Veni sponsa", '<i>Veni sponsa</i>');
     winner = winner.replace("Veni, sponsa", '<i>Veni, sponsa</i>');
-    winner = winner.replace(/S[íi]mile est ?\.\.\. ?sag[ée]n(æ|ae)/, '<i>Símile est … sagénæ</i>');
+    winner = winner.replace(/S[íi]mile est ?\.\.\. ?sag[ée]n(æ|ae)/, '<i>Símile est… sagénæ</i>');
     winner = winner.replace(/Sac[ée]rdos et P[óo]ntifex/, '<i>Sacérdos et Póntifex</i>');
     winner = winner.replace("Hac die ... suprémos", '<i>Hac die … suprémos</i>');
     winner = winner.replace("Isti sunt duæ", '<i>Isti sunt duæ</i>');
@@ -120,7 +120,7 @@ function addtags(winner) {
     winner = winner.replace("Similábo eum", '<i>Similábo eum</i>');
     winner = winner.replace("Quinque prudéntes Vírgines", '<i>Quinque prudéntes Vírgines</i>');
     winner = winner.replace("Quinque prudéntes", '<i>Quinque prudéntes</i>');
-    winner = winner.replace("Símile est ... hómini", '<i>Símile est … hómini</i>');
+    winner = winner.replace(/S[íi]mile est ?\.\.\. hómini/, '<i>Símile est… hómini</i>');
     winner = winner.replace("Pax ætérna", '<i>Pax ætérna</i>');
     winner = winner.replace("O quam metuéndus", '<i>O quam metuéndus</i>');
     winner = winner.replace("Zachæe", '<i>Zachæe</i>');
@@ -136,7 +136,7 @@ function addtags(winner) {
     winner = winner.replace("Laudémus virum", '<i>Laudémus virum</i>');
     winner = winner.replace("Terríbilis", '<i>Terríbilis</i>');
     winner = winner.replace("A cunctis", '<i>A cunctis</i>');
-    winner = winner.replace(/Deus qui de beat(æ|ae)/, '<i>Deus qui de beatæ</i>');
+    winner = winner.replace(/Deus qui de be(a|á)t(æ|ae)/, '<i>Deus qui de beátæ</i>');
     winner = winner.replace(/Omn[ií]potens/, '<i>Omnípotens</i>');
     winner = winner.replace("Benedicámus Dómino, Deo grátias.", '<i><font color="red">B</font>enedicámus Dómino, <font color="red">D</font>eo grátias.</i>');
     winner = winner.replace("Hanc ígitur", '<i>Hanc ígitur</i>');

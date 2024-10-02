@@ -269,14 +269,12 @@ function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
           ref_tempo_n = "christmas_" + ( 0 + Math.ceil((jj + day_start + weekday_end_a + 1)/ 7)) + '_' + ((weekday_end_a + jj) % 7);
         }
 
-      //ref_tempo_n = ( prefix_tempo == "pe_" && i == (duration-2) && month_usual_number < 9) ? "sept_1_0" : ref_tempo_n;
-      //ref_tempo_n = ( ref_tempo_n == "sept_3_3") ? "ash_1_3" : ref_tempo_n;
-      //ref_tempo_n = ( ref_tempo_n == "ash_1_7") ? "lent_1_0" : ref_tempo_n;
+      if ( month_usual_number > 9 && ref_tempo_n.match("pe_")) ref_tempo_n = ref_tempo_n.replace("pe_7_", "pa_24_");
+
       //ref_tempo_n = ( ref_tempo_n == "ash_2_0") ? "lent_1_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "lent_7_0") ? "tp_1_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "pe_7_0" && month_usual_number > 9) ? "pa_24_0" : ref_tempo_n;
       ref_tempo_n = ( ref_tempo_n == "pa_25_0") ? "adv_1_0" : ref_tempo_n;
-      ref_tempo_n = ( ref_tempo_n == "pa_35_0") ? "adv_1_0" : ref_tempo_n;
 
       return ref_tempo_n;
   }
@@ -698,7 +696,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         temp_bernardi = get_ref_sancto((j*7)+1);
         temporale_bernardi = get_ref_tempo((j*7)+1, prefix_tempo, week_start, day_start, duration);
 
-        check_next_new += "j = " + j + ", date = " + temp_bernardi + ". ";
+        check_next_new += "j = " + j + ", date = " + temp_bernardi + ", temp. = " + temporale_bernardi + ". ";
         if ( (!days_sancto[temp_bernardi] || days_sancto[temp_bernardi]['force'] < 30 )
           && !temporale_bernardi.match("lent") && days_tempo[temporale_bernardi] && days_tempo[temporale_bernardi]['force'] < 30
           && (day+(j*7)) != OM_date[month_usual_number] && temp_bernardi.match(month_usual_number + "_")  
@@ -877,7 +875,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         if (weekday == 1) vigil_novembris = 0
 
-        if ( winner['force'] <= 35 && !(sabb_mensis == 5 && day < 10)) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; vigil_novembris++; }} 
+        if ( winner['force'] <= 30 && !(sabb_mensis == 5 && day < 10)) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; vigil_novembris++; }} 
 
 
     ////////////////////////////////////////////////
@@ -1102,6 +1100,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           //number = titulum_missa.match(/Dom\. .*? post/) + "";
           number = titulum_missa.match(/(?<=Dom\.\s).*(?=\spost)/) + "";
           number = roman_upper_to_lower(number);
+          number = number.replace("Ultjma", "Ultima")
           titulum_missa = titulum_missa.replace(/Dom\. .*? post/, "Dom. " + number + " post");
         }
 
@@ -1250,7 +1249,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           //win_missa = winner['missa'];
 
           var comm_temp = "";
-          if (commemoratio['missa'].match(/4a | 3a S\./i)) {
+          if (true && (commemoratio['missa'].match(/4a /i) || (commemoratio['missa'].match(/3a S\./i) && !winner['laudes'].match("Com.")))) {
             comm_temp = commemoratio['missa'].match(/3a.*? -/) + "";
             comm_temp = comm_temp.replace(" -", ""); 
             comm_temp = comm_temp.replace("4a", "5a"); 
@@ -1259,6 +1258,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             }
 
           if (comm_temp) comm_missa += " " + comm_temp;
+
+          // On Votiva S.P.N.Bernardi, and everywhere, where there is no comm. in winner['missa'], multiple comm. were rendered incorrectly...
+          if (winner == days_sancto['votiva_bernardi']) {
+            comm_missa = commemoratio['missa'].match(/2a.*? -/) + ""; 
+            comm_missa = comm_missa.replace(" -", ""); }
           
           win_missa = missa;
           if (win_missa.match("2a") && winner['force'] > 40) 
@@ -1411,7 +1415,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     var all_new_vesp = [];
 
-    if ((weekday == 0 || weekday == 6 ) && true && vesperae.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
+    if ((weekday == 0 || weekday == 6 ) && true && vesperae.match(/\(Com\.\)|\(Com\. et M\.\)|\(.ij\. Lect\. et M\.\)/)) 
       {
         if (vesperae.match(/^Com\./)) {
           all_comm_vesp = vesperae.split("&"); }
@@ -1564,9 +1568,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( winner['force'] < 41 && !header.match(/Infra Oct/i) && getComm(laudes) < 3) // !header.match(/Infra Oct/i)
       {
       laudes = laudes.replace(/(?: - )?sine Com\.?/, "");
-      if ( weekday == 2 && getComm(laudes) < 3 ) laudes_bmv += " & B. B. R.";
-      if ( weekday == 3 && getComm(laudes) < 3 ) laudes_bmv += " & S. Joseph";
-      if ( weekday == 6 && getComm(laudes) < 3 ) laudes_bmv += et1 + " De Pace";
+      if ( weekday == 2 && getComm(laudes) < 2 ) laudes_bmv += " & B. B. R.";
+      if ( weekday == 3 && getComm(laudes) < 2 ) laudes_bmv += " & S. Joseph";
+      if ( weekday == 6 && getComm(laudes) < 2 ) laudes_bmv += et1 + " De Pace";
 
       if ( laudes.match("& B.M.V. ") ) laudes = laudes.replace("B.M.V. ", "B.M.V. " + laudes_bmv + " ");
       else if ( laudes.match(/Com\. /) ) laudes = laudes + et + laudes_bmv;
@@ -1676,7 +1680,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       Christus_Rex = false;
       }
 
-    /////  All Souls Day  \\\\\
+    /////  All Souls Day - Commemoratio Omnium Fidelium Defunctorum  \\\\\
+    // Usually 2.11., unless it falls on Sunday, then 3.11.
     if (ref_sancto == "11_01" && weekday != 6 || ref_sancto == "11_02" && weekday == 0) vesperae += days_sancto['all_souls']['vesperae_j'];
 
     if (ref_sancto == "11_02" && weekday != 0 || ref_sancto == "11_03" && weekday == 1)
@@ -1685,6 +1690,22 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         laudes += days_sancto['all_souls']['laudes'];
         laudes_post += days_sancto['all_souls']['laudes_post'];
         missa = days_sancto['all_souls']['missa'];
+      }
+
+
+    /////  Commemoratio Parentum et Fratrum Nostrorum Defunctorum  \\\\\
+    // Usually 20.11., unless it falls on Sunday, then 24.11.
+    if (ref_sancto == "11_19" && weekday != 6 || ref_sancto == "11_23" && weekday == 3) vesperae += days_sancto['parentes_et_fratres_defuncti']['vesperae_j'];
+
+    if (ref_sancto == "11_20" && weekday != 0 || ref_sancto == "11_24" && weekday == 4)
+      {
+        header = days_sancto['parentes_et_fratres_defuncti']['header'];
+        laudes += days_sancto['parentes_et_fratres_defuncti']['laudes'];
+        if (laudes_post.match("1o ")) {
+          laudes_post = laudes_post.replace('</li>', '');
+          laudes_post += days_sancto['parentes_et_fratres_defuncti']['laudes_post'].replace('<li><u>- in Capit.:</u>', '').replace("in Martyrologio 1o ", "2o "); }
+        else laudes_post += days_sancto['parentes_et_fratres_defuncti']['laudes_post'];
+        missa = days_sancto['parentes_et_fratres_defuncti']['missa'];
       }
 
     ////  Adding the green "&" sign \\\\
@@ -2009,6 +2030,36 @@ if (laudes_post) {
      + '</span></div>'
     );
   }
+  // Debugging version with the "check" variable active
+  else if (display_format == "debug")
+    return (
+    block_new_year
+    + block_new_month
+    + '<div class="d-flex flex-column w-' + width + ' mb-2">' // w-50 was here originally
+    + block_before
+    + '<div class="head d-flex mb-0">'
+    + '<span class="body text-justify">'  + add_zero(day) + day + "." 
+    + " – <b>" + liturgical_color(color) + "</b> – " 
+    + weekday_human_short(weekday) + addition + ' – '
+    + header 
+    + block_rank 
+    + block_jejunium + '</span>'
+    + '</div>'
+    + block_commemoratio 
+    + block_subtitulum
+    + block_vigiliae
+    + block_laudes
+    + block_laudes_post
+    + block_missa
+    + block_missa_post
+    + block_vesperae
+    + block_vesperae_post
+    //+ '</div>'
+    //+ '<div class="body blue text-justify ms-1">' + body + '</div>'
+    + block_after
+    + '</div>'
+    + check // switch off and on here
+  );
   // standard output version
   else return (
     block_new_year
