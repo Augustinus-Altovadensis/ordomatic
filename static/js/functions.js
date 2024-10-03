@@ -507,11 +507,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio = "";
       }  
 
-    // Translating every feast higher than MM. maj. that falls on Sunday
+    // Translating every feast higher than MM. maj. that falls on Sunday, that will overrank it
       if ( weekday == 0 && commemoratio && commemoratio['force'] > 60 && ref_tempo.match(/adv_|lent_/i))
       {
         moved.push(ref_sancto);
-        trans_titulum = winner['header'].split(",", 1);
+        trans_titulum = commemoratio['header'].split(",", 1);
         trans_before = "Festum " + trans_titulum[0] + " transfertur post Dominicam."
         winner = feria;
         commemoratio = "";
@@ -808,6 +808,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         vesperae += " - Com. " + days_tempo[ref_tempo]['vesperae_commemoratio'];
         }
+
+    /////////// Label PARS HIEMALIS \\\\\\\\\\\\
+    if (ref_tempo == "pa_24_6") missa_post += '<div class="centered, pars"><red>PARS HIEMALIS</red></div><div class="small"><red>A Dom. I. adventus usque ad Vigil. Nativitatis exclusive organum non pulsatur nisi in Festis et Dom. Gaudete.</red></div>';
 
     ////////////////////////////////////////\\\\\\\
     //// Deleting first Vespers of moved Feasts \\\\
@@ -1106,7 +1109,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         titulum_missa = commemoratio['header'].split(",", 1);
         titulum_missa += "";
         if ( commemoratio['header'].match(/\+/) ) titulum_missa = commemoratio['header'].split("+", 1) + "";
-        if ( commemoratio['header'].match(/De ea/i) ) { titulum_missa = translate_feria(ref_tempo); }
+        if ( commemoratio['header'].match(/De ea/i) ) { 
+            titulum_missa = translate_feria(ref_tempo); 
+            if (ref_tempo.match("adv_")) titulum_missa = "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv."; }
         if ( commemoratio['header'].match(/ Oct\.|Octav|De ea/i) ) { titulum = ""; titulum_missa += ""; 
           titulum_missa = titulum_missa.replace(/.*Oct/i, "Oct"); 
           titulum_missa = titulum_missa.replace(/Octavam/i, "de Octava");}
@@ -1235,9 +1240,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           else if (missa_post.match(/Feria/i) && commemoratio == days_tempo[ref_tempo])
               missa_post = missa_post.replace(/Feria/i, translate_feria(ref_tempo, 1));
 
-          else if (missa.match(/Dominica/i) && ref_tempo.match(/adv/)) {
+          else if (missa.match(/Dominica/i) && ref_tempo.match(/adv/)) 
               missa = missa.replace(/Dominica/i, "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv.");
-              }
 
           // Sorting out Commemoratio -vel-
           else if (missa.match(/Commemoratio -vel-/i) ) {
@@ -1325,8 +1329,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (weekday == 0 && commemoratio == days_tempo[ref_tempo]) {
             if (!missa.match("Asperges")) missa = missa.replace("Glo.", "Asperges - Glo.");
             missa = missa.replace(/Duo Acolythi\.?(?: -)?/, "");
-            missa = missa.replace(/Cum incenso ad oblata\.?(?: - )?/, "");
-            if (!missa.match("Processio")) missa = 'Processio per Claustrum - ' + missa;
+            missa = missa.replace(/Cum incenso ad oblata\.?(?: - )?/i, "");
+            if (!missa.match("Processio")) missa = 'Processio per Ecclesiam - ' + missa; // orig. Claustrum
             if (!missa.match("In fine Miss")) missa += ' - <red>In fine Missæ Evangelium Dominicae.</red>';
             if (winner['laudes'].match("Com.") && !winner['laudes'].match("sine Com."))
               { 
@@ -1497,8 +1501,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     ////  Angeli Custodes in September (Saturday, first Vesper) \\\\
     if ( weekday == 6 && ((month == 7 && (day == 1)|| (day == 31)) || (month == 8 && day < 7)) ) {
-        vesperae = days_sancto['angeli_custodes_sept']['vesperae_j'] + " - Com. " + vesperae.replace("- Com.", "&");
-        }
+        vesperae = days_sancto['angeli_custodes_sept']['vesperae_j'] + " - Com. " + vesperae.replace("- Com.", "&"); laudes_post += days_sancto['angeli_custodes_sept']['martyrologium']; }
 
     // For (translated) Anniversary (1.6.1259), that happens to fall into the Octave of Corporis Christi or Ascens., the Octave Comm. from unused temporale must be filled in
 
@@ -1655,6 +1658,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     laudes = laudes.replace('- Com. + <u>Vesp. Def.', " + <u>Vesp. Def.");
     vesperae = vesperae.replace('- Com. + <u>Vesp. Def.', " + <u>Vesp. Def.");
 
+    vesperae = vesperae.replace(/de seq\. \(.ij\. Lect\. et M\.\)/, "de seq.");
+
     missa = missa.replace("  ", " ");
 
     if ( ref_sancto.match(/09_20v|09_19v/) && quatember_septembris ) 
@@ -1740,6 +1745,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ////////    Postprocessing Missa   \\\\\\\\\\\
     //\\\\\\\\\\\\\\\\\/////////////////////////\\
 
+      /// Processio vs. Sub tuum. After Exalt. S. Crucis (14.9.), it is Sub tuum.
+      if (weekday == 0 && ((day > 14 && month_usual_number == 9) || month_usual_number > 9)) missa = missa.replace(/Processio (–|-)|Processio per Ecclesiam (–|-)/, "Sub tuum -");
+
       /// Praefationes
       if (ref_tempo.match("lent")) 
         missa = missa.replace(/Pr(ae|æ)f\. Comm\./, "Præf. Quadr.");
@@ -1757,6 +1765,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (ref_sancto == "07_23" && weekday == 6) {
         missa += " - <red>Evangelium Vigiliæ in fine.</red>"; }
 
+      if ( commemoratio && commemoratio['header'].match(/Vigilia/i) ) missa += " - <red>Evangelium Vigiliæ in fine.</red>";
+
       if ( commemoratio && commemoratio['header'].match(/Quatuor Temporum/i) ) missa += " - <red>Evangelium Feriæ Quatuor Temp. in fine.</red>";
 
 
@@ -1767,7 +1777,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // Officium mensis
 
     // First, the dates need to be inserted. If not inserted here, Officium mensis is not added.
-    OM_dates['2024'] = "2024,30,7,11,10,23,20,19,26,5,30,28,2;"
+    OM_dates['2024'] = "2024,30,7,11,10,23,20,19,26,5,24,6,2;"
     OM_dates['2025'] = "2025,29,7,11,10,23,20,19,26,5,30,28,2;" // draft for testing only
 
     if (OM_dates[year]) 
@@ -1790,7 +1800,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     }
 
     // Officium feriale: find a day
-    if (off_mensis && weekday == 0) {off_feriale = true; off_mensis = false;}
+    if (false && off_mensis && weekday == 0) {off_feriale = true; off_mensis = false;}
 
     // Implement the Off. feriale
     if ( winner_next['force'] < 30 && off_feriale && day != (OM_date[month_usual_number]-1) )
