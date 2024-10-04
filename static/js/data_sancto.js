@@ -4884,7 +4884,7 @@ const days_sancto = {
     'subtitulum': '',
     'vesperae_j':'de seq. - Com. S. Marci Papæ et Conf. (Com. et M.) Sacérdos et Póntifex.',
     'vesperae_j_commemoratio':'',
-    'martyrologium':'<li><div class="small">– <u>in Capit.:</u> <red>In Martyr. 1o loco:</red> <i>Festum SS. Rosarii B. M. V. hodie est. - <span lang="CS"><blue>Dnes je svátek Posvátného Růžence nejbl. Panny Marie.</blue> - Ave Maria.</i></span></div></li>',
+    'martyrologium':'<li><div class="small">– <u>in Capit.:</u> <red>In Martyr. 1o loco:</red> <i>Solémnitas Rosárii beatíssimæ Vírginis Maríæ. - <span lang="CS"><blue>Slavnost Posvátného Růžence nejbl. Panny Marie.</blue></i></span></div></li>',
     'vigiliae': '',
     'laudes': 'Com. S. Marci Papæ et Conf. (Com. et M.) Euge serve.',
     'laudes_commemoratio':'',

@@ -518,7 +518,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }  
 
     // Determining, whether we celebrate the Tricenarium magnum or not
-    if ( ((day >= 18 && month_usual_number == 9)|(day < 18 && month_usual_number == 10)) && (winner_next['force'] < 30 || (ref_tempo_next.match("quatember_septembris") && winner_next['force'] < 40)) ) tricenarium_vesperae = true;
+    // On Sundays and Feast Days, no Vesperæ Defunctorum
+    if ( ((day >= 18 && month_usual_number == 9)|(day < 18 && month_usual_number == 10)) && (winner_next['force'] < 30 || (ref_tempo_next.match("quatember_septembris") && winner_next['force'] < 40 )) && winner['force'] <= 30 ) tricenarium_vesperae = true;
 
     if ( ((day > 18 && month_usual_number == 9)|(day < 18 && month_usual_number == 10)) && (winner['force'] < 30 || (ref_tempo.match("quatember_septembris") && winner['force'] < 40)) ) tricenarium = true;
 
