@@ -7922,7 +7922,7 @@ const days_tempo = {
   'pa_22_0': {
     'force': 60,
     'before': '',
-    'color': 'white',
+    'color': 'green',
     'header': 'Dominica XXII. post Pentecosten.',
     'rank': '',
     'subtitulum': '',

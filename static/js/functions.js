@@ -1669,11 +1669,19 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         laudes += ' <red>De Vigilia S. Matthæi in Laudibus nihil fit.</red>';
       }
 
-    if (tricenarium_vesperae)
+    if (false && tricenarium_vesperae) // original, cycling the j., ij. and iij. Noct.
       {
       vesperae += " " + days_sancto['tricenarium']['vesperae_j'];
       if (noct_defunct_counter % 3 == 2) vesperae = vesperae.replace('<u>j. Noct.</u>', "<u>ij. Noct.</u>");
       else if (noct_defunct_counter % 3 == 0) vesperae = vesperae.replace('<u>j. Noct.</u>', "<u>iij. Noct.</u>");
+      noct_defunct_counter++;
+      }
+
+    if (tricenarium_vesperae)
+      {
+      vesperae += " " + days_sancto['tricenarium']['vesperae_j'];
+      if (weekday == 1 || weekday == 4) vesperae = vesperae.replace('<u>j. Noct.</u>', "<u>ij. Noct.</u>");
+      else if (weekday == 2 || weekday == 5) vesperae = vesperae.replace('<u>j. Noct.</u>', "<u>iij. Noct.</u>");
       noct_defunct_counter++;
       }
 
@@ -1716,6 +1724,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_sancto == "11_02" && weekday != 0 || ref_sancto == "11_03" && weekday == 1)
       {
         header = days_sancto['all_souls']['header'];
+        color = days_sancto['all_souls']['color'];
         laudes += days_sancto['all_souls']['laudes'];
         laudes_post += days_sancto['all_souls']['laudes_post'];
         missa = days_sancto['all_souls']['missa'];
