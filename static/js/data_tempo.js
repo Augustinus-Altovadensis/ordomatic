@@ -440,7 +440,7 @@ const days_tempo = {
     'after': ''
   },
   'adv_3_6': {
-    'force': 25,
+    'force': 39,
     'before': '',
     'color': 'violet',
     'header': 'De ea - <span class="header violet">Quatuor Temporum.</span>',

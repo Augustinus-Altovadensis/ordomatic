@@ -906,7 +906,19 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         if (weekday == 1) vigil_novembris = 0
 
-        if ( winner['force'] < 30 && !(sabb_mensis == 5 && day < 10)) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; vigil_novembris++; }} 
+        if ( (winner['force'] < 30 || winner['header'].match("Vigilia")) && !(sabb_mensis == 5 && day < 10)) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; 
+          if (sabb_mensis >= 3) vigiliae += ' <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[vigil_novembris] + '</font>';
+          vigil_novembris++; }} 
+
+    if (ref_tempo.match("adv_"))
+      {
+      if (weekday == 0) adv_vigil_counter = 0;
+      if (!vigiliae && winner['header'].match("Vigilia")) vigiliae = feria['vigiliae'];
+      if (vigiliae && winner['header'].match(/Vigilia|de ea/i) && !winner['header'].match(/Quatuor Temporum/i)) {
+        vigiliae += ' <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[adv_vigil_counter] + '</font>';
+        adv_vigil_counter++;
+        }
+      }
 
 
     ////////////////////////////////////////////////
@@ -923,6 +935,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
          || (month_usual_number.in(9) && day >=27 )
          || (month_usual_number.in(9,11) && day <4 )) // was: day <=4
             sabb_mensis = 1;
+
+        // If there are only 4 Sundays in November, the second week is skipped (see rubric on Sabb. ante Dom. ij. et iij. Novembris). This happens only on Dominical number A, i.e. if second Sabb. mensis falls on 4.11.
+        if (month_usual_number == 11 && sabb_mensis == 2 && day != 4) {
+            sabb_mensis++;
+            missa_post += '<div class="small">¶ <red>November hoc anno tantum quatuor habet Dominicas, sequitur vero statim Dominica iij. Novembris.</red>'; }
 
         if (sabb_mensis && winner_next == days_tempo[ref_tempo_next] ) 
           vesperae_j = "Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <i>" + antiphon_sabb(sabb_mensis, month_sabb) + "</i>";
