@@ -608,7 +608,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     vigilia_sabb = false; // do not delete, used further in the text
 
     saints_tomorrow = days_sancto[ref_sancto_next];
-    if (weekday == 6 && saints_tomorrow && saints_tomorrow['header'].match(/Vig[ií]lia/i) && ref_sancto != "12_23" ) {
+    if (weekday == 6 && saints_tomorrow && saints_tomorrow['header'].match(/Vig[ií]lia/i) && saints_tomorrow['rank'] > winner['rank'] && ref_sancto != "12_23" ) {
       commemoratio = days_sancto[ref_sancto];
       winner = days_sancto[ref_sancto_next]; vigilia_sabb = true;}
 
@@ -643,6 +643,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // To deal with S. Eusebius, if Vigil. Assumpt. B.M.V. falls on Sunday
     if (ref_sancto == "08_14" && weekday != 0) { winner = days_sancto['08_14v']; }
 
+    /////  Vigilia Imm. Conceptionis B.M.V., if it falls on Sunday \\\\\
+    if (ref_sancto == "12_06" && weekday == 6) { winner = days_sancto['12_06v']; }
+
     if (ref_sancto.match(/08_07|08_12|10_29/) && weekday == 5) { vigilia_sabb = true; }
 
 
@@ -675,6 +678,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         else { 
           winner = days_sancto['votiva_bmv']; 
           commemoratio = days_sancto[ref_sancto]; }
+        if (ref_tempo.match("adv_")) {
+          if (days_sancto[ref_sancto]) commemoratio_add = days_sancto[ref_sancto];
+          commemoratio = days_tempo[ref_tempo];
+          }
         tricenarium = false;
       }
 
@@ -780,6 +787,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (winner == days_sancto['votiva_bmv'] 
     ||  winner == days_sancto['votiva_bmv_prima_sabb']) {
       if (ref_tempo.match("pa_")) missa = missa.replace("Glo.", "Glo. - 2a de Sp. Sancto. 3a Ecclésiae vel pro Papa.");
+    if (ref_tempo.match("adv_")) missa = missa.replace("Glo.", "<blue><i>Rorate</i></blue> - Glo. - 2a de Dominica. 3a de Sp. Sancto.");
       if (commemoratio) {
         comm_missa = commemoratio['missa'];
         comm_missa = comm_missa.replace(/A cunctis\.?/i, "de Sp. Sancto.") }
@@ -898,7 +906,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         if (weekday == 1) vigil_novembris = 0
 
-        if ( winner['force'] <= 30 && !(sabb_mensis == 5 && day < 10)) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; vigil_novembris++; }} 
+        if ( winner['force'] < 30 && !(sabb_mensis == 5 && day < 10)) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; vigil_novembris++; }} 
 
 
     ////////////////////////////////////////////////
@@ -1066,7 +1074,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     j = 1;
 
-    check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check 
+    check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + ' Commemoratio_add = "' + commemoratio_add['header'] + '" '
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check 
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force']    
       + " extra_sunday = " + extra + "  --- i = " + i + "/" + duration // + '. <br>'
@@ -1216,6 +1224,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           else if (comm) laudes = laudes + dash + "Com. " + comm;
           }
 
+          if (commemoratio_add) {
+              if (commemoratio_add['laudes_commemoratio']) laudes += " & " + commemoratio_add['laudes_commemoratio'].replace(/Com\. /i,"");
+              else if (commemoratio_add['laudes']) laudes += " & " + commemoratio_add['laudes'];
+            }
+
           //BACKUP else laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes;
 
           if ( winner['force'] > 49 ) { laudes.replace("& B.M.V.", "");}
@@ -1241,8 +1254,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           else if (missa_post.match(/Feria/i) && commemoratio == days_tempo[ref_tempo])
               missa_post = missa_post.replace(/Feria/i, translate_feria(ref_tempo, 1));
 
-          else if (missa.match(/Dominica/i) && ref_tempo.match(/adv/)) 
-              missa = missa.replace(/Dominica/i, "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv.");
+          else if (missa.match(/Dominica/i) && ref_tempo.match(/adv/i)) 
+              missa = missa.replace(/Dominica/ig, "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv.");
 
           // Sorting out Commemoratio -vel-
           else if (missa.match(/Commemoratio -vel-/i) ) {
@@ -1270,14 +1283,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (comm_missa.match(/de (Off\.|Officio) diei/i)) comm_missa = comm_missa.replace(/a de (Off\.|Officio) diei\. 3/i,""); 
             if (comm_missa.match(/de (Off\.|Officio) diei/i)) comm_missa = comm_missa.replace(/.a de (Off\.|Officio) diei\./i,""); }
 
-          comm_missa = comm_missa.replace(/3a.*/,""); 
-          comm_missa = comm_missa.replace("2a", "3a"); 
-          if (comm_missa.length > 5) comm_missa = "2a " + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
+          if (commemoratio['force'] != 9 || winner != days_sancto['votiva_bmv'] || winner != days_sancto['votiva_bmv_prima_sabb']) {
+            comm_missa = comm_missa.replace(/3a.*/,""); 
+            comm_missa = comm_missa.replace("2a", "3a"); 
+            if (comm_missa.length > 5) comm_missa = "2a " + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
+            //win_missa = winner['missa'];
+            }
           comm_missa = comm_missa.replace(/-.*/, ""); 
-          //win_missa = winner['missa'];
 
           var comm_temp = "";
-          if (true && (commemoratio['missa'].match(/4a /i) || (commemoratio['missa'].match(/3a S\./i) && !winner['laudes'].match("Com.")))) {
+          if (true && (commemoratio['missa'].match(/4a /i) || (commemoratio['missa'].match(/3a S\./i) && commemoratio['force'] != 9) )) {
             comm_temp = commemoratio['missa'].match(/3a.*? -/) + "";
             comm_temp = comm_temp.replace(" -", ""); 
             comm_temp = comm_temp.replace("4a", "5a"); 
@@ -1738,6 +1753,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_sancto == "11_20" && weekday != 0 || ref_sancto == "11_24" && weekday == 4)
       {
         header = days_sancto['parentes_et_fratres_defuncti']['header'];
+        color = days_sancto['parentes_et_fratres_defuncti']['color'];
         laudes += days_sancto['parentes_et_fratres_defuncti']['laudes'];
         if (laudes_post.match("1o ")) {
           laudes_post = laudes_post.replace('</li>', '');
@@ -1779,6 +1795,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
       if ( commemoratio && commemoratio['header'].match(/Quatuor Temporum/i) ) missa += " - <red>Evangelium Feriæ Quatuor Temp. in fine.</red>";
 
+      if (commemoratio_add && (winner == days_sancto['votiva_bmv'] || winner == days_sancto['votiva_bmv_prima_sabb']) && ref_tempo.match("adv_")) {
+          if (commemoratio_add['missa']) missa = missa.replace("de Sp. Sancto", commemoratio_add['header'].replace(/,.*/,"")); }
+
+      if (missa.match(/Dominica/i) && ref_tempo.match(/adv/i)) 
+              missa = missa.replace(/Dominica/ig, "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv.");
+      missa = missa.replace("..", ".");
 
     ////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\
     //////////     Officium Defunctorum    \\\\\\\\\\
