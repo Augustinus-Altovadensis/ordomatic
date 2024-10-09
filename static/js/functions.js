@@ -79,6 +79,13 @@ Date.prototype.getWeek = function() {
   return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
 }
 
+function get_littera_dominicalis(year) {
+  var letters = ["A","G","F","E","D","C","B","A"];
+  new_year = new Date(year, 0, 1).getDay();
+  if (is_leap_year(year)) return letters[new_year]+letters[new_year+1];
+  else return letters[new_year];
+}
+
 function add_zero(number) {
   zero = '';
   if (number < 10) {
@@ -340,6 +347,10 @@ var winter_hymns = true;
 
 var check_next_new = "";
 var check_next_tempo = "";
+
+var lectio_ref = 0;
+var lectio_ref_prev = 0;
+var dominica_prima = false;
 
 const roman_lc = ["nullus","j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
 const roman_uc = ["NULLUS","I.","II.","III.","IV.","V.","VI.","VII.","VIII.","IX.","X."];
@@ -680,8 +691,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           commemoratio = days_sancto[ref_sancto]; }
         if (ref_tempo.match("adv_")) {
           if (days_sancto[ref_sancto]) commemoratio_add = days_sancto[ref_sancto];
-          commemoratio = days_tempo[ref_tempo];
-          }
+          commemoratio = days_tempo[ref_tempo]; }
         tricenarium = false;
       }
 
@@ -701,6 +711,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       { 
         winner = days_sancto['votiva_sacramentum']; 
         commemoratio = days_sancto[ref_sancto]; 
+        if (ref_tempo.match("adv_")) {
+          if (days_sancto[ref_sancto]) commemoratio_add = days_sancto[ref_sancto];
+          commemoratio = days_tempo[ref_tempo]; }
         tricenarium = false;
         off_ss_sacramenti = false;
       }
@@ -732,6 +745,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       { 
         winner = days_sancto['votiva_bernardi']; 
         commemoratio = days_sancto[ref_sancto]; 
+        if (ref_tempo.match("adv_")) {
+          if (days_sancto[ref_sancto]) commemoratio_add = days_sancto[ref_sancto];
+          commemoratio = days_tempo[ref_tempo]; }
         tricenarium = false;
       }
 
@@ -819,7 +835,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         }
 
     /////////// Label PARS HIEMALIS \\\\\\\\\\\\
-    if (ref_tempo == "pa_24_6") missa_post += '<div class="centered, pars"><red>PARS HIEMALIS</red></div><div class="small"><red>A Dom. I. adventus usque ad Vigil. Nativitatis exclusive organum non pulsatur nisi in Festis et Dom. Gaudete.</red></div>';
+    if (ref_tempo == "pa_24_6") missa_post += '<div class="centered, pars"><red>PARS HIEMALIS</red></div><div class="small"><red>A Dom. I. Adventus usque ad Vigil. Nativitatis exclusive organum non pulsatur nisi in Festis et Dom. Gaudete.</red></div>';
 
     ////////////////////////////////////////\\\\\\\
     //// Deleting first Vespers of moved Feasts \\\\
@@ -1952,7 +1968,7 @@ function component(date, year, month, day, weekday, before, color, header, rank,
   // New year? new month?:
   if (date.getFullYear() != year) {
     year = date.getFullYear();
-    block_new_year = '<div class="year brown mt-5">' + year + '</div>';
+    block_new_year = '<div class="year brown mt-5"><font color="red">A</font>nnus <font color="red">D</font>omini ' + year + '</div>';
     if (day == 1) {
       month = date.getMonth();
       block_new_month = '<div class="month blue mb-3">Januarius</div>';

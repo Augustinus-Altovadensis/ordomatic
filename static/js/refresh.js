@@ -16,23 +16,31 @@ function refresh_ordo(year, display_format) {
   );
 
   // Liturgical cycle:
+  //content = content.concat(
+  //  '<div class="subtitle text-center fw-bold w-100">Cyclus liturgicus <span id="cyclus"></span></div>'
+  //);
+
+  // Littera Dominicalis:
   content = content.concat(
-    '<div class="subtitle text-center fw-bold w-100">Cyclus liturgicus <span id="cyclus"></span></div>'
+    '<div class="subtitle text-center fw-bold w-100">Littera Dominicalis: A. D. ' + (year) + ': <font color="red">' + get_littera_dominicalis(year) + '</font> – A. D. ' + (year+1) + ': <font color="red">' + get_littera_dominicalis(year+1) + '</font></div>'
   );
 
   // Date of Pascha:
   content = content.concat(
-    '<div class="subtitle text-center fw-bold w-100 pb-3">Sanctum Pascha celebrabitur die <span id="pascha"></span></div>'
+    '<div class="subtitle text-center fw-bold w-100 pb-3">Resurrectio D. N. J. C. celebratur die <span id="pascha"></span></div>'
   );
 
   // Year:
   content = content.concat(
-    '<div class="year blue">' + year + '</div>'
+    '<div class="year brown"><font color="red">A</font>nnus <font color="red">D</font>omini ' + year + '</div>'
   );
 
+  first_day = new Date(first_sunday_of_advent.getTime() - (1 * day_in_ms));
+
   // Month (November or December):
+  if (first_day.getDate() != 1)
   content = content.concat(
-    '<div class="month green">' + month_human_readable(month) + '</div>'
+    '<div class="month blue">' + month_human_readable(first_day.getMonth()) + '</div>'
   );
 
   //////////////////////////////|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -78,6 +86,8 @@ function refresh_ordo(year, display_format) {
   //////////////////|||\\\\\\\\\\\\\\\\\\
 
   // Advent:
+  content = content.concat(period(2, new Date(first_sunday_of_advent.getTime() - (1 * day_in_ms)), 'pa_', 23, 6, 0));
+
   content = content.concat(period(advent_duration+1, first_sunday_of_advent, 'adv_', 0, 0, 0));
 
   // Christmas time:

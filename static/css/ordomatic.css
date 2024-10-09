@@ -29,6 +29,7 @@ ul_original {
 }
 
 .subtitle {
+    font-family: Libertine;
     color: brown;
 }
 
@@ -43,9 +44,7 @@ ul_original {
     width: 100%;
 }
 
-.year::before {
-    content: 'Annus Domini '
-}
+
 
 .month {
     font-family: Libertine;
