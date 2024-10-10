@@ -154,7 +154,7 @@ const days_tempo = {
     'after': ''
   },
   'adv_2_0': {
-    'force': 100,
+    'force': 75,
     'before': '',
     'color': 'violet',
     'header': 'Dominica II. Adventus.',
@@ -308,7 +308,7 @@ const days_tempo = {
     'after': ''
   },
   'adv_3_0': {
-    'force': 100,
+    'force': 75,
     'before': '',
     'color': 'violet',
     'header': 'Dominica III. Adventus.',
@@ -390,7 +390,7 @@ const days_tempo = {
     'missa': 'Fer. iv. Quat. Temp. - sine Glo. - 2a De S. Maria <i>Deus, qui de beátæ.</i> 3a <i>Ecclesiæ tuæ.</i> vel pro Papa - Praef. Comm.',
     'missa_post': '',
     'vesperae': 'Fer. iv.',
-    'vesperae_commemoratio': 'Com. Fer. iv. Quatuor Temp. Adv. <i>Ecce ancílla Dómini.</i>',
+    'vesperae_commemoratio': 'Com. Fer. iv. infra hebd. iij. Adv. <i>Ecce ancílla Dómini.</i>',
     'vesperae_post': '',
     'body': '',
     'after': ''
@@ -407,7 +407,7 @@ const days_tempo = {
     'martyrologium':'',
     'vigiliae': 'iij. Lect <i>Væ qui prædáris.</i>',
     'laudes': '',
-    'laudes_commemoratio':'Com. Fer. v. infra hebd. iij. Adv. <i>Vigiláte ánimo.</i> ',
+    'laudes_commemoratio':'Com. Fer. v. infra hebd. iij. Adv. <i>Vigiláte ánimo.</i>',
     'laudes_post':'',
     'missa': 'Dom. iij. Adv. - sine Glo. - 2a De S. Maria <i>Deus, qui de beátæ.</i> 3a <i>Ecclesiæ tuæ.</i> vel pro Papa - Praef. Ss. Trin. (vel <blue><i>Rorate</i></blue> ante ortum solis, id est 7.55!)',
     'missa_post': '',
@@ -434,7 +434,7 @@ const days_tempo = {
     'missa': 'Fer. vj. Quat. Temp. - sine Glo. - 2a De S. Maria <i>Deus, qui de beátæ.</i> 3a <i>Ecclesiæ tuæ.</i> vel pro Papa - Praef. Comm.',
     'missa_post': '',
     'vesperae': 'Fer. vj.',
-    'vesperae_commemoratio': 'Com. Fer. vj. Quatuor Temp. Adv. <i>Hoc est testimónium.</i>',
+    'vesperae_commemoratio': 'Com. Fer. vj. infra hebd. iij. Adv. <i>Hoc est testimónium.</i>',
     'vesperae_post': '',
     'body': '',
     'after': ''
@@ -450,7 +450,7 @@ const days_tempo = {
     'vesperae_j_commemoratio':'',
     'martyrologium':'',
     'vigiliae': 'iij. Lect <i>Redemptóris nostri.</i> Ora. <i>Deus, qui cónspicis.</i> <red>Et dicitur ad Laudes et omnes Horas præterquam in Vesperis.</red>',
-    'laudes': 'Aña <i>Roráte cœli.</i> Aña Ben. Omnis vallis implébitur.',
+    'laudes': 'Aña <i>Roráte cœli.</i> Aña Ben. <i>Omnis vallis implébitur.</i>',
     'laudes_commemoratio':'Com. Sabb. Quatuor Temp. Adv. <i>Omnis vallis implébitur.</i>',
     'laudes_post':'',
     'missa': 'Sabb. Quat. Temp. - sine Glo. - 2a De S. Maria <i>Deus, qui de beátæ.</i> 3a <i>Ecclesiæ tuæ.</i> vel pro Papa - Praef. Comm.',
@@ -462,17 +462,17 @@ const days_tempo = {
     'after': ''
   },
   'adv_4_0': {
-    'force': 100,
+    'force': 75,
     'before': '',
     'color': 'violet',
     'header': 'Dominica IV. Adventus.',
     'rank': 'DOM. maj. </b><font color="red">(ij. Classis)</font>',
     'subtitulum': '',
     'vesperae_j':'Sabb. ante Dom. iv. Adv. <red>Psalmi et Antiphonae de Psalterio</red> Aña. Mag. - sine Com.',
-    'vesperae_j_commemoratio':'',
+    'vesperae_j_commemoratio':'Com. Sabb. ante Dom. iv. Adv. <i>.</i>',
     'martyrologium':'',
     'vigiliae': '',
-    'laudes': '',
+    'laudes': 'Aña <i>Cánite tuba.</i> Aña Ben. <i>Ave María.</i> - sine Com.',
     'laudes_commemoratio':'Com. Dominicae iv. Adv. <i>Ave Maria.</i>',
     'laudes_post':'',
     'missa': '(cum dalmaticis) Aña Sub tuum. - Asperges - sine Glo. - 2a De S. Maria <i>Deus, qui de beátae.</i> 3a <i>Ecclésiae tuae.</i> vel pro Papa - Cre. - Praef. SS. Trin.',
@@ -616,7 +616,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_0': {
-    'force': 40,
+    'force': 10,
     'before': '<span class="before-large">Hic incipit Tempus Nativitatis.</span>',
     'color': 'white',
     'header': '<span class="solemnitas-major">In Nativitate Domini Nostri Iesu Christi.</span>',
@@ -638,7 +638,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_1': {
-    'force': 40,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
@@ -660,7 +660,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_2': {
-    'force': 40,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
@@ -682,7 +682,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_3': {
-    'force': 40,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
@@ -704,7 +704,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_4': {
-    'force': 40,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
@@ -726,7 +726,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_5': {
-    'force': 40,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
@@ -748,7 +748,7 @@ const days_tempo = {
     'after': ''
   },
   'christmas_1_6': {
-    'force': 40,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': '<span class="small-caps">Infra octavam Nativitatis</span>.',
@@ -770,7 +770,7 @@ const days_tempo = {
     'after': ''
   },
     'christmas_2_0': {
-    'force': 20,
+    'force': 10,
     'before': '',
     'color': 'white',
     'header': 'De ea.',

@@ -462,6 +462,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     Christus_Rex = false;
     Christus_Rex_vespera = false;
 
+    //////  Some special cases  \\\\\\
+    if (ref_sancto == "12_23" && weekday == 6) {
+      winner_next = days_sancto["12_24s"]; commemoratio_next = ""; }
+
+    if (ref_sancto == "12_24" && weekday == 0) {
+      winner = days_sancto["12_24s"]; commemoratio = ""; }
+
     ////// Removing Commemorations during the Holy Week and Easter Octave
 
     // Translating feasts MM. maj. and higher during Holy Week and Easter Octave
@@ -968,6 +975,19 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
     if (month_usual_number == 12) sabb_mensis = 0;
 
+    // Adding the O Antiphones to Vespers
+    O_ant = ["O Sapiéntia","O Adonái","O radix Jesse","O clavis David","O Óriens","O Rex géntium","O Emmánuel"];
+
+    if (month_usual_number == 12 && day >= 17 && day <=23 ) {
+      if (winner == days_tempo[ref_tempo] && weekday != 6) vesperae += " Aña Mag. <i>" + O_ant[day-17] + ".</i>";
+      if (day == 21 && weekday == 0) 
+        laudes = laudes.replace(/Aña Ben\. <i>.*<\/i>/, "Aña Ben. <i>Nolíte timére.</i>")
+      if (day == 23) {
+        laudes = laudes.replace(/Ben\. <i>.*<\/i>/, "Ben. <i>Ecce compléta sunt.</i> <red>(Ultimo die ante Vigiliam Nat.)</red>")
+        if (!laudes) laudes = "Aña Ben. <i>Ecce compléta sunt.</i> <red>(Ultimo die ante Vigiliam Nat.)</red>"; }  
+      }
+    // The Commemorationes are being changed in the Commemoratio section.
+
     ///////////////////////////////////////////////////////////
    ///////////  First Vespers to standard feasts  ////////////
   ///////////////////////////////////////////////////////////
@@ -999,6 +1019,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       {
         vesperae = vesperae.replace(/Feria/i, feria['vesperae_commemoratio'].replace("Com. ", ""));
         comm_vesperae = ""; commemoratio_vesperae = "";
+      }
+
+    // O Antiphons for first Vespers of St. Thomas
+    if (commemoratio_vesperae && month_usual_number == 12 && day >= 17 && day <=23 ) {
+      commemoratio_vesperae = commemoratio_vesperae.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>" + O_ant[day-17] + ".</i>");
       }
 
     commemoratio_vesperae = commemoratio_vesperae.replace("Com. ", "");
@@ -1223,6 +1248,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           // comm = commemoratio['laudes_commemoratio'];
           // titulum = commemoratio['header']
 
+          // Advent changes on certain dates, only if in Commemoratio
+          if (winner == days_sancto[ref_sancto] && month_usual_number == 12 && day >= 17 && day <=23 ) {
+            if (day == 21) comm = comm.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>Nolíte timére.</i>")
+            if (day == 23) comm = comm.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>Ecce compléta sunt.</i>") }
+
           et = " & ";
           dash = " – ";
           if ( !titulum ) et = "";
@@ -1440,6 +1470,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm = ( comm == "C7") ? "Símile est ... hómini " : comm;
           comm = ( comm == "C8") ? "Pax ætérna " : comm;
           comm = ( comm == "C82") ? "O quam metuéndus " : comm;
+
+          // O Antiphons in comm. 
+          if (winner == days_sancto[ref_sancto] && month_usual_number == 12 && day >= 17 && day <=23 ) {
+            //if (!comm.match("Adv.")) comm += " <i>" + O_ant[day-17] + ".</i>";
+            //else 
+            comm = comm.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>" + O_ant[day-17] + ".</i>"); }
 
           if (vesperae.match(/Feria/i) && ref_tempo.match("lent"))
              {
