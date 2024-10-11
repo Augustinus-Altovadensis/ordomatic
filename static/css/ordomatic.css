@@ -151,6 +151,11 @@ u {
   text-decoration-style: double;
 }
 
+uu {
+  text-decoration: underline;
+  text-decoration-style: double;
+}
+
 .before,
 {
     color: grey;

@@ -463,11 +463,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     Christus_Rex_vespera = false;
 
     //////  Some special cases  \\\\\\
+    // Around Christmas
     if (ref_sancto == "12_23" && weekday == 6) {
       winner_next = days_sancto["12_24s"]; commemoratio_next = ""; }
 
-    if (ref_sancto == "12_24" && weekday == 0) {
-      winner = days_sancto["12_24s"]; commemoratio = ""; }
+    if (ref_sancto == "12_24") {
+      if (weekday == 0) winner = days_sancto["12_24s"]; 
+      commemoratio = ""; }
+
+    if (month_usual_number == 12 && day > 24 ) commemoratio = "";
 
     ////// Removing Commemorations during the Holy Week and Easter Octave
 
@@ -933,7 +937,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (sabb_mensis >= 3) vigiliae += ' <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[vigil_novembris] + '</font>';
           vigil_novembris++; }} 
 
-    if (ref_tempo.match("adv_"))
+    if (ref_tempo.match("adv_") && day < 24)
       {
       if (weekday == 0) adv_vigil_counter = 0;
       if (!vigiliae && winner['header'].match("Vigilia")) vigiliae = feria['vigiliae'];
@@ -976,10 +980,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (month_usual_number == 12) sabb_mensis = 0;
 
     // Adding the O Antiphones to Vespers
-    O_ant = ["O Sapiéntia","O Adonái","O radix Jesse","O clavis David","O Óriens","O Rex géntium","O Emmánuel"];
+    O_ant = ["<i>O Sapiéntia.</i> <red>ad quam stamus extra stalla, non tamen ad collectam.</red>","<i>O Adonái.</i>","<i>O radix Jesse.</i>","<i>O clavis David.</i>","<i>O Óriens.</i>","<i>O Rex géntium.</i>","<i>O Emmánuel.</i>"];
 
     if (month_usual_number == 12 && day >= 17 && day <=23 ) {
-      if (winner == days_tempo[ref_tempo] && weekday != 6) vesperae += " Aña Mag. <i>" + O_ant[day-17] + ".</i>";
+      if (winner == days_tempo[ref_tempo] && weekday != 6) {
+        if (vesperae.match("Adv.")) vesperae = vesperae.replace(/Adv\./, "Adv. Aña Mag. " + O_ant[day-17]);
+        else vesperae += " Aña Mag. " + O_ant[day-17];
+        }
       if (day == 21 && weekday == 0) 
         laudes = laudes.replace(/Aña Ben\. <i>.*<\/i>/, "Aña Ben. <i>Nolíte timére.</i>")
       if (day == 23) {
@@ -1021,9 +1028,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         comm_vesperae = ""; commemoratio_vesperae = "";
       }
 
-    // O Antiphons for first Vespers of St. Thomas
+    // O Antiphons for first Vespers of St. Thomas and other Comm.
     if (commemoratio_vesperae && month_usual_number == 12 && day >= 17 && day <=23 ) {
-      commemoratio_vesperae = commemoratio_vesperae.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>" + O_ant[day-17] + ".</i>");
+      commemoratio_vesperae = commemoratio_vesperae.replace(/Adv\. <i>.*<\/i>/, "Adv. " + O_ant[day-17]);
       }
 
     commemoratio_vesperae = commemoratio_vesperae.replace("Com. ", "");
@@ -1473,9 +1480,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           // O Antiphons in comm. 
           if (winner == days_sancto[ref_sancto] && month_usual_number == 12 && day >= 17 && day <=23 ) {
-            //if (!comm.match("Adv.")) comm += " <i>" + O_ant[day-17] + ".</i>";
-            //else 
-            comm = comm.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>" + O_ant[day-17] + ".</i>"); }
+            comm = comm.replace(/Adv\. <i>.*<\/i>/, "Adv. " + O_ant[day-17]); }
 
           if (vesperae.match(/Feria/i) && ref_tempo.match("lent"))
              {
@@ -1869,6 +1874,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
       if (missa.match(/Dominica/i) && ref_tempo.match(/adv/i)) 
               missa = missa.replace(/Dominica/ig, "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv.");
+
+      // If there is no Comm. in Advent Sunday, it takes Comm. as usual for Ferias
+      if (ref_tempo.match(/adv/i) && weekday == 0 && missa.match("Glo. - Cre."))
+        missa = missa.replace("Glo. - Cre.", "Glo. - 2a De S. Maria <i>Deus, qui de beátæ.</i> 3a <i>Ecclesiæ tuæ.</i> vel pro Papa - Cre.")
       missa = missa.replace("..", ".");
 
     ////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\
