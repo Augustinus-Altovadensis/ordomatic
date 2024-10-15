@@ -2113,8 +2113,8 @@ if (laudes_post) {
     block_jejunium = ' – <font color="red">jejunatur</font>';
   } else if ( header.match(/[Vv]ig[ií]l[íi]a|Quatuor Temporum/i)) {
     block_jejunium = ' – <font color="red">jejunatur</font>';
-  } else if (winner_next['force'] >= 100 && weekday != 0) {
-    block_jejunium = ' – <font color="red">jejunatur</font>';
+  //} else if (winner_next['force'] >= 100 && weekday != 0) {
+  //  block_jejunium = ' – <font color="red">jejunatur</font>';
   } else { block_jejunium = ''; }
 
   ////////  Output format  \\\\\\\\\

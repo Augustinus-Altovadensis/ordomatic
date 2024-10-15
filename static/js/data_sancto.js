@@ -6229,7 +6229,7 @@ const days_sancto = {
     'martyrologium':'',
     'vigiliae': '',
     'laudes': 'Com. infra Oct. Nat. Dom. <red>(extra Stalla)</red> <i>Verbum caro factum est.</i>',
-    'laudes_commemoratio':'Com. S. Silvestri, Pp. et Conf. <i>Euge serve bone.</i>',
+    'laudes_commemoratio':'Com. S. Silvestri, Pp. et Conf. <i>Euge serve bone.</i> & infra Oct. Nat. Dom. <red>(extra Stalla)</red> <i>Verbum caro factum est.</i>',
     'laudes_post':'',
     'missa': 'Duo Acolythi. - Cum incenso ad oblata. - Glo. - 2a infra Oct. Nat. Dom. <i>Concéde.</i> - Cre. - Praef. Nat. - Infra actionem <i>Communicántes.</i> <red>de Nativitate.</red>',
     'missa_post': '',
