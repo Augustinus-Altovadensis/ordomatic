@@ -471,7 +471,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (weekday == 0) winner = days_sancto["12_24s"]; 
       commemoratio = ""; }
 
-    if (month_usual_number == 12 && day > 24 ) commemoratio = "";
+    if (month_usual_number == 12 && day > 24 && !(day == 29 || day == 31) ) commemoratio = "";
 
     ////// Removing Commemorations during the Holy Week and Easter Octave
 
@@ -1174,7 +1174,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               if (vesperae) dash = " - "; else dash = "";
               if (commemoratio_next['vesperae_j_commemoratio']) comm_vesperae_j = commemoratio_next['vesperae_j_commemoratio'];
               comm_vesperae_j = comm_vesperae_j.replaceAll("Com. ", "")
-              if (vesperae.match("Com.")) vesperae += " & " + comm_vesperae_j;
+              if (vesperae.match("Com.")) {
+                if (commemoratio_next['force'] > winner['force']) vesperae = vesperae.replace("Com. ", "Com. " + comm_vesperae_j + " & ");
+                else vesperae += " & " + comm_vesperae_j;
+                }
               else vesperae += dash + "Com. " + comm_vesperae_j;
             }
 
