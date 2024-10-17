@@ -351,6 +351,8 @@ var check_next_tempo = "";
 var lectio_ref = 0;
 var lectio_ref_prev = 0;
 var dominica_prima = false;
+var tricenarium_requiem = false;
+var pro_defunctis = true;
 
 const roman_lc = ["nullus","j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
 const roman_uc = ["NULLUS","I.","II.","III.","IV.","V.","VI.","VII.","VIII.","IX.","X."];
@@ -514,7 +516,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
 
     // Completely removing feasts iij. Lect. and lower during Holy Week and Monday and Tuesday of Easter Octave
-    if ( commemoratio && ( ref_tempo.match(/lent_6_[3456]|tp_1_[012]|tp_6_4|tp_7_6|tp_8_[012]|pa_1_0|pa_1_4/) ))
+    if ( commemoratio && ( ref_tempo.match(/lent_6_[3456]|tp_1_[012]|tp_6_4|tp_7_6|tp_8_[012]|pa_1_0|pa_1_4|pa_2_5/) ))
       { trans_titulum = commemoratio['header'].split(",", 1);
         trans_before = "Nihil fit hoc anno de festo " + trans_titulum + "."; 
         commemoratio = ""; }
@@ -541,9 +543,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Determining, whether we celebrate the Tricenarium magnum or not
     // On Sundays and Feast Days, no Vesperæ Defunctorum
-    if ( ((day >= 18 && month_usual_number == 9)|(day < 18 && month_usual_number == 10)) && (winner_next['force'] < 30 || (ref_tempo_next.match("quatember_septembris") && winner_next['force'] < 40 )) && winner['force'] <= 30 ) tricenarium_vesperae = true;
+    if ( ((day >= 18 && month_usual_number == 9)||(day < 18 && month_usual_number == 10)) && (winner_next['force'] < 30 || (ref_tempo_next.match("quatember_septembris") && winner_next['force'] < 40 )) && winner['force'] <= 30 ) tricenarium_vesperae = true;
 
-    if ( ((day > 18 && month_usual_number == 9)|(day < 18 && month_usual_number == 10)) && (winner['force'] < 30 || (ref_tempo.match("quatember_septembris") && winner['force'] < 40)) ) tricenarium = true;
+    if ( ((day > 18 && month_usual_number == 9)||(day < 18 && month_usual_number == 10)) && (winner['force'] < 30 || (ref_tempo.match("quatember_septembris") && winner['force'] < 40)) ) { tricenarium = true; }
+
 
     // "Returning" translated feasts on Monday that is not in Holy Week and any Octave
     if ( weekday > 0 && moved.length > 0 && !ref_tempo.match(/lent_6_|tp_1_/) 
@@ -871,7 +874,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // Before Ascensione Domini, we don't need any Sanctoral feasts.
     // Either they are transferred, or deleted, so there is no Sanctoral.
     // Same for surrounding of Pentecost.
-    if ( ref_tempo.match(/tp_6_3|tp_7_6|tp_8_[016]|pa_1_3/) )
+    if ( ref_tempo.match(/tp_6_3|tp_7_6|tp_8_[016]|pa_1_3|pa_2_4/) )
       {
       comm_vesperae_j = "";
       }
@@ -1381,7 +1384,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             comm_missa = comm_missa.replace(" -", ""); }
           
           win_missa = missa;
-          if (win_missa.match("2a") && winner['force'] > 40) 
+          if (win_missa.match("2a") && winner['force'] > 40 && win_missa.match(/2a S\. /i)) 
             { 
             win_missa_com = win_missa.match(/2a.*? -/) + "";
             win_missa_com = win_missa_com.replace(" -", "") + "";
@@ -1428,6 +1431,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
                 tertia_oratio = tertia_oratio.replace("2a", "3a");
                 missa = missa.replace(/2a.*? -/i, "2a " + titulum_missa + " " +tertia_oratio)
               }
+            laudes_post = "- <red>non dicitur </red><i>Quicúmque.</i>"
             }
 
           // If we need to fill in current Sunday, e.g. on Officium mense...
@@ -1439,6 +1443,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           // Cleanup:
           missa = missa.replace("  ", " "); missa = missa.replace("..", ".");
           if ( !ref_tempo.match(/(lent|ash|sept)/) ) missa = missa.replace("- Tractus ", ""); // Quatember???
+
+          missa = missa.replace(/- (Ora\.|Oratio) unica/i, "");
 
           if (winner['missa'] && winner == days_tempo[ref_tempo] && !winner['missa'].match("Glo.") && commemoratio['missa'] && ref_tempo.match("lent")) missa = translate_feria(ref_tempo) + " - " + missa;
         }
@@ -1777,13 +1783,26 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       noct_defunct_counter++;
       }
 
+    if (day == 1) pro_defunctis == true;
+
     if (tricenarium)
       {
       laudes += " " + days_sancto['tricenarium']['laudes'];
-      missa = missa.replace("3a SS. Eustachii", "3a <i>Deus veniae.</i> 4a SS. Eustachii") // for 20.9.
-      missa = missa.replace("de officio diei", "<i>Deus veniae</i>")
-      if (winner['header'].match(/de ea/i) && winner['force'] < 20 && ( !commemoratio || (commemoratio && commemoratio['rank'] != "Commemoratio et M.") ) ) 
-        { missa_post = "<li>- <u>in Missa Convent.:</u> Missa Anniv. Defunct. (3. Requi.) - 1a <i>Deus véniae.</i> 2a <i>Deus cui proprium.</i> 3a <i>Fidélium Deus.</i></li> <li>- <u>in Missis privatis:</u> " + missa + '</li>'; missa = "";} 
+      // for 20.9.
+      missa = missa.replace("3a SS. Eustachii", "3a pro defunctis <i>Deus véniæ.</i> 4a SS. Eustachii") 
+      missa = missa.replace("de officio diei", "pro defunctis <i>Deus veniae</i>")
+
+      // For Feria, Comm. and Comm. et M., Ora. "Deus véniæ." is inserted before "A cunctis."
+      if (winner['force'] < 20 && !missa.match(/Deus v(é|e)ni(æ|ae)/)) {
+        if (missa.match(/2a (?:B\.M\.V\.|de Be(a|á)ta)? A cunctis\./i)) missa = missa.replace(/2a .* A cunctis\. .*? -/, "2a pro defunctis <i>Deus véniæ.</i> 3a A cunctis. -")
+        else if (missa.match("3a A cunctis.")) missa = missa.replace("3a A cunctis.", "3a pro defunctis <i>Deus véniæ.</i> 4a A cunctis.")
+        }
+      if (!pro_defunctis) missa = missa.replace("pro defunctis", "pro def."); 
+      if (missa.match("pro defunctis")) pro_defunctis = false;
+
+      // Before:
+      //if (winner['header'].match(/de ea/i) && winner['force'] < 20 && ( !commemoratio || (commemoratio && commemoratio['rank'] != "Commemoratio et M.") ) ) 
+      //  { missa_post = "<li>- <u>in Missa Convent.:</u> Missa Anniv. Defunct. (3. Requi.) - 1a <i>Deus véniae.</i> 2a <i>Deus cui proprium.</i> 3a <i>Fidélium Deus.</i></li> <li>- <u>in Missis privatis:</u> " + missa + '</li>'; missa = "";} 
       }
 
     if (weekday == 6 && quatember_septembris ) quatember_septembris = false; 
