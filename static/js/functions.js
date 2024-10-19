@@ -522,7 +522,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio = ""; }
 
     // Translating every feast higher than MM. min. that falls on Sunday
-      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] <= 80 && !ref_tempo.match(/christmas|pa_/i))
+      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] <= 80 && !ref_tempo.match(/christmas|pa_/i) && !ref_sancto.match(/12_08/))
       {
         moved.push(ref_sancto);
         trans_titulum = winner['header'].split(",", 1);
@@ -532,7 +532,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }  
 
     // Translating every feast higher than MM. maj. that falls on Sunday, that will overrank it
-      if ( weekday == 0 && commemoratio && commemoratio['force'] > 60 && ref_tempo.match(/adv_|lent_/i))
+      if ( weekday == 0 && commemoratio && commemoratio['force'] > 60 && ref_tempo.match(/adv_|lent_/i) && !ref_sancto.match(/12_08/))
       {
         moved.push(ref_sancto);
         trans_titulum = commemoratio['header'].split(",", 1);
@@ -863,7 +863,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
 
       // Translating every feast higher than MM. maj. that falls on Sunday: First Vespers
-      if ( weekday == 6 && commemoratio_next && commemoratio_next['force'] > 60 && ref_tempo_next.match(/adv_|lent_/i))
+      if ( weekday == 6 && commemoratio_next && commemoratio_next['force'] > 60 && ref_tempo_next.match(/adv_|lent_/i) && !ref_sancto_next.match(/12_08/))
       {
         comm_vesperae_j = "";
       }  
@@ -1104,6 +1104,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_tempo == "tp_6_2" && winner['force'] > 10) { no_comm_laudes = true; }
     if (ref_tempo == "tp_6_2" && winner['force'] > 10 && winner['force'] < 40 ) 
       { comm_laudes = ""; vesperae = feria['vesperae']; comm_vesperae = ""; }
+
+    ///// Missa votiva de SSmo Corde Jesu on first Friday in month \\\\\
+    if (weekday == 5 && day < 8 && winner['force'] < 40) missa = days_sancto["votiva_ssmi_cordis"]["missa"];
+
+    ///// Missa votiva de Angelis on Oct 2. \\\\\
+    if (ref_sancto == "10_02" && winner['force'] < 30) missa = days_sancto["votiva_de_angelis"]["missa"];
 
     ////////////////////////////////////////////////////////
 
@@ -1423,7 +1429,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             missa = missa.replace(/Duo Acolythi\.?(?: -)?/, "");
             missa = missa.replace(/Cum incenso ad oblata\.?(?: - )?/i, "");
             if (!missa.match("Processio")) missa = 'Processio per Ecclesiam - ' + missa; // orig. Claustrum
-            if (!missa.match("In fine Miss")) missa += ' - <red>In fine Missæ Evangelium Dominicae.</red>';
+            if (!missa.match("In fine Miss")) missa += ' - <red>In fine Missæ Evangelium Dominicæ.</red>';
             if (winner['laudes'].match("Com.") && !winner['laudes'].match("sine Com."))
               { 
                 tertia_oratio = winner['missa'].match(/2a.*? -/i);
@@ -1519,7 +1525,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm = null;
         }
     }
-    ////////////////// Finis Commemorationum //////////////////
+
+      //////////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+     /////////////////  Finis Commemorationum  \\\\\\\\\\\\\\\\\\\
+    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|////////////////////////////|\
 
     if (commemoratio) {
       if (comm_head.match(/De ea/i)) comm_head = translate_feria(ref_tempo);
@@ -1750,7 +1759,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         winter_hymns = false;
       }
 
-    /// Vigilia Omnium Sanctorum: martyrologium
+    /////  Vigilia Omnium Sanctorum: martyrologium  \\\\\
     if (ref_sancto == "10_30" && weekday == 6) laudes_post = days_sancto["11_01"]['martyrologium'].replace("Festívitas", "Vigília Festivitátis").replace("Slavnost", "Vigilie slavnosti").replace(" - Ave Maria.", "") + laudes_post;
 
     //// Postprocessing \\\\

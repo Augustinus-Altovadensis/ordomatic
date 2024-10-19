@@ -6239,7 +6239,7 @@ const days_sancto = {
     'body': '',
     'after': '<br><div class="header after-large centered">U. I. O. G. D. E. B. M. V.</div><div class="small centered">Ut in omnibus glorificetur Deus et Beata Maria Virgo.</div><div class="header">Laus Deo, Almæ Deiparæ Cistercii, SS. PP. NN. Benedicto et Bernardo, Omnibus Sanctis, Pax Vivis, Requies Defunctis, Amen.</div>',
   },
-    'votiva_bmv': {
+  'votiva_bmv': {
     'force': 32,
     'before': '<div class="small">¶ <font color="red">Ad Completorium et per Horas in die, in fine Hymnorum dicitur: <i>G</font>lória tibi, Dómine, Qui natus es de Vírgine.</i></div>',
     'color': 'white',
@@ -6261,7 +6261,7 @@ const days_sancto = {
     'body': '',
     'after': '',
   },
-    'votiva_bmv_prima_sabb': {
+  'votiva_bmv_prima_sabb': {
     'force': 32,
     'before': '<div class="small">¶ <font color="red">Ad Completorium et per Horas in die, in fine Hymnorum dicitur: <i>G</font>lória tibi, Dómine, Qui natus es de Vírgine.</i></div>',
     'color': 'white',
@@ -6283,7 +6283,7 @@ const days_sancto = {
     'body': '',
     'after': '',
   },
-    'votiva_sacramentum': {
+  'votiva_sacramentum': {
     'force': 30,
     'before': '<div class="small">¶ <font color="red">Ad Completorium et per Horas in die, in fine Hymnorum dicitur: <i>G</font>lória tibi, Dómine, Qui natus es de Vírgine.</i></div>',
     'color': 'white',
@@ -6305,7 +6305,7 @@ const days_sancto = {
     'body': '',
     'after': '',
   },
-    'votiva_bernardi': {
+  'votiva_bernardi': {
     'force': 30,
     'before': '',
     'color': 'white',
@@ -6327,7 +6327,7 @@ const days_sancto = {
     'body': '',
     'after': '',
   },
-    'votiva_ssmi_cordis': {
+  'votiva_ssmi_cordis': {
     'force': 30,
     'before': '',
     'color': 'white',
@@ -6349,7 +6349,29 @@ const days_sancto = {
     'body': '',
     'after': '',
   },
-    'officium_mensis': {
+  'votiva_de_angelis': {
+    'force': 9,
+    'before': '',
+    'color': 'white',
+    'header': 'Missa votiva de Angelis.',
+    'rank': 'Commemoratio et M.',
+    'subtitulum': '',
+    'vesperae_j':'',
+    'vesperae_j_commemoratio':'',
+    'martyrologium':'',
+    'vigiliae': '',
+    'laudes': '',
+    'laudes_commemoratio':'',
+    'laudes_post':'',
+    'missa': 'Missa votiva de Angelis - Glo. - 2a De officio diei. 3a A cunctis. - Præf. Comm.',
+    'missa_post': '',
+    'vesperae': '',
+    'vesperae_commemoratio': '',
+    'vesperae_post': '',
+    'body': '',
+    'after': '',
+  },
+  'officium_mensis': {
     'force': 32,
     'before': '',
     'color': 'black',
