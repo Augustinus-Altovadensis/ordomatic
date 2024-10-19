@@ -633,7 +633,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     vigilia_sabb = false; // do not delete, used further in the text
 
     saints_tomorrow = days_sancto[ref_sancto_next];
-    if (weekday == 6 && saints_tomorrow && saints_tomorrow['header'].match(/Vig[ií]lia/i) && saints_tomorrow['rank'] > winner['rank'] && ref_sancto != "12_23" ) {
+    if (weekday == 6 && saints_tomorrow && saints_tomorrow['header'].match(/Vig[ií]lia/i) && saints_tomorrow['force'] > winner['force'] && ref_sancto != "12_23" ) {
       commemoratio = days_sancto[ref_sancto];
       winner = days_sancto[ref_sancto_next]; vigilia_sabb = true;}
 
@@ -696,7 +696,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     
     if (weekday == 5 && winner_next['force'] < 35 && i != (duration-1) && !vigilia_sabb && ref_sancto != "11_01")
       { winner_next = days_sancto['votiva_bmv']; commemoratio_next = days_sancto[get_ref_sancto(1)]; tricenarium_vesperae = false;}
-    if (weekday == 6 && winner['force'] < 35 && i != (duration-1) && ref_sancto != "11_02")
+    if (weekday == 6 && winner['force'] < 35 && i != (duration-1) && ref_sancto != "11_02" && true)
       { if (day < 8) {
           winner = days_sancto['votiva_bmv_prima_sabb']; 
           commemoratio = days_sancto[ref_sancto]; }
@@ -1431,7 +1431,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
                 tertia_oratio = tertia_oratio.replace("2a", "3a");
                 missa = missa.replace(/2a.*? -/i, "2a " + titulum_missa + " " +tertia_oratio)
               }
-            laudes_post = "- <red>non dicitur </red><i>Quicúmque.</i>"
+            laudes_post = "<li>- <red>non dicitur </red><i>Quicúmque.</i></li>" + laudes_post;
             }
 
           // If we need to fill in current Sunday, e.g. on Officium mense...
@@ -1749,6 +1749,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         laudes = "Hymn. <i>Splendor patérnæ glóriæ;</i> " + minus + laudes;
         winter_hymns = false;
       }
+
+    /// Vigilia Omnium Sanctorum: martyrologium
+    if (ref_sancto == "10_30" && weekday == 6) laudes_post = days_sancto["11_01"]['martyrologium'].replace("Festívitas", "Vigília Festivitátis").replace("Slavnost", "Vigilie slavnosti").replace(" - Ave Maria.", "") + laudes_post;
 
     //// Postprocessing \\\\
     vesperae = vesperae.replace("(et M.)", "(Com. et M.)"); // to be removed, hopefully. For some reason, the code doesn't work without replaceAll("Com. ","") in line 814 (Comm. of first Vesper) and I'm too tired to find out why.
