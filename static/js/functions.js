@@ -1368,7 +1368,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (commemoratio['force'] != 9 || winner != days_sancto['votiva_bmv'] || winner != days_sancto['votiva_bmv_prima_sabb']) {
             comm_missa = comm_missa.replace(/3a.*/,""); 
             comm_missa = comm_missa.replace("2a", "3a"); 
-            if (comm_missa.length > 5) comm_missa = "2a " + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
+            if (ref_tempo.match("adv_") && winner == days_sancto[ref_sancto]) de = "de "; else de = "";
+            if (comm_missa.length > 5) comm_missa = "2a " + de + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
             //win_missa = winner['missa'];
             }
           comm_missa = comm_missa.replace(/-.*/, ""); 
@@ -1906,8 +1907,32 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (commemoratio_add && (winner == days_sancto['votiva_bmv'] || winner == days_sancto['votiva_bmv_prima_sabb']) && ref_tempo.match("adv_")) {
           if (commemoratio_add['missa']) missa = missa.replace("de Sp. Sancto", commemoratio_add['header'].replace(/,.*/,"")); }
 
-      if (missa.match(/Dominica/i) && ref_tempo.match(/adv/i)) 
-              missa = missa.replace(/Dominica/ig, "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv.");
+      ///  Rorate Mass: adding Miss. priv. in Feria \\\
+      if (ref_tempo.match("adv_") && winner['force'] == 25)
+        {
+        tertia = "de Sp. Sancto"
+        if (commemoratio) tertia = titulum_missa;
+        missa_post = "<li>- <u>in Missa Conv.</u> <blue><i>Rorate</i></blue> - sine Glo. - 2a de Dominica. 3a " + tertia + ". - Praef. B.M.V. <i>Et Te in veneratione.</i></li><li>- <u>in Miss. priv.</u> " + missa + "</li>" + missa_post
+        missa = "";
+        }
+
+      ///  Rorate Mass: adding Miss. priv. in Off. SS. Sacramento \\\
+      if (ref_tempo.match("adv_") && winner == days_sancto['votiva_sacramentum'])
+        {
+        missa_post = "<li>- <u>in Missa Conv.</u> " + missa + "</li><li>- <u>in Miss. priv.</u> De. SS. Sacramento <red>ut supra</red> (vel <blue><i>Rorate</i></blue> ante ortum solis, id est 7.55!)</li>" + missa_post
+        missa = "";
+        }
+
+      ///  Rorate Mass: adding Miss. priv. in Off. S. Bernardi \\\
+      if (ref_tempo.match("adv_") && winner == days_sancto['votiva_bernardi'])
+        {
+        missa_post = "<li>- <u>in Missa Conv.</u> " + missa + "</li><li>- <u>in Miss. priv.</u> De. S. Bernardo <red>ut supra</red> (vel <blue><i>Rorate</i></blue> ante ortum solis, id est 7.55!)</li>" + missa_post
+        missa = "";
+        }
+
+      if ((missa.match(/Dominica/i) || missa_post.match(/Dominica/i)) && ref_tempo.match(/adv/i)) {
+          missa = missa.replace(/Dominica/ig, "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv.");
+          missa_post = missa_post.replace(/Dominica/ig, "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv");}
 
       // If there is no Comm. in Advent Sunday, it takes Comm. as usual for Ferias
       if (ref_tempo.match(/adv/i) && weekday == 0 && missa.match("Glo. - Cre."))
