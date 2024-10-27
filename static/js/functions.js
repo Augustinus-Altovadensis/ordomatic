@@ -1376,12 +1376,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (comm_missa.match(/de (Off\.|Officio) diei/i)) comm_missa = comm_missa.replace(/a de (Off\.|Officio) diei\. 3/i,""); 
             if (comm_missa.match(/de (Off\.|Officio) diei/i)) comm_missa = comm_missa.replace(/.a de (Off\.|Officio) diei\./i,""); }
 
-          if (commemoratio['force'] != 9 || winner != days_sancto['votiva_bmv'] || winner != days_sancto['votiva_bmv_prima_sabb']) {
+          if (commemoratio['force'] != 9 && (winner != days_sancto['votiva_bmv'] || winner != days_sancto['votiva_bmv_prima_sabb'])) {
             comm_missa = comm_missa.replace(/3a.*/,""); 
             comm_missa = comm_missa.replace("2a", "3a"); 
             if (ref_tempo.match("adv_") && winner == days_sancto[ref_sancto]) de = "de "; else de = "";
             if (comm_missa.length > 5) comm_missa = "2a " + de + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
-            //win_missa = winner['missa'];
             }
           comm_missa = comm_missa.replace(/-.*/, ""); 
 
@@ -1448,7 +1447,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
                 tertia_oratio = winner['missa'].match(/2a.*? -/i);
                 tertia_oratio += "";
                 tertia_oratio = tertia_oratio.replace("2a", "3a");
-                missa = missa.replace(/2a.*? -/i, "2a " + titulum_missa + " " +tertia_oratio)
+                missa = missa.replace(/2a.*? -/i, "2a " + titulum_missa + " " + tertia_oratio)
               }
             laudes_post = "<li>- <red>non dicitur </red><i>Quicúmque.</i></li>" + laudes_post;
             }
