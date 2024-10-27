@@ -357,7 +357,7 @@ const roman_lc = ["nullus","j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix
 const roman_uc = ["NULLUS","I.","II.","III.","IV.","V.","VI.","VII.","VIII.","IX.","X."];
 
 // Days of Officium mensis throughout the years. If not present here, Officium mensis is not added.
-OM_dates['2024'] = "2024,30,7,11,10,23,20,19,26,5,24,6,2;"
+OM_dates['2024'] = "2024,30,7,11,10,23,20,19,26,5,24,6,11;"
 OM_dates['2025'] = "2025,29,7,11,10,23,20,19,26,5,30,28,2;" // draft for testing only
 
 
@@ -526,7 +526,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio = ""; }
 
     // Translating every feast higher than MM. min. that falls on Sunday
-      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] <= 80 && !ref_tempo.match(/christmas|pa_/i) && !ref_sancto.match(/12_08/))
+      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] <= 80 && !ref_tempo.match(/christmas|pa_|pe_/i) && !ref_sancto.match(/12_08/))
       {
         moved.push(ref_sancto);
         trans_titulum = winner['header'].split(",", 1);
@@ -679,6 +679,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
 
     /////////  Festum Domini Nostri Jesu Christi Regis (Dominica ultima Octobris)  \\\\\\\\
+
     if (weekday == 6 && month_usual_number == 10 && day >= 24 && day < 31 ) {
       Christus_Rex_vespera = true; 
       // Feasts lower than iij. Lect et M. (incl.) are suppressed
