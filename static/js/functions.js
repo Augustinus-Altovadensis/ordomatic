@@ -18,6 +18,8 @@ function liturgical_color(color) {
   if (color == "white" ) { return '<span class="outline">Alb.</span>';}
   if (color == "violet/white" ) { return '<font color="#9c29c1">Viol.</font>/<span class="outline">Alb.</span>';}
   if (color == "violet/red" ) { return '<font color="#9c29c1">Viol.</font>/<font color="red">Rub.</font>';}
+  if (color == "pink" ) { return '<font color="pink">Ros.</font>';}
+  if (color == "pink/violet" ) { return '<font color="pink">Ros.</font>/<font color="#9c29c1">Viol.</font>';}
   if (color == "red/violet" ) { return '<font color="red">Rub.</font>/<font color="#9c29c1">Viol.</font>';}
   if (color == "green" ) { return '<font color="green">Vir.</font>';}
   if (color == "violet" ) { return '<font color="#9c29c1">Viol.</font>';}
@@ -759,7 +761,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if ( (!days_sancto[temp_bernardi] || days_sancto[temp_bernardi]['force'] < 30 )
           && !temporale_bernardi.match("lent") && days_tempo[temporale_bernardi] && days_tempo[temporale_bernardi]['force'] < 30
           && (day+(j*7)) != OM_date[month_usual_number] && temp_bernardi.match(month_usual_number + "_")  
-          && !(month_usual_number == 12 && temp_bernardi.replace("12_","") >= 17) ) 
+          && !(month_usual_number == 12 && temp_bernardi.replace("12_","") > 17) ) 
             date_s_bernardi = temp_bernardi; }
         check_next_new += "Date S. Bernardi: " + date_s_bernardi;
       }
@@ -980,7 +982,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         // If there are only 4 Sundays in November, the second week is skipped (see rubric on Sabb. ante Dom. ij. et iij. Novembris). This happens only on Dominical number A, i.e. if second Sabb. mensis falls on 4.11.
         if (month_usual_number == 11 && sabb_mensis == 2 && day != 4) {
             sabb_mensis++;
-            missa_post += '<div class="small">¶ <red>November hoc anno tantum quatuor habet Dominicas, sequitur vero statim Dominica iij. Novembris.</red>'; }
+            after += '<div class="small">¶ <red>November hoc anno tantum quatuor habet Dominicas, sequitur vero statim Dominica iij. Novembris.</red>'; }
 
         if (sabb_mensis && winner_next == days_tempo[ref_tempo_next] ) 
           vesperae_j = "Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <i>" + antiphon_sabb(sabb_mensis, month_sabb) + "</i>";
@@ -1441,7 +1443,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             missa = missa.replace(/Duo Acolythi\.?(?: -)?/, "");
             missa = missa.replace(/Cum incenso ad oblata\.?(?: - )?/i, "");
             if (!missa.match("Processio")) missa = 'Processio per Ecclesiam - ' + missa; // orig. Claustrum
-            if (!missa.match("In fine Miss")) missa += ' - <red>In fine Missæ Evangelium Dominicæ.</red>';
+            if (!missa.match("Cre.")) missa = missa.replace(/Pr(ae|æ)f\./i, "Cre. - Præf.")
+            if (!missa.match(/In fine Miss.*Evang/i)) missa += ' - <red>In fine Missæ Evangelium Dominicæ.</red>';
             if (winner['laudes'].match("Com.") && !winner['laudes'].match("sine Com."))
               { 
                 tertia_oratio = winner['missa'].match(/2a.*? -/i);
@@ -1711,12 +1714,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( laudes.match(/Com\. /) ) et1 = " &";
     
     // Com. B.M.V. ad Laudes 
-    if ( winner['force'] < 41 && !header.match(/Infra Oct/i) && getComm(laudes) < 3) // !header.match(/Infra Oct/i)
+    if ( winner['force'] < 41 && !header.match(/Infra Oct/i) && getComm(laudes) < 2) // !header.match(/Infra Oct/i)
       {
       laudes = laudes.replace(/(?: - )?sine Com\.?/, "");
-      if ( weekday == 2 && getComm(laudes) < 2 ) laudes_bmv += " & B. B. R.";
-      if ( weekday == 3 && getComm(laudes) < 2 ) laudes_bmv += " & S. Joseph";
-      if ( weekday == 6 && getComm(laudes) < 2 ) laudes_bmv += et1 + " De Pace";
+      if ( weekday == 2 && getComm(laudes) < 1 ) laudes_bmv += " & B. B. R.";
+      if ( weekday == 3 && getComm(laudes) < 1 ) laudes_bmv += " & S. Joseph";
+      if ( weekday == 6 && getComm(laudes) < 1 ) laudes_bmv += et1 + " De Pace";
 
       if ( laudes.match("& B.M.V. ") ) laudes = laudes.replace("B.M.V. ", "B.M.V. " + laudes_bmv + " ");
       else if ( laudes.match(/Com\. /) ) laudes = laudes + et + laudes_bmv;
@@ -1732,12 +1735,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( vesperae.match("B.M.V.") || weekday == 6) { vesperae_bmv = ""; et = "";}
     if ( weekday == 5 && winner_next['force'] < 35 && !vigilia_sabb ) { vesperae_bmv = ""; et = ""; }
 
-    if ( winner_next['force'] < 41 && winner['force'] < 41 && !header.match(/Infra Oct/i) && getComm(vesperae) < 3) // && !header.match(/Infra Oct/i)
+    if ( winner_next['force'] < 41 && winner['force'] < 41 && !header.match(/Infra Oct/i) && getComm(vesperae) < 2) // && !header.match(/Infra Oct/i)
       {
       vesperae = vesperae.replace(/(?: - )?sine Com\.?/, "");
-      if ( weekday == 1 && getComm(vesperae) < 2 ) vesperae_bmv += et + " B. B. R.";
-      if ( weekday == 2 && getComm(vesperae) < 2 ) vesperae_bmv += " & S. Joseph"; 
-      if ( weekday == 5 && getComm(vesperae) < 2 ) vesperae_bmv += et + " De Pace";
+      if ( weekday == 1 && getComm(vesperae) < 1 ) vesperae_bmv += et + " B. B. R.";
+      if ( weekday == 2 && getComm(vesperae) < 1 ) vesperae_bmv += " & S. Joseph"; 
+      if ( weekday == 5 && getComm(vesperae) < 1 ) vesperae_bmv += et + " De Pace";
 
       if ( vesperae.match("& B.M.V. ") ) vesperae = vesperae.replace("B.M.V. ", "B.M.V. " + vesperae_bmv + " ");
       else if ( vesperae.match(/Com\. /) && vesperae_bmv ) vesperae += " &" + vesperae_bmv;
@@ -2183,12 +2186,12 @@ if (laudes_post) {
 
   /////////////   jejunatur   ///////////////////////////////
 
-  if ((weekday == 3 || weekday == 5) && winner['force'] < 90 && !ref_tempo.match(/tp/)) {
+  if ((weekday == 3 || weekday == 5) && winner['force'] < 80 && !ref_tempo.match(/tp/)) {
     block_jejunium = ' – <font color="red">jejunatur</font>';
   } else if ( ref_tempo == "ash_1_3" || ref_tempo == "lent_6_5" ) { 
     block_jejunium = ' – <font color="red">jejunatur</font> <font color="blue">(den přísného postu)</font>';
-  } else if ( ref_tempo.match(/adv|lent|ash/) && winner['force'] < 100 ) {
-    block_jejunium = ' – <font color="red">jejunatur</font>';
+  //} else if ( ref_tempo.match(/adv|lent|ash/) && winner['force'] < 100 ) {
+  //  block_jejunium = ' – <font color="red">jejunatur</font>';
   } else if ( ref_tempo.match(/lent_6_[123]/)) {
     block_jejunium = ' – <font color="red">jejunatur</font>';
   } else if ( laudes_post.match(/[Vv]ig[ií]l[íi]a/) && winner['force'] < 90 ) {
