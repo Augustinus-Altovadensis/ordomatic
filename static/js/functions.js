@@ -359,8 +359,8 @@ const roman_lc = ["nullus","j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix
 const roman_uc = ["NULLUS","I.","II.","III.","IV.","V.","VI.","VII.","VIII.","IX.","X."];
 
 // Days of Officium mensis throughout the years. If not present here, Officium mensis is not added.
-OM_dates['2024'] = "2024,30,7,11,10,23,20,19,26,5,24,6,11;"
-OM_dates['2025'] = "2025,29,7,11,10,23,20,19,26,5,30,28,2;" // draft for testing only
+OM_dates['2024'] = "2024,30,7,11,10,23,20,19,26,5,24,6,10"
+OM_dates['2025'] = "2025,29,7,11,10,23,20,19,26,5,30,28,2" // draft for testing only
 
 
 function period(duration, start, prefix_tempo, week_start, day_start, extra) {
@@ -1378,7 +1378,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (comm_missa.match(/de (Off\.|Officio) diei/i)) comm_missa = comm_missa.replace(/a de (Off\.|Officio) diei\. 3/i,""); 
             if (comm_missa.match(/de (Off\.|Officio) diei/i)) comm_missa = comm_missa.replace(/.a de (Off\.|Officio) diei\./i,""); }
 
-          if (commemoratio['force'] != 9 && (winner != days_sancto['votiva_bmv'] || winner != days_sancto['votiva_bmv_prima_sabb'])) {
+          if (!(commemoratio['force'] == 9 && commemoratio['missa'].match("2a S.")) && (winner != days_sancto['votiva_bmv'] || winner != days_sancto['votiva_bmv_prima_sabb'])) {
             comm_missa = comm_missa.replace(/3a.*/,""); 
             comm_missa = comm_missa.replace("2a", "3a"); 
             if (ref_tempo.match("adv_") && winner == days_sancto[ref_sancto]) de = "de "; else de = "";
@@ -1934,8 +1934,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (commemoratio_add && (winner == days_sancto['votiva_bmv'] || winner == days_sancto['votiva_bmv_prima_sabb']) && ref_tempo.match("adv_")) {
           if (commemoratio_add['missa']) missa = missa.replace("de Sp. Sancto", commemoratio_add['header'].replace(/,.*/,"")); }
 
+      // Preparing the dates of Officium mensis
+      if (OM_dates[year]) OM_date = OM_dates[year].split(",");
+
       ///  Rorate Mass: adding Miss. priv. in Feria \\\
-      if (ref_tempo.match("adv_") && winner['force'] == 25)
+      if (ref_tempo.match("adv_") && winner['force'] == 25 && day != OM_date[month_usual_number])
         {
         tertia = "de Sp. Sancto"
         if (commemoratio) tertia = titulum_missa;
@@ -1946,14 +1949,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       ///  Rorate Mass: adding Miss. priv. in Off. SS. Sacramento \\\
       if (ref_tempo.match("adv_") && winner == days_sancto['votiva_sacramentum'])
         {
-        missa_post = "<li>- <u>in Missa Conv.</u> " + missa + "</li><li>- <u>in Miss. priv.</u> De. SS. Sacramento <red>ut supra</red> (vel <blue><i>Rorate</i></blue> ante ortum solis, id est 7.55!)</li>" + missa_post
+        missa_post = "<li>- <u>in Missa Conv.</u> " + missa + "</li><li>- <u>in Miss. priv.</u> De. SS. Sacramento <red>ut supra</red> (vel <blue><i>Rorate</i></blue> ante ortum solis, id est 7:35!)</li>" + missa_post
         missa = "";
         }
 
       ///  Rorate Mass: adding Miss. priv. in Off. S. Bernardi \\\
       if (ref_tempo.match("adv_") && winner == days_sancto['votiva_bernardi'])
         {
-        missa_post = "<li>- <u>in Missa Conv.</u> " + missa + "</li><li>- <u>in Miss. priv.</u> De. S. Bernardo <red>ut supra</red> (vel <blue><i>Rorate</i></blue> ante ortum solis, id est 7.55!)</li>" + missa_post
+        missa_post = "<li>- <u>in Missa Conv.</u> " + missa + "</li><li>- <u>in Miss. priv.</u> De. S. Bernardo <red>ut supra</red> (vel <blue><i>Rorate</i></blue> ante ortum solis, id est 7:35!)</li>" + missa_post
         missa = "";
         }
 
