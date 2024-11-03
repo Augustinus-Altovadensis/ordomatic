@@ -1881,7 +1881,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     /////  Commemoratio Parentum et Fratrum Nostrorum Defunctorum  \\\\\
     // Usually 20.11., unless it falls on Sunday, then 24.11.
-    if (ref_sancto == "11_19" && weekday != 6 || ref_sancto == "11_23" && weekday == 3) vesperae += days_sancto['parentes_et_fratres_defuncti']['vesperae_j'];
+    if (ref_sancto == "11_19" && weekday != 6 || ref_sancto == "11_23" && weekday == 3) {
+        vesperae += days_sancto['parentes_et_fratres_defuncti']['vesperae_j'];
+        laudes_post += days_sancto['parentes_et_fratres_defuncti']['martyrologium'];
+        }
 
     if (ref_sancto == "11_20" && weekday != 0 || ref_sancto == "11_24" && weekday == 4)
       {
@@ -1890,7 +1893,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         laudes += days_sancto['parentes_et_fratres_defuncti']['laudes'];
         if (laudes_post.match("1o ")) {
           laudes_post = laudes_post.replace('</li>', '');
-          laudes_post += days_sancto['parentes_et_fratres_defuncti']['laudes_post'].replace('<li><u>- in Capit.:</u>', '').replace("in Martyrologio 1o ", "2o "); }
+          laudes_post += days_sancto['parentes_et_fratres_defuncti']['laudes_post'].replace('<li>- <u>in Capit.:</u>', '').replace("in Martyrologio 1o ", "2o "); }
         else laudes_post += days_sancto['parentes_et_fratres_defuncti']['laudes_post'];
         missa = days_sancto['parentes_et_fratres_defuncti']['missa'];
       }

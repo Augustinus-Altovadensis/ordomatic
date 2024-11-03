@@ -780,7 +780,7 @@ const days_tempo = {
     'vesperae_j_commemoratio':'Com. Sabb. infra Oct. Nat. <i>Dum médium.</i>',
     'martyrologium':'',
     'vigiliae': '',
-    'laudes': '<red>Ps.</red> <i>Miserére.</i>',
+    'laudes': '<red>Ps.</red> <i>Miserére.</i> <red>cum aliis de Dominica.</red>',
     'laudes_commemoratio':'',
     'laudes_post':'',
     'missa': 'Sub tuum. - Glo. - 2a Commemoratio -vel- infra Oct. Nat. Dom. <i>Concéde.</i> - Cre. - Praef. Nat. - Infra actionem <i>Communicántes.</i> <red>de Nativitate.</red>',
