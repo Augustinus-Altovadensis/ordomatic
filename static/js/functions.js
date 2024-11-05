@@ -344,7 +344,7 @@ var off_ss_sacramenti = true;
 
 var OM_dates = [];
 var date_s_bernardi = "";
-var winter_hymns = true;
+var winter_hymns = false;
 
 var check_next_new = "";
 var check_next_tempo = "";
@@ -989,13 +989,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         else if (sabb_mensis) comm_vesperae_j = "Com. Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <i>" + antiphon_sabb(sabb_mensis, month_sabb) + "</i>";
         titulus_dom = roman_uc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb);
 
+        // On first Sunday in November, ferial Hymns are changed
+        if (month_sabb == 10 && sabb_mensis == 1) winter_hymns = true;
+
         // First Sabbath of August, following remark is displayed in "after":
         if (month_sabb == 7 && sabb_mensis == 1)
         after += '<div class="small">¶ <red>Dicitur autem j. Dominica mensis, quæ est in Kalendis, vel proximior Kalendis illius mensis: ita ut si Kalendæ fuerint ij. iij. vel iv. Feria, tunc j. Dominica mensis, in quo liber Scripturæ inchoandus ponitur, est ea quæ præcedit Kalendas. Sin autem Kalendæ fuerint v. vj. vel Sabbato, prima Dominica est ea quæ sequitur, et in Sabbato præcedenti Antiphona ad Magnificat ponatur illius historiæ, omissis aliis, quæ forte occurrerent.</red> <blue>(<i>„Kalendæ“</i> primam diem mensis designant.)</blue></div>';
       }
     if (month_usual_number == 12) sabb_mensis = 0;
 
-    // Adding the O Antiphones to Vespers
+    // Adding the O Antiphons to Vespers
     O_ant = ["<i>O Sapiéntia.</i> <red>ad quam stamus extra stalla, non tamen ad collectam.</red>","<i>O Adonái.</i>","<i>O radix Jesse.</i>","<i>O clavis David.</i>","<i>O Óriens.</i>","<i>O Rex géntium.</i>","<i>O Emmánuel.</i>"];
 
     if (month_usual_number == 12 && day >= 17 && day <=23 ) {
@@ -1765,12 +1768,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       laudes = laudes.replace(/Feria & /, "");
       vesperae = vesperae.replace(/Feria & /, ""); }
 
-    /////////  Reminder of Ferial Hymn change after All Saints  \\\\\\\\\\\\\
-    if (winter_hymns && day > 1 && day < 8 && month_usual_number == 11 && winner == days_tempo[ref_tempo])
+    /////////  Reminder of Ferial Hymn change after first Sunday of November  \\\\\\\\\\\\\
+    //if ( header.match(/simul I\. Novembris/i) || (winter_hymns && day > 1 && day < 8 && month_usual_number == 11 && winner == days_tempo[ref_tempo]))
+    if (winter_hymns && winner == days_tempo[ref_tempo])
       { 
         if (laudes.match(/^Com\.|^sine Com\./)) minus = "- "; else minus = "";
-        vigiliae = "Hymn. <i>Ætérne rerum cónditor;</i> " + vigiliae;
-        laudes = "Hymn. <i>Splendor patérnæ glóriæ;</i> " + minus + laudes;
+        vigiliae = "Hymn. <i>Ætérne rerum cónditor.</i> " + vigiliae;
+        laudes = "Hymn. <i>Splendor patérnæ glóriæ.</i> " + minus + laudes;
         winter_hymns = false;
       }
 
