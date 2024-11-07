@@ -728,11 +728,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     OM_dates_all = days_sancto['officium_mensis']['body'].match(/2024.*?\;/i) + "";
     OM_date = OM_dates_all.split(",");
 
-    if (weekday == 3 && winner_next['force'] < 30 && off_ss_sacramenti 
+    if (weekday == 3 && winner_next['force'] < 30 && off_ss_sacramenti && ref_sancto != "11_01"
       && day != (OM_date[month_usual_number]-1) && month_usual_number != 6 
       && !(month_usual_number == 12 && day >= 17) && !ref_tempo.match(/ash|lent/))
       { winner_next = days_sancto['votiva_sacramentum']; commemoratio_next = days_sancto[get_ref_sancto(1)]; tricenarium_vesperae = false;}
-    if (weekday == 4 && winner['force'] < 30 && off_ss_sacramenti 
+    if (weekday == 4 && winner['force'] < 30 && off_ss_sacramenti && ref_sancto != "11_02"
       && day != OM_date[month_usual_number] && month_usual_number != 6 
       && !(month_usual_number == 12 && day >= 17) && !ref_tempo.match(/ash|lent/))
       { 
@@ -760,7 +760,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         + ". ";
         if ( (!days_sancto[temp_bernardi] || days_sancto[temp_bernardi]['force'] < 30 )
           && !temporale_bernardi.match("lent") && days_tempo[temporale_bernardi] && days_tempo[temporale_bernardi]['force'] < 30
-          && (day+(j*7)) != OM_date[month_usual_number] && temp_bernardi.match(month_usual_number + "_")  
+          && (day+(j*7)) != OM_date[month_usual_number] && temp_bernardi.match(month_usual_number + "_") && temp_bernardi != "11_02"  
           && !(month_usual_number == 12 && temp_bernardi.replace("12_","") > 17) ) 
             date_s_bernardi = temp_bernardi; }
         check_next_new += "Date S. Bernardi: " + date_s_bernardi;
@@ -1168,6 +1168,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check 
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force']    
       + " extra_sunday = " + extra + "  --- i = " + i + "/" + duration // + '. <br>'
+      +  ' -=- winter_hymns = "' + winter_hymns + '".'
       //+ 'Feria = "' + feria['header'] + '", &emsp;Vesperæ: "' + feria['vesperae'] + '".<br>'
       //+ 'Moved feasts [0] "' + moved[0] + '" [1] "' + moved[1] + '" [2] "' + moved[2] + '" [3] "' + moved[3] + '". Length = "' + moved.length
       //+ '.<br>Sacérdos et Pontifex: "' + matchCount(vesperae,/Sacérdos et Póntifex/) + '" - Fíliæ Jerúsalem: "' + matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/);
@@ -1710,7 +1711,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     vesperae_bmv = " B.M.V.";
     et = " &"
     et1 = " &"
-    dash = " – ";
+    dash = " - ";
     if ( laudes == "" ) dash = "";
     if ( laudes.match("B.M.V.") ) { laudes_bmv = ""; et = "";}
     if ( winner['header'].match("B.M.V.") ) { laudes_bmv = ""; et = ""; et1 = "";}
@@ -1733,7 +1734,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Com. B.M.V. ad Vesperas
     et = " &"
-    dash = " – ";
+    dash = " - ";
     if ( vesperae == "" ) dash = "";
     if ( vesperae.match("B.M.V.") || weekday == 6) { vesperae_bmv = ""; et = "";}
     if ( weekday == 5 && winner_next['force'] < 35 && !vigilia_sabb ) { vesperae_bmv = ""; et = ""; }
@@ -1770,11 +1771,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     /////////  Reminder of Ferial Hymn change after first Sunday of November  \\\\\\\\\\\\\
     //if ( header.match(/simul I\. Novembris/i) || (winter_hymns && day > 1 && day < 8 && month_usual_number == 11 && winner == days_tempo[ref_tempo]))
-    if (winter_hymns && winner == days_tempo[ref_tempo])
+    if (winter_hymns && weekday != 6 && (winner == days_tempo[ref_tempo] || winner['header'].match(/Vigilia|Commemoratio/i)))
       { 
         if (laudes.match(/^Com\.|^sine Com\./)) minus = "- "; else minus = "";
-        vigiliae = "Hymn. <i>Ætérne rerum cónditor.</i> " + vigiliae;
-        laudes = "Hymn. <i>Splendor patérnæ glóriæ.</i> " + minus + laudes;
+        vigiliae = "<red>Hymn.</red> <i>Ætérne rerum cónditor.</i> " + vigiliae;
+        laudes = "<red>Hymn.</red> <i>Splendor patérnæ glóriæ.</i> " + minus + laudes;
+        if (winner['force'] > winner_next['force'] || winner_next['header'].match("Vigilia")) {
+          if (vesperae.match("- Com.")) vesperae = vesperae.replace(/- Com\./i, "<red>Hymn.</red> <i>Deus Creátor ómnium.</i> - Com.")
+          else if (vesperae.match("- sine Com.")) vesperae = vesperae.replace(/- Com\./i, "<red>Hymn.</red> <i>Deus Creátor ómnium.</i> - sine Com.")
+          else vesperae += " <red>Hymn.</red> <i>Deus Creátor ómnium.</i>";
+          }
         winter_hymns = false;
       }
 
@@ -1877,6 +1883,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       {
         header = days_sancto['all_souls']['header'];
         color = days_sancto['all_souls']['color'];
+        vigiliae += days_sancto['all_souls']['vigiliae'];
         laudes += days_sancto['all_souls']['laudes'];
         laudes_post += days_sancto['all_souls']['laudes_post'];
         missa = days_sancto['all_souls']['missa'];
@@ -2111,7 +2118,7 @@ function component(date, year, month, day, weekday, before, color, header, rank,
   // New year? new month?:
   if (date.getFullYear() != year) {
     year = date.getFullYear();
-    block_new_year = '<div class="year brown mt-5"><font color="red">A</font>nnus <font color="red">D</font>omini ' + year + '</div>';
+    block_new_year = '<div class="year brown mt-5"><font color="red">A</font>nno <font color="red">D</font>omini ' + year + '</div>';
     if (day == 1) {
       month = date.getMonth();
       block_new_month = '<div class="month blue mb-3">Januarius</div>';

@@ -78,7 +78,8 @@ function addtags(winner) {
     winner = winner.replace("Processio per Ecclesiam", '<font color="red">Processio per Ecclesiam</font>');
     winner = winner.replace("Processio ", '<font color="red">Processio</font> ');
     winner = winner.replace(/Duo Acolythi\. |Duo Acolythi /, '<font color="red">Duo Acolythi. </font>');
-    winner = winner.replace(/Cum incenso ad [oO]blata\. |Cum incenso ad [oO]blata /, '<font color="red">Cum incenso ad oblata. </font>');
+    winner = winner.replace(/Cum incenso ad [oO]blata\. /, '<font color="red">Cum incenso ad oblata. </font>');
+    winner = winner.replace(/Cum incenso ad [oO]blata /, '<font color="red">Cum incenso ad oblata </font>');
     winner = winner.replace("de Officio diei", '<font color="red">de Officio diei</font>');
     winner = winner.replace("Hymnus, in quo dicitur:", '<font color="red">Hymnus, in quo dicitur:</font> ');
     winner = winner.replace(/Aña Sub tuum|Aña. Sub tuum/, '<font color="red">Aña.</font> <i>Sub tuum</i>');

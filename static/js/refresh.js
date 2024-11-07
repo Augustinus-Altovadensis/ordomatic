@@ -32,7 +32,7 @@ function refresh_ordo(year, display_format) {
 
   // Year:
   content = content.concat(
-    '<div class="year brown"><font color="red">A</font>nnus <font color="red">D</font>omini ' + year + '</div>'
+    '<div class="year brown"><font color="red">A</font>nno <font color="red">D</font>omini ' + year + '</div>'
   );
 
   first_day = new Date(first_sunday_of_advent.getTime() - (1 * day_in_ms));
@@ -128,27 +128,3 @@ function refresh_ordo(year, display_format) {
   replace();
 }
 
-// Backup
-
-function get_ref_sancto_old(offset)
-  { 
-    ref_sancto_n = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day + offset) + (day + offset);
-
-      ref_sancto_n = ref_sancto_n.replace("010", "10");
-
-      ref_sancto_n = ( ref_sancto_n == "12_32") ? "01_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "01_32") ? "02_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "02_30" && is_leap_year(year) ) ? "03_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "02_29" && !is_leap_year(year) ) ? "03_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "03_32") ? "04_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "04_31") ? "05_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "05_32") ? "06_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "06_31") ? "07_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "07_32") ? "08_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "08_32") ? "09_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "09_31") ? "10_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "10_32") ? "11_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "11_31") ? "12_01" : ref_sancto_n;
-
-      return ref_sancto_n;
-  }
