@@ -5486,7 +5486,7 @@ const days_sancto = {
     'missa': '<red>In fine Missalis Cist.</red> <i>Mihi autem.</i> - Duo Acolythi. - Glo. - 2a S. Gregorii Thaum. - Praef. Comm.',
     'missa_post': '',
     'vesperae': 'de festo',
-    'vesperae_commemoratio': 'Com. de praec. <i>Quinque prudéntes Vírgines.</i>',
+    'vesperae_commemoratio': 'Com. de praec. <i>Apparuérunt cœléstes spíritus.</i>',
     'vesperae_post': '',
     'body': '',
     'after': '',
