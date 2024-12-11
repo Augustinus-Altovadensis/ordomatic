@@ -420,8 +420,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_sancto == "09_20" && weekday != 0) { ref_sancto += "v"; }
 
     /////  Vigilia S. Andreæ, if it falls on Sunday \\\\\
-    if (ref_sancto == "11_28" && weekday == 6) { ref_sancto += "v"; }
-    if (ref_sancto == "11_29" && weekday != 0) { ref_sancto += "v"; }
+    if (ref_sancto == "11_28" && weekday == 6 && !ref_tempo.match(/adv/)) { ref_sancto += "v"; }
+    if (ref_sancto == "11_29" && weekday != 0 && !ref_tempo.match(/adv/)) { ref_sancto += "v"; }
 
     /////  Beginning of Tricenarium solemne  \\\\\
     if (ref_sancto == "09_17" && weekday != 6) { ref_sancto_next += "tr"; }
@@ -949,11 +949,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         if (weekday == 1) vigil_novembris = 0
 
-        if ( (winner['force'] < 30 || winner['header'].match("Vigilia")) && !(sabb_mensis == 5 && day < 10)) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; 
+        if ( (winner['force'] < 30 || winner['header'].match("Vigilia")) && !(sabb_mensis == 5 && day < 10) && !ref_tempo.match(/adv/)) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; 
           if (sabb_mensis >= 3) vigiliae += ' <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[vigil_novembris] + '</font>';
           vigil_novembris++; }} 
 
-    if (ref_tempo.match("adv_") && day < 24)
+    // if (ref_tempo.match("adv_") && day < 24) // Originally...
+    if (ref_tempo.match("adv_"))
       {
       if (weekday == 0) adv_vigil_counter = 0;
       if (!vigiliae && winner['header'].match("Vigilia")) vigiliae = feria['vigiliae'];
@@ -962,6 +963,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         adv_vigil_counter++;
         }
       }
+
+    // Special case: Vigil of St. Andrew
+    if (ref_sancto.match(/11_2[89]v/)) vigiliae = vigiliae.replace(/iij\. Lect\. .*<font/, "iij. Lect. <red>de Vigilia.</red> <font");
 
 
     ////////////////////////////////////////////////
