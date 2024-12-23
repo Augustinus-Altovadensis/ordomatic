@@ -1841,6 +1841,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     /////  Vigilia Omnium Sanctorum: martyrologium  \\\\\
     if (ref_sancto == "10_30" && weekday == 6) laudes_post = days_sancto["11_01"]['martyrologium'].replace("Festívitas", "Vigília Festivitátis").replace("Slavnost", "Vigilie slavnosti").replace(" - Ave Maria.", "") + laudes_post;
 
+    ////  Vesperae Sabbato: A capitulo de Sabb., if Saturday's feast has ij. Vesp.
+    if (true && weekday == 6 && winner['force'] >= 40 && winner_next == days_tempo[ref_tempo_next] && winner['force'] <= winner_next['force'] && !ref_tempo.match(/lent_6_6|tp_7_6/) && !winner['header'].match(/Quatuor Temp/i)) 
+        vesperae = "de festo. A capitulo de " + vesperae;
+
     //// Postprocessing \\\\
     vesperae = vesperae.replace("(et M.)", "(Com. et M.)"); // to be removed, hopefully. For some reason, the code doesn't work without replaceAll("Com. ","") in line 814 (Comm. of first Vesper) and I'm too tired to find out why.
     laudes = laudes.replaceAll(/\(Com\.\) |\(Com\. et M\.\) |\(iij\. Lect\. et M\.\) /g, "");

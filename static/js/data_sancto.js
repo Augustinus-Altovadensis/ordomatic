@@ -132,7 +132,7 @@ const days_sancto = {
     'after': '',
   },
   '01_07': {
-    'force': 40,
+    'force': 25,
     'before': '',
     'color': 'white',
     'header': 'Priv. Dieb. infra Oct. Epiph. Domini',
@@ -154,7 +154,7 @@ const days_sancto = {
     'after': '',
   },
   '01_08': {
-    'force': 40,
+    'force': 25,
     'before': '',
     'color': 'white',
     'header': 'Priv. Dieb. infra Oct. Epiph. Domini',
@@ -176,7 +176,7 @@ const days_sancto = {
     'after': '',
   },
   '01_09': {
-    'force': 40,
+    'force': 25,
     'before': '',
     'color': 'white',
     'header': 'Priv. Dieb. infra Oct. Epiph. Domini',
@@ -198,7 +198,7 @@ const days_sancto = {
     'after': '',
   },
   '01_10': {
-    'force': 40,
+    'force': 25,
     'before': '',
     'color': 'white',
     'header': 'Priv. Dieb. infra Oct. Epiph. Domini',
@@ -220,7 +220,7 @@ const days_sancto = {
     'after': '',
   },
  '01_11': {
-    'force': 40,
+    'force': 25,
     'before': '',
     'color': 'white',
     'header': 'Priv. Dieb. infra Oct. Epiph. Domini',
@@ -242,7 +242,7 @@ const days_sancto = {
     'after': '',
   },
   '01_12': {
-    'force': 40,
+    'force': 25,
     'before': '',
     'color': 'white',
     'header': 'Priv. Dieb. infra Oct. Epiph. Domini',
