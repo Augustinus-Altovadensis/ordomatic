@@ -19,7 +19,7 @@
 			"file": "static/js/functions.js",
 			"settings":
 			{
-				"buffer_size": 121732,
+				"buffer_size": 122043,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -54,7 +54,7 @@
 			"file": "static/js/data_sancto.js",
 			"settings":
 			{
-				"buffer_size": 259750,
+				"buffer_size": 259747,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			},
@@ -66,7 +66,7 @@
 					"paste",
 					null,
 					"AgAAAE9UAwAAAAAAbFQDAAAAAAAAAAAAbFQDAAAAAABsVAMAAAAAABwAAABRdWlucXVlIHBydWTDqW50ZXMgVsOtcmdpbmVz",
-					"AQAAAAAAAAABAAAAT1QDAAAAAABpVAMAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAE9UAwAAAAAAaVQDAAAAAAAAAAAAAADwvw"
 				]
 			]
 		},
@@ -74,7 +74,7 @@
 			"file": "static/js/data_tempo.js",
 			"settings":
 			{
-				"buffer_size": 244103,
+				"buffer_size": 244043,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -205,7 +205,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 121732,
+						"buffer_size": 122043,
 						"regions":
 						{
 						},
@@ -336,15 +336,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 259750,
+						"buffer_size": 259747,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								218220,
-								218220
+								0,
+								0
 							]
 						],
 						"settings":
@@ -367,7 +367,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 244103,
+						"buffer_size": 244043,
 						"regions":
 						{
 						},

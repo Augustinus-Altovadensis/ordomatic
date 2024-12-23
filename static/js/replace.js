@@ -102,7 +102,7 @@ function addtags(winner) {
     winner = winner.replace("Veni, sponsa", '<i>Veni, sponsa</i>');
     winner = winner.replace(/S[íi]mile est ?\.\.\. ?sag[ée]n(æ|ae)/, '<i>Símile est… sagénæ</i>');
     winner = winner.replace(/Sac[ée]rdos et P[óo]ntifex/, '<i>Sacérdos et Póntifex</i>');
-    winner = winner.replace("Hac die ... suprémos", '<i>Hac die … suprémos</i>');
+    winner = winner.replace(/Hac die ?\.\.\. suprémos/, '<i>Hac die… suprémos</i>');
     winner = winner.replace("Isti sunt duæ", '<i>Isti sunt duæ</i>');
     winner = winner.replace("Isti sunt Sancti", '<i>Isti sunt Sancti</i>');
     winner = winner.replace("Isti sunt", '<i>Isti sunt</i>');
