@@ -2377,7 +2377,7 @@ const days_tempo = {
   }, 
   'ash_1_3': {
     'force': 120,
-    'before': '<div class="small">¶ <font color="red">In hac et sequentibus Feriis usque ad Vesperas Sabbati (post dies Cinerum), omnia dicuntur ut in Psalterio per annum, exceptis quæ habentur propria.</font><font color="blue">- Od Popeleční středy až do sobotních nešpor (po popeleční středě) se říká vše, jak je v žaltáři během roku, vyjma toho, co má vlastní. - Také od Popeleční středy a v ostatních všedních svatopostních dnech, i při připomínce (komemoraci), se při její oraci klečí (genuflectitur <i>ad Formas</i>) a rukama zahalenýma se opíráme o formu.</font></div>',
+    'before': '<div class="small">¶ <font color="red">In hac et sequentibus Feriis usque ad Vesperas Sabbati (post dies Cinerum), omnia dicuntur ut in Psalterio per annum, exceptis quæ habentur propria.</font><font color="blue"> - Od Popeleční středy až do sobotních nešpor (po popeleční středě) se říká vše, jak je v žaltáři během roku, vyjma toho, co má vlastní. - Také od Popeleční středy a v ostatních všedních svatopostních dnech, i při připomínce (komemoraci), se při její oraci klečí (genuflectitur <i>ad Formas</i>) a rukama zahalenýma se opíráme o formu.</font></div>',
     'color': 'violet',
     'header': 'De ea. - <span class="header bold violet">Feria IV Cinerum.</span>',
     'rank': '',
@@ -3081,7 +3081,7 @@ const days_tempo = {
   },
   'lent_5_0': {
     'force': 120,
-    'before': '<div class="small">¶ <red>In <u>Officio</u> Temp. Passionis <b>non</b> dicitur</red> <i>Gloria Patri</i> <red>in fine Ps. 94 </red><i>Veníte exultémus,</i> <red><b>neque</b> in ult. ℟. cujusque Noct. - In <u>Missis</u> de Temp. Pass. (non autem festivis vel votivis) omitt. Ps.</red> <i>Judica</i> <red>usque ad Fer. v. in Cœna Domini incl., <b>nec</b> dicitur</red> <i>Gloria Patri</i> <red>ad Introitum <b>nec</b> ad</red> <i>Lavabo</i> <red>neque ad</red> <i>Asperges</i>.</div><div class="small">¶ <red>Cruces velantur linteo violaceo.</red></div>',
+    'before': '<div class="small">¶ <red>In <u>Officio</u> Temp. Passionis <b>non</b> dicitur</red> <i>Gloria Patri</i> <red>in fine Ps. 94 </red><i>Veníte exultémus,</i> <red><b>neque</b> in ult. ℟. cujusque Noct. - In <u>Missis</u> de Temp. Pass. (non autem festivis vel votivis) omitt. Ps.</red> <i>Judica</i> <red>usque ad Fer. v. in Cœna Domini incl., <b>nec</b> dicitur</red> <i>Gloria Patri</i> <red>ad Introitum <b>nec</b> ad</red> <i>Lavabo</i> <red>neque ad</red> <i>Asperges</i>.</div>',
     'color': 'violet',
     'header': 'Dominica Passionis.',
     'rank': 'DOM. maj. </b><font color="red">(j. Classis)</font>',
@@ -3191,7 +3191,7 @@ const days_tempo = {
   },
   'lent_5_5': {
     'force': 80,
-    'before': '<div class="small">¶ <font color="red">Ad Completorium et per Horas in die, in fine Hymnorum dicitur: <i>G</font>lória tibi, Dómine, Qui natus es de Vírgine.</i></div>',
+    'before': '<div class="small">¶ <font color="red">In Complet. et Horas in die, in fine Hymnorum dicitur: <i>G</font>lória tibi, Dómine, Qui natus es de Vírgine.</i></div>',
     'color': 'white',
     'header': 'Septem Dolorum B.M.V.',
     'rank': '',
@@ -3339,7 +3339,7 @@ const days_tempo = {
     'missa_post': '',
     'vesperae': 'In Cœna Domini Aña Magn. <i>Cœnántibus</b> extra Stalla</i>',
     'vesperae_commemoratio': '',
-    'vesperae_post': '<li><u>Missa solemnis:</u> (<red>cum Dalm.</red>) <i><s>Judica</s>, <s>Gloria Patri</s></i> ad Introitum et ad <i>Lavabo</i> - Ad <i>Gloria</i> <span class="small red">pulsantur campanae, quae silent usque in Vigiliam Paschalem et Organa non pulsantur etiam, postea pulsantur ordine consueto <i>Tabulae</i> <blue>(klapačky)</blue> ligneae portatili.</span> - Unica Oratio <i>extra Stalla</i> - Credo dicitur - Præf. S. Crucis - Communicantes et <i>Hanc igitur</i> et <i>Qui pridie</i>... <red>ut notatur.</red> - Pax <b>non</b> datur.</li><li><u>Post Missam:</u> Distributio candelarum, Processio, et denudatio Altarium </li><li>Mandatum Pauperum, Mandatum Monachorum</li><li><u>in Compl.:</u> <red>dicitur Canticum</red> <i>Nunc dimíttis</i> <red>(in Psalterio positum post Ps. 150)</red></li>',
+    'vesperae_post': '<li><u>Missa solemnis:</u> (<red>cum Dalm.</red>) <i><s>Judica</s>, <s>Gloria Patri</s></i> ad Introitum et ad <i>Lavabo</i> - Ad <i>Gloria</i> <span class="small red">pulsantur campanae, quae silent usque in Vigiliam Paschalem et Organa non pulsantur etiam, postea pulsantur ordine consueto <i>Tabulae</i> <blue>(klapačky)</blue> ligneae portabiles.</span> - Unica Oratio <i>extra Stalla</i> - Credo dicitur - Præf. S. Crucis - Communicantes et <i>Hanc igitur</i> et <i>Qui pridie</i>... <red>ut notatur.</red> - Pax <b>non</b> datur.</li><li><u>Post Missam:</u> Distributio candelarum, Processio, et denudatio Altarium </li><li>Mandatum Pauperum, Mandatum Monachorum</li><li><u>in Compl.:</u> <red>dicitur Canticum</red> <i>Nunc dimíttis</i> <red>(in Psalterio positum post Ps. 150)</red></li>',
     'body': '',
     'after': ''
   },

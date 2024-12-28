@@ -87,7 +87,7 @@ function addtags(winner) {
     winner = winner.replace("Asperges", '<i>Asperges</i>');
     winner = winner.replace(/Qui vult ven[ií]re/, '<i>Qui vult veníre</i>');
     winner = winner.replace("Qui vult", '<i>Qui vult</i>');
-    winner = winner.replace("O Doctor óptime", '<i>O Doctor óptime</i>');
+    winner = winner.replace(/O Doctor óptime/i, '<i>O Doctor óptime</i>');
     winner = winner.replace(/O Doctor/i, '<i>O Doctor</i>');
     winner = winner.replace(/Be[áa]tus vir, qui m[eé]tuit/, '<i>Beátus vir, qui métuit</i>');
     winner = winner.replace("Beátus vir", '<i>Beátus vir</i>');

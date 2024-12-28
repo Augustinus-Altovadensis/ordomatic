@@ -578,7 +578,7 @@ const days_sancto = {
     'header': 'S. Joannis Chrysostomi, Ep., Conf. et Eccl. Doct.',
     'rank': 'iij. Lect. et M.',
     'subtitulum': '',
-    'vesperae_j':'de seq. O Doctor<i>...beáte Joánne.</i> Com. S. Juliani Ep. et. Conf. Sacérdos et Póntifex.',
+    'vesperae_j':'de seq. O Doctor óptime<i>... beáte Joánne.</i> Com. S. Juliani Ep. et. Conf. Sacérdos et Póntifex.',
     'vesperae_j_commemoratio':'Com. S. Joannis Chrysostomi O Doctor<i>...beáte Joánne.</i> & S. Juliani Ep. et. Conf. Sacérdos et Póntifex.',
     'martyrologium':'',
     'vigiliae': 'Hym. Hac die... suprémos',

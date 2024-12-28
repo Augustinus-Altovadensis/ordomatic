@@ -1538,24 +1538,24 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_vesperae = comm_vesperae.replace(/- sine Com.|sine Com./, "");
 
           comm = commemoratio['vesperae_commemoratio'];
-          comm = ( comm == "C1") ? "Ecce ego mitto vos " : comm;
-          comm = ( comm == "C12") ? "Beáti eritis " : comm;
-          comm = ( comm == "C2") ? "Beátur vir " : comm;
-          comm = ( comm == "C2a") ? "Iste Sanctus " : comm;
-          comm = ( comm == "C22") ? "Hic est vere Martyr " : comm;
-          comm = ( comm == "C3") ? "Isti sunt Sancti " : comm;
-          comm = ( comm == "C32") ? "Tradidérunt " : comm;
-          comm = ( comm == "C4") ? "Sacérdos et Póntifex " : comm;
-          comm = ( comm == "C42") ? "Amávit eum Dóminus " : comm;
-          comm = ( comm == "C42a") ? "Dum esset summus Póntifex " : comm;
-          comm = ( comm == "C4d") ? "O Doctor óptime " : comm;
-          comm = ( comm == "C5") ? "Iste cognóvit " : comm;
-          comm = ( comm == "C52") ? "Iste Sanctus " : comm;
-          comm = ( comm == "C6") ? "Veni, sponsa Christi " : comm;
-          comm = ( comm == "C62") ? "Quinque prudéntes Vírgines " : comm;
-          comm = ( comm == "C7") ? "Símile est ... hómini " : comm;
-          comm = ( comm == "C8") ? "Pax ætérna " : comm;
-          comm = ( comm == "C82") ? "O quam metuéndus " : comm;
+          comm = ( comm == "C1") ? "Ecce ego mitto vos. " : comm;
+          comm = ( comm == "C12") ? "Beáti eritis. " : comm;
+          comm = ( comm == "C2") ? "Beátur vir. " : comm;
+          comm = ( comm == "C2a") ? "Iste Sanctus. " : comm;
+          comm = ( comm == "C22") ? "Hic est vere Martyr. " : comm;
+          comm = ( comm == "C3") ? "Isti sunt Sancti. " : comm;
+          comm = ( comm == "C32") ? "Tradidérunt. " : comm;
+          comm = ( comm == "C4") ? "Sacérdos et Póntifex. " : comm;
+          comm = ( comm == "C42") ? "Amávit eum Dóminus. " : comm;
+          comm = ( comm == "C42a") ? "Dum esset summus Póntifex. " : comm;
+          comm = ( comm == "C4d") ? "O Doctor óptime. " : comm;
+          comm = ( comm == "C5") ? "Iste cognóvit. " : comm;
+          comm = ( comm == "C52") ? "Iste Sanctus. " : comm;
+          comm = ( comm == "C6") ? "Veni, sponsa Christi. " : comm;
+          comm = ( comm == "C62") ? "Quinque prudéntes Vírgines. " : comm;
+          comm = ( comm == "C7") ? "Símile est... hómini. " : comm;
+          comm = ( comm == "C8") ? "Pax ætérna. " : comm;
+          comm = ( comm == "C82") ? "O quam metuéndus. " : comm;
 
         if (winner == days_sancto['votiva_bernardi']
          || winner == days_sancto['votiva_sacramentum']) comm = "";
