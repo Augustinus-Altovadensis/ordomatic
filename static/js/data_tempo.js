@@ -782,7 +782,7 @@ const days_tempo = {
     'vigiliae': '',
     'laudes': '<red>Ps.</red> <i>Miserére.</i> <red>cum aliis de Dominica.</red>',
     'laudes_commemoratio':'',
-    'laudes_post':'',
+    'laudes_post':'<li>- <red>non dicitur </red><i>Quicúmque.</i></li>',
     'missa': 'Sub tuum. - Glo. - 2a Commemoratio -vel- infra Oct. Nat. Dom. <i>Concéde.</i> - Cre. - Praef. Nat. - Infra actionem <i>Communicántes.</i> <red>de Nativitate.</red>',
     'missa_post': '',
     'vesperae': 'Dom. infra Oct. Nat. <red>Psalmi de Dom., Añæ.</red> <i>In princípio.</i> <red>etc., ℟. br. et Hymn. ut in ij. Vesp. Nativ., Capit., Versus et oratio ut notatur in Laudibus pro Dom. infra Oct. Nat.,</red> Aña. Mag. <i>Puer Jesus.</i>',
