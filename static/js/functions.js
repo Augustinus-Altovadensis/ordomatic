@@ -637,11 +637,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
     
     ///// SS. Nominis Jesu // Day alone /////
-    if ( ref_sancto == "01_02" && weekday < 3 ) { winner = days_tempo['nomen_jesu']; }
-    if ( (ref_sancto == "01_03" || ref_sancto == "01_04" ) && weekday == 0 ) { winner = days_tempo['nomen_jesu']; }
+    if ( ref_sancto == "01_02" && weekday < 3 ) { winner = days_sancto['nomen_jesu']; }
+    if ( (ref_sancto == "01_03" || ref_sancto == "01_04" ) && weekday == 0 ) { winner = days_sancto['nomen_jesu']; }
     if ( ref_sancto == "01_05" && weekday == 0 ) { 
-        winner = days_tempo['nomen_jesu']; 
-        commemoratio = days_sancto[ref_sancto]; }
+        winner = days_sancto['nomen_jesu']; 
+        commemoratio = days_tempo['christmas_3_0'];
+        commemoratio_add = days_sancto['01_05cc']; }
 
     ////// S. Matthias ///////
     if ( ref_sancto == "02_24" && !is_leap_year(year) ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo];}
@@ -750,7 +751,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       { winner_next = days_sancto['votiva_sacramentum']; commemoratio_next = days_sancto[get_ref_sancto(1)]; tricenarium_vesperae = false;}
     if (weekday == 4 && winner['force'] < 30 && off_ss_sacramenti && ref_sancto != "11_02"
       && day != OM_date[month_usual_number] && month_usual_number != 6 
-      && !(month_usual_number == 12 && day >= 17) && !ref_tempo.match(/ash|lent/))
+      && !(month_usual_number == 12 && day >= 17) && !(month_usual_number == 1 && day <= 13)
+      && !ref_tempo.match(/ash|lent/))
       { 
         winner = days_sancto['votiva_sacramentum']; 
         commemoratio = days_sancto[ref_sancto]; 
@@ -777,7 +779,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if ( (!days_sancto[temp_bernardi] || days_sancto[temp_bernardi]['force'] < 30 )
           && !temporale_bernardi.match("lent") && days_tempo[temporale_bernardi] && days_tempo[temporale_bernardi]['force'] < 30
           && (day+(j*7)) != OM_date[month_usual_number] && temp_bernardi.match(month_usual_number + "_") && temp_bernardi != "11_02"  
-          && !(month_usual_number == 12 && temp_bernardi.replace("12_","") > 17) ) 
+          && !(month_usual_number == 12 && temp_bernardi.replace("12_","") > 17)  
+          && !(month_usual_number == 1 && temp_bernardi.replace("01_","") < 13) )
             date_s_bernardi = temp_bernardi; }
         check_next_new += "Date S. Bernardi: " + date_s_bernardi;
       }
@@ -843,6 +846,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         || winner == days_sancto['votiva_sacramentum']) // && feria['vesperae']
         vesperae = translate_feria(ref_tempo, 1); // feria['vesperae'];
 
+    ////// Color of Commemoratio et M. \\\\\\
+    if (winner['force'] == 10 && commemoratio && commemoratio['rank'] == "Commemoratio et M.")
+      color = commemoratio['color'];
+
     ///////// Missa Votiva de Beata \\\\\\\\\\
     /// Replacements done for "missa":
     if (winner == days_sancto['votiva_bmv'] 
@@ -851,7 +858,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_tempo.match("adv_")) missa = missa.replace("Glo.", "<blue><i>Rorate</i></blue> - Glo. - 2a de Dominica. 3a de Sp. Sancto.");
       if (commemoratio) {
         comm_missa = commemoratio['missa'];
-        comm_missa = comm_missa.replace(/A cunctis\.?/i, "de Sp. Sancto.") }
+        comm_missa = comm_missa.replace(/A cunctis\.?|de S\. Maria\.?/i, "de Sp. Sancto.") }
       }
 
     /////  Vigilia S. Jacobi, if it falls on Sunday \\\\\
@@ -1071,6 +1078,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         }
       }
 
+    // In S. Familia, the Comm. of Oct. Epiph. is different...
+    if (winner_next == days_tempo['pe_1_0']) commemoratio_vesperae = commemoratio_vesperae.replace(/Oct\. Epiph\. Domini\. <i>Ab Oriénte\.<\/i>( \& )?/, "");
+
     if (vesperae.match(/Feria/i) && ref_tempo.match(/lent_|ash_/) && winner['vesperae_commemoratio'])
       {
         vesperae = vesperae.replace(/Feria/i, feria['vesperae_commemoratio'].replace("Com. ", ""));
@@ -1087,7 +1097,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (commemoratio_vesperae) vesperae = vesperae.replace(/(?: - )?sine Com\.?/, "");
     // Comm. S. Peter & Paul on 18. Jan. and 1. Aug., so they work on Sundays
     if ( vesperae.match("Com.") && commemoratio_vesperae ) {
-      if ((today_wins && winner_next['force'] < 30) || (vesperae.match("Dom") && winner_next['force'] < 60) || ref_sancto.match(/08_01|01_18/) || (today_wins && winner['force'] == winner_next['force'])) vesperae += " & " + commemoratio_vesperae;
+      if ((today_wins && winner_next['force'] < 30) || (vesperae.match("Dom") && winner_next['force'] < 60) || ref_sancto.match(/08_01|01_18|01_25/) || ref_tempo_next.match(/pe_1_0/) || (today_wins && winner['force'] == winner_next['force'])) vesperae += " & " + commemoratio_vesperae;
       else vesperae = vesperae.replace("Com.", "Com. " + commemoratio_vesperae + " & ");
       }
     else if (commemoratio_vesperae) vesperae += dash + "Com. " + commemoratio_vesperae;
@@ -1112,9 +1122,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ////////////////////////////////////////////////////////
 
     /////  First Vespers SS. Nominis Jesu  //////////
-    if ( ref_sancto == "01_01" && ( weekday < 2 || weekday == 6 ) ) { vesperae = vesperae + ' - ' + days_tempo['nomen_jesu']['vesperae_j_commemoratio']; }
-    if ( (ref_sancto == "01_02" || ref_sancto == "01_03" ) && weekday == 6 ) { vesperae = days_tempo['nomen_jesu']['vesperae_j'] + " - sine Com."; }
-    if ( ref_sancto == "01_04" && weekday == 6 ) { vesperae = days_tempo['nomen_jesu']['vesperae_j'] + " - Com. S. Telesphori Papæ et Martyris Iste sanctus."; }
+    if ( ref_sancto == "01_01" && ( weekday < 2 || weekday == 6 ) ) { vesperae = vesperae + ' - ' + days_sancto['nomen_jesu']['vesperae_j_commemoratio']; }
+    if ( (ref_sancto == "01_02" || ref_sancto == "01_03" ) && weekday == 6 ) { vesperae = days_sancto['nomen_jesu']['vesperae_j'] + " - sine Com."; }
+    if ( ref_sancto == "01_04" && weekday == 6 ) { vesperae = days_sancto['nomen_jesu']['vesperae_j'] + " - Com. " + days_tempo['christmas_3_0']['vesperae_j']; }
+    //if ( ref_sancto == "01_04" && weekday == 6 ) { vesperae = days_sancto['nomen_jesu']['vesperae_j'] + " - Com. S. Telesphori, Papæ et Mart. Iste sanctus."; }
+
 
     ///// Martyrologium of moved Annuntiatio \\\\\\
     if ( ref_sancto == "03_24" && ref_tempo.match(/lent_5_6|lent_6_|tp_1/) )
@@ -1164,7 +1176,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       { comm_laudes = ""; vesperae = feria['vesperae']; comm_vesperae = ""; }
 
     ///// Missa votiva de SSmo Corde Jesu on first Friday in month \\\\\
-    if (weekday == 5 && day < 8 && winner['force'] < 40) missa = days_sancto["votiva_ssmi_cordis"]["missa"];
+    if (weekday == 5 && day < 8 && winner['force'] < 35) missa = days_sancto["votiva_ssmi_cordis"]["missa"];
 
     ///// Missa votiva de Angelis on Oct 2. \\\\\
     if (ref_sancto == "10_02" && winner['force'] < 30) missa = days_sancto["votiva_de_angelis"]["missa"];
@@ -1260,7 +1272,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if ( commemoratio['header'].match(/De ea/i) ) { 
             titulum_missa = translate_feria(ref_tempo); 
             if (ref_tempo.match("adv_")) titulum_missa = "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv."; }
-        if ( commemoratio['header'].match(/ Oct\.|Octav|De ea/i) ) { titulum = ""; titulum_missa += ""; 
+        if ( commemoratio['header'].match(/ Oct\.|Octav|De ea/i) && !commemoratio['header'].match(/post/i)) { titulum = ""; titulum_missa += ""; 
           titulum_missa = titulum_missa.replace(/.*Oct/i, "Oct"); 
           titulum_missa = titulum_missa.replace(/Octavam/i, "de Octava");}
 
@@ -1334,6 +1346,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (day == 21) comm = comm.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>Nolíte timére.</i>")
             if (day == 23) comm = comm.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>Ecce compléta sunt.</i>") }
 
+          // In S. Familia, the Comm. of Oct. Epiph. is different...
+          if (winner == days_tempo['pe_1_0']) {
+              comm = comm.replace(/Oct\. Epiph\. Domini\. <i>Magi venérunt\.<\/i> <red>sine<\/red> <i>Alleluia\.<\/i>( \& )?/, "")
+              comm_laudes = ""
+            }
+
           et = " & ";
           dash = " – ";
           if ( !titulum ) et = "";
@@ -1348,8 +1366,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           else if (laudes.match(/^Com\. | - Com\./) && comm) 
             { // we need to sort the commemorations according to their force
              if (commemoratio['force'] > 30 ) {
-              if (!laudes.match(/Tu es pastor/i)) laudes = laudes.replace("Com.", "Com. " + comm + " & ");}
-              else laudes += " & " + comm; 
+              if (!laudes.match(/Tu es pastor|Oct. Epiph./i)) laudes = laudes.replace("Com.", "Com. " + comm + " & ");
+              else laudes += " & " + comm;}
               comm = "";}
           else {
           if ( commemoratio['laudes_commemoratio'].match(/^Com\. /) && comm )
@@ -1372,6 +1390,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               if (commemoratio_add['laudes_commemoratio']) laudes += " & " + commemoratio_add['laudes_commemoratio'].replace(/Com\. /i,"");
               else if (commemoratio_add['laudes']) laudes += " & " + commemoratio_add['laudes'];
             }
+
+          // In S. Familia, the Comm. of Oct. Epiph. is different...
+          //if (winner == days_tempo['pe_1_0']) laudes = laudes.replace(/ ?\&? ?Oct\. Epiph\. Domini\. <i>Magi venérunt\.<\/i> <red>sine<\/red> <i>Alleluia\.<\/i> ?\&? ?/, "")
 
           //BACKUP else laudes = laudes + dash + "Com. " + titulum + " " + comm + et + comm_laudes;
 
@@ -1486,12 +1507,22 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             else missa_post = comm_missa + " - " + win_missa_post; }
           }
 
+          if (commemoratio_add && commemoratio_add['header']) {
+            titulum_add = commemoratio_add['header'].split(",", 1);
+            titulum_add = " " + titulum_add;
+            if (commemoratio_add['missa']) 
+              {
+                next_ora = "3a";
+                missa = missa.replace(/2a (.*?) -/i, "2a " + "$1" + next_ora + titulum_add + ". -")
+              }
+            }
+
           // If Sunday yields to another Feast with Comm., it needs to be added.
           if (weekday == 0 && commemoratio == days_tempo[ref_tempo]) {
             if (!missa.match("Asperges")) missa = missa.replace("Glo.", "Asperges - Glo.");
             missa = missa.replace(/Duo Acolythi\.?(?: -)?/, "");
             missa = missa.replace(/Cum incenso ad oblata\.?(?: - )?/i, "");
-            if (!missa.match("Processio")) missa = 'Processio per Ecclesiam - ' + missa; // orig. Claustrum
+            if (!missa.match("Processio") && ref_tempo.match(/tp_|pa_/) && month_usual_number <= 9) missa = 'Processio per Ecclesiam - ' + missa; // orig. Claustrum
             if (!missa.match("Cre.")) missa = missa.replace(/Pr(ae|æ)f\./i, "Cre. - Præf.")
             if (!missa.match(/In fine Miss.*Evang/i)) missa += ' - <red>In fine Missæ Evangelium Dominicæ.</red>';
             if (winner['laudes'].match("Com.") && !winner['laudes'].match("sine Com."))
@@ -1510,6 +1541,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             missa = missa.replace(/-De Dominica-/i, days_tempo[dominica]['vesperae']);
             }
 
+          // In MM. maj. and higher, we get rid of 3a de S. Maria (and later all variants)
+          if (winner['force'] > 70) missa = missa.replace(/3a De S\. Maria\. /i, "");
+
           // Cleanup:
           missa = missa.replaceAll("  ", " "); missa = missa.replace("..", ".");
           if ( !ref_tempo.match(/(lent|ash|sept)/) ) missa = missa.replace("- Tractus ", ""); // Quatember???
@@ -1517,6 +1551,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           missa = missa.replace(/- (Ora\.|Oratio) unica/i, "");
 
           if (winner['missa'] && winner == days_tempo[ref_tempo] && !winner['missa'].match("Glo.") && commemoratio['missa'] && ref_tempo.match("lent")) missa = translate_feria(ref_tempo) + " - " + missa;
+
+          //// Abbreviations \\\\
+          missa = missa.replace(/Epiphaniam\.?/, "Epiph.");
+          missa = missa.replace(/Pentecoste(s|n)\.?/, "Pent.");
         }
 
       /////////////////////////////////
@@ -2073,7 +2111,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     
       if ( day == OM_date[month_usual_number]) {
         color = days_sancto['officium_mensis']['color'] + '/' + color;
-        laudes += " " + days_sancto['officium_mensis']['laudes'];
+        if (vigiliae) plus = " + "; else plus = "";
+        vigiliae = plus + days_sancto['officium_mensis']['vigiliae'];
+        //laudes += " " + days_sancto['officium_mensis']['laudes'];
         missa_post = days_sancto['officium_mensis']['missa'] + missa; missa = "";
         if (header.match(/de ea/i)) header = days_sancto['officium_mensis']['header'];
         else header += " atque " + days_sancto['officium_mensis']['header'];
@@ -2090,7 +2130,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( winner['force'] < 30 && off_feriale && day != OM_date[month_usual_number] )
       { 
         color = days_sancto['officium_mensis']['color'] + '/' + color;
-        laudes += " " + days_sancto['officium_mensis']['laudes'];
+        if (vigiliae) plus = " + "; else plus = "";
+        vigiliae = plus + days_sancto['officium_mensis']['vigiliae'];
+        //laudes += " " + days_sancto['officium_mensis']['laudes'];
         missa_post = days_sancto['officium_mensis']['missa'] + missa; missa = "";
         missa_post = missa_post.replace("Anniv. Def. (3. Req.)", "Missa Quotidiana Defunct. (4. Req.)");
         if (header.match(/de ea/i)) header = days_sancto['officium_mensis']['header'];
@@ -2241,6 +2283,8 @@ function component(date, year, month, day, weekday, before, color, header, rank,
 
   if (vigiliae) {
     block_vigiliae = '<div class="body text-justify"><ul><li>– <u>ad Vigil.:</u> ' + vigiliae + '</li></ul></div>';
+    if (block_vigiliae.match("<u>post Vigil.:</u>")) { 
+        block_vigiliae = block_vigiliae.replace("<u>ad Vigil.:</u> ", ""); }
   } else { block_vigiliae = ''; }
 
   if (laudes) {
@@ -2276,7 +2320,7 @@ if (laudes_post) {
 
   /////////////   jejunatur   ///////////////////////////////
 
-  if ((weekday == 3 || weekday == 5) && winner['force'] < 80 && !ref_tempo.match(/tp/)) {
+  if ((weekday == 3 || weekday == 5) && winner['force'] < 80 && !ref_tempo.match(/tp/) && !winner['header'].match(/Oct\. Epiph/)) {
     block_jejunium = ' – <font color="red">jejunatur</font>';
   } else if ( ref_tempo == "ash_1_3" || ref_tempo == "lent_6_5" ) { 
     block_jejunium = ' – <font color="red">jejunatur</font> <font color="blue">(den přísného postu)</font>';
@@ -2284,9 +2328,9 @@ if (laudes_post) {
   //  block_jejunium = ' – <font color="red">jejunatur</font>';
   } else if ( ref_tempo.match(/lent_6_[123]/)) {
     block_jejunium = ' – <font color="red">jejunatur</font>';
-  } else if ( laudes_post.match(/[Vv]ig[ií]l[íi]a/) && winner['force'] < 90 ) {
+  } else if ( laudes_post.match(/[Vv]ig[ií]l[íi]a/) && winner['force'] < 90 && weekday != 0) {
     block_jejunium = ' – <font color="red">jejunatur</font>';
-  } else if ( header.match(/[Vv]ig[ií]l[íi]a|Quatuor Temporum/i)) {
+  } else if ( header.match(/[Vv]ig[ií]l[íi]a|Quatuor Temporum/i) && weekday != 0) {
     block_jejunium = ' – <font color="red">jejunatur</font>';
   } else if (winner_next['force'] >= 100 && weekday != 0 && winner['force'] < 80) {
     block_jejunium = ' – <font color="red">jejunatur</font>';
