@@ -1093,8 +1093,8 @@ const days_tempo = {
     'laudes_post':'',
     'missa': 'Sub tuum. - Asperges - Glo. - Cre. - Praef. Epiph. et Communicantes.',
     'missa_post': '',
-    'vesperae': 'de festo - sine Com.',
-    'vesperae_commemoratio': 'Com. de praec. <i>María autem conservábat.</i>',
+    'vesperae': 'de festo - Com. Dom. in Oct. Epi. <i>Fili, quid fecísti.</i>',
+    'vesperae_commemoratio': 'Com. de praec. <i>María autem conservábat.</i> & Dom. infra Oct. Epiph. <i>Fili, quid fecísti.</i>',
     'vesperae_post': '',
     'body': '',
     'after': ''
