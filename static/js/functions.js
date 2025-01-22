@@ -2343,8 +2343,7 @@ if (laudes_post) {
     if (missa_post) missa_post = missa_post.replaceAll(/<\/?li>/g, "");
     if (laudes_post) laudes_post = laudes_post.replaceAll(/<\/?li>/g, "");
 
-    if (block_jejunium && subtitulum) block_jejunium += " – ";
-    if (subtitulum) block_subtitulum = '<span class="body text-justify">' + subtitulum + ' ';
+    if (subtitulum) block_subtitulum = '<span class="body text-justify">' + ' – ' + subtitulum + ' ';
     else block_subtitulum = '<span class="body text-justify"> '; 
 
     if (vigiliae) block_vigiliae = '– <u>ad Vigil.:</u> ' + vigiliae + ' ';
