@@ -1523,6 +1523,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             missa = missa.replace(/Duo Acolythi\.?(?: -)?/, "");
             missa = missa.replace(/Cum incenso ad oblata\.?(?: - )?/i, "");
             if (!missa.match("Processio") && ref_tempo.match(/tp_|pa_/) && month_usual_number <= 9) missa = 'Processio per Ecclesiam - ' + missa; // orig. Claustrum
+            if (!missa.match("Sub tuum") && ref_tempo.match(/pe_|pa_/) && month_usual_number > 9) missa = missa.replace("Asperges", "Sub tuum - Asperges")
             if (!missa.match("Cre.")) missa = missa.replace(/Pr(ae|æ)f\./i, "Cre. - Præf.")
             if (!missa.match(/In fine Miss.*Evang/i)) missa += ' - <red>In fine Missæ Evangelium Dominicæ.</red>';
             if (winner['laudes'].match("Com.") && !winner['laudes'].match("sine Com."))
@@ -1650,6 +1651,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     next_et_title = "&  " + winner_next['header']; // the Com. doesn't need to be as first
     if ( vesperae.match(next_com_title) ) vesperae = vesperae.replace(next_com_title, "Com. de seq.")
     if ( vesperae.match(next_et_title) ) vesperae = vesperae.replace(next_et_title, "& de seq.")
+
+    // the same goes for "de præcedenti"
+    praec_com_title = "Com. " + winner['header'];
+    praec_et_title = "&  " + winner['header']; // the Com. doesn't need to be as first
+    if ( vesperae.match(praec_com_title) ) vesperae = vesperae.replace(praec_com_title, "Com. de præc.")
+    if ( vesperae.match(praec_et_title) ) vesperae = vesperae.replace(praec_et_title, "& de præc.")
 
     // Sometimes, a Sabb. or Dom. Comm. gets stuck behind a Comm. from a higher Feast. To remedy this, we need to swap /Dom./ and /(Com.)/
 
@@ -2001,7 +2008,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       {
         header = days_sancto['parentes_et_fratres_defuncti']['header'];
         color = days_sancto['parentes_et_fratres_defuncti']['color'];
-        laudes += days_sancto['parentes_et_fratres_defuncti']['laudes'];
+        vigiliae += days_sancto['parentes_et_fratres_defuncti']['laudes'];
         if (laudes_post.match("1o ")) {
           laudes_post = laudes_post.replace('</li>', '');
           laudes_post += days_sancto['parentes_et_fratres_defuncti']['laudes_post'].replace('<li>- <u>in Capit.:</u>', '').replace("in Martyrologio 1o ", "2o "); }
