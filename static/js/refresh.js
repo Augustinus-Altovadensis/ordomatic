@@ -120,7 +120,7 @@ function refresh_ordo(year, display_format) {
   // One more week:
   content = content.concat(period(7+1, advent_new, 'adv_', 0, 0, 0));
 
-  content = content.concat('<div class="body text-justify">num_after_epiphany = ' + num_after_epiphany + "  |  num_after_dom_xxiij = " + (num_after_dom_xxiij/7) + "  |  Sum of all days = " + (advent_duration + christmas_time_duration + tempus_per_annum_until_septuagesima + 280 + num_after_dom_xxiij + ((advent_new - dominica_ultima) / day_in_ms)) + "<br>Window inner width = " + window.innerWidth + ", Screen width = " + screen.width + ", Ratio = " + (window.innerWidth/screen.width).toFixed(2) + ". " + '</div>');
+  content = content.concat('<div class="body text-justify">num_after_epiphany = ' + num_after_epiphany + "  |  num_after_dom_xxiij = " + (num_after_dom_xxiij/7) + "  |  extra Sunday = " + extra_sunday + "  |  Sum of all days = " + (advent_duration + christmas_time_duration + tempus_per_annum_until_septuagesima + 280 + num_after_dom_xxiij + ((advent_new - dominica_ultima) / day_in_ms)) + "<br>Window inner width = " + window.innerWidth + ", Screen width = " + screen.width + ", Ratio = " + (window.innerWidth/screen.width).toFixed(2) + ". " + '</div>');
 
 
   $('#ordo').html(content);
