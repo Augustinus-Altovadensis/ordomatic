@@ -7,7 +7,7 @@ function weekday_human_short(weekday) {
 }
 
 function month_human_readable(month) {
-  return ['Januarius', 'Februarius', 'Martius', 'Aprilis', 'Majus - Beatæ Mariæ Virgini consecratus', 'Junius - Sacratissimo Cordi D.N.J.C. consecratus', 'Julius', 'Augustus', 'September', 'October', 'November', 'December'][month];
+  return ['Januarius', 'Februarius', 'Martius', 'Aprilis', 'Majus', 'Junius', 'Julius', 'Augustus', 'September', 'October', 'November', 'December'][month];
 }
 
 function month_human_readable_genitive(month) {
@@ -622,7 +622,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         }
 
     ///// SS. Nominis Jesu // Day alone /////
-    if ( ref_sancto == "01_02" && weekday < 3 ) { winner = days_sancto['nomen_jesu']; }
+    if ( ref_sancto == "01_02" && weekday <= 3 ) { winner = days_sancto['nomen_jesu']; }
     if ( (ref_sancto == "01_03" || ref_sancto == "01_04" ) && weekday == 0 ) { winner = days_sancto['nomen_jesu']; }
     if ( ref_sancto == "01_05" && weekday == 0 ) { 
         winner = days_sancto['nomen_jesu']; 
@@ -1104,7 +1104,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ////////////////////////////////////////////////////////
 
     /////  First Vespers SS. Nominis Jesu  //////////
-    if ( ref_sancto == "01_01" && ( weekday < 2 || weekday == 6 ) ) { vesperae = vesperae + ' - ' + days_sancto['nomen_jesu']['vesperae_j_commemoratio']; }
+    if ( ref_sancto == "01_01" && ( weekday <= 2 || weekday == 6 ) ) { vesperae = vesperae.replace(" - sine Com.", "") + ' - ' + days_sancto['nomen_jesu']['vesperae_j_commemoratio']; }
     if ( (ref_sancto == "01_02" || ref_sancto == "01_03" ) && weekday == 6 ) { vesperae = days_sancto['nomen_jesu']['vesperae_j'] + " - sine Com."; }
     if ( ref_sancto == "01_04" && weekday == 6 ) { vesperae = days_sancto['nomen_jesu']['vesperae_j'] + " - Com. " + days_tempo['christmas_3_0']['vesperae_j']; }
     //if ( ref_sancto == "01_04" && weekday == 6 ) { vesperae = days_sancto['nomen_jesu']['vesperae_j'] + " - Com. S. Telesphori, Papæ et Mart. Iste sanctus."; }
@@ -1518,8 +1518,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             }
 
           // If Sunday yields to another Feast with Comm., it needs to be added.
-          if (weekday == 0 && commemoratio == days_tempo[ref_tempo]) {
-            if (!missa.match("Asperges")) missa = missa.replace("Glo.", "Asperges - Glo.");
+          if (weekday == 0 && (commemoratio == days_tempo[ref_tempo] 
+              || winner == days_sancto['nomen_jesu'])) {
+            if (!missa.match("Asperges")) missa = "Asperges - " + missa;
             missa = missa.replace(/Duo Acolythi\.?(?: -)?/, "");
             missa = missa.replace(/Cum incenso ad oblata\.?(?: - )?/i, "");
             if (!missa.match("Processio") && ref_tempo.match(/tp_|pa_/) && month_usual_number <= 9) missa = 'Processio per Ecclesiam - ' + missa; // orig. Claustrum
@@ -2190,9 +2191,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           missa = missa.replace(/Dominica/ig, "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv.");
           missa_post = missa_post.replace(/Dominica/ig, "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv");}
 
-      // If there is no Comm. in Advent Sunday, it takes Comm. as usual for Ferias
-      if (ref_tempo.match(/adv/i) && weekday == 0 && missa.match("Glo. - Cre."))
+      // If there is no Comm. in a Sunday, it takes Comm. as usual for Ferias
+      if (ref_tempo.match(/adv_/i) && weekday == 0 && missa.match("Glo. - Cre."))
         missa = missa.replace("Glo. - Cre.", "Glo. - 2a De S. Maria <i>Deus, qui de beátæ.</i> 3a <i>Ecclesiæ tuæ.</i> vel pro Papa - Cre.")
+
+      if (ref_tempo.match(/pe_|pa_/i) && weekday == 0 && missa.match("Glo. - Cre."))
+        missa = missa.replace("Glo. - Cre.", "Glo. - 2a A cunctis. 3a ad libitum. - Cre.")
+
       missa = missa.replace("..", ".");
 
     ////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\
@@ -2340,8 +2345,13 @@ function component(date, year, month, day, weekday, before, color, header, rank,
     year = date.getFullYear();
     block_new_year = '<div class="year brown mt-5"><font color="red">A</font>nno <font color="red">D</font>omini ' + year + '</div>';
     if (day == 1) {
+      if (OM_dates[year]) OM_date = OM_dates[year].split(",");
+      else OM_date = [];
       month = date.getMonth();
-      block_new_month = '<div class="month blue mb-3">Januarius</div>';
+      off_mensis_text = "";
+      if (OM_date[(month+1)]) off_mensis_text = '<div class="body-smaller blue">O. M. ' + OM_date[(month+1)] + '</div>';
+      //block_new_month = '<div class="month blue mb-3">Januarius' + " " + year + '</div>';
+      block_new_month = '<nav class="navbar sticky-top sticky-top-2"><div class="navbar-brand month blue">' + month_human_readable(month) + " " + year + off_mensis_text + '</div></nav>';
     }
   } else {
     block_new_year = '';
@@ -2349,8 +2359,8 @@ function component(date, year, month, day, weekday, before, color, header, rank,
       month = date.getMonth();
       // !!!!!!! Officium mensis must be solved (computed?) !!!!!!!
       off_mensis_text = "";
-      if (OM_date[(month+1)]) off_mensis_text = '<div class="body blue">O. M. ' + OM_date[(month+1)] + '</div>';
-      block_new_month = '<div class="month blue my-3">' + month_human_readable(month) + off_mensis_text + '</div>';
+      if (OM_date[(month+1)]) off_mensis_text = '<div class="body-smaller blue">O. M. ' + OM_date[(month+1)] + '</div>';
+      block_new_month = '<nav class="navbar sticky-top sticky-top-2"><div class="navbar-brand month blue">' + month_human_readable(month) + " " + year + off_mensis_text + '</div></nav>';
     } else {
       block_new_month = '';
     }

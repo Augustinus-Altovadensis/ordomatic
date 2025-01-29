@@ -40,7 +40,7 @@ function refresh_ordo(year, display_format) {
   // Month (November or December):
   if (first_day.getDate() != 1)
   content = content.concat(
-    '<div class="month blue">' + month_human_readable(first_day.getMonth()) + '</div>'
+    '<div class="month blue">' + month_human_readable(first_day.getMonth()) + " " + year + '</div>'
   );
 
   //////////////////////////////|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -69,8 +69,16 @@ function refresh_ordo(year, display_format) {
   tempus_per_annum_until_septuagesima = Math.floor((septuagesima - baptism) / (1000 * 3600 * 24));
   pentecost = new Date(easter.getTime() + (49 * day_in_ms));
   trinitas = new Date(easter.getTime() + (56 * day_in_ms));
+
+  // Last piece of the year
   christmas_new = get_christmas_date(year + 1);
+  christmas_new_weekday = get_christmas_weekday(christmas_new);
+  xmas_new_weekday = christmas_new.getDay();
+
   advent_new = new Date(christmas_new.getTime() - ((get_christmas_weekday(christmas_new) + 21) * day_in_ms));
+  advent_new_duration = 21 + christmas_new_weekday;
+  christmas_new_time_duration = 19 - ((christmas_new_weekday + 5) % 7);
+
   tempus_per_annum_after_pentecost_duration = ((advent_new - pentecost) / day_in_ms);
   num_after_epiphany = Math.floor((tempus_per_annum_until_septuagesima -1 )/ 7) + 1;
 
@@ -117,8 +125,11 @@ function refresh_ordo(year, display_format) {
   // Dominica xxiv. et ultima post Pentecosten et hebdomada ejus:
   content = content.concat(period(((advent_new - dominica_ultima) / day_in_ms)+1, dominica_ultima, 'pa_', 23, 0, 0));
 
-  // One more week:
-  content = content.concat(period(7+1, advent_new, 'adv_', 0, 0, 0));
+  // New Advent time
+  content = content.concat(period(advent_new_duration+1, advent_new, 'adv_', 0, 0, 0));
+
+  // New Christmas time:
+  content = content.concat(period(christmas_new_time_duration+1, christmas_new, 'christmas_', 0, xmas_new_weekday, 0));
 
   content = content.concat('<div class="body text-justify">num_after_epiphany = ' + num_after_epiphany + "  |  num_after_dom_xxiij = " + (num_after_dom_xxiij/7) + "  |  extra Sunday = " + extra_sunday + "  |  Sum of all days = " + (advent_duration + christmas_time_duration + tempus_per_annum_until_septuagesima + 280 + num_after_dom_xxiij + ((advent_new - dominica_ultima) / day_in_ms)) + "<br>Window inner width = " + window.innerWidth + ", Screen width = " + screen.width + ", Ratio = " + (window.innerWidth/screen.width).toFixed(2) + ". " + '</div>');
 

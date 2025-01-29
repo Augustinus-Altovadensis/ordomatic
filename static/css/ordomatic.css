@@ -44,16 +44,39 @@ ul_original {
     width: 100%;
 }
 
-
+.sticky-top-2 {
+    position: sticky;
+    top: 3px;
+    /*top: 70px; /* posune vrchní část kontejneru níže */ */
+    z-index: 1021; /* 1019: posouvá kontejner pod hlavní banner */
+    width: 30%;
+    padding: 5px 0 5px 0;
+  }
+ 
+ .body-smaller {
+    font-family: Libertine;
+    font-size: 13pt;
+    font-variant-numeric: oldstyle-nums;
+    line-height: 100%;
+    }
 
 .month {
     font-family: Libertine;
     text-transform: uppercase;
-    background-color: lightgray;
-    border-top: solid 1px grey;
-    border-bottom: solid 1px grey;
+    /*background-color: lightblue;*/
+    background-image: linear-gradient(
+       to right,
+       #7080fa 0,
+       #e8fcff 8%, 
+       #ffffff 20%,
+       #ffffff 80%,
+       #e8fcff 92%,
+       #7080fa 100%
+    );
+    border-top: solid 2px grey;
+    border-bottom: solid 2px grey;
     font-size: 22pt;
-    padding: 5px 0 5px 0;
+    padding: 1px 0 1px 0;
     text-align: center;
     width: 100%;
 }
