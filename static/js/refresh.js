@@ -40,7 +40,7 @@ function refresh_ordo(year, display_format) {
   // Month (November or December):
   if (first_day.getDate() != 1)
   content = content.concat(
-    '<div class="month blue">' + month_human_readable(first_day.getMonth()) + " " + year + '</div>'
+    '<nav class="navbar sticky-top sticky-top-2"><div class="navbar-brand month blue">' + month_human_readable(first_day.getMonth()) + " " + year + '</div></nav>'
   );
 
   //////////////////////////////|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

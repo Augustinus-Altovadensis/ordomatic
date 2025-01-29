@@ -18,6 +18,12 @@ ul_original {
     font-size: 28pt;
 }
 
+#title-right {
+    font-family: Cloister;
+    font-size: 28pt;
+    text-align: right;
+}
+
 .title,
 .subtitle {
     background-color: bisque;
