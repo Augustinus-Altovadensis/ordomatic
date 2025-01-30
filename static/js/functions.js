@@ -357,6 +357,7 @@ var lectio_ref_prev = 0;
 var dominica_prima = false;
 var tricenarium_requiem = false;
 var pro_defunctis = true;
+var anniversarium_01 = "";
 
 const roman_lc = ["nullus","j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
 const roman_uc = ["NULLUS","I.","II.","III.","IV.","V.","VI.","VII.","VIII.","IX.","X."];
@@ -1221,7 +1222,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     j = 1;
 
-    check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
+    check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + "'.<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check 
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force']    
       + ". extra_sunday = " + extra + "  --- i = " + i + "/" + duration // + '. <br>'
@@ -1982,7 +1983,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           }
       }
 
-    //// Sabbato ante Septuagesimam: Benedicamus Domino cum Alleluia. \\\\
+    ////  Sabbato ante Septuagesimam: Benedicamus Domino cum Alleluia.  \\\\
     if (ref_tempo_next == "sept_1_0") vesperae += " - <i><red>B</red>enedicámus Dómino.</i> <red>cum 2 <i>A</red>lleluia.</i>"
 
     //// Postprocessing \\\\
@@ -2080,6 +2081,40 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       Christus_Rex = false;
       }
 
+     //////////////////|\\\\\\\\\\\\\\\\\\\\\
+    ////////   Anniversarium Solemne  \\\\\\\\
+    //\\\\\\\\\\\\\\\\\|//////////////////////
+
+    // Finding a date for January (usually 31.1.)
+    //////////////////////////////////////////////
+    // Blocking points: the Anniversary date falls: on Fest. iij. Lect. et M. and higher, Sunday, Saturday de Beata, Thursday de SS. Sacramento (1st free Thursday in month exc. June), Tuesday de S. Bernardo (last free Tuesday in month exc. August).
+    if (day == 1 && month_usual_number == 1) {
+      //looking for 31.1. on 1.1., i.e. weekday(31.1.) = weekday(1.1.) + 2
+      if (weekday == 0) anniversarium_01 = "02_08"; // 31.1. on Tuesday
+      else if (weekday == 2) anniversarium_01 = "02_08"; // 31.1. on Thursday
+      else if (weekday == 4) anniversarium_01 = "02_09"; // 31.1. on Saturday | or "02_11"
+      else if (weekday == 5) anniversarium_01 = "02_08"; // 31.1. on Sunday
+      else if (get_ref_tempo(37,prefix_tempo, week_start, day_start, duration).match("sept") && extra == 1) anniversarium_01 = "02_08"; // 31.1. on the only free Monday before Septuagesima, i.e. place for additional Sunday post Epiph.
+      else anniversarium_01 = "01_31";
+      }
+
+    //if (ref_sancto == "01_01") vigiliae += " Anniversarium_01 = '" + anniversarium_01 + "'" + " get_ref_tempo(37) = '" + get_ref_tempo(37,prefix_tempo, week_start, day_start, duration) + "'";
+    if (ref_sancto == "01_31" && anniversarium_01 != "01_31") before = '<div class="small"><red>Solemne Anniversarium Superiorum Defunctorum translatum ad diem ' + anniversarium_01.substring(4,5) + '. Februarii.</red></div>';
+
+    // Placing the Off. defunct.
+    if (ref_sancto_next == anniversarium_01)
+      vesperae += days_sancto['anniversarium_01']['vesperae_j'];
+
+    if (ref_sancto == anniversarium_01)
+      {
+        header = days_sancto['anniversarium_01']['header'];
+        vigiliae += days_sancto['anniversarium_01']['vigiliae'];
+        missa_post = "<li>- <u>in Missa Conv.:</u> " + days_sancto['anniversarium_01']['missa'] + "</li> <li>- <u>in Miss. priv.:</u> " + missa + '</li>' + missa_post; 
+        missa = ""; 
+        color = "black/" + color;
+      }
+
+
     /////  All Souls Day - Commemoratio Omnium Fidelium Defunctorum  \\\\\
     // Usually 2.11., unless it falls on Sunday, then 3.11.
     if (ref_sancto == "11_01" && weekday != 6 || ref_sancto == "11_02" && weekday == 0) vesperae += days_sancto['all_souls']['vesperae_j'];
@@ -2169,8 +2204,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         {
         tertia = "de Sp. Sancto"
         if (commemoratio) tertia = titulum_missa;
-        missa_post = "<li>- <u>in Missa Conv.</u> <blue><i>Rorate</i></blue> - sine Glo. - 2a de Dominica. 3a " + tertia + ". - Praef. B.M.V. <i>Et Te in veneratione.</i></li><li>- <u>in Miss. priv.</u> " + missa + "</li>" + missa_post
+        missa_post = "<li>- <u>in Missa Conv.:</u> <blue><i>Rorate</i></blue> - Glo. - 2a de Dominica. 3a " + tertia + ". - Praef. B.M.V. <i>Et Te in veneratione.</i></li><li>- <u>in Miss. priv.:</u> " + missa + "</li>" + missa_post
         missa = "";
+
+        if (weekday == 6) missa_post = missa_post.replace("sine Glo.", "Glo.");
         }
 
       ///  Rorate Mass: adding Miss. priv. in Off. SS. Sacramento \\\
@@ -2349,7 +2386,12 @@ function component(date, year, month, day, weekday, before, color, header, rank,
       else OM_date = [];
       month = date.getMonth();
       off_mensis_text = "";
-      if (OM_date[(month+1)]) off_mensis_text = '<div class="body-smaller blue">O. M. ' + OM_date[(month+1)] + '</div>';
+      anniv_solemne = "";
+      if (OM_date[(month+1)]) dash = ' – '; else dash = '';
+      if (month == 0 && anniversarium_01.match(/01_/)) anniv_solemne = dash + 'A. S. 31.';
+      if (OM_date[(month+1)]) off_mensis_text = '<div class="body-smaller blue">O. M. ' + OM_date[(month+1)] + anniv_solemne + '</div>';
+      else if (anniv_solemne) off_mensis_text = '<div class="body-smaller blue">' + anniv_solemne + '</div>';
+      else off_mensis_text = '<div class="body-smaller blue">&nbsp;</div>'; // to get rid of old OM's and AS's in the header
       //block_new_month = '<div class="month blue mb-3">Januarius' + " " + year + '</div>';
       block_new_month = '<nav class="navbar sticky-top sticky-top-2"><div class="navbar-brand month blue">' + month_human_readable(month) + " " + year + off_mensis_text + '</div></nav>';
     }
@@ -2359,7 +2401,13 @@ function component(date, year, month, day, weekday, before, color, header, rank,
       month = date.getMonth();
       // !!!!!!! Officium mensis must be solved (computed?) !!!!!!!
       off_mensis_text = "";
-      if (OM_date[(month+1)]) off_mensis_text = '<div class="body-smaller blue">O. M. ' + OM_date[(month+1)] + '</div>';
+      anniv_solemne = "";
+      if (OM_date[(month+1)]) dash = ' – '; else dash = '';
+      if (month == 0 && anniversarium_01.match(/01_/)) anniv_solemne = dash + 'A. S. 31.';
+      if (month == 1 && anniversarium_01.match(/02_/)) anniv_solemne = dash + 'A. S. ' + anniversarium_01.substring(4,5) + '.';
+      if (OM_date[(month+1)]) off_mensis_text = '<div class="body-smaller blue">O. M. ' + OM_date[(month+1)] + anniv_solemne + '</div>';
+      else if (anniv_solemne) off_mensis_text = '<div class="body-smaller blue">' + anniv_solemne + '</div>';
+      else off_mensis_text = '<div class="body-smaller blue">&nbsp;</div>'; // to get rid of old OM's and AS's in the header
       block_new_month = '<nav class="navbar sticky-top sticky-top-2"><div class="navbar-brand month blue">' + month_human_readable(month) + " " + year + off_mensis_text + '</div></nav>';
     } else {
       block_new_month = '';

@@ -16,6 +16,16 @@ ul_original {
 #title {
     font-family: Cloister;
     font-size: 28pt;
+    line-height: 100%;
+}
+
+#nav-1 {
+    margin-left: 3.5em; 
+    text-indent: -3.5em 
+}
+
+#nav-2 {
+    margin-left: -3.5em;    
 }
 
 #title-right {
@@ -69,7 +79,7 @@ ul_original {
 .month {
     font-family: Libertine;
     text-transform: uppercase;
-    /*background-color: lightblue;*/
+    /*background-color: white;*/
     background-image: linear-gradient(
        to right,
        #7080fa 0,
@@ -78,9 +88,9 @@ ul_original {
        #ffffff 80%,
        #e8fcff 92%,
        #7080fa 100%
-    );
-    border-top: solid 2px grey;
-    border-bottom: solid 2px grey;
+    ); 
+    border-top: solid 1px grey;
+    border-bottom: solid 1px grey;
     font-size: 22pt;
     padding: 1px 0 1px 0;
     text-align: center;

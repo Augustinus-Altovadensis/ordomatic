@@ -99,7 +99,7 @@ function refresh_ordo(year, display_format) {
   content = content.concat(period(advent_duration+1, first_sunday_of_advent, 'adv_', 0, 0, 0));
 
   // Christmas time:
-  content = content.concat(period(christmas_time_duration+1, christmas, 'christmas_', 0, xmas_weekday, 0));
+  content = content.concat(period(christmas_time_duration+1, christmas, 'christmas_', 0, xmas_weekday, extra_sunday));
 
   // Tempus per Annum until Septuagesima:
   content = content.concat(period(tempus_per_annum_until_septuagesima+1, baptism, 'pe_', 0, 0, extra_sunday));
