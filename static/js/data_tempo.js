@@ -4447,7 +4447,7 @@ const days_tempo = {
     'force': 120,
     'before': '',
     'color': 'violet/red',
-    'header': 'de ea - Vigilia Pentecostes.',
+    'header': 'de ea - <span class="header"><b>Vigilia Pentecostes.</b></span>',
     'rank': 'iij. Lect. et M. privileg.',
     'subtitulum': '',
     'vesperae_j':'',
