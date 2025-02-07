@@ -78,7 +78,7 @@ ul_original {
 
 .month {
     font-family: Libertine;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     /*background-color: white;*/
     background-image: linear-gradient(
        to right,

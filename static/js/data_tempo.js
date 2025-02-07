@@ -2323,7 +2323,7 @@ const days_tempo = {
     'laudes': 'sine Com.',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '(cum dalm.) Asperges - Sub tuum - Glo. - 2a A cunctis. 3a ad libitum - Cre. - Praef. SS. Trin. - Benedicámus Dómino.',
+    'missa': '(cum dalm.) Asperges - Sub tuum - sine Glo. - 2a A cunctis. 3a ad libitum - Cre. - Praef. SS. Trin. - Benedicámus Dómino.',
     'missa_post': '',
     'vesperae': 'Quinquagesima',
     'vesperae_commemoratio': 'Com. Dom. in Quinquagesima <i>Ecce nunc tempus acceptábile.</i>',
