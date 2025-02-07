@@ -1216,15 +1216,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_tempo == "tp_6_2" && winner['force'] > 10 && winner['force'] < 40 ) 
       { comm_laudes = ""; vesperae = feria['vesperae']; comm_vesperae = ""; }
 
+    ///// Missa votiva de Angelis on Oct 2. \\\\\
+    if (ref_sancto == "10_02" && winner['force'] < 30) missa = days_sancto["votiva_de_angelis"]["missa"];
+
     ///// Missa votiva de SSmo Corde Jesu on first Friday in month \\\\\
     if (weekday == 5 && day < 8 && winner['force'] < 35) {
       festum = "";
       titulum_missa_winner = winner['header'].split(",", 1) + "";
       if (!winner['header'].match(/De ea/i)) festum = "Missa " + titulum_missa_winner  + " - "
       missa_post = "<li>- <u>in Missa Conv.:</u> " + days_sancto["votiva_ssmi_cordis"]["missa"] + "</li> <li>- <u>in Miss. priv.:</u> " + festum + missa + '</li>' + missa_post; missa = ""; }
-
-    ///// Missa votiva de Angelis on Oct 2. \\\\\
-    if (ref_sancto == "10_02" && winner['force'] < 30) missa = days_sancto["votiva_de_angelis"]["missa"];
 
     ////////////////////////////////////////////////////////
 
