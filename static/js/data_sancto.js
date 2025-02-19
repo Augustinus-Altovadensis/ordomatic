@@ -827,7 +827,7 @@ const days_sancto = {
     'laudes': 'Aña Ben. Qui odit.',
     'laudes_commemoratio':'Com. S. Polycarpi, Ep. et. Mart. Qui odit.',
     'laudes_post':'',
-    'missa': 'Glo. - Praef. Comm.',
+    'missa': 'Glo. - 2a A cunctis. 3a Omnipotens. - Praef. Comm.',
     'missa_post': '',
     'vesperae': '',
     'vesperae_commemoratio': '',
