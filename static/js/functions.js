@@ -19,7 +19,7 @@ function month_human_readable_genitive(month) {
 }
 
 function get_date_from_sancto(ref_sancto_input) {
-  return ref_sancto_input[3].replace(/^0/, "") + ref_sancto_input[4] + ". " + month_human_readable_genitive((ref_sancto_input.replace(/_.*/, ""))-1);
+  if (ref_sancto_input) return ref_sancto_input[3].replace(/^0/, "") + ref_sancto_input[4] + ". " + month_human_readable_genitive((ref_sancto_input.replace(/_.*/, ""))-1);
 }
 
 function liturgical_color(color) {
@@ -870,6 +870,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       comm_vesperae_j = commemoratio_next['vesperae_j']; 
       comm_martyrologium = commemoratio_next['martyrologium']; }
 
+    if (translated_vesperae_j && winner_next['martyrologium_transfer'])
+      martyrologium = winner_next['martyrologium_transfer'];
+
     if (martyrologium || comm_martyrologium) { 
       if (martyrologium && !comm_martyrologium) laudes_post += martyrologium; 
       if (!martyrologium && comm_martyrologium) laudes_post += comm_martyrologium;
@@ -1004,7 +1007,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_tempo == "ash_1_4") { vigil_lent_counter = 1; }
     if (ref_tempo.match("lent") && weekday == 1) { vigil_lent_counter = 0; }
     if (ref_tempo.match(/lent|ash/) )
-      { if ( winner['force'] < 40 ) { vigiliae = '<b>iij. Lect. <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[vigil_lent_counter] + '</font>'; vigil_lent_counter++; }} 
+      { if ( winner['force'] < 40 ) { vigiliae = 'iij. Lect. <font color="red">℟.℟. de Dominica: ' + vigil_lent[vigil_lent_counter] + '</font>'; vigil_lent_counter++; }} 
 
     vigil_novembris_1 = ['<font color="red">Prima Die non impedita infra Hebd. Dominicae j. Novembris</font> <i>De Ezechiéle Prophéta. Et audívi.</i> <font color="red">cum Responsoriis suis;</font>','<font color="red">Secunda die</font> <i>Et dixit ad me.</i>','<font color="red">Tertia die</font> <i>Et factus est sermo... Finis venit.</i>','<font color="red">Quarta die</font> <i>Et factus est sermo... Audíte verbum Dómini.</i>','<font color="red">Quinta die</font>'];
     vigil_novembris_2 = ['<font color="red">Prima Die</font> <i>Et factus... Terra cum indúxero.</i>','<font color="red">Secunda die</font> <i>Et factus... Væ pastóribus Israël.</i>','<font color="red">Tertia die</font> <i>Proptérea pastóres.</i>','<font color="red">Quarta die</font>','<font color="red">Quinta die</font>'];
@@ -1023,7 +1026,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (weekday == 1) vigil_novembris = 0
 
         if ( (winner['force'] < 30 || winner['header'].match("Vigilia")) && !(sabb_mensis == 5 && day < 10) && !ref_tempo.match(/adv/)) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; 
-          if (sabb_mensis >= 3) vigiliae += ' <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[vigil_novembris] + '</font>';
+          if (sabb_mensis >= 3) vigiliae += ' <font color="red">℟.℟. de Dominica: ' + vigil_lent[vigil_novembris] + '</font>';
           vigil_novembris++; }} 
 
     // if (ref_tempo.match("adv_") && day < 24) // Originally...
@@ -1032,7 +1035,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (weekday == 0) adv_vigil_counter = 0;
       if (!vigiliae && winner['header'].match("Vigilia")) vigiliae = feria['vigiliae'];
       if (vigiliae && winner['header'].match(/Vigilia|de ea/i) && !winner['header'].match(/Quatuor Temporum/i)) {
-        vigiliae += ' <font color="red">℟.℟.</b> de Dominica: ' + vigil_lent[adv_vigil_counter] + '</font>';
+        vigiliae += ' <font color="red">℟.℟. de Dominica: ' + vigil_lent[adv_vigil_counter] + '</font>';
         adv_vigil_counter++;
         }
       }
@@ -1169,8 +1172,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //if ( ref_sancto == "01_04" && weekday == 6 ) { vesperae = days_sancto['nomen_jesu']['vesperae_j'] + " - Com. S. Telesphori, Papæ et Mart. Iste sanctus."; }
 
 
-    ///// Martyrologium of moved Annuntiatio \\\\\\
-    if ( ref_sancto == "03_24" && ref_tempo.match(/lent_5_6|lent_6_|tp_1/) )
+    ///// Martyrologium of moved Annuntiatio (it's already in the Book \\\\\\
+    if ( false && ref_sancto == "03_24" && ref_tempo.match(/lent_5_6|lent_6_|tp_1/) )
       { martyrologium = '<li><div class="small">– <u>in Capit.:</u> <red>In Martyr. 1o loco:</red> <ib>Apud Názareth Civitátem Galiléae * Annunciátio Domínica. ✝ - <blue>Ve městě Nazaret v Galileji Zvěstování Páně. ✝</blue></ib> <red>Hodie <b>non</b> dicitur</red> <ib>Ave Maria.</ib></div></li>';
         laudes_post += martyrologium;
       }
@@ -1184,7 +1187,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // Vigilia
     if (( ref_sancto == "02_22" && !is_leap_year(year) ) && weekday == 6 && !ref_tempo.match(/lent_|ash_/)) 
         {
-          laudes += " & Vigiliæ S. Mathiæ, Ap. <i>Benígne fac.</i>"
+          laudes += " & Vigiliæ S. Mathiæ, Ap. <i>In viam pacis.</i>"
           missa = missa.replace("Feria", "Vigilia S. Mathiæ.")
           missa = missa.replace("feriae", "Vigiliæ")
           //missa += " - <red>In fine Missæ Evangelium Vigiliæ.</red>";
@@ -1254,7 +1257,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // Fridays in Lent: unless 12-Lesson feast impedes (Wackarz, p. 178, par. 3), Processio poenitentialis is made:
 
     if ( weekday == 5 && ref_tempo.match(/lent|ash/) && winner['force'] < 40) 
-      missa_post += '<div class="small">¶ <font color="red">Post <s>Capitulum</s> <blue>Tertiam</blue> fit Processio cum 7 Psalmis pœnit. cum cruce discooperta, et sine</font> <ib>Glória Patri</ib>, <font color="red">nisi in fine ultimi Psalmi, sed absque inclinatione; porro Cantor incipit Litanias cum Collectis in fine.</font> (Rit. Cist.) </div>';
+      missa_post += '<div class="small">¶ <red>Post <s>Capitulum</s> <blue>Tertiam</blue> fit Processio cum 7 Psalmis pœnit. cum cruce discooperta, et sine</red> <i>Glória Patri</i>, <red>nisi in fine ultimi Psalmi, sed absque inclinatione; porro Cantor incipit Litanias cum Collectis in fine.</red> (Rit. Cist.) </div>';
 
 
     ////////////////////////////////////////////////
@@ -1514,6 +1517,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (comm_missa.length > 5) comm_missa = "2a " + de + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
             }
           comm_missa = comm_missa.replace(/-.*/, ""); 
+
+          if (winner['force'] >= 80) comm_missa = comm_missa.replace(/.a A cunctis\.? ?/, "")
 
           var comm_temp = "";
           if (true && (commemoratio['missa'].match(/4a /i) || (commemoratio['missa'].match(/3a S\./i) && commemoratio['force'] != 9) )) {
@@ -1870,7 +1875,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( laudes.match(/Com\. /) ) et1 = " &";
     
     // Com. B.M.V. ad Laudes 
-    if ( winner['force'] < 41 && !header.match(/Infra Oct/i) && getComm(laudes) < 2 && !ref_sancto.match(/02_22/)) // Chair of St. Peter in Antioch: Suffrages are left out
+    if ( (winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) && !header.match(/Infra Oct/i) && getComm(laudes) < 2 && !ref_sancto.match(/02_22/)) // Chair of St. Peter in Antioch: Suffrages are left out
       {
       laudes = laudes.replace(/(?: - )?sine Com\.?/, "");
       if ( weekday == 2 && getComm(laudes) < 1 ) laudes_bmv += " & B. B. R.";
@@ -1894,7 +1899,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( vesperae.match("B.M.V.") || weekday == 6) { vesperae_bmv = ""; et = "";}
     if ( weekday == 5 && winner_next['force'] < 35 && !vigilia_sabb ) { vesperae_bmv = ""; et = ""; }
 
-    if ( winner_next['force'] < 41 && winner['force'] < 41 && !header.match(/Infra Oct/i) && getComm(vesperae) < 2 && !ref_sancto.match(/02_21/)) // Chair of St. Peter in Antioch: Suffrages are left out
+    if ( winner['force'] < 41 && (winner_next['force'] < 41 || ref_tempo_next.match(/ash_1_3/)) && !header.match(/Infra Oct/i) && getComm(vesperae) < 2 && !ref_sancto.match(/02_21/)) // Chair of St. Peter in Antioch: Suffrages are left out
       {
       vesperae = vesperae.replace(/(?: - )?sine Com\.?/, "");
       if ( weekday == 1 && getComm(vesperae) < 1 ) vesperae_bmv += et + " B. B. R.";
@@ -2710,9 +2715,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
       /// Removing "In fine Evangelium feriae." if not in Lent
       if (!ref_tempo.match(/lent_|ash_/)) {
-        missa = missa.replace(/- In fine (?:Miss(ae|æ) )?Evangelium feriae\.?/i, "");
-        missa = missa.replace("- <red>In fine Evangelium feriae.</red>", "");
-      }
+        missa = missa.replace(/- In fine (?:Miss(ae|æ) )?Evangelium feri(ae|æ)\.?/i, ""); }
 
       /// Processio vs. Sub tuum. After Exalt. S. Crucis (14.9.), it is Sub tuum.
       if (weekday == 0 && ((day > 14 && month_usual_number == 9) || month_usual_number > 9)) missa = missa.replace(/Processio (–|-)|Processio per Ecclesiam (–|-)/, "Sub tuum -");
@@ -3062,15 +3065,11 @@ if (laudes_post) {
     block_jejunium = ' – <font color="red">jejunatur</font>';
   } else if ( ref_tempo == "ash_1_3" || ref_tempo == "lent_6_5" ) { 
     block_jejunium = ' – <font color="red">jejunatur</font> <font color="blue">(den přísného postu)</font>';
-  //} else if ( ref_tempo.match(/adv|lent|ash/) && winner['force'] < 100 ) {
-  //  block_jejunium = ' – <font color="red">jejunatur</font>';
-  } else if ( ref_tempo.match(/lent_6_[123]/)) {
-    block_jejunium = ' – <font color="red">jejunatur</font>';
-  } else if ( laudes_post.match(/[Vv]ig[ií]l[íi]a/) && winner['force'] < 80 && weekday != 0) {
-    block_jejunium = ' – <font color="red">jejunatur</font>';
-  } else if ( header.match(/[Vv]ig[ií]l[íi]a|Quatuor Temporum/i) && weekday != 0) {
-    block_jejunium = ' – <font color="red">jejunatur</font>';
-  } else if (winner_next['force'] >= 90 && weekday != 0 && winner['force'] < 80 && winner_next != days_tempo[ref_tempo_next] && !ref_sancto.match(/12_2[456789]|12_3[01]/)) {
+  } else if (( ref_tempo.match(/ash_|lent_/) && winner['force'] < 80 && weekday != 0) 
+            || ref_tempo.match(/lent_6_[123]/)
+            || ( laudes_post.match(/[Vv]ig[ií]l[íi]a/) && winner['force'] < 80 && weekday != 0) 
+            || (header.match(/[Vv]ig[ií]l[íi]a|Quatuor Temporum/i) && weekday != 0) 
+            || (winner_next['force'] >= 90 && weekday != 0 && winner['force'] < 80 && winner_next != days_tempo[ref_tempo_next] && !ref_sancto.match(/12_2[456789]|12_3[01]/))) {
     block_jejunium = ' – <font color="red">jejunatur</font>';
   } else { block_jejunium = ''; }
 
