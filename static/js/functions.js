@@ -1833,7 +1833,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         laudes = laudes.replace(/Simil[áa]bo eum/,"Qui manet in me");
 
        // Commune Unius Martyris
-         vesperae = vesperae.replace(/Be[aá]tus vir\.?|Iste Sanctus\.?/i,"Fíliæ Jerúsalem.");
+         vesperae = vesperae.replace(/Be[aá]tus vir\.|Iste Sanctus\.?/i,"Fíliæ Jerúsalem.");
          laudes = laudes.replace(/Qui vult ven[ií]re post me|Qui vult ven[ií]re|Qui vult|Qui odit/,"Lux perpétua");
 
        // Commune Martyrum
@@ -2210,7 +2210,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               temp_ss_sacramenti = get_ref_sancto((j*7) + offset);
               temporale_ss_sacramenti = get_ref_tempo((j*7)+offset, prefix_tempo, week_start, day_start, duration);
 
-              vigiliae += " j = " + j + ", date = " + temp_ss_sacramenti + ", temporale_ss_sacramenti = " + temporale_ss_sacramenti + "<br>";
+              //vigiliae += " j = " + j + ", date = " + temp_ss_sacramenti + ", temporale_ss_sacramenti = " + temporale_ss_sacramenti + "<br>";
 
               if ( (!days_sancto[temp_ss_sacramenti] || days_sancto[temp_ss_sacramenti]['force'] < 30 )
                 && !temporale_ss_sacramenti.match("lent") && days_tempo[temporale_ss_sacramenti] && days_tempo[temporale_ss_sacramenti]['force'] < 30
