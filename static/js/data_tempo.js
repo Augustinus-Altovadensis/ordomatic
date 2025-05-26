@@ -4194,7 +4194,7 @@ const days_tempo = {
     'laudes': '',
     'laudes_commemoratio':'Com. Fer. ij. Rogationum <i>Pétite.</i> ℣. <i>Dícite in natiónibus.</i>',
     'laudes_post':'<div class="small">¶ <red>Hoc triduo qui non intersunt Processionibus Rogationum, privatim dicant Litanias.</red></div>',
-    'missa': '<red>Ante Missam fit processio (Litaniae minores) per Claustrum cum</font> <font color="DarkMagenta">pluviali</font> <red>(et dalm.) sine stationibus.</red> - Glo. - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa. - Praef. Pasch.',
+    'missa': '<red>Ante Missam fit processio (Litaniae minores) per Claustrum cum</font> <font color="DarkMagenta">pluviali</font> <red>(et dalm.) sine stationibus.</red> - 2a B.M.V. Concede nos. 3a Ecclésiae vel pro Papa. - Praef. Pasch.',
     'missa_post': '',
     'vesperae': 'Fer. ij. Rogationum <i>Jesum, quem quéritis.</i>',
     'vesperae_commemoratio': 'Com. Fer. ij. Rogationum <i>Jesum, quem quéritis.</i>',
@@ -4491,7 +4491,7 @@ const days_tempo = {
     'tp_8_1': {
     'force': 120,
     'before': '',
-    'color': 'white',
+    'color': 'red',
     'header': 'Infra Octavam Pentecostes',
     'rank': 'MM. maj.',
     'subtitulum': '',
@@ -4513,7 +4513,7 @@ const days_tempo = {
   'tp_8_2': {
     'force': 120,
     'before': '',
-    'color': 'white',
+    'color': 'red',
     'header': 'Infra Octavam Pentecostes',
     'rank': 'MM. maj.',
     'subtitulum': '',
@@ -4535,7 +4535,7 @@ const days_tempo = {
   'tp_8_3': {
     'force': 80,
     'before': '',
-    'color': 'white',
+    'color': 'red',
     'header': 'Quatuor Temp. infra Octavam Pentecostes',
     'rank': '',
     'subtitulum': '',
@@ -4557,7 +4557,7 @@ const days_tempo = {
   'tp_8_4': {
     'force': 80,
     'before': '',
-    'color': 'white',
+    'color': 'red',
     'header': 'Infra Octavam Pentecostes',
     'rank': '',
     'subtitulum': '',
@@ -4579,7 +4579,7 @@ const days_tempo = {
   'tp_8_5': {
     'force': 80,
     'before': '',
-    'color': 'white',
+    'color': 'red',
     'header': 'Quatuor Temp. infra Octavam Pentecostes',
     'rank': '',
     'subtitulum': '',
@@ -4601,7 +4601,7 @@ const days_tempo = {
   'tp_8_6': {
     'force': 80,
     'before': '',
-    'color': 'white',
+    'color': 'red',
     'header': 'Quatuor Temp. infra Octavam Pentecostes',
     'rank': '',
     'subtitulum': '',
@@ -4678,7 +4678,7 @@ const days_tempo = {
     'laudes': 'Psalmi de Festis. - Com. Dom. j. post Pent. - <i>Estóte ergo.</i>',
     'laudes_commemoratio':'',
     'laudes_post':'<li>- <u>ad Primam:</u> Dicitur <i>Quicúmque.</i></li>',
-    'missa': 'Asperges - Processio sollemnissima cum pluviali et dalmaticis - Glo. - 2a Dom. j. post Pent. - Cre. - Præf. Trin. - <font color="red">In fine Missæ Evangelium Dominicæ j. post Pentecosten.</font>',
+    'missa': 'Asperges - Processio per Ecclesiam - Glo. - 2a Dom. j. post Pent. - Cre. - Præf. Trin. - <font color="red">In fine Missæ Evangelium Dominicæ j. post Pentecosten.</font>',
     'missa_post': '',
     'vesperae': 'de festo - Com. Dom. j. post Pent. <i>Te Deum.</i>',
     'vesperae_commemoratio': '',

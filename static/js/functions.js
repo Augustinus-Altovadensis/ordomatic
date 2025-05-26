@@ -936,7 +936,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_tempo.match("adv_")) missa = missa.replace("Glo.", "<blue><i>Rorate</i></blue> - Glo. - 2a de Dominica. 3a de Sp. Sancto.");
       if (commemoratio) {
         comm_missa = commemoratio['missa'];
-        comm_missa = comm_missa.replace(/A cunctis\.?|de S\. Maria\.?/i, "de Sp. Sancto.") }
+        comm_missa = comm_missa.replace(/A cunctis\.?|de S\. Maria\.?|(?:de )?(?:B\. ?M\. ?V\. ?)? Conc[eé]de nos\.?/i, "de Sp. Sancto.") }
       }
 
     /////  Vigilia S. Jacobi, if it falls on Sunday \\\\\
@@ -1556,7 +1556,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             }
           comm_missa = comm_missa.replace(/-.*/, ""); 
 
-          if (winner['force'] >= 80) comm_missa = comm_missa.replace(/.a A cunctis\.? ?/, "")
+          // In MM. maj. and higher, we get rid of 3a de S. Maria (and later all variants)
+          if (winner['force'] >= 80) {
+              comm_missa = comm_missa.replace(/.a A cunctis\.? ?/, "")
+              comm_missa = comm_missa.replace(/.a (?:de S\. Maria)? Conc[ée]de nos\.? ?/, "")
+            }
 
           var comm_temp = "";
           if (true && (commemoratio['missa'].match(/4a /i) || (commemoratio['missa'].match(/3a S\./i) && commemoratio['force'] != 9) )) {
