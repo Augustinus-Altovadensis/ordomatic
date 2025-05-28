@@ -151,7 +151,8 @@ function roman_upper_to_lower(str) {
   str = str.replaceAll("I","i"); 
 
   var pos = str.lastIndexOf('i');
-  if (str.match("i")) str = str.substring(0,pos) + 'j' + str.substring(pos+1)
+  if (str.match("i") && pos == str.length) 
+      str = str.substring(0,pos) + 'j' + str.substring(pos+1);
 
   return str;
   };
@@ -1643,8 +1644,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (!missa.match("Asperges")) missa = "Asperges - " + missa;
             missa = missa.replace(/Duo Acolythi\.?(?: -)?/, "");
             missa = missa.replace(/Cum incenso ad oblata\.?(?: - )?/i, "");
-            if (!missa.match("Processio") && ref_tempo.match(/tp_|pa_/) && month_usual_number <= 9) missa = 'Processio per Ecclesiam - ' + missa; // orig. Claustrum
-            if (!missa.match("Sub tuum") && ref_tempo.match(/pe_|pa_/) && month_usual_number > 9) missa = missa.replace("Asperges", "Sub tuum - Asperges")
+            if (!missa.match("Processio") && ref_tempo.match(/tp_|pa_/) && month_usual_number <= 9) //missa = 'Processio per Ecclesiam - ' + missa; // orig. Claustrum
+               missa = missa.replace("Asperges", "Asperges - Processio per Claustrum")
+            if (!missa.match("Sub tuum") && ref_tempo.match(/pe_|pa_/) && month_usual_number > 9) missa = missa.replace("Asperges", "Asperges - Sub tuum")
             if (!missa.match("Cre.")) missa = missa.replace(/Pr(ae|æ)f\./i, "Cre. - Præf.")
             if (!missa.match(/In fine Miss.*Evang/i)) missa += ' - <red>In fine Missæ Evangelium Dominicæ.</red>';
             if (winner['laudes'].match("Com.") && !winner['laudes'].match("sine Com."))
@@ -2798,7 +2800,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         missa = missa.replace(/- In fine (?:Miss(ae|æ) )?Evangelium feri(ae|æ)\.?/i, ""); }
 
       /// Processio vs. Sub tuum. After Exalt. S. Crucis (14.9.), it is Sub tuum.
-      if (weekday == 0 && ((day > 14 && month_usual_number == 9) || month_usual_number > 9)) missa = missa.replace(/Processio (–|-)|Processio per Ecclesiam (–|-)/, "Sub tuum -");
+      if (weekday == 0 && ref_tempo.match(/pa_|pe_/) 
+      && ((day > 14 && month_usual_number == 9) || month_usual_number > 9)
+        ) 
+          missa = missa.replace(/Processio (–|-)|Processio per (Ecclesiam|Claustrum) (–|-)/i, "Sub tuum -");
+
+      /// And between Finding and Exaltation of the Holy Cross on Sunday...
+      if (weekday == 0 && ((day <= 14 && month_usual_number == 9) || month_usual_number < 9)) missa = missa.replace(/Processio (–|-)|Processio per Ecclesiam (–|-)|Sub tuum (–|-)/i, "Processio per Claustrum -");
 
       /// Praefationes
       if (ref_tempo.match("lent")) 
