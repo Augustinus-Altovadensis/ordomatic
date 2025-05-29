@@ -2693,11 +2693,18 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             || (days_tempo[ref_tempo] && days_tempo[ref_tempo]['force'] >= 40)))
             yesterday_feast = true;
 
+          // Looking for commemorated Sunday, which Officium would have to be resumed before O.M.
+          if (ref_tempo_temp.match(/_0/) && days_sancto[ref_sancto_temp]
+            && days_tempo[ref_tempo_temp]['force'] < days_sancto[ref_sancto_temp]['force'])
+              sunday_feast = true;
+
           /// Looking for the Anniversary itself: First Run
 
           if (!ref_tempo_temp.match(/tp_6_[456]|tp_7_|tp_8_|_0|[0-9]_6|[0-9]_1/) // including Mondays (Vesp. after Sunday's Vesp.)
             && (!days_sancto[ref_sancto_temp] || (days_sancto[ref_sancto_temp] && days_sancto[ref_sancto_temp]['force'] < 30))
             && (days_tempo[ref_tempo_temp]['force'] < 30 || (days_tempo[ref_tempo_temp]['header'].match(/de ea/i) && !days_tempo[ref_tempo_temp]['header'].match(/Vigilia|Rogationum/i)))
+            && (!days_sancto[ref_sancto_temp] || (days_sancto[ref_sancto_temp] 
+              && !days_sancto[ref_sancto_temp]['rank'].match(/Commemoratio et M/i)))
             && !days_tempo[ref_tempo_temp]['header'].match(/Quatt?uor Temporum/i) 
             && !ref_sancto_temp.match(/01_31|05_21|09_18|11_20|11_02/) // A.S.
             && !ref_sancto_temp.match(/02_01|05_22|09_19|11_03/) // first, exclude days after A.S.
@@ -2717,6 +2724,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           // Moving the date due to translated feasts
           //if (officium_mensis && trans_temp) { officium_mensis = ""; trans_temp--; }
           if (officium_mensis && trans_temp) { officium_mensis = ""; }
+
+          // Deleting O.M. that would sit on a resumed Sunday Office
+          if (sunday_feast) { officium_mensis = ""; sunday_feast = false;}
 
           // If a feast is currently translated due to Pentecost Octave, it will likely be "unloaded" here
           if (ref_tempo_temp.match(/adv_1_1|tp_2_[123]|pa_1_[123]/) && trans_temp) { trans_temp--; }
@@ -2740,6 +2750,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (!officium_mensis)
         { 
           trans_temp = trans_temp_bak;
+          ind_as = 0;
 
         while (!officium_mensis && ind_as < 35) {
           ref_tempo_temp = get_ref_tempo(1+ind_as,prefix_tempo, week_start, day_start, duration);
