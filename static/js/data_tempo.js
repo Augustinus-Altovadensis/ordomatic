@@ -4834,7 +4834,7 @@ const days_tempo = {
     'laudes_post':'<li><u>ad Primam:</u> <red>non dicitur</red> <i>Quicúmque.</i></li>',
     'missa': '<red>(Hodie processio non fit)</red> - Asperges - Glo. - 2a Infra Oct. Corp. Chr. 3a Commemoratio -vel- Ecclésiæ vel pro Papa.- Cre. - Præf. Nativ. ',
     'missa_post': '',
-    'vesperae': 'Com. Oct. Corp. Chr. <i>O Sacraméntum.</i>',
+    'vesperae': '<red>Psalmi de Dominica.</red> - Com. Oct. Corp. Chr. <i>O Sacraméntum.</i>',
     'vesperae_commemoratio': 'Com. Dom. infra Oct. Corporis Christi <i>Exi cito in platéas.</i> & Oct. Corp. Chr. <i>O Sacraméntum.</i>',
     'vesperae_post': '',
     'body': '',

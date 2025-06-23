@@ -1677,7 +1677,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             }
 
           // In MM. maj. and higher, we get rid of 3a de S. Maria (and later all variants)
-          if (winner['force'] > 70) missa = missa.replace(/3a De S\. Maria\. /i, "");
+          if (winner['force'] > 70) missa = missa.replace(/3a De S\. Maria\. |3a B\..?M\..?V\. Concéde nos\.?/i, "");
 
           // Cleanup:
           missa = missa.replaceAll("  ", " "); missa = missa.replace("..", ".");
