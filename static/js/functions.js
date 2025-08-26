@@ -878,6 +878,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         tricenarium = false;
       }
 
+    /////  Switching off Tricenarium on Officium mensis  \\\\\
+    if (OM_date[month_usual_number] == (day+1)) tricenarium_vesperae = false;
+    if (OM_date[month_usual_number] == day) tricenarium = false;
+
     
     /////////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     ////.. Let's load the working variables with content ..\\\\
@@ -2560,9 +2564,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         header += " - " + days_sancto['anniversarium_09']['header'].replace("de ea – ", "");
         if (vigiliae) vigiliae += " + ";
         vigiliae += days_sancto['anniversarium_09']['vigiliae'];
-        missa_post = "<li>- <u>in Missa Conv.:</u> " + days_sancto['anniversarium_09']['missa'] + "</li> <li>- <u>in Miss. priv.:</u> " + missa + '</li>' + missa_post; 
-        missa = ""; 
-        color = "black/" + color;
+        //missa_post = "<li>- <u>in Missa Conv.:</u> " + days_sancto['anniversarium_09']['missa'] + "</li> <li>- <u>in Miss. priv.:</u> " + missa + '</li>' + missa_post; 
+        //missa = ""; 
+        //color = "black/" + color;
+        missa = days_sancto['anniversarium_09']['missa']; 
+        color = "black";
       }
 
     /////  All Souls Day - Commemoratio Omnium Fidelium Defunctorum  \\\\\
@@ -2686,6 +2692,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         while (!officium_mensis && ind_as < 35) {
           ref_tempo_temp = get_ref_tempo(1+ind_as,prefix_tempo, week_start, day_start, duration);
           ref_sancto_temp = get_ref_sancto(1+ind_as);
+          weekday_as = ref_tempo_temp.slice(-1);
 
           // Looking for eventual Festum xij. Lect. (and higher) to block them for Vesp. Def.
           if (ind_as == 0 
@@ -2715,6 +2722,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             && ref_sancto_temp != date_ss_sacramenti_om
             && ref_sancto_temp != anniversarium_01 && ref_sancto_temp != anniversarium_05
             && ref_sancto_temp != anniversarium_09 && ref_sancto_temp != anniversarium_11
+            && !(weekday_as == 5 && ref_sancto_temp.match(/_0[1-7]/)) // First Friday
             && !yesterday_feast
              ) officium_mensis = ref_sancto_temp;
 
@@ -2755,6 +2763,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         while (!officium_mensis && ind_as < 35) {
           ref_tempo_temp = get_ref_tempo(1+ind_as,prefix_tempo, week_start, day_start, duration);
           ref_sancto_temp = get_ref_sancto(1+ind_as);
+          weekday_as = ref_tempo_temp.slice(-1);
 
           // Looking for eventual Festum xij. Lect. (and higher) to block them for Vesp. Def.
           if (ind_as == 0 
@@ -2776,6 +2785,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             && ref_sancto_temp != date_ss_sacramenti_om
             && ref_sancto_temp != anniversarium_01 && ref_sancto_temp != anniversarium_05
             && ref_sancto_temp != anniversarium_09 && ref_sancto_temp != anniversarium_11
+            && !(weekday_as == 5 && ref_sancto_temp.match(/_0[1-7]/)) // First Friday
              ) officium_mensis = ref_sancto_temp;
 
           yesterday_feast = false;
