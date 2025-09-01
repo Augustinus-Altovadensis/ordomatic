@@ -1290,8 +1290,19 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     ////////////////////////////////////////////////////////
 
-    // Sundays' Adorations: Tantum ergo et Mane nobiscum //
-    if ( weekday == 0 ) 
+    //  Sundays' and 1st Fridays' Adorations: Laudes Vespertinæ 1926  \\
+    if ( (weekday == 0 || (weekday == 5 && day < 8)) && !ref_sancto.match(/11_01/)) 
+       {  introitus = ["23","6","1","24","6","1"]
+          tantum_ergo = ["25","26","27","28","29","30"];
+          laudate_dominum = ["195b","196","197","198","199","203"]
+          mane_nobiscum = ["193","194a","194b","195a"];
+          if ( weekday == 5 ) laudate = "200"; else laudate = laudate_dominum[(week_number-1) % 6];
+
+        after = "✠ Adoratio: LV pag. " + introitus[week_number % 6] + " - " + tantum_ergo[week_number % 6] + " – "  + laudate + " – " + mane_nobiscum[week_number % 4] + "<br>" + after; 
+        }
+
+    // Sundays' Adorations: Tantum ergo et Mane nobiscum (old version) \\
+    if ( false && weekday == 0 ) 
        {  tantum_ergo = ["9","5","6a","6b","7","8"]; 
           mane_nobiscum = ["IV","I","II","III"];
           if ( day < 8 ) litaniae = "Litaniae S. Cordis –";

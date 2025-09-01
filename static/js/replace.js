@@ -41,6 +41,8 @@ function addtags(winner) {
     winner = winner.replaceAll("2o ", '2<sup>o</sup> ');
     winner = winner.replaceAll("3a ", '3<sup>a</sup> ');
     winner = winner.replaceAll("4a ", '4<sup>a</sup> ');
+    winner = winner.replaceAll("5a ", '5<sup>a</sup> ');
+    winner = winner.replaceAll("6a ", '6<sup>a</sup> ');
     winner = winner.replaceAll("Dicitur", '<font color="red">Dicitur</font> ');
     winner = winner.replace("⇓", '<font color="red">⇓</font>');
     winner = winner.replace("(Ex Processionale Cisterciense)", '<font color="red">(Ex Processionale Cisterciense)</font>');

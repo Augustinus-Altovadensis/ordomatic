@@ -5464,7 +5464,7 @@ const days_sancto = {
     'laudes': 'sine Com.',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': '<red>Processio per Ecclesiam</red> - <red>Cum incenso</red> - Glo. - Cre. - Præf. Comm.',
+    'missa': '<red>Processio per Ecclesiam</red> - Glo. - Cre. - Præf. Comm.',
     'missa_post': '',
     'vesperae': 'de festo',
     'vesperae_commemoratio': '',
