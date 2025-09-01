@@ -383,6 +383,7 @@ var sabb_mensis = 0;
 var vigil_novembris = 0;
 var titulus_dom = "";
 var noct_defunct_counter = 1;
+var adoratio_counter = 5;
 var weekday_end_a = 0;  // Advent
 var weekday_end_c = 0;  // Christmas
 
@@ -1296,9 +1297,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           tantum_ergo = ["25","26","27","28","29","30"];
           laudate_dominum = ["195b","196","197","198","199","203"]
           mane_nobiscum = ["193","194a","194b","195a"];
-          if ( weekday == 5 ) laudate = "200"; else laudate = laudate_dominum[(week_number-1) % 6];
+          if ( weekday == 5 ) laudate = "200"; else laudate = laudate_dominum[(adoratio_counter-1) % 6];
 
-        after = "✠ Adoratio: LV pag. " + introitus[week_number % 6] + " - " + tantum_ergo[week_number % 6] + " – "  + laudate + " – " + mane_nobiscum[week_number % 4] + "<br>" + after; 
+        after = "✠ Adoratio: LV pag. " + introitus[adoratio_counter % 6] + " - " + tantum_ergo[adoratio_counter % 6] + " – "  + laudate + " – " + mane_nobiscum[(adoratio_counter-2) % 4] + "<br>" + after; 
+
+        adoratio_counter++;
         }
 
     // Sundays' Adorations: Tantum ergo et Mane nobiscum (old version) \\
