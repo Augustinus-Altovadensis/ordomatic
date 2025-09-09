@@ -140,7 +140,7 @@ function getComm(str) {
   if (str.match("Com. ")) count++;
   if (str.match("sine Com.")) return 0;
   for (ind = 0; ind < str.length; ind++) {
-      if (str[ind] == "&") count++ }
+      if (str[ind] == '&') count++ }
   return count;
   };
 
@@ -1584,12 +1584,22 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (comm_missa.match(/de (Off\.|Officio) diei/i)) comm_missa = comm_missa.replace(/a de (Off\.|Officio) diei\. 3/i,""); 
             if (comm_missa.match(/de (Off\.|Officio) diei/i)) comm_missa = comm_missa.replace(/.a de (Off\.|Officio) diei\./i,""); }
 
+          // Needs to be tested. Originally the following line said:
+          // if (!(commemoratio['force'] == 9 && commemoratio['missa'].match(/2a S\./)) (this condition was negated)
           if (!(commemoratio['force'] == 9 && commemoratio['missa'].match(/2a S\./)) && (winner != days_sancto['votiva_bmv'] || winner != days_sancto['votiva_bmv_prima_sabb'])) {
             comm_missa = comm_missa.replace(/3a.*/,""); 
             comm_missa = comm_missa.replace("2a", "3a"); 
             if (ref_tempo.match("adv_") && winner == days_sancto[ref_sancto]) de = "de "; else de = "";
             if (comm_missa.length > 5) comm_missa = "2a " + de + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
             }
+
+          if (commemoratio['force'] == 9 && commemoratio['missa'].match(/2a S\./) && (winner == days_sancto['votiva_bernardi'] || winner == days_sancto['xxx'])) {
+            comm_missa = comm_missa.replace(/3a.*/,""); 
+            comm_missa = comm_missa.replace("2a", "3a"); 
+            if (ref_tempo.match("adv_") && winner == days_sancto[ref_sancto]) de = "de "; else de = "";
+            if (comm_missa.length > 5) comm_missa = "2a " + de + titulum_missa + ". " + comm_missa; else comm_missa = "2a " + titulum_missa + ". ";
+            }
+
           comm_missa = comm_missa.replace(/-.*/, ""); 
 
           // In MM. maj. and higher, we get rid of 3a de S. Maria (and later all variants)
@@ -2048,7 +2058,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           vesperae = vesperae.replace("Com. de seq. <i>Beátam me dicent.</i>", "");
       }
 
-    //check_next += '.<br>Comm. in Laudibus: "' + getComm(laudes) + '" - et in Vesperis: "' + getComm(vesperae) + '".</div>';
+    check_next += 'Comm. in Laudibus: "' + getComm(laudes) + '" - et in Vesperis: "' + getComm(vesperae) + '".</div>';
 
     /////////  Getting rid of unused "Feria"  \\\\\\\\\\\\\
     if (!ref_tempo.match(/lent_|ash_/) || weekday == 0) {
@@ -2185,6 +2195,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( ref_sancto.match(/09_20v|09_19v/) && quatember_septembris ) 
       {
         laudes = laudes.replace("Vigiliæ S. Matthæi, Ap. et Evang. & ", "")
+        if (getComm(laudes) < 2) laudes += "& B.M.V."
         laudes += ' <red>De Vigilia S. Matthæi in Laudibus nihil fit.</red>';
       }
 
@@ -2196,7 +2207,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       noct_defunct_counter++;
       }
 
-    if (tricenarium_vesperae)
+    if (true && tricenarium_vesperae)
       {
       // Feria ij. + Feria v.: j. Noct.
       // Feria iij. + Feria vi.: ij. Noct.
