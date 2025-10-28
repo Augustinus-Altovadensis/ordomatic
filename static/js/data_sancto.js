@@ -4394,7 +4394,7 @@ const days_sancto = {
   },
   '09_01': {
     'force': 9,
-    'before': '<div class="centered, pars"><red>PARS AUTUMNALIS</red></div>',
+    'before': '',
     'color': 'white',
     'header': 'S. Ægidii, Abb.',
     'rank': 'Commemoratio et M.',
@@ -5046,7 +5046,7 @@ const days_sancto = {
     'laudes': '',
     'laudes_commemoratio':'Com. S. Francisti C. Similábo eum.',
     'laudes_post':'',
-    'missa': 'Duo Acolythi - Glo. - Præf. Comm.',
+    'missa': 'Duo Acolythi - Glo. - 2a A cunctis. 3a ad libitum - Præf. Comm.',
     'missa_post': '',
     'vesperae': 'de festo',
     'vesperae_commemoratio': 'Com. S. Francisci, Conf. Iste Sanctus digne.',
@@ -5165,7 +5165,7 @@ const days_sancto = {
     'after': '',
   },
   '10_13': {
-    'force': 9,
+    'force': 30,
     'before': '',
     'color': 'white',
     'header': 'S. Mauritii, Abbatis et Conf. O. N.',
@@ -5430,7 +5430,7 @@ const days_sancto = {
   },
   'Christus_Rex': {
     'force': 140,
-    'before': '<div class="small">¶ <red>Cras in omnibus Ecclesiis (parochialibus) coram SS. Sacramento exposito recitetur formula (anno 1925 reformata) Consecrationis generis humani SS. Cordi Jesu cum Litaniis de eodem SS. Corde Jesu. (Ex decr. S. R.C. 28. Apr. 1926.)</red></div>',
+    'before': '<div class="small">¶ <red>Cras in omnibus Ecclesiis (parochialibus) coram SS. Sacramento exposito recitetur formula (anno 1925 reformata) Consecrationis generis humani SS. Cordi Jesu cum Litaniis de eodem SS. Corde Jesu. (Ex decr. S. R.C. 28. Apr. 1926.)</red></div><div class="small">¶ <red>In Complet. et Horas in die, in fine Hymnorum dicitur: <i>G</red>lória tibi, Dómine, Qui nsceptra mundi témperas.</i></div>',
     'color': 'white',
     'header': 'D. N. J. Ch. Regis </span></b><font color="red">(Dom. ultima Octobris)</font><span class="body text-justify ms-1">',
     'rank': 'Serm. maj.',

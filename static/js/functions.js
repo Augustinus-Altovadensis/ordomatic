@@ -1129,6 +1129,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         // On first Sunday in November, ferial Hymns are changed
         if (month_sabb == 10 && sabb_mensis == 1) winter_hymns = true;
 
+        /////////// Label PARS AUTUMNALIS \\\\\\\\\\\\
+        if (month_sabb == 8 && sabb_mensis == 1) after += '<div class="centered, pars"><red>PARS AUTUMNALIS</red></div>';
+
         // First Sabbath of August, following remark is displayed in "after":
         if (month_sabb == 7 && sabb_mensis == 1)
         after += '<div class="small">¶ <red>Dicitur autem j. Dominica mensis, quæ est in Kalendis, vel proximior Kalendis illius mensis: ita ut si Kalendæ fuerint ij. iij. vel iv. Feria, tunc j. Dominica mensis, in quo liber Scripturæ inchoandus ponitur, est ea quæ præcedit Kalendas. Sin autem Kalendæ fuerint v. vj. vel Sabbato, prima Dominica est ea quæ sequitur, et in Sabbato præcedenti Antiphona ad Magnificat ponatur illius historiæ, omissis aliis, quæ forte occurrerent.</red> <blue>(<i>„Kalendæ“</i> primam diem mensis designant.)</blue></div>';
@@ -1292,7 +1295,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ////////////////////////////////////////////////////////
 
     //  Sundays' and 1st Fridays' Adorations: Laudes Vespertinæ 1926  \\
-    if ( (weekday == 0 || (weekday == 5 && day < 8)) && !ref_sancto.match(/11_01/)) 
+    if ( (weekday == 0 && !ref_sancto.match(/11_01|11_02/) || (weekday == 5 && day < 8) ) ) 
        {  introitus = ["23","6","1","24","6","1"]
           tantum_ergo = ["25","26","27","28","29","30"];
           laudate_dominum = ["195b","196","197","198","199","203"]
