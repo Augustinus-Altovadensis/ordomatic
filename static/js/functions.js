@@ -35,6 +35,9 @@ function liturgical_color(color) {
   if (color == "black" || color == "black/black" ) { return '<font color="black">Nig.</font>';}
   if (color == "green/black" ) { return '<font color="green">Vir.</font>/<font color="black">Nig.</font>';}
   if (color == "white/black" ) { return '<span class="outline">Alb.</span>/<font color="black">Nig.</font>';}
+  if (color == "white/green" ) { return '<span class="outline">Alb.</span>/<font color="green">Vir.</font>';}
+  if (color == "white/red" ) { return '<span class="outline">Alb.</span>/<font color="red">Rub.</font>';}
+  if (color == "white/violet" ) { return '<span class="outline">Alb.</span>/<font color="#9c29c1">Viol.</font>';}
   if (color == "red/black" ) { return '<font color="red">Rub.</font>/<font color="black">Nig.</font>';}
   if (color == "violet/black" ) { return '<font color="#9c29c1">Viol.</font>/<font color="black">Nig.</font>';}
   if (color == "black/green" ) { return '<font color="black">Nig.</font>/<font color="green">Vir.</font>';}
@@ -418,6 +421,7 @@ const roman_uc = ["NULLUS","I.","II.","III.","IV.","V.","VI.","VII.","VIII.","IX
 
 // Days of Officium mensis throughout the years. If not present here, Officium mensis is not added.
 OM_dates['2024'] = "2024,30,7,11,10,23,20,19,26,5,24,6,10"
+OM_dates['2025'] = "2025,,,,,,,,,,,12,"
 OM_dates['202x'] = "2023,,,,,,,,,,,," // sample
 
 
@@ -637,6 +641,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               top_moved = j;
               force_temp_prev = win_temp['force']; }
           }
+        if (commemoratio && commemoratio['header']) commemoratio_add = commemoratio;
         if (winner['force'] != 10 ) commemoratio = winner;
         winner = days_sancto[moved[top_moved]]; 
         moved.splice(top_moved,1);
@@ -658,6 +663,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               force_temp_prev = win_temp['force']; }
           }
         if (moved[top_moved] == '04_23') moved[top_moved] += "tr";
+        if (commemoratio_next && commemoratio_next['header']) commemoratio_next_add = commemoratio_next;
         if (winner_next['force'] != 10 ) commemoratio_next = winner_next;
         winner_next = days_sancto[moved[top_moved]]; 
         translated_vesperae_j = true;
@@ -778,6 +784,21 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           commemoratio = winner;
           winner = days_sancto['Christus_Rex'];
         }
+
+    /////  All Souls Day - Commemoratio Omnium Fidelium Defunctorum  \\\\\
+    // Usually 2.11., unless it falls on Sunday, then 3.11.
+    if (ref_sancto == "11_02" && weekday == 0) 
+      {
+        winner_next = days_tempo[ref_tempo.replace("_0","_1")];
+        commemoratio_next = days_sancto['11_03'];
+      }
+
+    if (ref_sancto == "11_03" && weekday == 1)
+      {
+        winner = feria;
+        commemoratio = days_sancto['11_03'];
+      }
+
 
     ///////// Officium Votivum de Beata Sabbato \\\\\\\\\\
     
@@ -977,6 +998,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     ////  Vigilia Imm. Conceptionis: nihil fit de ea in Officio  \\\\
     if (ref_sancto == "12_07" && weekday != 0 ) no_comm_laudes = true;
+    if (ref_sancto == "12_06" && weekday == 6 ) before += '<div class="small"><red>Nihil fit hoc anno de Vigilia Immaculatæ Conceptionis B.M.V.</red></div>';
 
     /////////// Label PARS HIEMALIS \\\\\\\\\\\\
     if (ref_tempo == "pa_24_6") missa_post += '<div class="centered, pars"><red>PARS HIEMALIS</red></div><div class="small"><red>A Dom. I. Adventus usque ad Vigil. Nativitatis exclusive organum non pulsatur nisi in Festis et Dom. Gaudete.</red></div>';
@@ -1079,9 +1101,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         if (weekday == 1) vigil_novembris = 0
 
-        if ( (winner['force'] < 30 || winner['header'].match("Vigilia")) && !(sabb_mensis == 5 && day < 10) && !ref_tempo.match(/adv/)) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; 
+        if ( (winner['force'] < 30 || winner['header'].match(/Vigilia|omnium fidelium/)) && !(sabb_mensis == 5 && day < 10) && !ref_tempo.match(/adv/)) { vigiliae += "iij. Lect. " + vigil_buffer[vigil_novembris]; 
           if (sabb_mensis >= 3) vigiliae += ' <font color="red">℟.℟. de Dominica: ' + vigil_lent[vigil_novembris] + '</font>';
-          vigil_novembris++; }} 
+          vigil_novembris++; }
+      } 
 
     // if (ref_tempo.match("adv_") && day < 24) // Originally...
     if (ref_tempo.match("adv_"))
@@ -1289,6 +1312,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (weekday == 5 && day < 8 && winner['force'] < 35) {
       festum = "";
       titulum_missa_winner = winner['header'].split(",", 1) + "";
+      if (color != "white") color = "white/" + color;
       if (!winner['header'].match(/De ea/i)) festum = "Missa " + titulum_missa_winner  + " - "
       missa_post = "<li>- <u>in Missa Conv.:</u> " + days_sancto["votiva_ssmi_cordis"]["missa"] + "</li> <li>- <u>in Miss. priv.:</u> " + festum + missa + '</li>' + missa_post; missa = ""; }
 
@@ -1357,10 +1381,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (commemoratio_add['header']) comm_add_header_check = "<i><b>" + commemoratio_add['header'] + "</i></b>";
     else comm_add_header_check = '<font color="black">N/A</font>';
 
+    if (commemoratio_next_add['header']) comm_next_add_header_check = "<i><b>" + commemoratio_next_add['header'] + "</i></b>";
+    else comm_next_add_header_check = '<font color="black">N/A</font>';
+
     j = 1;
 
     check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + "'.<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
-      + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check 
+      + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check + "</i></b> + commemoratio_next_add = " + comm_next_add_header_check
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force']    
       + ". extra_sunday = " + extra + "  --- i = " + i + "/" + duration // + '. <br>'
       +  ' -=- winter_hymns = "' + winter_hymns + '".'
@@ -1676,7 +1703,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (commemoratio_add['missa']) 
               {
                 next_ora = "3a";
-                missa = missa.replace(/2a (.*?) -/i, "2a " + "$1" + next_ora + titulum_add + ". -")
+                //missa = missa.replace(/2a (.*?) -/i, "2a " + "$1" + next_ora + titulum_add + ". -");
+                missa = missa.replace(/.a de S\. Maria(.*?)\./i, "");
+                missa = missa.replace(/2a (.*?) -/i, "2a " + "$1" + next_ora + titulum_add + ". -");
               }
             }
 
@@ -1734,7 +1763,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       // comm_vesperae_j = commemoratio_next['vesperae_j']; 
       // commemoratio_vesperae = pokud dojde k souběhu j. a ij. Nešpor, tohle je to, co prohrálo
 
-      if ( comm_vesperae || commemoratio_vesperae || comm_vesperae_j ) 
+      if ( comm_vesperae || commemoratio_vesperae || comm_vesperae_j || commemoratio_next_add ) 
         { 
           if (ref_tempo.match(/lent_5_6/)) comm_vesperae = ""; 
 
@@ -1795,7 +1824,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           if (commemoratio_next_add) {
             if (commemoratio_next_add['vesperae_j_commemoratio']) vesperae += " & " + commemoratio_next_add['vesperae_j_commemoratio'].replace(/Com\. /i,"");
-            else if (commemoratio_next_add['vesperae_j']) vesperae += " & " + commemoratio_next_add['vesperae_j'];
+            else if (commemoratio_next_add['vesperae_j']) vesperae += " & " + commemoratio_next_add['vesperae_j'].replace(/Com\. /i,"");
             }
 
           comm = null;
@@ -2607,8 +2636,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       {
         header = days_sancto['all_souls']['header'];
         color = days_sancto['all_souls']['color'];
-        vigiliae += days_sancto['all_souls']['vigiliae'];
-        laudes += days_sancto['all_souls']['laudes'];
+        rank = days_sancto['all_souls']['rank'];
+        vigiliae = days_sancto['all_souls']['vigiliae'] + " " + vigiliae + days_sancto['all_souls']['laudes'];
         laudes_post += days_sancto['all_souls']['laudes_post'];
         missa = days_sancto['all_souls']['missa'];
       }
@@ -2626,9 +2655,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         header += " - " + days_sancto['anniversarium_11']['header'].replace("de ea – ", "");
         if (vigiliae) vigiliae += " + ";
         vigiliae += days_sancto['anniversarium_11']['vigiliae'];
-        missa_post = "<li>- <u>in Missa Conv.:</u> " + days_sancto['anniversarium_11']['missa'] + "</li> <li>- <u>in Miss. priv.:</u> " + missa + '</li>' + missa_post; 
-        missa = ""; 
-        color = "black/" + color;
+        //missa_post = "<li>- <u>in Missa Conv.:</u> " + days_sancto['anniversarium_11']['missa'] + "</li> <li>- <u>in Miss. priv.:</u> " + missa + '</li>' + missa_post; 
+        //missa = ""; 
+        //color = "black/" + color;
+        missa = days_sancto['anniversarium_11']['missa']; 
+        color = "black";
       }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -2928,6 +2959,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         {
         missa_post = "<li>- <u>in Missa Conv.</u> " + missa + "</li><li>- <u>in Miss. priv.</u> De. S. Bernardo <red>ut supra</red> (vel <blue><i>Rorate</i></blue> ante ortum solis, id est 7:35!)</li>" + missa_post
         missa = "";
+        }
+
+      /////  Removing "Sub tuum" on Fest. Serm. and Sundays  \\\\\
+      if (weekday == 0 || winner['force'] > 85 ) 
+        { 
+          if (missa.match(/Sub tuum/)) missa = missa.replace(/Sub tuum - /, "");
+          if (missa_post.match(/Sub tuum/)) missa_post = missa_post.replace(/Sub tuum - /, "");
         }
 
       //// Some shortenings \\\\

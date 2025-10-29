@@ -1,6 +1,6 @@
 const days_tempo = {
   'adv_1_0': {
-    'force': 100,
+    'force': 75,
     'before': '',
     'color': 'violet',
     'header': 'Dominica I. Adventus.',
@@ -324,7 +324,7 @@ const days_tempo = {
     'missa': '(cum dalmaticis) Asperges - Sub tuum - sine Glo. - Cre. - Præf. SS. Trin.',
     'missa_post': '',
     'vesperae': 'Dom. iij. Adv. - sine Com.',
-    'vesperae_commemoratio': '',
+    'vesperae_commemoratio': 'Com. Dom. iij. Adv. <i>Beáta es. María.</i>',
     'vesperae_post': '',
     'body': '',
     'after': ''
@@ -478,7 +478,7 @@ const days_tempo = {
     'missa': '(sine dalmaticis) Asperges - Sub tuum - sine Glo. - Cre. - Praef. SS. Trin.',
     'missa_post': '',
     'vesperae': 'Dom. iv. Adv. - sine Com.',
-    'vesperae_commemoratio': '',
+    'vesperae_commemoratio': 'Com. Dom. iv. Adv. <i>O Antiphona.</i>',
     'vesperae_post': '',
     'body': '',
     'after': ''
