@@ -4375,7 +4375,7 @@ const days_sancto = {
     'color': 'white',
     'header': 'SS. Angelorum Custodum',
     'rank': 'Serm. maj.',
-    'subtitulum': '<red>(Off. Proprium pro Cist. Bohemiæ et Lusatiæ)</red>',
+    'subtitulum': '<red>(Off. Proprium pro Cist. Bohemiæ et Lusatiæ). Omnia ut die 2. Oct.</red>',
     'vesperae_j':'de seq. <red>℟. maj.</red> <i>Tu Dómine, qui misísti Angelum.</i> <red>(Ex iij. Nocturno post x. Lectionem.)</red>',
     'vesperae_j_old':'de seq. <red>(Off. Proprium pro Cist. Bohemiæ et Lusatiæ) Officium fit totum sicut die ij. Octobris, solummodo in primis Vesperis dicitur ℟. maj.</red> <i>Tu Dómine, qui misísti Angelum.</i> <red>(Ex iij. Nocturno post x. Lectionem.)</red>',
     'vesperae_j_commemoratio':'',
@@ -5473,7 +5473,7 @@ const days_sancto = {
     'after': '',
   },
   'all_souls': {
-    'force': 70,
+    'force': 35,
     'before': '',
     'color': 'black',
     'header': 'Commemoratio omnium fidelium defunctorum.',

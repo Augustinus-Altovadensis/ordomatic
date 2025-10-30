@@ -154,7 +154,7 @@ function roman_upper_to_lower(str) {
   str = str.replaceAll("I","i"); 
 
   var pos = str.lastIndexOf('i');
-  if (str.match("i") && pos == str.length) 
+  if (str.match("i") && pos == ((str.length)-2) )
       str = str.substring(0,pos) + 'j' + str.substring(pos+1);
 
   return str;
@@ -694,8 +694,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ////  Angeli Custodes in September (Sunday, main text) \\\\
     if ( weekday == 0 && month_usual_number == 9 && day < 8 ) {
         // There is a bug, where the first of a month, the month number remains of the old month, and I don't want to fix it, as I don't know, what it may break...
+        if (commemoratio && commemoratio['header']) commemoratio_add = commemoratio;
+        commemoratio = winner; 
         winner = days_sancto['angeli_custodes_sept'];
-        commemoratio = days_sancto[ref_sancto]; 
         }
 
     ///// SS. Nominis Jesu // Day alone /////
@@ -754,7 +755,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_sancto == "08_14" && weekday != 0) { winner = days_sancto['08_14v']; }
 
     /////  Vigilia Imm. Conceptionis B.M.V., if it falls on Sunday \\\\\
-    if (ref_sancto == "12_06" && weekday == 6) { winner = days_sancto['12_06v']; }
+    //if (ref_sancto == "12_06" && weekday == 6) { winner = days_sancto['12_06v']; }
 
     if (ref_sancto.match(/06_27|07_22|08_07|08_12|10_29|12_06/) && weekday == 5) 
         vigilia_sabb = true;
@@ -987,21 +988,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_sancto == "09_20v" && quatember_septembris) 
       { comm_laudes = days_sancto['09_20']['laudes']; }
 
-    ////  Angeli Custodes in September (adding Sunday texts) \\\\
-    if ( weekday == 0 && (month_usual_number == 9 && day < 8) ) {
-        // There is a bug, where the first of a month, the month number remains of the old month, and I don't want to fix it, as I don't know, what it may break...
-        laudes = days_tempo[ref_tempo]['laudes_commemoratio'];
-        missa = missa.replace("Glo.", "Glo. - 2a de " + days_tempo[ref_tempo]['vesperae'] + " ");
-
-        vesperae += " - Com. " + days_tempo[ref_tempo]['vesperae_commemoratio'];
-        }
-
     ////  Vigilia Imm. Conceptionis: nihil fit de ea in Officio  \\\\
     if (ref_sancto == "12_07" && weekday != 0 ) no_comm_laudes = true;
-    if (ref_sancto == "12_06" && weekday == 6 ) before += '<div class="small"><red>Nihil fit hoc anno de Vigilia Immaculatæ Conceptionis B.M.V.</red></div>';
+    if (ref_sancto == "12_06" && weekday == 6 ) {
+      before += '<div class="small"><red>Nihil fit hoc anno de Vigilia Immaculatæ Conceptionis B.M.V.</red></div>';
+      commemoratio = feria;
+      }
 
     /////////// Label PARS HIEMALIS \\\\\\\\\\\\
-    if (ref_tempo == "pa_24_6") missa_post += '<div class="centered, pars"><red>PARS HIEMALIS</red></div><div class="small"><red>A Dom. I. Adventus usque ad Vigil. Nativitatis exclusive organum non pulsatur nisi in Festis et Dom. Gaudete.</red></div>';
+    if (ref_tempo == "pa_24_6") missa_post += '<div class="centered, pars"><red>PARS HIEMALIS</red></div><div class="small">¶ <red>A Dom. I. Adventus usque ad Vigil. Nativitatis exclusive organum non pulsatur nisi in Festis et Dom. Gaudete.</red></div>';
 
     ////////////////////////////////////////\\\\\\\
     //// Deleting first Vespers of moved Feasts \\\\
@@ -1324,7 +1319,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           tantum_ergo = ["25","26","27","28","29","30"];
           laudate_dominum = ["195b","196","197","198","199","203"]
           mane_nobiscum = ["193","194a","194b","195a"];
-          if ( weekday == 5 ) laudate = "200"; else laudate = laudate_dominum[(adoratio_counter-1) % 6];
+          if ( weekday == 5 ) 
+            { laudate = "200"; 
+              vesperae_post += "<red>Post Vesperas fit Expositio Sanctissimi Sacramenti et Consecratio Sacratissimo Cordi Jesu.</red>"; }
+          else laudate = laudate_dominum[(adoratio_counter-1) % 6];
 
         after = "✠ Adoratio: LV pag. " + introitus[adoratio_counter % 6] + " - " + tantum_ergo[adoratio_counter % 6] + " – "  + laudate + " – " + mane_nobiscum[(adoratio_counter-2) % 4] + "<br>" + after; 
 
