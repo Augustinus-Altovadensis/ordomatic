@@ -2002,7 +2002,7 @@ const days_tempo = {
     'after': ''
   },
   'sept_1_0': {
-    'force': 100,
+    'force': 85,
     'before': '<div class="small">¶ <red>A Dominica Septuagesimæ usque ad Vigil. Paschæ organa non pulsantur nisi in Festis et Dominica Lætáre et in Cœna Domini usque ad Glória inclusive</red> (vide Rit. Cist. lib. I, cap. XIV, I)</div>',
     'color': 'violet',
     'header': 'Dominica in Septuagesima.',
