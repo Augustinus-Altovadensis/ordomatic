@@ -1323,8 +1323,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             { laudate = "200"; 
               vesperae_post += "<red>Post Vesperas fit Expositio Sanctissimi Sacramenti et Consecratio Sacratissimo Cordi Jesu.</red>"; }
           else laudate = laudate_dominum[(adoratio_counter-1) % 6];
+          if ( winner == days_sancto['nomen_jesu'] ) litaniae = " - Litaniæ SSmi. Nominis Jesu";
+          else litaniae = "";
 
-        after = "✠ Adoratio: LV pag. " + introitus[adoratio_counter % 6] + " - " + tantum_ergo[adoratio_counter % 6] + " – "  + laudate + " – " + mane_nobiscum[(adoratio_counter-2) % 4] + "<br>" + after; 
+        after = "✠ Adoratio: LV pag. " + introitus[adoratio_counter % 6] + litaniae + " - " + tantum_ergo[adoratio_counter % 6] + " – "  + laudate + " – " + mane_nobiscum[(adoratio_counter-2) % 4] + "<br>" + after; 
 
         adoratio_counter++;
         }
@@ -1611,6 +1613,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (comm_missa.match(/de feria/i)) comm_missa = comm_missa.replace(/.a de feria\./i,""); 
             if (comm_missa.match(/de (Off\.|Officio) diei/i)) comm_missa = comm_missa.replace(/a de (Off\.|Officio) diei\. 3/i,""); 
             if (comm_missa.match(/de (Off\.|Officio) diei/i)) comm_missa = comm_missa.replace(/.a de (Off\.|Officio) diei\./i,""); }
+
+          // On Sunday, Com. de Feria needs to be deleted: "de Feria. 3a "
+          if (weekday == 0 && comm_missa.match(/de feria/i)) comm_missa = comm_missa.replace(/a de feria\. 3/i,""); 
 
           // Needs to be tested. Originally the following line said:
           // if (!(commemoratio['force'] == 9 && commemoratio['missa'].match(/2a S\./)) (this condition was negated)
@@ -2026,7 +2031,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( laudes.match(/Com\. /) ) et1 = " &";
     
     // Com. B.M.V. ad Laudes 
-    if ( (winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) && !header.match(/Infra Oct/i) && getComm(laudes) < 2 && !ref_sancto.match(/02_22|05_06/)) // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
+    if ( (winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) 
+      && !header.match(/Infra Oct/i) 
+      && getComm(laudes) < 2 
+      && !ref_sancto.match(/01_05|02_22|05_06/)) // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
       {
       laudes = laudes.replace(/(?: - )?sine Com\.?/, "");
       if ( weekday == 2 && getComm(laudes) < 1 ) laudes_bmv += " & B. B. R.";
@@ -2050,7 +2058,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( vesperae.match("B.M.V.") || weekday == 6) { vesperae_bmv = ""; et = "";}
     if ( weekday == 5 && winner_next['force'] < 35 && !vigilia_sabb ) { vesperae_bmv = ""; et = ""; }
 
-    if ( winner['force'] < 41 && (winner_next['force'] < 41 || ref_tempo_next.match(/ash_1_3/)) && !header.match(/Infra Oct/i) && getComm(vesperae) < 2 && !ref_sancto.match(/02_21|05_05/)) // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
+    if (( winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) 
+      && (winner_next['force'] < 41 || ref_tempo_next.match(/ash_1_3/)) 
+      && !header.match(/Infra Oct/i) && getComm(vesperae) < 2 
+      && ((!ref_sancto.match(/02_23/) && !is_leap_year(year)) 
+          || (!ref_sancto.match(/02_24/) && is_leap_year(year))) // St. Mathias 
+      && !ref_sancto.match(/02_21|05_05/)) // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
       {
       vesperae = vesperae.replace(/(?: - )?sine Com\.?/, "");
       if ( weekday == 1 && getComm(vesperae) < 1 ) vesperae_bmv += et + " B. B. R.";
@@ -2904,7 +2917,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           missa = missa.replace(/Processio (–|-)|Processio per (Ecclesiam|Claustrum) (–|-)/i, "Sub tuum -");
 
       /// And between Finding and Exaltation of the Holy Cross on Sunday...
-      if (weekday == 0 && ((day <= 14 && month_usual_number == 9) || month_usual_number < 9)) missa = missa.replace(/Processio (–|-)|Processio per Ecclesiam (–|-)|Sub tuum (–|-)/i, "Processio per Claustrum -");
+      if (weekday == 0 && ((day <= 14 && month_usual_number == 9) || (month_usual_number > 5 &&month_usual_number < 9 ))) missa = missa.replace(/Processio (–|-)|Processio per Ecclesiam (–|-)|Sub tuum (–|-)/i, "Processio per Claustrum -");
 
       /// Praefationes
       if (ref_tempo.match("lent")) 
