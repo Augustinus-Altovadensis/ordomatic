@@ -1850,7 +1850,7 @@ const days_sancto = {
     'laudes': 'Com. SS. Alexandri, Eventii, Theoduli Mart. ac Juvenalis E. C. (Com.) Lux perpétua.',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': 'Duo Acolythi. - Cum incenso ad oblata - Glo. - 2. Ora. SS. Alexandri, Eventii, Theoduli ac Juvenalis - Cre. - Præf. de S. Cruce ',
+    'missa': 'Duo Acolythi. - Cum incenso ad oblata - Glo. - 2a SS. Alexandri, Eventii, Theoduli ac Juvenalis - Cre. - Præf. de S. Cruce ',
     'missa_post': '',
     'vesperae': 'de festo',
     'vesperae_commemoratio': 'Com. de præc. <i>O Crux splendídior.</i>',

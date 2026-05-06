@@ -603,7 +603,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio = ""; }
 
     // Translating every feast higher than MM. min. that falls on Sunday
-      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] <= 80 && !ref_tempo.match(/christmas|pa_|pe_/i) && !ref_sancto.match(/12_08/))
+      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] <= 80 && !ref_tempo.match(/christmas|pa_|pe_|tp_[2-7]_/i) && !ref_sancto.match(/12_08/))
       {
         moved.push(ref_sancto);
         trans_titulum = winner['header'].split(",", 1);
