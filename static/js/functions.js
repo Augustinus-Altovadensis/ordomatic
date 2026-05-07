@@ -969,7 +969,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_tempo.match("adv_")) missa = missa.replace("Glo.", "<blue><i>Rorate</i></blue> - Glo. - 2a de Dominica. 3a de Sp. Sancto.");
       if (commemoratio) {
         comm_missa = commemoratio['missa'];
-        comm_missa = comm_missa.replace(/A cunctis\.?|de S\. Maria\.?|(?:de )?(?:B\. ?M\. ?V\. ?)? Conc[eé]de nos\.?/i, "de Sp. Sancto.") }
+        comm_missa = comm_missa.replace(/A cunctis\.?|de S\. Maria\.?|(?:de )?(?:B\. ?M\. ?V\. ?)? Conc[eé]de nos\.?/i, "de Sp. Sancto."); 
+        comm_missa = comm_missa.replace(/Conc[eé]de nos\.?/i, ""); }
       }
 
     /////  Vigilia S. Jacobi, if it falls on Sunday \\\\\
@@ -1314,7 +1315,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ////////////////////////////////////////////////////////
 
     //  Sundays' and 1st Fridays' Adorations: Laudes Vespertinæ 1926  \\
-    if ( (weekday == 0 && !ref_sancto.match(/11_01|11_02/) || (weekday == 5 && day < 8) ) ) 
+    if ( (weekday == 0 || (weekday == 5 && day < 8)) 
+      && !ref_sancto.match(/11_01|11_02/) && !ref_tempo.match(/lent_6_5/) )  
        {  introitus = ["23","6","1","24","6","1"]
           tantum_ergo = ["25","26","27","28","29","30"];
           laudate_dominum = ["195b","196","197","198","199","203"]
@@ -2063,7 +2065,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       && !header.match(/Infra Oct/i) && getComm(vesperae) < 2 
       && ((!ref_sancto.match(/02_23/) && !is_leap_year(year)) 
           || (!ref_sancto.match(/02_24/) && is_leap_year(year))) // St. Mathias 
-      && !ref_sancto.match(/02_21|05_05/)) // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
+      && !ref_sancto.match(/02_21|05_05|05_06/)) // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
       {
       vesperae = vesperae.replace(/(?: - )?sine Com\.?/, "");
       if ( weekday == 1 && getComm(vesperae) < 1 ) vesperae_bmv += et + " B. B. R.";
