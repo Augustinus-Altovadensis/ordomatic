@@ -381,6 +381,8 @@ var translated_annivers = false;
 var translated_matthias = false;
 var quatember_septembris = false;
 var moved = [];
+var comm_vesperae_full = [];
+var comm_laudes_full = [];
 var dominica_anticipata = false;
 var sabb_mensis = 0;
 var vigil_novembris = 0;
@@ -465,7 +467,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       off_s_bernardi = true;
       off_ss_sacramenti = true; }
 
+    // zeroing Commemorations
+    comm_vesperae_full = [];
+    comm_laudes_full = [];
 
+    // determining tomorrow for Vespers
     ref_tempo_next = get_ref_tempo(1, prefix_tempo, week_start, day_start, duration);
     ref_sancto_next = get_ref_sancto(1);
 
@@ -927,6 +933,48 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (subtitulum != "") subtitulum = subtitulum + "<br>" + winner['subtitulum'];
     else subtitulum = winner['subtitulum'];
     if (trans_before != "") before = before + '<div class="small_pg"><font color="red">' + trans_before + '</div></font>';
+
+    // Loading the new Commemoratio variables 
+    if (commemoratio)
+      {
+        if (commemoratio['vesperae_commemoratio'])
+          comm_vesperae_full.push({force: commemoratio['force'], comm: commemoratio['vesperae_commemoratio'].replace("Com. ", "")});
+        else if (commemoratio['vesperae'])
+          comm_vesperae_full.push({force: commemoratio['force'], comm: commemoratio['vesperae'].replace("Com. ", "")});
+
+        if (commemoratio['laudes_commemoratio'])
+          comm_laudes_full.push({force: commemoratio['force'], comm: commemoratio['laudes_commemoratio'].replace("Com. ", "")});
+        else if (commemoratio['laudes'])
+          comm_laudes_full.push({force: commemoratio['force'], comm: commemoratio['laudes'].replace("Com. ", "")});
+        //commemoratio = "";
+      }
+
+    ref_sancto_temp = ref_sancto;
+
+    for (i_c = 0; i_c <= 5; i_c++) 
+    {
+      ref_sancto_temp = ref_sancto_temp + 'c';
+      comm_temp = days_sancto[ref_sancto_temp];
+
+      if (comm_temp)
+      {
+        if (comm_temp['vesperae_commemoratio'])
+          comm_vesperae_full.push({force: comm_temp['force'], comm: comm_temp['vesperae_commemoratio'].replace("Com. ", "")});
+
+        if (comm_temp['laudes_commemoratio'])
+          //comm_laudes_full.push({force: days_sancto[ref_sancto_temp]['force'], comm: days_sancto[ref_sancto_temp]['laudes_commemoratio']});
+          comm_laudes_full.push({force: comm_temp['force'], comm: comm_temp['laudes_commemoratio'].replace("Com. ", "")});
+      }
+
+      temp = "";
+      if (comm_temp && comm_temp['laudes_commemoratio']) 
+        temp = comm_temp['laudes_commemoratio'];
+      laudes = laudes + ' "' + temp + '" ';
+    }
+
+    //comm_vesperae_full = [];
+    //comm_laudes_full = [];
+
 
     if (commemoratio) {
       comm_laudes = commemoratio['laudes']; 
@@ -1563,6 +1611,23 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           if ( winner['force'] > 49 ) { laudes.replace("& B.M.V.", "");}
           comm = null;
+        }
+
+        if (comm_laudes_full)
+        {
+          comm_laudes_full.sort((a, b) => b.force - a.force);
+          //comm_temp = 'Com. ';
+          comm_temp = ' <font color=blue><b>COM.</b></font> ';
+
+          for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
+            comm_temp = comm_temp + comm_laudes_full[i_c].comm + ' ';
+            if (i_c < (comm_laudes_full.length-1)) 
+                comm_temp = comm_temp + "& ";
+          }
+            
+          //laudes = laudes + ' -=comm_laudes_full present=- ';
+          laudes = laudes + comm_temp;
+          comm_temp = null;
         }
       
       /////////////////////////////////
