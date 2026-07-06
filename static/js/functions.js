@@ -958,18 +958,20 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
       if (comm_temp)
       {
+        laudes = laudes + ' comm_temp present. ';
         if (comm_temp['vesperae_commemoratio'])
           comm_vesperae_full.push({force: comm_temp['force'], comm: comm_temp['vesperae_commemoratio'].replace("Com. ", "")});
 
-        if (comm_temp['laudes_commemoratio'])
-          //comm_laudes_full.push({force: days_sancto[ref_sancto_temp]['force'], comm: days_sancto[ref_sancto_temp]['laudes_commemoratio']});
+        if (comm_temp['laudes_commemoratio']) {
+          laudes = laudes + ' Comm. saved ';
           comm_laudes_full.push({force: comm_temp['force'], comm: comm_temp['laudes_commemoratio'].replace("Com. ", "")});
+          }
       }
 
       temp = "";
       if (comm_temp && comm_temp['laudes_commemoratio']) 
         temp = comm_temp['laudes_commemoratio'];
-      laudes = laudes + ' "' + temp + '" ';
+      laudes = laudes + ' "' + ref_sancto_temp + '" "' + temp + '" ';
     }
 
     //comm_vesperae_full = [];
@@ -1620,12 +1622,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_temp = ' <font color=blue><b>COM.</b></font> ';
 
           for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
-            comm_temp = comm_temp + comm_laudes_full[i_c].comm + ' ';
+            comm_temp = comm_temp + '[' + i_c + '] ' + comm_laudes_full[i_c].comm + ' ';
+            //comm_temp = comm_temp + comm_laudes_full[i_c].comm + ' ';
             if (i_c < (comm_laudes_full.length-1)) 
                 comm_temp = comm_temp + "& ";
           }
             
-          //laudes = laudes + ' -=comm_laudes_full present=- ';
+          laudes = laudes + ' -=comm_laudes_full present=- ';
           laudes = laudes + comm_temp;
           comm_temp = null;
         }
