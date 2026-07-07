@@ -227,7 +227,7 @@ function antiphon_sabb(sabb_mensis, month_sabb) {
   else if (sabb_mensis == 2 && month_sabb == 11) return "Aspice Dómine.";
   else if (sabb_mensis == 3 && month_sabb == 11) return "Super muros tuos.";
   else if (sabb_mensis == 4 && month_sabb == 11) return "Muro tuo.";
-  else if (sabb_mensis == 5 && month_sabb == 11) return "Qui coelórum cóntines thronos.";
+  else if (sabb_mensis == 5 && month_sabb == 11) return "Qui cœlórum cóntines thronos.";
   else return "alia Antiphona."
   }
 
@@ -421,7 +421,7 @@ var anniversarium_11 = "";
 const roman_lc = ["nullus","j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
 const roman_uc = ["NULLUS","I.","II.","III.","IV.","V.","VI.","VII.","VIII.","IX.","X."];
 
-// Days of Officium mensis throughout the years. If not present here, Officium mensis is not added.
+// Days of Officium mensis throughout the years. If not present here, Officium mensis is computed.
 OM_dates['2024'] = "2024,30,7,11,10,23,20,19,26,5,24,6,10"
 OM_dates['2025'] = "2025,,,,,,,,,,,12,"
 OM_dates['202x'] = "2023,,,,,,,,,,,," // sample
@@ -1101,9 +1101,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_sancto == anniversarium_09 && winner != days_sancto['09_18tr']) tricenarium = false;
 
 
-    /////////////////////////////////////
-    ///  Vigiliae: dies non impedita  ///
-    /////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
+    ///  Lectiones et Responsoria Vigiliarum: dies non impedita  ///
+    ///////////////////////////////////////////////////////////////
 
     vigiliae = winner['vigiliae'];
 
