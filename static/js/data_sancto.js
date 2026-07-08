@@ -275,7 +275,7 @@ const days_sancto = {
     'martyrologium':'',
     'vigiliae': '',
     'laudes': '',
-    'laudes_commemoratio':'Com. S. Pauli , primi Eremitæ. Similábo eum.',
+    'laudes_commemoratio':'Com. S. Pauli, primi Eremitæ. Similábo eum.',
     'laudes_post':'',
     'missa': '',
     'missa_post': '',
