@@ -966,6 +966,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_laudes_full.push({force: comm_temp['force'], comm: comm_temp['laudes_commemoratio'].replace("Com. ", "")});
           //laudes = laudes + ' Comm. saved, comm_laudes_full size: ' + comm_laudes_full.length + ' ' ;
           }
+        else if (comm_temp['laudes']) {
+          comm_laudes_full.push({force: comm_temp['force'], comm: comm_temp['laudes'].replace("Com. ", "")});
+          }
       }
 
       temp = "";
