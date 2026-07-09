@@ -934,6 +934,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     else subtitulum = winner['subtitulum'];
     if (trans_before != "") before = before + '<div class="small_pg"><font color="red">' + trans_before + '</div></font>';
 
+    function shorten_header(str) {
+      str = str.replace(/[,+].*/, "");
+      str = str.replace(/Dominica/i,"Dom.");
+      str = str.replace(/Epiphani.m?/,"Epiph.");
+      str = str.replace("Priv. Dieb. infra ","");
+      str = str.replace("Octavam","Oct."); 
+      return str;
+    };
+
     // Loading the new Commemoratio variables 
     if (commemoratio)
       {
@@ -943,18 +952,21 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_vesperae_full.push({force: commemoratio['force'], comm: commemoratio['vesperae'].replace("Com. ", "")});
 
         if (commemoratio['laudes_commemoratio'])
-          comm_laudes_full.push({force: commemoratio['force'], comm: commemoratio['laudes_commemoratio'].replace("Com. ", "")});
+          comm_laudes_full.push({force: commemoratio['force'], header: shorten_header(commemoratio['header']), comm: commemoratio['laudes_commemoratio'].replace("Com. ", "")});
         else if (commemoratio['laudes'])
-          comm_laudes_full.push({force: commemoratio['force'], comm: commemoratio['laudes'].replace("Com. ", "")});
+          comm_laudes_full.push({force: commemoratio['force'], header: shorten_header(commemoratio['header']), comm: commemoratio['laudes'].replace("Com. ", "")});
         //commemoratio = "";
       }
 
     ref_sancto_temp = ref_sancto;
 
-    for (i_c = 0; i_c <= 5; i_c++) 
+    for (i_c = 0; i_c <= 6; i_c++) 
     {
       ref_sancto_temp = ref_sancto_temp + 'c';
       comm_temp = days_sancto[ref_sancto_temp];
+
+      if (i_c == 6)
+        comm_temp = days_tempo[ref_tempo + "cc"];
 
       if (comm_temp)
       {
@@ -963,11 +975,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_vesperae_full.push({force: comm_temp['force'], comm: comm_temp['vesperae_commemoratio'].replace("Com. ", "")});
 
         if (comm_temp['laudes_commemoratio']) {
-          comm_laudes_full.push({force: comm_temp['force'], header: comm_temp['header'].replace(/[,+].*/, ""), comm: comm_temp['laudes_commemoratio'].replace("Com. ", "")});
+          comm_laudes_full.push({force: comm_temp['force'], header: shorten_header(comm_temp['header']), comm: comm_temp['laudes_commemoratio'].replace("Com. ", "")});
           //laudes = laudes + ' Comm. saved, comm_laudes_full size: ' + comm_laudes_full.length + ' ' ;
           }
         else if (comm_temp['laudes']) {
-          comm_laudes_full.push({force: comm_temp['force'], header: comm_temp['header'].replace(/[,+].*/, ""), comm: comm_temp['laudes'].replace("Com. ", "")});
+          comm_laudes_full.push({force: comm_temp['force'], header: shorten_header(comm_temp['header']), comm: comm_temp['laudes'].replace("Com. ", "")});
           }
       }
 
@@ -1904,19 +1916,26 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             
           laudes = laudes + ' -=comm_laudes_full [' + comm_laudes_full.length + ']=- ';
           laudes = laudes + comm_temp;
-          comm_temp = null;
+          comm_temp = "";
 
           //Missa: commemorationes
-          comm_missa_full = comm_laudes_full;
-          if (missa && missa.match("2a")) 
-            comm_missa_full.push({force: 2, header: missa.match(/2a.*? 3a/i)});
-          if (missa && missa.match("3a")) 
-            comm_missa_full.push({force: 1, header: missa.match(/3a.*? -/i)});
+          comm_missa_full = [];
+          if (winner['missa'] && winner['missa'].match("2a")) 
+            comm_missa_full.push({force: 2, header: winner['missa'].match(/2a (.*?) 3a/is)?.[1]});
+          if (winner['missa'] && winner['missa'].match("3a")) 
+            comm_missa_full.push({force: 1, header: winner['missa'].match(/3a (.*?)\.? -/is)?.[1]});
           comm_missa_full.sort((a, b) => b.force - a.force);
 
-          for (i_c = 0; i_c < comm_missa_full.length; i_c++) {
-            comm_temp = (i_c+1) + 'a ' + comm_laudes_full[i_c].header + '. ';
+          for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
+            comm_temp = comm_temp + ' ' + (i_c+2) + 'a ' + comm_laudes_full[i_c].header + '. ';
           }
+
+          // Finish adding 2a et 3a Comm. in Missa
+
+          if (comm_laudes_full.length <= 2 && comm_laudes_full.length != 0 && comm_missa_full[0])
+            comm_temp = comm_temp + ' ' + (comm_laudes_full.length+2) + 'a ' + comm_missa_full[0].header + '. ';
+          if (comm_laudes_full.length == 1 && comm_missa_full[1])
+            comm_temp = comm_temp + ' ' + (comm_laudes_full.length+3) + 'a ' + comm_missa_full[1].header + '. ';
 
           missa = missa + ' <font color=blue><b>COM.</b></font> ' + comm_temp
           comm_temp = null;
