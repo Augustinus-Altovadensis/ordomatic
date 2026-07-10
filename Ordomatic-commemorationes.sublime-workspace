@@ -491,12 +491,82 @@
 			"file": "static/js/functions.js",
 			"settings":
 			{
-				"buffer_size": 185374,
+				"buffer_size": 185603,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			},
 			"undo_stack":
 			[
+				[
+					14,
+					1,
+					"insert",
+					{
+						"characters": "\n"
+					},
+					"AQAAAHe0AAAAAAAAgrQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAd7QAAAAAAAB3tAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					15,
+					1,
+					"left_delete",
+					null,
+					"AQAAAIC0AAAAAAAAgLQAAAAAAAACAAAAICA",
+					"AQAAAAAAAAABAAAAgrQAAAAAAACCtAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					16,
+					1,
+					"paste",
+					null,
+					"AQAAAIC0AAAAAAAAlrUAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAgLQAAAAAAACAtAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					19,
+					1,
+					"insert",
+					{
+						"characters": "else"
+					},
+					"BAAAAIC0AAAAAAAAgbQAAAAAAAAAAAAAgbQAAAAAAACCtAAAAAAAAAAAAACCtAAAAAAAAIO0AAAAAAAAAAAAAIO0AAAAAAAAhLQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAgLQAAAAAAACAtAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					20,
+					1,
+					"insert",
+					{
+						"characters": " "
+					},
+					"AQAAAIS0AAAAAAAAhbQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAhLQAAAAAAACEtAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					23,
+					1,
+					"left_delete",
+					null,
+					"AQAAAJq0AAAAAAAAmrQAAAAAAAANAAAAX2NvbW1lbW9yYXRpbw",
+					"AQAAAAAAAAABAAAAmrQAAAAAAACntAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					26,
+					1,
+					"left_delete",
+					null,
+					"AQAAAPO0AAAAAAAA87QAAAAAAAANAAAAX2NvbW1lbW9yYXRpbw",
+					"AQAAAAAAAAABAAAA87QAAAAAAAAAtQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					37,
+					7,
+					"left_delete",
+					null,
+					"BwAAABi1AAAAAAAAGLUAAAAAAABdAAAALy9sYXVkZXMgPSBsYXVkZXMgKyAnIENvbW0uIHNhdmVkLCBjb21tX2xhdWRlc19mdWxsIHNpemU6ICcgKyBjb21tX2xhdWRlc19mdWxsLmxlbmd0aCArICcgJyA7FrUAAAAAAAAWtQAAAAAAAAIAAAAgIBS1AAAAAAAAFLUAAAAAAAACAAAAICAStQAAAAAAABK1AAAAAAAAAgAAACAgELUAAAAAAAAQtQAAAAAAAAIAAAAgIA61AAAAAAAADrUAAAAAAAACAAAAICANtQAAAAAAAA21AAAAAAAAAQAAAAo",
+					"AQAAAAAAAAABAAAAdbUAAAAAAAAYtQAAAAAAAAAAAAAAAPC/"
+				]
 			]
 		},
 		{
@@ -549,10 +619,7 @@
 				"buffer_size": 279891,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
-			},
-			"undo_stack":
-			[
-			]
+			}
 		},
 		{
 			"file": "static/js/data_tempo.js",
@@ -675,7 +742,7 @@
 	],
 	"find":
 	{
-		"height": 27.2
+		"height": 40.0
 	},
 	"find_in_files":
 	{
@@ -748,15 +815,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 185374,
+						"buffer_size": 185603,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								50948,
-								50948
+								46349,
+								46349
 							]
 						],
 						"settings":
@@ -766,7 +833,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 13196.0,
+						"translation.y": 20168.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -958,7 +1025,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7598.28571429,
+						"translation.y": 2525.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
