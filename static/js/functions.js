@@ -940,6 +940,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       str = str.replace(/Epiphani.m?/,"Epiph.");
       str = str.replace("Priv. Dieb. infra ","");
       str = str.replace("Octavam","Oct."); 
+      str = str.replace(/de ea/i, translate_feria(ref_tempo)); 
       return str;
     };
 
@@ -947,49 +948,90 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (commemoratio)
       {
         if (commemoratio['vesperae_commemoratio'])
-          comm_vesperae_full.push({force: commemoratio['force'], comm: commemoratio['vesperae_commemoratio'].replace("Com. ", "")});
-        else if (commemoratio['vesperae'])
-          comm_vesperae_full.push({force: commemoratio['force'], comm: commemoratio['vesperae'].replace("Com. ", "")});
+          comm_vesperae_full.push({
+            force: commemoratio['force'], 
+            comm: commemoratio['vesperae_commemoratio'].replace("Com. ", "")});
+        else if (false && commemoratio['vesperae'])
+          comm_vesperae_full.push({
+            force: commemoratio['force'], 
+            comm: commemoratio['vesperae'].replace("Com. ", "")});
 
         if (commemoratio['laudes_commemoratio'])
-          comm_laudes_full.push({force: commemoratio['force'], header: shorten_header(commemoratio['header']), comm: commemoratio['laudes_commemoratio'].replace("Com. ", "")});
-        else if (commemoratio['laudes'])
-          comm_laudes_full.push({force: commemoratio['force'], header: shorten_header(commemoratio['header']), comm: commemoratio['laudes'].replace("Com. ", "")});
+          comm_laudes_full.push({
+            force: commemoratio['force'], 
+            header: shorten_header(commemoratio['header']), 
+            comm: commemoratio['laudes_commemoratio'].replace("Com. ", "")});
+        else if (false && commemoratio['laudes'])
+          comm_laudes_full.push({
+            force: commemoratio['force'], 
+            header: shorten_header(commemoratio['header']), 
+            comm: commemoratio['laudes'].replace("Com. ", "")});
         //commemoratio = "";
       }
 
+    if (commemoratio_next)
+      {
+        if (commemoratio_next['vesperae_j_commemoratio'])
+          comm_vesperae_full.push({
+            force: commemoratio_next['force'], 
+            comm: commemoratio_next['vesperae_j_commemoratio'].replace("Com. ", "")});
+        else if (false && commemoratio_next['vesperae_j'])
+          comm_vesperae_full.push({
+            force: commemoratio_next['force'], 
+            comm: commemoratio_next['vesperae_j'].replace("Com. ", "")});
+      }
+
     ref_sancto_temp = ref_sancto;
+    ref_sancto_next_temp = ref_sancto_next;
 
     for (i_c = 0; i_c <= 6; i_c++) 
     {
       ref_sancto_temp = ref_sancto_temp + 'c';
-      comm_temp = days_sancto[ref_sancto_temp];
+      ref_sancto_next_temp = ref_sancto_next_temp + 'c';
+      let comm_temp = days_sancto[ref_sancto_temp];
+      let comm_next_temp = days_sancto[ref_sancto_next_temp];
 
       if (i_c == 6)
-        comm_temp = days_tempo[ref_tempo + "cc"];
+        { 
+          comm_temp = days_tempo[ref_tempo + "cc"];
+          comm_next_temp = days_tempo[ref_tempo_next + "cc"];
+        }
 
       if (comm_temp)
       {
-        //laudes = laudes + ' comm_temp present. ';
         if (comm_temp['vesperae_commemoratio'])
-          comm_vesperae_full.push({force: comm_temp['force'], comm: comm_temp['vesperae_commemoratio'].replace("Com. ", "")});
+          comm_vesperae_full.push({
+            force: comm_temp['force'], 
+            comm: comm_temp['vesperae_commemoratio'].replace("Com. ", "")});
+        else if (false && comm_temp['vesperae'])
+          comm_vesperae_full.push({
+            force: comm_temp['force'], 
+            comm: comm_temp['vesperae'].replace("Com. ", "")});
 
-        if (comm_temp['laudes_commemoratio']) {
-          comm_laudes_full.push({force: comm_temp['force'], header: shorten_header(comm_temp['header']), comm: comm_temp['laudes_commemoratio'].replace("Com. ", "")});
-          //laudes = laudes + ' Comm. saved, comm_laudes_full size: ' + comm_laudes_full.length + ' ' ;
-          }
-        else if (comm_temp['laudes']) {
-          comm_laudes_full.push({force: comm_temp['force'], header: shorten_header(comm_temp['header']), comm: comm_temp['laudes'].replace("Com. ", "")});
-          }
+        if (comm_temp['laudes_commemoratio'])
+          comm_laudes_full.push({
+            force: comm_temp['force'], 
+            header: shorten_header(comm_temp['header']), 
+            comm: comm_temp['laudes_commemoratio'].replace("Com. ", "")});
+        else if (false && comm_temp['laudes'])
+          comm_laudes_full.push({
+            force: comm_temp['force'], 
+            header: shorten_header(comm_temp['header']), 
+            comm: comm_temp['laudes'].replace("Com. ", "")});
       }
 
-      //temp = "";
-      //if (comm_temp && comm_temp['laudes_commemoratio']) temp = comm_temp['laudes_commemoratio'];
-      //laudes = laudes + ' "' + ref_sancto_temp + '" "' + temp + '" ';
+      if (comm_next_temp)
+      {
+        if (comm_next_temp['vesperae_j_commemoratio'])
+          comm_vesperae_full.push({
+            force: comm_next_temp['force'], 
+            comm: comm_next_temp['vesperae_j_commemoratio'].replace("Com. ", "")});
+        else if (false && comm_next_temp['vesperae_j'])
+          comm_vesperae_full.push({
+            force: comm_next_temp['force'], 
+            comm: comm_next_temp['vesperae_j'].replace("Com. ", "")});
+      }
     }
-
-    //comm_vesperae_full = [];
-    //comm_laudes_full = [];
 
 
     if (commemoratio) {
@@ -1243,7 +1285,22 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( vesperae_j ) {
       if ( winner['force'] > winner_next['force'] && !winner['header'].match(/Quatt?uor Temp/i)) {
         // today wins
-        if (winner_next['vesperae_j_commemoratio']) vesperae_j = winner_next['vesperae_j_commemoratio'];
+        if (winner_next['vesperae_j_commemoratio']) 
+          {
+            vesperae_j = winner_next['vesperae_j_commemoratio'];
+
+            // Adding Comm.
+            comm_vesperae_full.push({force: winner_next['force'], comm: winner_next['vesperae_j_commemoratio'].replace("Com. ", "").replace(winner_next['header'], "de seq.")});
+          }
+        else if (winner_next['vesperae_j'])
+          comm_vesperae_full.push({force: winner_next['force'], comm: winner_next['vesperae_j'].replace("Com. ", "")});
+
+        // Sabbato de Beata is commemorated only if the current higher feast is NOT also de Beata
+        if (winner['header'].match(/B\. ?M\. ?V\. ?/) 
+          && (winner_next == days_sancto['votiva_bmv'] 
+          || winner_next == days_sancto['votiva_bmv_prima_sabb']))
+          comm_vesperae_full.pop();
+
         commemoratio_vesperae = vesperae_j;
         today_wins = true; 
         }
@@ -1252,15 +1309,26 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         vesperae_j = "";
         commemoratio_vesperae = winner_next['vesperae_j'];
         today_wins = true; 
+
+        // Adding Comm.
+        if (winner_next['vesperae_j_commemoratio']) 
+            comm_vesperae_full.push({force: winner_next['force'], comm: winner_next['vesperae_j_commemoratio'].replace("Com. ", "")});
+        else if (winner_next['vesperae_j'])
+          comm_vesperae_full.push({force: winner_next['force'], comm: winner_next['vesperae_j'].replace("Com. ", "")});
         }
       else { 
         // tomorrow wins
-        //if (winner['vesperae_commemoratio'] && !vesperae.match(/Feria/i)) vesperae = winner['vesperae_commemoratio'];
         if (winner['vesperae_commemoratio']) vesperae = winner['vesperae_commemoratio'];
         else vesperae = "";
         commemoratio_vesperae = vesperae;
         vesperae = vesperae_j; 
         today_wins = false;
+
+        // Adding Comm.
+        if (winner['vesperae_commemoratio'])
+          comm_vesperae_full.push({force: winner['force'], comm: winner['vesperae_commemoratio'].replace("Com. ", "")});
+        else if (winner['vesperae'])
+          comm_vesperae_full.push({force: winner['force'], comm: winner['vesperae'].replace("Com. ", "")});
         }
       }
 
@@ -1908,37 +1976,84 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_temp = ' <font color=blue><b>COM.</b></font> ';
 
           for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
-            comm_temp = comm_temp + '[' + i_c + '] ' + comm_laudes_full[i_c].comm + ' ';
-            //comm_temp = comm_temp + comm_laudes_full[i_c].comm + ' ';
+            //comm_temp = comm_temp + '[' + i_c + '] ' + comm_laudes_full[i_c].comm + ' ';
+            comm_temp = comm_temp + ' ' + comm_laudes_full[i_c].comm + ' ';
             if (i_c < (comm_laudes_full.length-1)) 
                 comm_temp = comm_temp + "& ";
           }
             
-          laudes = laudes + ' -=comm_laudes_full [' + comm_laudes_full.length + ']=- ';
+          //laudes = laudes + ' -=comm_laudes_full [' + comm_laudes_full.length + ']=- ';
           laudes = laudes + comm_temp;
           comm_temp = "";
 
-          //Missa: commemorationes
-          comm_missa_full = [];
-          if (winner['missa'] && winner['missa'].match("2a")) 
-            comm_missa_full.push({force: 2, header: winner['missa'].match(/2a (.*?) 3a/is)?.[1]});
-          if (winner['missa'] && winner['missa'].match("3a")) 
-            comm_missa_full.push({force: 1, header: winner['missa'].match(/3a (.*?)\.? -/is)?.[1]});
-          comm_missa_full.sort((a, b) => b.force - a.force);
+          // Missa: commemorationes
+          // Except for Comm. ad Laudes only (main feast Serm. maj.), all the Commemorations present in Lauds are also present in the Mass
 
-          for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
-            comm_temp = comm_temp + ' ' + (i_c+2) + 'a ' + comm_laudes_full[i_c].header + '. ';
+          let comm_missa_copy = structuredClone(comm_laudes_full);
+
+          if (winner['force'] > 90)
+          {
+            for (i_c = 0; i_c < comm_missa_copy.length; i_c++) {
+              if (comm_missa_copy[i_c].force < 40) comm_missa_copy.splice(i_c,1); 
+            }
           }
 
-          // Finish adding 2a et 3a Comm. in Missa
+          // In masses of feasts xij. Lect. et M. and lower, there are three Collects in total
+          if (commemoratio && commemoratio['rank'].match(/Commemoratio et M\./i))
+          {
+            missa_temp = commemoratio['missa'];
 
-          if (comm_laudes_full.length <= 2 && comm_laudes_full.length != 0 && comm_missa_full[0])
-            comm_temp = comm_temp + ' ' + (comm_laudes_full.length+2) + 'a ' + comm_missa_full[0].header + '. ';
-          if (comm_laudes_full.length == 1 && comm_missa_full[1])
-            comm_temp = comm_temp + ' ' + (comm_laudes_full.length+3) + 'a ' + comm_missa_full[1].header + '. ';
+            // In "Commemoratio et M.", the missa is taken from commemoratio['missa'], therefore the Comm. cannot be commemorated in the Mass.
 
+            for (i_c = 0; i_c < comm_missa_copy.length; i_c++) {
+              if (commemoratio['header'].match(comm_missa_copy[i_c].header))
+                comm_missa_copy.splice(i_c,1);
+            }
+          }
+          else missa_temp = winner['missa'];
+
+          // Here the Mass Comm. are filled from the Lauds
+          for (i_c = 0; i_c < comm_missa_copy.length; i_c++) {
+            comm_temp = comm_temp + ' ' + (i_c+2) + 'a ' + comm_missa_copy[i_c].header + '. ';
+          }
+
+          if (winner['force'] <= 40)
+          {
+            comm_missa_add = [];
+
+            if (missa_temp.match("2a")) 
+              comm_missa_add.push({force: 2, header: missa_temp.match(/2a (.*?) 3a/is)?.[1]});
+            if (missa_temp.match("3a")) 
+              comm_missa_add.push({force: 1, header: missa_temp.match(/3a (.*?)\.? -/is)?.[1]});
+            //comm_missa_add.sort((a, b) => b.force - a.force);
+
+            if (comm_missa_copy.length <= 1 && comm_missa_add[0])
+            comm_temp = comm_temp + ' ' + (comm_missa_copy.length+2) + 'a ' + comm_missa_add[0].header + '. ';
+            if (comm_missa_copy.length == 0 && comm_missa_add[1])
+            comm_temp = comm_temp + ' ' + (comm_missa_copy.length+3) + 'a ' + comm_missa_add[1].header + '. ';
+          }
+          
           missa = missa + ' <font color=blue><b>COM.</b></font> ' + comm_temp
           comm_temp = null;
+        }
+
+        if (comm_vesperae_full.length > 0)
+        {
+          // Vesperae: commemorationes
+          comm_vesperae_full.sort((a, b) => b.force - a.force);
+          //comm_temp = 'Com. ';
+          comm_temp = ' <font color=blue><b>COM.</b></font> ';
+
+          for (i_c = 0; i_c < comm_vesperae_full.length; i_c++) {
+            //comm_temp = comm_temp + '[' + i_c + '] ' + comm_vesperae_full[i_c].comm + ' ';
+            comm_temp = comm_temp + ' ' + comm_vesperae_full[i_c].comm + ' ';
+            if (i_c < (comm_vesperae_full.length-1)) 
+                comm_temp = comm_temp + "& ";
+          }
+            
+          //vesperae = vesperae + ' -=comm_vesperae_full [' + comm_vesperae_full.length + ']=- ';
+          vesperae = vesperae + comm_temp;
+          comm_temp = "";
         }
 
       //////////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\\

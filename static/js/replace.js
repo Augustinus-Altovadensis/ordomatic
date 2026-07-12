@@ -149,7 +149,7 @@ function addtags(winner) {
     winner = winner.replace("Vidi aquam", '<i>Vidi aquam</i>');
     winner = winner.replace(/F[íi]li(æ|ae) Jer[úu]salem/, '<i>Fíliæ Jerúsalem</i>');
     winner = winner.replace(/Lux perp[ée]tua/, '<i>Lux perpétua</i>');
-    winner = winner.replace("xxx", '<i>xxx</i>');
+    winner = winner.replace("Deus, qui salútis", '<i>Deus, qui salútis</i>');
     winner = winner.replace("xxx", '<i>xxx</i>');
     winner = winner.replace("xxx", '<i>xxx</i>');
     winner = winner.replace("xxx", '<i>xxx</i>');
