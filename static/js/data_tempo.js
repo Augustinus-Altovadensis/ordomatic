@@ -1415,7 +1415,7 @@ const days_tempo = {
     'rank': '',
     'subtitulum': '',
     'vesperae_j':'Sabb. ante Dom. iij. post Epiph. <i>Fratres, glorificáte.</i>',
-    'vesperae_j_commemoratio':'',
+    'vesperae_j_commemoratio':'Sabb. ante Dom. iij. post Epiph. <i>Fratres, glorificáte.</i>',
     'martyrologium':'',
     'vigiliae': '',
     'laudes': 'Aña Ben. <i>Cum autem.</i>',
