@@ -1326,7 +1326,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         // Adding Comm.
         if (winner['vesperae_commemoratio'])
-          comm_vesperae_full.push({force: winner['force'], comm: winner['vesperae_commemoratio'].replace(/^Com\. /, "")});
+          comm_vesperae_full.push({force: winner['force'], comm: winner['vesperae_commemoratio'].replace(/^Com\. /, "").replace(winner['header'], "de præc.")});
         else if (false && winner['vesperae'])
           comm_vesperae_full.push({force: winner['force'], comm: winner['vesperae'].replace(/^Com\. /, "")});
         }
@@ -1966,7 +1966,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm = null;
         }
     }
-
+         /////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\
         ///////// New Commemorations: Output. \\\\\\\\\\\
         //////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -1997,7 +1997,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (winner['force'] > 90)
           {
             for (i_c = 0; i_c < comm_missa_copy.length; i_c++) {
-              if (comm_missa_copy[i_c].force < 40) comm_missa_copy.splice(i_c,1); 
+              if (comm_missa_copy[i_c].force < 35) comm_missa_copy.splice(i_c,1); 
             }
           }
 
