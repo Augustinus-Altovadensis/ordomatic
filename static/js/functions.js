@@ -609,7 +609,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio = ""; }
 
     // Translating every feast higher than MM. min. that falls on Sunday
-      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] <= 80 && !ref_tempo.match(/christmas|pa_|pe_/i) && !ref_sancto.match(/12_08/))
+      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] <= 80 && !ref_tempo.match(/christmas|pa_|pe_|tp_[2-7]_/i) && !ref_sancto.match(/12_08/))
       {
         moved.push(ref_sancto);
         trans_titulum = winner['header'].split(",", 1);
@@ -940,7 +940,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       str = str.replace(/Epiphani.m?/,"Epiph.");
       str = str.replace("Priv. Dieb. infra ","");
       str = str.replace("Octavam","Oct."); 
-      str = str.replace(/de ea/i, translate_feria(ref_tempo)); 
+      str = str.replace(/de ea/i, translate_feria(ref_tempo, "short")); 
       return str;
     };
 
@@ -951,21 +951,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_vesperae_full.push({
             force: commemoratio['force'], 
             comm: commemoratio['vesperae_commemoratio'].replace(/^Com\. /, "")});
-        else if (false && commemoratio['vesperae'])
-          comm_vesperae_full.push({
-            force: commemoratio['force'], 
-            comm: commemoratio['vesperae'].replace(/^Com\. /, "")});
 
         if (commemoratio['laudes_commemoratio'])
           comm_laudes_full.push({
             force: commemoratio['force'], 
             header: shorten_header(commemoratio['header']), 
             comm: commemoratio['laudes_commemoratio'].replace(/^Com\. /, "")});
-        else if (false && commemoratio['laudes'])
-          comm_laudes_full.push({
-            force: commemoratio['force'], 
-            header: shorten_header(commemoratio['header']), 
-            comm: commemoratio['laudes'].replace(/^Com\. /, "")});
         //commemoratio = "";
       }
 
@@ -975,10 +966,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_vesperae_full.push({
             force: commemoratio_next['force'], 
             comm: commemoratio_next['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
-        else if (false && commemoratio_next['vesperae_j'])
-          comm_vesperae_full.push({
-            force: commemoratio_next['force'], 
-            comm: commemoratio_next['vesperae_j'].replace(/^Com\. /, "")});
       }
 
     ref_sancto_temp = ref_sancto;
@@ -1003,21 +990,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_vesperae_full.push({
             force: comm_temp['force'], 
             comm: comm_temp['vesperae_commemoratio'].replace(/^Com\. /, "")});
-        else if (false && comm_temp['vesperae'])
-          comm_vesperae_full.push({
-            force: comm_temp['force'], 
-            comm: comm_temp['vesperae'].replace(/^Com\. /, "")});
 
         if (comm_temp['laudes_commemoratio'])
           comm_laudes_full.push({
             force: comm_temp['force'], 
             header: shorten_header(comm_temp['header']), 
             comm: comm_temp['laudes_commemoratio'].replace(/^Com\. /, "")});
-        else if (false && comm_temp['laudes'])
-          comm_laudes_full.push({
-            force: comm_temp['force'], 
-            header: shorten_header(comm_temp['header']), 
-            comm: comm_temp['laudes'].replace(/^Com\. /, "")});
       }
 
       if (comm_next_temp)
@@ -1026,10 +1004,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_vesperae_full.push({
             force: comm_next_temp['force'], 
             comm: comm_next_temp['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
-        else if (false && comm_next_temp['vesperae_j'])
-          comm_vesperae_full.push({
-            force: comm_next_temp['force'], 
-            comm: comm_next_temp['vesperae_j'].replace(/^Com\. /, "")});
       }
     }
 
@@ -1290,10 +1264,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             vesperae_j = winner_next['vesperae_j_commemoratio'];
 
             // Adding Comm.
-            comm_vesperae_full.push({force: winner_next['force'], comm: winner_next['vesperae_j_commemoratio'].replace(/^Com\. /, "").replace(winner_next['header'], "de seq.")});
+            comm_vesperae_full.push({
+              force: winner_next['force'], 
+              comm: winner_next['vesperae_j_commemoratio'].replace(/^Com\. /, "").replace(winner_next['header'], "de seq.")});
           }
-        else if (false && winner_next['vesperae_j'])
-          comm_vesperae_full.push({force: winner_next['force'], comm: winner_next['vesperae_j'].replace(/^Com\. /, "")});
 
         // Sabbato de Beata is commemorated only if the current higher feast is NOT also de Beata
         if (winner['header'].match(/B\. ?M\. ?V\. ?/) 
@@ -1312,9 +1286,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         // Adding Comm.
         if (winner_next['vesperae_j_commemoratio']) 
-            comm_vesperae_full.push({force: winner_next['force'], comm: winner_next['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
-        else if (false && winner_next['vesperae_j'])
-          comm_vesperae_full.push({force: winner_next['force'], comm: winner_next['vesperae_j'].replace(/^Com\. /, "")});
+            comm_vesperae_full.push({
+              force: winner_next['force'], 
+              comm: winner_next['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
         }
       else { 
         // tomorrow wins
@@ -1326,9 +1300,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         // Adding Comm.
         if (winner['vesperae_commemoratio'])
-          comm_vesperae_full.push({force: winner['force'], comm: winner['vesperae_commemoratio'].replace(/^Com\. /, "").replace(winner['header'], "de præc.")});
-        else if (false && winner['vesperae'])
-          comm_vesperae_full.push({force: winner['force'], comm: winner['vesperae'].replace(/^Com\. /, "")});
+          comm_vesperae_full.push({
+            force: winner['force'], 
+            comm: winner['vesperae_commemoratio'].replace(/^Com\. /, "").replace(winner['header'], "de præc.")});
         }
       }
 
@@ -2009,7 +1983,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             // In "Commemoratio et M.", the missa is taken from commemoratio['missa'], therefore the Comm. cannot be commemorated in the Mass.
 
             for (i_c = 0; i_c < comm_missa_copy.length; i_c++) {
-              if (commemoratio['header'].match(comm_missa_copy[i_c].header))
+              if (commemoratio['header'].match(comm_missa_copy[i_c].header)
+                && winner != days_sancto['votiva_bernardi']
+                && winner != days_sancto['votiva_bmv']
+                && winner != days_sancto['votiva_bmv_prima_sabb']
+                && winner != days_sancto['votiva_sacramentum'])
                 comm_missa_copy.splice(i_c,1);
             }
           }
