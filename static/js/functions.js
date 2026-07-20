@@ -164,7 +164,8 @@ function roman_lower_to_upper(str) {
   str = str.replaceAll("x","X");
   str = str.replaceAll("v","V");
   str = str.replaceAll("c","C");
-  str = str.replaceAll(/[ij]/,"I"); 
+  str = str.replaceAll("i","I");
+  str = str.replaceAll("j","I");
 
   return str;
   };
@@ -943,9 +944,17 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     else subtitulum = winner['subtitulum'];
     if (trans_before != "") before = before + '<div class="small_pg"><font color="red">' + trans_before + '</div></font>';
 
-    if (weekday == 0 && !str.match(/^Dom/))
+    if (weekday == 0 && winner == days_tempo[ref_tempo])
       {
-        str = 'Dom. ' + str;
+        if (ref_tempo.match(/tp_[3-6]|pe_[2-6]/))
+        {
+          header = header.replace(/^(.*? )/, match => roman_lower_to_upper(match));
+        }
+        else if (ref_tempo.match(/lent_[1-4]|pa_[3-9]|pa_[1-2][0-9]/))
+        {
+          header = header.replace(/^(\S+\s+)(\S+)/, (match, firstWord, secondWord) => 
+            firstWord + roman_lower_to_upper(secondWord))
+        }
       }
 
     function shorten_header(str) {
@@ -955,7 +964,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       str = str.replace("Priv. Dieb. infra ","");
       str = str.replace("Octavam","Oct."); 
       str = str.replace(/de ea/i, translate_feria(ref_tempo, "short"));
-      if (weekday == 0 && !str.match(/^Dom/))
+      if (weekday == 0 && !str.match(/^Dom|^SS?\. /))
       {
         str = 'Dom. ' + str;
       }
@@ -2031,6 +2040,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (comm_missa_copy.length == 0 && comm_missa_add[1])
             comm_temp = comm_temp + ' ' + (comm_missa_copy.length+3) + 'a ' + comm_missa_add[1].header + '. ';
           }
+          
+          comm_temp = comm_temp.replace('..', '.');
           
           missa = missa + ' <font color=blue><b>Com.</b></font> ' + comm_temp
           comm_temp = null;
