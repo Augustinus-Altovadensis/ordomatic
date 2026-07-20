@@ -160,6 +160,15 @@ function roman_upper_to_lower(str) {
   return str;
   };
 
+function roman_lower_to_upper(str) {
+  str = str.replaceAll("x","X");
+  str = str.replaceAll("v","V");
+  str = str.replaceAll("c","C");
+  str = str.replaceAll(/[ij]/,"I"); 
+
+  return str;
+  };
+
 function translate_feria(ref_tempo, short) {
   roman_lowercase_numerals = ["j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
   ref = ref_tempo.split("_");
@@ -934,13 +943,22 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     else subtitulum = winner['subtitulum'];
     if (trans_before != "") before = before + '<div class="small_pg"><font color="red">' + trans_before + '</div></font>';
 
+    if (weekday == 0 && !str.match(/^Dom/))
+      {
+        str = 'Dom. ' + str;
+      }
+
     function shorten_header(str) {
       str = str.replace(/[,+].*/, "");
       str = str.replace(/Dominica/i,"Dom.");
       str = str.replace(/Epiphani.m?/,"Epiph.");
       str = str.replace("Priv. Dieb. infra ","");
       str = str.replace("Octavam","Oct."); 
-      str = str.replace(/de ea/i, translate_feria(ref_tempo, "short")); 
+      str = str.replace(/de ea/i, translate_feria(ref_tempo, "short"));
+      if (weekday == 0 && !str.match(/^Dom/))
+      {
+        str = 'Dom. ' + str;
+      }
       return str;
     };
 
@@ -1082,7 +1100,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //// Deleting first Vespers of moved Feasts \\\\
     //\\\\\\\\\\\\\\\\\\\\\/////////////////////////
 
-    if ( weekday == 6 && winner_next == days_sancto[ref_sancto_next] && winner_next['force'] > 60 && winner_next['force'] < 90 && ref_tempo.match(/ash|lent|tp/) )
+    if ( weekday == 6 && winner_next == days_sancto[ref_sancto_next] && winner_next['force'] > 60 && winner_next['force'] < 90 && ref_tempo.match(/ash|lent|tp[01]]/) )
       {
       winner_next = days_tempo[ref_tempo_next];
       vesperae_j = winner_next['vesperae_j'];
@@ -1950,7 +1968,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           comm_laudes_full.sort((a, b) => b.force - a.force);
           //comm_temp = 'Com. ';
-          comm_temp = ' <font color=blue><b>COM.</b></font> ';
+          comm_temp = ' <font color=blue><b>Com.</b></font> ';
 
           for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
             //comm_temp = comm_temp + '[' + i_c + '] ' + comm_laudes_full[i_c].comm + ' ';
@@ -2014,7 +2032,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             comm_temp = comm_temp + ' ' + (comm_missa_copy.length+3) + 'a ' + comm_missa_add[1].header + '. ';
           }
           
-          missa = missa + ' <font color=blue><b>COM.</b></font> ' + comm_temp
+          missa = missa + ' <font color=blue><b>Com.</b></font> ' + comm_temp
           comm_temp = null;
         }
 
@@ -2025,7 +2043,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           // Vesperae: commemorationes
           comm_vesperae_full.sort((a, b) => b.force - a.force);
           //comm_temp = 'Com. ';
-          comm_temp = ' <font color=blue><b>COM.</b></font> ';
+          comm_temp = ' <font color=blue><b>Com.</b></font> ';
 
           for (i_c = 0; i_c < comm_vesperae_full.length; i_c++) {
             //comm_temp = comm_temp + '[' + i_c + '] ' + comm_vesperae_full[i_c].comm + ' ';
