@@ -527,6 +527,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     winner_next = get_winner(ref_tempo_next, ref_sancto_next); 
     winner = get_winner(ref_tempo, ref_sancto);
     feria = days_tempo[ref_tempo];
+    feria_next = days_tempo[ref_tempo_next];
 
     
       //////////////////////////////////////////////////////
@@ -570,84 +571,124 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ////// Removing Commemorations during the Holy Week and Easter Octave
 
     // Translating feasts MM. maj. and higher during Holy Week and Easter Octave
-    if ( commemoratio && ref_tempo.match(/lent_6_|tp_1/) && commemoratio['force'] > 50 )
+    if ( commemoratio_next && commemoratio_next['force'] > 50 
+        && ref_tempo_next.match(/lent_6_|tp_1/) )
       {
-        moved.push(ref_sancto);
-        trans_titulum = commemoratio['header'].split(",", 1);
+        moved.push(ref_sancto_next);
+        trans_titulum = commemoratio_next['header'].split(",", 1);
         trans_before = "Festum " + trans_titulum[0] + " transfertur post Octavam Paschæ."
-        commemoratio = "";
+        commemoratio_next = "";
       }
 
-    // Separating S. Adalbert and S. George, if the former is being transferred.
-    if (ref_sancto.match("04_23") && ref_tempo.match(/lent_6_[1-3]|tp_1_[1-6]/)) commemoratio = days_sancto['04_23oct'];
-
     // Translating feasts MM. maj. and higher during Pentecost Octave
-    if ( commemoratio && ref_tempo.match(/tp_7_6|tp_8|pa_1_0/) && commemoratio['force'] > 50 )
+    if ( commemoratio_next && commemoratio_next['force'] > 50 
+        && ref_tempo_next.match(/tp_7_6|tp_8|pa_1_0/) )
       {
-        moved.push(ref_sancto);
-        trans_titulum = commemoratio['header'].split(",", 1);
+        moved.push(ref_sancto_next);
+        trans_titulum = commemoratio_next['header'].split(",", 1);
         trans_before = "Festum " + trans_titulum[0] + " transfertur post Octavam Pentecostes."
-        commemoratio = "";
+        commemoratio_next = "";
       }
 
     // Translating feasts MM. maj. on Ascension of Our Lord and Corpus Christi
-    if ( commemoratio && ref_tempo.match(/tp_6_4|pa_1_4/) && commemoratio['force'] > 50 )
+    if ( commemoratio_next && commemoratio_next['force'] > 50
+        && ref_tempo_next.match(/tp_6_4|pa_1_4/) )
       {
-        moved.push(ref_sancto);
-        trans_titulum = commemoratio['header'].split(",", 1);
+        moved.push(ref_sancto_next);
+        trans_titulum = commemoratio_next['header'].split(",", 1);
         trans_before = "Festum " + trans_titulum[0] + " transfertur in primam diem non impeditam."
-        commemoratio = "";
+        commemoratio_next = "";
       }
 
     // Octava Corporis Christi. See Ant. cist. II, p. 71
     // Only Sermones are celebrated, xij. Lect and MM. get translated, 
     // lower commemorated. Altovadum: only MM. maj. get translated.
-    if ( commemoratio && ref_tempo.match(/pa_2_4/) && commemoratio['force'] > 60 && commemoratio['force'] < 90 )
+    if ( commemoratio_next
+       && commemoratio_next['force'] > 60 
+       && commemoratio_next['force'] < 90 
+       && ref_tempo_next.match(/pa_2_4/) )
       {
-        moved.push(ref_sancto);
-        trans_titulum = commemoratio['header'].split(",", 1);
+        moved.push(ref_sancto_next);
+        trans_titulum = commemoratio_next['header'].split(",", 1);
         trans_before = "Festum " + trans_titulum[0] + " transfertur in primam diem non impeditam."
-        commemoratio = "";
+        commemoratio_next = "";
       }
 
     // Completely removing feasts iij. Lect. and lower during Holy Week and Monday and Tuesday of Easter Octave
 
     // N.B.: "tp_7_6|" has been removed.
-    if ( commemoratio && ( ref_tempo.match(/lent_6_[3456]|tp_1_[012]|tp_6_4|tp_8_[012]|pa_1_0|pa_1_4|pa_2_5/) ))
-      { trans_titulum = commemoratio['header'].split(",", 1);
+    if ( commemoratio_next 
+      && ref_tempo_next.match(/lent_6_[3456]|tp_1_[012]|tp_6_4|tp_8_[012]|pa_1_0|pa_1_4|pa_2_5/) )
+      { trans_titulum = commemoratio_next['header'].split(",", 1);
         trans_before = "Nihil fit hoc anno de festo " + trans_titulum + "."; 
-        commemoratio = ""; }
+        commemoratio_next = ""; }
 
     // Translating every feast higher than MM. min. that falls on Sunday
-      if ( weekday == 0 && winner == days_sancto[ref_sancto] && winner['force'] > 60 && winner['force'] <= 80 && !ref_tempo.match(/christmas|pa_|pe_|tp_[2-7]_/i) && !ref_sancto.match(/12_08/))
+      if ( weekday == 6 
+          && winner_next == days_sancto[ref_sancto_next] 
+          && winner_next['force'] > 60 
+          && winner_next['force'] <= 80 
+          && !ref_tempo.match(/christmas|pa_|pe_|tp_[2-7]_/i) 
+          && !ref_sancto.match(/12_08/))
       {
-        moved.push(ref_sancto);
+        moved.push(ref_sancto_next);
         trans_titulum = winner['header'].split(",", 1);
         trans_before = "Festum " + trans_titulum[0] + " transfertur post Dominicam."
-        winner = feria;
-        commemoratio = "";
+        winner_next = feria_next;
+        commemoratio_next = "";
       }  
 
     // Translating every feast higher than MM. maj. that falls on Sunday, that will overrank it
-      if ( weekday == 0 && commemoratio && commemoratio['force'] > 60 && ref_tempo.match(/adv_|lent_/i) && !ref_sancto.match(/12_08/) )
+      if ( weekday == 6 && commemoratio_next 
+          && commemoratio_next['force'] > 60 
+          && ref_tempo_next.match(/adv_|lent_/i) 
+          && !ref_sancto_next.match(/12_08/) )
       {
-        moved.push(ref_sancto);
-        trans_titulum = commemoratio['header'].split(",", 1);
+        moved.push(ref_sancto_next);
+        trans_titulum = commemoratio_next['header'].split(",", 1);
         trans_before = "Festum " + trans_titulum[0] + " transfertur post Dominicam."
+        winner_next = feria_next;
+        commemoratio_next = "";
+      }
+
+    moved_beginning = '';
+    if (moved.length > 0) moved_beginning = '<br>Moved beginning: ' + "\t" + moved.join(", ") + ' Length = "' + moved.length + '". ref_sancto = "' + ref_sancto;
+
+    // Deleting moved feasts on the original day
+    if (moved.includes(ref_sancto))
+    {
+      before = before + '<div><font color=blue>Removing ' + ref_sancto + '.</font></div>'
+      if (winner == days_sancto[ref_sancto])
+      {
         winner = feria;
-        commemoratio = "";
-      }  
+      }
+      commemoratio = "";
+    }
 
     // Determining, whether we celebrate the Tricenarium magnum or not
     // On Sundays and Feast Days, no Vesperæ Defunctorum
-    if ( ((day >= 18 && month_usual_number == 9)||(day < 18 && month_usual_number == 10)) && (winner_next['force'] < 30 || (ref_tempo_next.match("quatember_septembris") && winner_next['force'] < 40 )) && winner['force'] <= 30 ) tricenarium_vesperae = true;
+    if ( ((day >= 18 && month_usual_number == 9)
+        ||(day < 18 && month_usual_number == 10)) 
+        && (winner_next['force'] < 30 
+          || (ref_tempo_next.match("quatember_septembris") 
+          && winner_next['force'] < 40 )) 
+        && winner['force'] <= 30 ) 
+      tricenarium_vesperae = true;
 
-    if ( ((day > 18 && month_usual_number == 9)||(day < 18 && month_usual_number == 10)) && (winner['force'] < 30 || (ref_tempo.match("quatember_septembris") && winner['force'] < 40)) ) { tricenarium = true; }
+    if ( ((day > 18 && month_usual_number == 9)
+        ||(day < 18 && month_usual_number == 10)) 
+        && (winner['force'] < 30 
+          || (ref_tempo.match("quatember_septembris") 
+        && winner['force'] < 40)) ) { tricenarium = true; }
 
 
     // "Returning" translated feasts on Monday that is not in Holy Week and any Octave
-    if ( weekday > 0 && moved.length > 0 && !ref_tempo.match(/lent_6_|tp_1_/) 
-         && winner['force'] < 40 ) {
+    if ( weekday > 0 && moved.length > 0 
+        && !moved.includes(ref_sancto)
+        && !moved.includes(ref_sancto_next)
+        && !ref_tempo.match(/lent_6_|tp_1_/) 
+        && winner['force'] < 40 ) 
+      {
         top_moved = 0;
         for (j = 0; j < moved.length; j++)
           { // we need to find the highest ranking feast in moved[]
@@ -664,11 +705,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         translated = true;
         if (winner == days_sancto['anniversarium_dedicationis'] && days_sancto[ref_sancto]) 
             commemoratio = days_sancto[ref_sancto];
-        } 
+      } 
 
     // First Vespers (probably just copy previous function without splicing the "moved" Array)
-    if ( moved.length > 0 && !ref_tempo.match(/lent_6_|tp_1_|tp_7_6|tp_8_/) 
-         && winner_next['force'] < 40 ) {
+    if ( moved.length > 0 
+        && !ref_tempo.match(/lent_6_|tp_1_|tp_7_6|tp_8_/) 
+        && winner_next['force'] < 40 ) 
+      {
         top_moved = 0;
         for (j = 0; j < moved.length; j++)
           {
@@ -683,12 +726,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (winner_next['force'] != 10 ) commemoratio_next = winner_next;
         winner_next = days_sancto[moved[top_moved]]; 
         translated_vesperae_j = true;
-        }
+      }
 
     // Anniversarium Dedicationis Ecclesiæ Altovadensis 1. 6. (pokud přijde do svatodušního Oktávu)
 
     if ( ref_sancto == "05_31" ) {
-        if (ref_tempo.match(/tp_7_5|tp_8_/)) {
+        if (ref_tempo_next.match(/tp_7_5|tp_8_/)) {
           moved.push('anniversarium_dedicationis');
           trans_before = "Festum Dedicationis Ecclesiæ Altovadensis translatum post Octavam Pentecostes."; }
         else {
@@ -940,9 +983,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     martyrologium = winner_next['martyrologium'];
     vesperae_j = winner_next['vesperae_j'];
 
-    if (subtitulum != "") subtitulum = subtitulum + "<br>" + winner['subtitulum'];
+    if (subtitulum) subtitulum = subtitulum + "<br>" + winner['subtitulum'];
     else subtitulum = winner['subtitulum'];
-    if (trans_before != "") before = before + '<div class="small_pg"><font color="red">' + trans_before + '</div></font>';
+    
+    //if (trans_before) before = before + '<div class="small_pg"><font color="red">' + trans_before + '</div></font>';
+
+    if (trans_before) after = after + '<div class="small_pg"><font color="red">' + trans_before + '</div></font>';
 
     if (weekday == 0 && winner == days_tempo[ref_tempo])
       {
@@ -989,7 +1035,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     if (commemoratio_next)
       {
-        if (commemoratio_next['vesperae_j_commemoratio'])
+        if (commemoratio_next['vesperae_j_commemoratio'] 
+          && !moved.includes(ref_sancto_next)
+          )
           comm_vesperae_full.push({
             force: commemoratio_next['force'], 
             comm: commemoratio_next['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
@@ -1109,6 +1157,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //// Deleting first Vespers of moved Feasts \\\\
     //\\\\\\\\\\\\\\\\\\\\\/////////////////////////
 
+  if (false)
+  {
+
     if ( weekday == 6 && winner_next == days_sancto[ref_sancto_next] && winner_next['force'] > 60 && winner_next['force'] < 90 && ref_tempo.match(/ash|lent|tp[01]]/) )
       {
       winner_next = days_tempo[ref_tempo_next];
@@ -1145,7 +1196,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       {
       comm_vesperae_j = "";
       }
-
+  }
     // Tricenarium solemne (1)
     if (commemoratio_next == days_sancto['09_18tr']) comm_vesperae_j = "";
     if (winner_next == days_sancto['09_18tr']) vesperae_j = "";
@@ -1519,13 +1570,17 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     j = 1;
 
+    moved_output = "";
+    if (moved.length > 0) moved_output = '<br>Moved feasts: ' + moved.join(", ") + ' Length = "' + moved.length + '". ref_sancto = "' + ref_sancto;
+
     check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + "'.<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check + "</i></b> + commemoratio_next_add = " + comm_next_add_header_check
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force']    
       + ". extra_sunday = " + extra + "  --- i = " + i + "/" + duration // + '. <br>'
       +  ' -=- winter_hymns = "' + winter_hymns + '".'
       //+ 'Feria = "' + feria['header'] + '", &emsp;Vesperæ: "' + feria['vesperae'] + '".<br>'
-      //+ 'Moved feasts [0] "' + moved[0] + '" [1] "' + moved[1] + '" [2] "' + moved[2] + '" [3] "' + moved[3] + '". Length = "' + moved.length
+      //+ '<br>Moved feasts [0] "' + moved[0] + '" [1] "' + moved[1] + '" [2] "' + moved[2] + '" [3] "' + moved[3] + '". Length = "' + moved.length
+      + moved_beginning + moved_output 
       //+ '.<br>Sacérdos et Pontifex: "' + matchCount(vesperae,/Sacérdos et Póntifex/) + '" - Fíliæ Jerúsalem: "' + matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/);
       //+ " - Day = " + day + ", Month = " + month + ". Header + a week: " + get_ref_sancto(j*7) + " - "
 
@@ -1971,6 +2026,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         ///////// New Commemorations: Output. \\\\\\\\\\\
         //////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+        // First we need to filter out lower feast Comm. if a today is a Sermo
+        if (winner['force'] > 90
+            && !ref_tempo.match(/tp_1_[3-6]/))
+          {
+            for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
+              if (comm_laudes_full[i_c].force < 35) 
+                comm_laudes_full.splice(i_c,1); 
+            }
+          }
+
         if (comm_laudes_full.length > 0)
         {
           // Laudes: commemorationes
@@ -2003,7 +2068,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           }
 
           // In masses of feasts xij. Lect. et M. and lower, there are three Collects in total
-          if (commemoratio && commemoratio['rank'].match(/Commemoratio et M\./i))
+          if (commemoratio 
+            && commemoratio['rank'].match(/Commemoratio et M\./i)
+            && winner['header'].match(/De ea/i))
           {
             missa_temp = commemoratio['missa'];
 
@@ -2017,6 +2084,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
                 && winner != days_sancto['votiva_sacramentum'])
                 comm_missa_copy.splice(i_c,1);
             }
+
+            if (missa_temp.match(/de officio diei/i))
+            {
+              comm_missa_copy.push({force: winner['force'], header: missa_temp.match(/2a (.*?) 3a/is)?.[1]});
+              comm_missa_copy.sort((a, b) => b.force - a.force);
+            }
           }
           else missa_temp = winner['missa'];
 
@@ -2029,10 +2102,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           {
             comm_missa_add = [];
 
-            if (missa_temp.match("2a")) 
+            if (missa_temp.match("2a") && !missa_temp.match(/de officio diei/i))
+            {
               comm_missa_add.push({force: 2, header: missa_temp.match(/2a (.*?) 3a/is)?.[1]});
+            }
             if (missa_temp.match("3a")) 
+            {
               comm_missa_add.push({force: 1, header: missa_temp.match(/3a (.*?)\.? -/is)?.[1]});
+            }
             //comm_missa_add.sort((a, b) => b.force - a.force);
 
             if (comm_missa_copy.length <= 1 && comm_missa_add[0])
@@ -2047,8 +2124,21 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_temp = null;
         }
 
-        // Vesperæ: commemorationes
+        //////////////////|\\\\\\\\\\\\\\\\\\
+        ///  Vesperæ: NEW commemorationes  \\\
+        //|\\\\\\\\\\\\\\\|///////////////////
 
+        // First we need to filter out lower feasts if a Sermo is following
+        if (winner_next['force'] > 90 
+          && !ref_tempo_next.match(/tp_1_[3-6]/))
+          {
+            for (i_c = 0; i_c < comm_vesperae_full.length; i_c++) {
+              if (comm_vesperae_full[i_c].force < 35) 
+                comm_vesperae_full.splice(i_c,1); 
+            }
+          }
+
+        // Then we write out the Commemorations
         if (comm_vesperae_full.length > 0)
         {
           // Vesperae: commemorationes
@@ -2057,8 +2147,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_temp = ' <font color=blue><b>Com.</b></font> ';
 
           for (i_c = 0; i_c < comm_vesperae_full.length; i_c++) {
-            //comm_temp = comm_temp + '[' + i_c + '] ' + comm_vesperae_full[i_c].comm + ' ';
             comm_temp = comm_temp + ' ' + comm_vesperae_full[i_c].comm + ' ';
+            //comm_temp = comm_temp + ' ' + comm_vesperae_full[i_c].comm + ' [' + comm_vesperae_full[i_c].force + '] ';
             if (i_c < (comm_vesperae_full.length-1)) 
                 comm_temp = comm_temp + "& ";
           }
