@@ -462,7 +462,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     
     // zeroing moved feasts at the start of liturgical year.
     if (ref_tempo.match("adv_1_0")) {
-      moved = []; 
+      //moved = []; 
       dominica_anticipata = false;
       anniversarium_01 = "";
       anniversarium_05 = "";
