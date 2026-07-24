@@ -1349,7 +1349,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         today_wins = true; 
         }
       else if ( winner['force'] == winner_next['force'] && winner['force'] > 35 ) {
-        // a capitulo de sequenti, ut in 28. & 29.8.
+        // a capitulo de sequenti, ut in 25. & 26.6. et 28. & 29.8.
         vesperae_j = "";
         commemoratio_vesperae = winner_next['vesperae_j'];
         today_wins = true; 
@@ -2051,6 +2051,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             
           //laudes = laudes + ' -=comm_laudes_full [' + comm_laudes_full.length + ']=- ';
           laudes = laudes + comm_temp;
+          if (!laudes && winner['force'] > 40) laudes = "sine Com.";
           comm_temp = "";
 
           //////////////////|\\\\\\\\\\\\\\\\\\
