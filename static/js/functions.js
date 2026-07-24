@@ -800,8 +800,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_sancto == "06_26" && weekday == 5) vigilia_sabb = true;
 
     /////  Vigilia S. Jacobi, if it falls on Sunday \\\\\
-    if (ref_sancto == "07_23" && weekday == 6) {
-        commemoratio = days_sancto['07_23v']; }
+    if ((ref_sancto == "07_23" && weekday == 6 )
+     || (ref_sancto == "07_24" && weekday != 0)) {
+        commemoratio_add = days_sancto['07_24v']; }
 
     /////  Vigilia S. Laurentii, if it falls on Sunday \\\\\
     if (ref_sancto == "08_08" && weekday == 6) { winner = days_sancto['08_08v']; }
@@ -990,6 +991,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     if (trans_before) after = after + '<div class="small_pg"><font color="red">' + trans_before + '</div></font>';
 
+    // It's more practical to keep the numbers in Header in lowercase (vj. etc.)
+    // But for the main header, UPPERCASE numbers (VI. etc.) are nicer
     if (weekday == 0 && winner == days_tempo[ref_tempo])
       {
         if (ref_tempo.match(/tp_[3-6]|pe_[2-6]/))
@@ -1023,6 +1026,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ///  Loading the new Commemoratio variables   \\\\
     //|\\\\\\\\\\\\\\\\\\\|///////////////////////////
 
+    // list of days with no commemorations
     const no_comm = /lent_6_[456]|tp_1_[012]|tp_6_4|tp_8_[012]/;
 
     if (!no_comm.test(ref_tempo))
@@ -2122,7 +2126,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             comm_temp = comm_temp + ' ' + (comm_missa_copy.length+3) + 'a ' + comm_missa_add[1].header + '. ';
           }
           
-          comm_temp = comm_temp.replace('..', '.');
+          comm_temp = comm_temp.replaceAll('  ', ' ');
+          comm_temp = comm_temp.replaceAll('..', '.');
+          comm_temp = comm_temp.replaceAll(/\.(<[^>]*>)\./g, '.$1');
           
           missa = missa + ' <font color=blue><b>Com.</b></font> ' + comm_temp
           comm_temp = null;
