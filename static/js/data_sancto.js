@@ -3766,7 +3766,7 @@ const days_sancto = {
     'laudes': 'sine Com.',
     'laudes_commemoratio':'',
     'laudes_post':'',
-    'missa': 'Duo Acolythi - Cum incenso ad oblata - Glo. - Præf. B.M.V.',
+    'missa': 'Duo Acolythi - Cum incenso ad oblata - Glo. - Cre. - Præf. B.M.V.',
     'missa_post': '',
     'vesperae': 'de festo',
     'vesperae_commemoratio': 'Com. de præc. <i>Beátam me dicent.</i>',
