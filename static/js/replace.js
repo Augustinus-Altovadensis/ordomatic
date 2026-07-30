@@ -19,9 +19,9 @@ function addtags(winner) {
     ///////////////////////////////////////////////
     winner = winner.replace("-date-", day + ". " + month_usual_number + ".");
 
-    winner = winner.replace(/B.M.V.|B. M. V./, 'B. M. V.');
-    winner = winner.replace(/S\.P\.N\.|S\. P\. N\./, 'S. P. N.');
-    winner = winner.replace(/O\.N\.|O\. N\./, 'O. N.');
+    winner = winner.replace(/B.M.V.|B. M. V./, 'B.\u202FM.\u202FV.');
+    winner = winner.replace(/S\.P\.N\.|S\. P\. N\./, 'S.\u202FP.\u202FN.');
+    winner = winner.replace(/O\.N\.|O\. N\./, 'O.\u202FN.');
     winner = winner.replace("sine Com.", '<font color="green"><s>Com.</s></font>');
     //winner = winner.replace(/^Com\./, '<font color="green"><b>Com.</b></font> ');
     winner = winner.replace(/Com\. /, '<font color="green">Com.</font> ');
