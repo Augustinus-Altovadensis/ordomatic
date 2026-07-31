@@ -1,3 +1,18 @@
+   
+    // sometimes, we need to replace Com. festum with Com. de seq.
+    next_com_title = "Com. " + winner_next['header'];
+    next_et_title = "&  " + winner_next['header']; // the Com. doesn't need to be as first
+    if ( vesperae.match(next_com_title) ) vesperae = vesperae.replace(next_com_title, "Com. de seq.")
+    if ( vesperae.match(next_et_title) ) vesperae = vesperae.replace(next_et_title, "& de seq.")
+
+    // the same goes for "de præcedenti"
+    praec_com_title = "Com. " + winner['header'];
+    praec_et_title = "&  " + winner['header']; // the Com. doesn't need to be as first
+    if ( vesperae.match(praec_com_title) ) vesperae = vesperae.replace(praec_com_title, "Com. de præc.")
+    if ( vesperae.match(praec_et_title) ) vesperae = vesperae.replace(praec_et_title, "& de præc.")
+
+  //////////////////////////////
+
     ///// Workaround for First Vespers S. Familiae //////
     if ( ref_tempo.match("christmas") && i == (duration-2) ) 
       {  if ( winner['force'] > 100 ) 
@@ -5,130 +20,56 @@
           else vesperae = 'Sanctæ Familiæ: Jesu, Mariæ et Joseph <font color="red">(supple. bre. Cist. 1965)</font>'; }
 
 
-        if ( ref_sancto == "everything works")
-          { // beginning of former Vespers
-          dash = " - ";
-          dash1 = " + ";
-          //et = " & ";
-          if ( winner['vesperae'] == "" || vesperae == "" ) dash = ""; 
-          if ( comm == "" && titulum_next == "" ) dash = ""; 
-          if ( commemoratio['vesperae_commemoratio'].match(/^Com\. /) )
-            { 
-             if ( comm == "" ) dash = "";
-             vesperae = vesperae + dash + commemoratio['vesperae_commemoratio'];
-            }
-          else if ( commemoratio['vesperae_commemoratio'].length > 3 && commemoratio['force'] > 35 ) { vesperae = vesperae + dash + "Com. " + titulum + et + commemoratio['vesperae_commemoratio'];}
-          else if ( commemoratio['vesperae_commemoratio'].length > 3 && commemoratio['force'] <= 35 ) { vesperae = vesperae + dash + "Com. " + commemoratio['vesperae_commemoratio'];} // CHECK!!!
-          else if ( commemoratio['force'] > 35) vesperae = vesperae + dash + "Com. " + titulum_next + " " + comm //+ et + comm_vesperae;
-          else if ( commemoratio['force'] <= 35) vesperae = vesperae + dash + "Com. " + titulum_next + " " + comm //+ et + comm_vesperae; // CHECK!!!
-          // CHECK: this is to get rid of commemorated second (!) vespers of lower feasts. I may sometimes delete first vespers, so this must be checked.
+  //////////////////////////////
 
-          if ( feria['vesperae'] && weekday == 6 && winner['force'] > 60 && winner == days_sancto[ref_sancto] )
-            { 
-              if (vesperae.match("Com\. ")) vesperae = vesperae.replace("Com.", "Com. " + feria['vesperae'] );
-              else vesperae = vesperae + "Com. " + feria['vesperae'];
-            }
-          else if ( feria['vesperae'] && weekday == 6 && winner['force'] <= 60 && winner == days_sancto[ref_sancto] )
-            { 
-              if (vesperae.match("Com\. ")) vesperae = vesperae.replace("Com.", feria['vesperae'] + " - Com. " );
-              else vesperae = feria['vesperae'] + "Com. " + vesperae;
-            }
+        if (false && matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/g) == 2 ) { t = 0;
+        vesperae = vesperae.replace(/F[íi]li(æ|ae) Jer[úu]salem/g, match => ++t == 2 ? "Lux perpétua" : match); }
+      if (false &&  matchCount(laudes,/Lux perp[ée]tua/g) == 2 ) { t = 0;
+        laudes = laudes.replace(/Lux perp[ée]tua/g, match => ++t == 2 ? "Fíliæ Jerúsalem" : match); }
 
-          ////// If tomorrow's Vespers beat today's winner //////////
+      if (false && matchCount(vesperae,/Sac[ée]rdos et P[óo]ntifex/) == 1 ) { t = 0;
+        vesperae = vesperae.replace(/Sac[ée]rdos et P[óo]ntifex/g, match => ++t == 2 ? "Euge serve bone" : match); }
+      if (false && matchCount(laudes,/Euge,? serve bone|Euge,? serve|Euge/) == 1 ) { t = 0;
+        laudes = laudes.replace(/Euge,? serve bone|Euge,? serve|Euge/g, match => ++t == 2 ? "Sacérdos et Póntifex" : match); }
 
-          if ( winner_next['force'] > winner['force'] && weekday != 6)
-            { 
-            if ( commemoratio['vesperae_commemoratio'].match("^Com\. ") )
-            { 
-             vesperae = commemoratio['vesperae'] + " – " + winner['vesperae_commemoratio'];
-            }
-            else if (commemoratio['vesperae'].match(/Feria/i)) vesperae = commemoratio['vesperae']; //  + " – Com. " + winner['vesperae_commemoratio']
-            else if (winner['vesperae'].match(/Fer\.|Sabb./i)) vesperae = commemoratio['vesperae'] + " – Com. " + winner['vesperae_commemoratio'];
-            else vesperae = commemoratio['vesperae'] + " – Com. " 
-              + winner['vesperae'] + " "  // more testing needed
-              + winner['vesperae_commemoratio'];
-            vesperae = vesperae.replace(/- sine Com.|sine Com./, "");
+//////////////////////////////
 
-            if (vesperae.match(/Feria/i) && ref_tempo.match("lent") && winner['vesperae_commemoratio'])
-             {
-              vesperae = vesperae.replace(/Feria/i, feria['vesperae_commemoratio'].replace("Com. ", ""));
-             }
-            }
-          } // end of former Vespers
+    // For (translated) Anniversary (1.6.1259), that happens to fall into the Octave of Corporis Christi or Ascens., the Octave Comm. from unused temporale must be filled in
 
-    if ((weekday == 0 || weekday == 6 ) && vesperae.match(/\(Com\.\)|\(Com\. et M\.\)/)) 
-      {
-        if (vesperae.match(/^Com\./)) {
-          all_comm_vesp = vesperae.split("&"); }
-        else { vesperae_parts = vesperae.split(" - Com. "); 
-        all_comm_vesp = (vesperae_parts[1] + "").split("&"); }
-        // Let's push all "xij. Lect." Comms. to the end
-        for (k = 0; k < all_comm_vesp.length; k++) {
-            temp_comm = all_comm_vesp[k] + "";
-            if (temp_comm.match("(xij. Lect. et M.)")) { 
-                all_comm_vesp.splice(k,1);
-                all_new_vesp.push(temp_comm); } 
-            temp_comm = null; }
-        // Let's push all "iij. Lect." Comms. to the end
-        for (k = 0; k < all_comm_vesp.length; k++) {
-            temp_comm = all_comm_vesp[k] + "";
-            if (temp_comm.match("(iij. Lect. et M.)")) { 
-                all_comm_vesp.splice(k,1);
-                all_new_vesp.push(temp_comm); } 
-            temp_comm = null; }
-        // And now all "Com. et M."
-        for (k = 0; k < all_comm_vesp.length; k++) {
-            temp_comm = all_comm_vesp[k] + "";
-            if (temp_comm.match("(Com. et M.)")) { 
-                all_comm_vesp.splice(k,1);
-                all_new_vesp.push(temp_comm); }
-            temp_comm = null; }
-        // And now all "Com."
-        for (k = 0; k < all_comm_vesp.length; k++) {
-            temp_comm = all_comm_vesp[k] + "";
-            if (temp_comm.match("(Com.)")) { 
-                all_comm_vesp.splice(k,1);
-                all_new_vesp.push(temp_comm); }
-            temp_comm = null; }
-          vesperae = vesperae_parts[0] + " - Com. ";
-        //all_comm_vesp = all_comm_vesp.concat(all_new_vesp);
-        //for (k = (all_comm_vesp.length-1); k >= 0; k--)
-        for (k = 0; k < all_comm_vesp.length; k++)
-          {
-          vesperae += 'all [' + k + ']' + all_comm_vesp[k];
-          //vesperae += all_comm_vesp[k];
-          if (k < all_comm_vesp.length-1) vesperae += " & ";
+    if (false && winner == days_sancto['anniversarium_dedicationis'] && ref_tempo.match(/pa_1_[56]|pa_2_[01234]/i) && commemoratio == days_sancto[ref_sancto])
+    {
+      if (!laudes.match("Com."))  
+        laudes += " - Com. Oct. Corp. Chr. <i>Ego sum panis.</i>";
+      else laudes = laudes.replace("Com.", "Com. Oct. Corp. Chr. <i>Ego sum panis.</i> &");
+      if (!vesperae.match("Com.")) 
+        vesperae += " - Com. Oct. Corp. Chr. <i>O Sacraméntum.</i>"; 
+      else if (vesperae.match("Cognovérunt omnes."))
+        vesperae = vesperae.replace("Cognovérunt omnes.</i>", "Cognovérunt omnes.</i> & Oct. Corp. Chr. <ib>Magníficat.</i>"); 
+      else vesperae = vesperae.replace("Com.", "Com. Oct. Corp. Chr. <ib>O Sacraméntum.</ib> &");
+      if (missa) {
+          missa = missa.replace(/3a.*? -/,"");
+          missa = missa.replace("2a", "3a");
+          missa = missa.replace(/Glo\.? [-–]/, "Glo - 2a de Oct. Corp. Christi.");
+          missa = missa.replace(/(?:-)? Cre/, "- Cre");
           }
-        if (all_new_vesp) {
-          if (all_comm_vesp.length > 0) vesperae += " & ";
-        for (k = 0; k < all_new_vesp.length; k++)
-          { 
-          vesperae += 'new [' + k + ']' + all_new_vesp[k];
-          //vesperae += all_new_vesp[k];
-          if (k < all_new_vesp.length-1) vesperae += " & ";
-          } }
-      }
+    }
 
-  
-function get_ref_sancto_old(offset)
-  { 
-    ref_sancto_n = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day + offset) + (day + offset);
+    if (false && winner == days_sancto['anniversarium_dedicationis'] && ref_tempo.match(/tp_6_[56]|tp_7_[01234]/i) && commemoratio == days_sancto[ref_sancto])
+    {
+      // Test on 1.6.2028
+      if (!laudes.match("Com."))  
+        laudes += " - Com. Oct. Ascensionis <i>Ascéndo.</i>";
+      else laudes = laudes.replace("Com.", "Com. Oct. Ascensionis <i>Ascéndo.</i> &");
+      if (!vesperae.match("Com.")) 
+        vesperae += " - Com. Oct. Ascensionis <i>O Rex glóriae.</i>"; 
+      else if (vesperae.match("Sabb. ante Dom. infra oct. Ascensionis."))
+        vesperae = vesperae.replace("Sabb. ante Dom. infra oct. Ascensionis.", "Sabb. ante Dom. infra oct. Ascensionis <i>Cum vénerit.</i> & Oct. Corp. Chr. <i>Pater, manifestávi.</i>"); 
+      else vesperae = vesperae.replace("Com.", "Com. Oct. Ascensionis <i>O Rex glóriæ.</i> &");
+      if (missa) {
+          missa = missa.replace(/3a.*? -/,"");
+          missa = missa.replace("2a", "3a");
+          missa = missa.replace(/Glo\.? [-–]/, "Glo. - 2a de Oct. Ascensionis.");
+          missa = missa.replace(/(?:-)? Cre/, "- Cre");
+          }
+    }
 
-      ref_sancto_n = ref_sancto_n.replace("010", "10");
-
-      ref_sancto_n = ( ref_sancto_n == "12_32") ? "01_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "01_32") ? "02_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "02_30" && is_leap_year(year) ) ? "03_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "02_29" && !is_leap_year(year) ) ? "03_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "03_32") ? "04_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "04_31") ? "05_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "05_32") ? "06_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "06_31") ? "07_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "07_32") ? "08_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "08_32") ? "09_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "09_31") ? "10_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "10_32") ? "11_01" : ref_sancto_n;
-      ref_sancto_n = ( ref_sancto_n == "11_31") ? "12_01" : ref_sancto_n;
-
-      return ref_sancto_n;
-  }

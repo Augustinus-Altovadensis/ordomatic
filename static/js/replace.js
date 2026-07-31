@@ -13,6 +13,32 @@ function replace() {
   $('#explicit').html(year);
 }
 
+function shorten(txt) {
+txt = txt.replaceAll(/Protomartyris/ig, " Protomart.");
+txt = txt.replaceAll(/,? Papæ et Mart\./ig, " Pp.\u202FM.");
+txt = txt.replaceAll(/,? Papæ et Conf\./ig, " Pp.\u202FC.");
+txt = txt.replaceAll(/,? Ep\., Conf\. et Eccl\. Doct\./ig, " E.\u202FC.\u202FE.\u202FD.");
+txt = txt.replaceAll(/,? Conf\. et Eccl\. Doct\./ig, " C.\u202FE.\u202FD.");
+txt = txt.replaceAll(/,? Ep\.,? (?:et )?Mart\./ig, " E.\u202FM.");
+txt = txt.replaceAll(/,? Ep\. et Conf\./ig, " E.\u202FC.");
+txt = txt.replaceAll(/,? Pont\. et Mart\./ig, " PP.\u202FMM.");
+txt = txt.replaceAll(/,? Virg\. et Mart\./ig, " V.\u202FM.");
+txt = txt.replaceAll(/,? Virg\./ig, " V.");
+txt = txt.replaceAll(/,? Viduæ/ig, " Vd.");
+
+txt = txt.replaceAll(/SS\. (.*?),? Mart\./ig, "SS. $1 MM.");
+txt = txt.replaceAll(/S\. (.*?),? Mart\./ig, "S. $1 M.");
+txt = txt.replaceAll(/BB\. (.*?),? Mart\./ig, "BB. $1 MM.");
+txt = txt.replaceAll(/B\. (.*?),? Mart\./ig, "B. $1 M.");
+txt = txt.replaceAll(/,? Martyrum/ig, " MM.");
+txt = txt.replaceAll(/,? Virginum/ig, " VV.");
+txt = txt.replaceAll(/,? Conf\./ig, " C.");
+
+txt = txt.replaceAll(/O\.N\.|O\. N\./g, 'O.\u202FN.');
+
+return txt;
+}
+
 function addtags(winner) {
     ///////////////////////////////////////////////
     ///// Replacement section (HTML tags) /////////

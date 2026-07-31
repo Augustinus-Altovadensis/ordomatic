@@ -92,11 +92,16 @@ Object.prototype.in = function() {
     return false;
 }
 
+
+function escapeRegex(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function get_first_sunday_of_advent(christmas, christmas_weekday) {
   return new Date(christmas - ((21 + christmas_weekday) * 24 * 3600 * 1000));
 }
 
-function get_easter_date(year) {
+function get_easter_date_old(year) {
   v1 = year - 1900;
   v2 = v1 % 19;
   v3 = Math.floor(((v2 * 7) + 1) / 19);
@@ -108,6 +113,27 @@ function get_easter_date(year) {
   if (v7 > 0) { easter_month = 3 } else { easter_month = 2 }
   easter = new Date(year, easter_month, easter_day);
   return (new Date(easter.getTime() - (easter.getTimezoneOffset() * 60 * 1000)));
+}
+
+function get_easter_date(year) {
+  const a = year % 19;
+  const b = Math.floor(year / 100);
+  const c = year % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+
+  const month = Math.floor((h + l - 7 * m + 114) / 31);
+  const day = ((h + l - 7 * m + 114) % 31) + 1;
+
+  //return new Date(year, month - 1, day);
+  return new Date(Date.UTC(year, month - 1, day));
 }
 
 Date.prototype.getWeek = function() {
@@ -383,6 +409,8 @@ const lectiones = ["", "usque ad Circumcisionem legitur ex <i>Isaia</i>",
   "usque ad Dom. primam Novembris legitur ex duobus Libris <i>Machabaeorum</i> et quatuor Libris <i>Evangeliorum</i>, omissis <i>Passionibus</i>",
   "usque ad Dom. primam Adventus legitur ex Libris <i>Ezechiel, Daniel</i> et duodecim <i>Prophetis</i>"];
 
+const short_output = true; // Ep. et Conf. => E. C.
+
 /////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 /////---... Variables declared for every possibly translated feast ...---\\\\\
 //||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//////////////////////////////////||\\
@@ -564,7 +592,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Translating feasts MM. maj. and higher during Holy Week and Easter Octave
     if ( commemoratio_next && commemoratio_next['force'] > 50 
-        && ref_tempo_next.match(/lent_6_|tp_1/) )
+        && ref_tempo_next.match(/lent_6_|tp_1|tp_2_0/) )
       {
         moved.push(ref_sancto_next);
         trans_titulum = commemoratio_next['header'].split(",", 1);
@@ -713,7 +741,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               top_moved = j;
               force_temp_prev = win_temp['force']; }
           }
-        if (moved[top_moved] == '04_23') moved[top_moved] += "tr";
+        if (moved[top_moved] == '04_25' && ref_sancto != '04_25') moved[top_moved] += "tr";
         if (commemoratio_next && commemoratio_next['header']) commemoratio_next_add = commemoratio_next;
         if (winner_next['force'] != 10 ) commemoratio_next = winner_next;
         winner_next = days_sancto[moved[top_moved]]; 
@@ -723,7 +751,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // Anniversarium Dedicationis Ecclesiæ Altovadensis 1. 6. (pokud přijde do svatodušního Oktávu)
 
     if ( ref_sancto == "05_31" ) {
-        if (ref_tempo_next.match(/tp_7_5|tp_8_/)) {
+        // edited tp_7_5 => tp_7_6
+        if (ref_tempo_next.match(/tp_7_6|tp_8_/)) {
           moved.push('anniversarium_dedicationis');
           trans_before = "Festum Dedicationis Ecclesiæ Altovadensis translatum post Octavam Pentecostes."; }
         else {
@@ -765,21 +794,29 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( translated_matthias && weekday == 1 ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo]; translated_matthias = false; translated = true; }
     // second Vespers on translated feast: + St. Mechtildis: at the end of Vesper section
 
+    //////  Rogationes in Octava Paschæ \\\\\\
+    if  ((ref_tempo.match(/tp_1_[1-6]/) && ref_sancto.match("04_25"))
+      || (ref_tempo.match(/tp_1_2/) && ref_sancto.match("04_27")))
+    {
+      if (commemoratio) commemoratio_add = commemoratio;
+      commemoratio = days_sancto['04_25rog'];
+    }
+
     //////  Vigiliæ: Translated if on Sunday  \\\\\\\
 
     vigilia_sabb = false; // do not delete, used further in the text
 
     saints_tomorrow = days_sancto[ref_sancto_next];
-    if (weekday == 6 && saints_tomorrow && saints_tomorrow['header'].match(/Vig[ií]lia/i) && saints_tomorrow['force'] > winner['force'] && ref_sancto != "12_23" ) {
+    if (weekday == 6 && saints_tomorrow && saints_tomorrow['header'].match(/Vigilia/i) && saints_tomorrow['force'] > winner['force'] && ref_sancto != "12_23" ) {
       commemoratio = days_sancto[ref_sancto];
       winner = days_sancto[ref_sancto_next]; vigilia_sabb = true;}
 
-    if (weekday == 0 && commemoratio && commemoratio['header'].match(/Vig[ií]lia/i) && !ref_sancto.match(/01_05/)) { commemoratio = ""; }
+    if (weekday == 0 && commemoratio && commemoratio['header'].match(/Vigilia/i) && !ref_sancto.match(/01_05/)) { commemoratio = ""; }
 
     // Let's find out, whether (translated) Vigilia falls on Saturday
     vigilia_sabb = false;
     after_tomorrow = days_sancto[get_ref_sancto(2)];
-    if (after_tomorrow && after_tomorrow['header'].match(/Vig[ií]lia/i)) vigilia_sabb = true;
+    if (after_tomorrow && after_tomorrow['header'].match(/Vigilia/i)) vigilia_sabb = true;
 
     // For Vigil of St. Peter and Paul, if it falls on Sunday, it will be translated to Saturday, but Comm. of St. Leo will remain on Sunday. Therefore following lines...
 
@@ -823,6 +860,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     if (ref_sancto.match(/06_27|07_22|08_08|08_12|10_29|12_06/) && weekday == 5) 
         vigilia_sabb = true;
+
+    // For (translated) Anniversary (1.6.1259), that happens to fall into the Octave of Corporis Christi (like 1.6.2027) or Ascens. (1.6.2028), the Octave Comm. must be added
+    if (winner == days_sancto['anniversarium_dedicationis'] 
+        && ref_tempo.match(/tp_6_[56]|tp_7_[01234]|pa_1_[56]|pa_2_[01234]/i) 
+        && commemoratio == days_sancto[ref_sancto]) 
+    {
+      commemoratio_add = feria;
+    }
 
 
     /////////  Festum Domini Nostri Jesu Christi Regis (Dominica ultima Octobris)  \\\\\\\\
@@ -999,11 +1044,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // But for the main header, UPPERCASE numbers (VI. etc.) are nicer
     if (weekday == 0 && winner == days_tempo[ref_tempo])
       {
-        if (ref_tempo.match(/tp_[3-6]|pe_[2-6]/))
+        if (ref_tempo.match(/tp_[3-6]/))
         {
           header = header.replace(/^(.*? )/, match => roman_lower_to_upper(match));
         }
-        else if (ref_tempo.match(/lent_[1-4]|pa_[3-9]|pa_[1-2][0-9]/))
+        else if (ref_tempo.match(/pe_[2-6]|lent_[1-4]|pa_[3-9]|pa_[1-2][0-9]/))
         {
           header = header.replace(/^(\S+\s+)(\S+)/, (match, firstWord, secondWord) => 
             firstWord + roman_lower_to_upper(secondWord))
@@ -1037,7 +1082,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //|\\\\\\\\\\\\\\\\\\\|///////////////////////////
 
     // list of days with no commemorations
-    const no_comm = /lent_6_[456]|tp_1_[012]|tp_6_4|tp_8_[012]/;
+    const no_comm = /lent_6_[456]|tp_1_[012]|tp_6_4|tp_8_[012]|pa_2_5/;
 
     if (!no_comm.test(ref_tempo))
     // some days cannot have Commemorationes
@@ -1167,8 +1212,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     ///////// Missa Votiva de Beata \\\\\\\\\\
     /// Replacements done for "missa":
-    if (winner == days_sancto['votiva_bmv'] 
-    ||  winner == days_sancto['votiva_bmv_prima_sabb']) {
+    if (false && (winner == days_sancto['votiva_bmv'] 
+    ||  winner == days_sancto['votiva_bmv_prima_sabb'])) {
       if (ref_tempo.match(/pe_|sept_|tp_|pa_/)) missa = missa.replace("Glo.", "Glo. - 2a de Sp. Sancto. 3a Ecclésiae vel pro Papa.");
     if (ref_tempo.match("adv_")) missa = missa.replace("Glo.", "<blue><i>Rorate</i></blue> - Glo. - 2a de Dominica. 3a de Sp. Sancto.");
       if (commemoratio) {
@@ -1179,6 +1224,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ///// Vigiliæ (2) - need to change already filled variables
 
     /////  Vigilia S. Bartholomæi, if it falls on Sunday \\\\\
+    /// (as the Vigil would fall on Aug. 22 - Imm. Cordis B.M.V., 
+    ///  which as a Serm. min. deletes the Vigil)
     if (ref_sancto == "08_23" && weekday == 0) { commemoratio = ""; 
         before += '<div class="small">¶ <red>Nihil fit hoc anno de Vigilia S. Bartholomæi.</red></div>'; }
 
@@ -1957,7 +2004,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       // comm_vesperae_j = commemoratio_next['vesperae_j']; 
       // commemoratio_vesperae = pokud dojde k souběhu j. a ij. Nešpor, tohle je to, co prohrálo
 
-      if ( comm_vesperae || commemoratio_vesperae || comm_vesperae_j || commemoratio_next_add ) 
+      if (false && (comm_vesperae || commemoratio_vesperae || comm_vesperae_j || commemoratio_next_add)) 
         { 
           if (ref_tempo.match(/lent_5_6/)) comm_vesperae = ""; 
 
@@ -2030,7 +2077,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         // First we need to filter out lower feast Comm. if a today is a Sermo
 
-        const allow_comm = /lent_6_[0123]|tp_1_[3-6]|ash_1_3|lent_1_0/;
+        const allow_comm = /lent_6_[0123]|tp_1_[3-6]|tp_7_6|ash_1_3|lent_1_0/;
 
         if (winner['force'] > 90 && !allow_comm.test(ref_tempo))
           {
@@ -2046,7 +2093,63 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         if (comm_laudes_full.length > 0)
         {
-          // Laudes: commemorationes
+          // some antiphons change at Easter
+          if ( ref_tempo.match("tp") ) {
+            // Commune Confessoris non Pontificis
+            comm_laudes_full.forEach(item => {
+                item.comm = item.comm.replaceAll(/Simil[áa]bo eum/gi, "Qui manet in me");});
+
+            // Commune Unius Martyris et Commune Martyrum
+            comm_laudes_full.forEach(item => {
+                item.comm = item.comm.replaceAll(/Qui vult ven[ií]re post me|Qui vult ven[ií]re|Qui vult|Qui odit|Fulg[ée]bunt justi/gi, "Lux perpétua");});
+          } // finis T.P.
+
+          // If there are multiple identical Comm., they need to be switched usually in this manner: Ant. Laudes => Ant. Vesperæ ( => Ant. ij. Vesperæ)
+
+          // Test on 23.4.2026 (when St. Adalbert not in Easter Octave)
+          let comm_used = /Mart\.|Ap\./i.test(winner['header']);
+          // Commune Apostolorum et Martyrum T.P.
+          comm_laudes_full.forEach(item => {
+            if (/Lux perp[eé]tua\.?/i.test(item.comm)) {
+              if (comm_used) {
+                item.comm = item.comm.replace(/Lux perp[eé]tua\.?/i, "Fíliæ Jerúsalem.");
+              } else {
+                comm_used = true; }
+              }
+          });
+
+          comm_used = /^S\. .* Mart\./i.test(winner['header']);
+          // Commune Unius Martyris extra T.P.
+          comm_laudes_full.forEach(item => {
+            if (/Qui vult ven[ií]re post me\.?|Qui vult ven[ií]re\.?|Qui vult\.?/i.test(item.comm)) {
+              if (comm_used) {
+                item.comm = item.comm.replace(/Qui vult ven[ií]re post me\.?|Qui vult ven[ií]re\.?|Qui vult\.?/i, "Beátus vir.");
+              } else {
+                comm_used = true; }
+              }
+          });
+
+          comm_used = /^SS\. .* Mart\./i.test(winner['header']);
+          // Commune Plurimorum Martyrum extra T.P.
+          comm_laudes_full.forEach(item => {
+            if (/Fulg[eé]bunt justi\.?/i.test(item.comm)) {
+              if (comm_used) {
+                item.comm = item.comm.replace(/Fulg[eé]bunt justi\.?/i, "Isti sunt Sancti.");
+              } else {
+                comm_used = true; }
+              }
+          });
+
+          comm_used = winner['header'].includes("Ep.");
+          // Commune Confessorum Pontificum
+          comm_laudes_full.forEach(item => {
+            if (/Euge,? serve bone|Euge,? serve|Euge/i.test(item.comm)) {
+              if (comm_used) {
+                item.comm = item.comm.replace(/Euge,? serve bone|Euge,? serve|Euge/i, "Sacérdos et Póntifex");
+              } else {
+                comm_used = true; }
+              }
+          });
 
           comm_laudes_full.sort((a, b) => b.force - a.force);
           et = '';
@@ -2055,15 +2158,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_temp = et + '<font color=blue><b>Com.</b></font> ';
 
           for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
-            //comm_temp = comm_temp + '[' + i_c + '] ' + comm_laudes_full[i_c].comm + ' ';
             comm_temp = comm_temp + ' ' + comm_laudes_full[i_c].comm + ' ';
             if (i_c < (comm_laudes_full.length-1)) 
                 comm_temp = comm_temp + "& ";
           }
-            
-          //laudes = laudes + ' -=comm_laudes_full [' + comm_laudes_full.length + ']=- ';
+
           laudes = laudes + comm_temp;
-          if (!laudes && winner['force'] > 40) laudes = "sine Com.";
           comm_temp = "";
 
           //////////////////|\\\\\\\\\\\\\\\\\\
@@ -2119,11 +2219,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           {
             // For feasts of xij. Lect. et M. and for Sundays
             comm_missa_add = [];
-
-            //if (missa_temp.match("2a") && !missa_temp.match(/de officio diei/i))
-            //  comm_missa_add.push({force: 2, header: missa_temp.match(/2a (.*?) 3a/is)?.[1]});
-            //if (missa_temp.match("3a")) 
-            //  comm_missa_add.push({force: 1, header: missa_temp.match(/3a (.*?)\.? -/is)?.[1]});
 
             // For details, see Rubricæ Generales Missalis Cisterciensis (1925), X. De Orationibus
             if (  ref_tempo.match(/pa_/) 
@@ -2189,9 +2284,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (comm_missa_copy.length == 0 && comm_missa_add[1])
             comm_temp = comm_temp + ' ' + (comm_missa_copy.length+3) + 'a ' + comm_missa_add[1].header + '. ';
           }
+
+          // In Advent, 2a changes
+          if (ref_tempo.match("adv")) 
+          {
+            comm_temp = comm_temp.replace("A cunctis", "Deus qui de beátæ")
+          }
           
-          // Final output
-          //=============
+          
+          // Final output (Comm. Missa)
+          //===========================
           if (missa)
           {
             if (missa.match(/2a/)) {
@@ -2208,7 +2310,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           } 
           else if (missa_post) 
           {
-              if (missa_post.match(/2a/)) {
+            if (missa_post.match(/2a/)) {
               missa_post = missa_post.replace(/2a.*? -/i, comm_temp + '- ');
             } else if (missa_post.match(/Glo\./i)) {
               missa_post = missa_post.replace(/Glo\./i, "Glo. - " + comm_temp);
@@ -2221,6 +2323,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             missa_post = missa_post.replaceAll(/\.(<[^>]*>)\./g, '.$1');
           }
           else missa = missa + '<font color=red><b>Ubi est missa?</b></font> <font color=blue><b>Com.</b></font> ' + comm_temp;
+
+          //missa = missa + ' <font color=blue><b>Com.</b></font> ' + comm_temp;
           
           comm_temp = null;
         }
@@ -2255,15 +2359,81 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           //comm_temp = et + 'Com. ';
           comm_temp = et + '<font color=blue><b>Com.</b></font> ';
 
+          // some antiphons change at Easter
+          if ( ref_tempo.match("tp") ) {
+            // Commune Confessoris non Pontificis
+            comm_vesperae_full.forEach(item => {
+              item.comm = item.comm.replaceAll(/Iste cogn[óo]vit/gi, "Beátus vir, qui métuit");});
+            comm_vesperae_full.forEach(item => {
+              item.comm = item.comm.replaceAll(/Iste Sanctus digne\.?/gi, "Hic vir.");});
+
+            // Commune Unius Martyris et Commune Martyrum
+            comm_vesperae_full.forEach(item => {
+              item.comm = item.comm.replaceAll(/Be[aá]tus vir\.|Iste Sanctus pro lege\.?|Isti sunt Sancti\.?|Isti sunt\.?/gi, "Fíliæ Jerúsalem.");});
+
+            // Sabbato B.M.V.
+            comm_vesperae_full.forEach(item => {
+              item.comm = item.comm.replaceAll(/Beátam me dicent/gi, "Regína cœli lætáre");});
+          } // finis T.P.
+
+          // If there are multiple identical Comm., they need to be switched usually in this manner: Ant. Vesperæ => Ant. Laudes ( => Ant. ij. Vesperæ)
+
+          // Test on 23.4.2026 (when St. Adalbert not in Easter Octave)
+
+          let comm_used =
+              /Mart\.|Ap\./i.test(winner.force >= winner_next.force ? winner : winner_next);
+          // Commune Apostolorum et Martyrum T.P.
+          comm_vesperae_full.forEach(item => {
+            if (/F[ií]li(æ|ae) Jer[uú]salem\.?/i.test(item.comm)) {
+              if (comm_used) {
+                item.comm = item.comm.replace(/F[ií]li(æ|ae) Jer[uú]salem\.?/, "Lux perpétua.");
+              } else {
+                comm_used = true; }
+              }
+          });
+
+          comm_used =
+              /^S\. .* Mart\./i.test(winner.force >= winner_next.force ? winner : winner_next);
+          // Commune Unius Martyris extra T.P.
+          comm_vesperae_full.forEach(item => {
+            if (/Be[aá]tus vir\.?/i.test(item.comm)) {
+              if (comm_used) {
+                item.comm = item.comm.replace(/Be[aá]tus vir\.?/, "Qui vult veníre post me.");
+              } else {
+                comm_used = true; }
+              }
+          });
+
+          comm_used =
+              /^SS\. .* Mart\./i.test(winner.force >= winner_next.force ? winner : winner_next);
+          // Commune Plurimorum Martyrum extra T.P.
+          comm_vesperae_full.forEach(item => {
+            if (/Isti sunt Sancti\.?/i.test(item.comm)) {
+              if (comm_used) {
+                item.comm = item.comm.replace(/Isti sunt Sancti\.?/, "Fulgébunt justi.");
+              } else {
+                comm_used = true; }
+              }
+          });
+
+          //comm_used = winner['header'].includes("Ep.");
+          comm_used =
+              (winner.force >= winner_next.force ? winner : winner_next)
+              .header.includes("Ep.");
+          // Commune Confessoris Pontificis
+          comm_vesperae_full.forEach(item => {
+            if (/Sac[ée]rdos et P[óo]ntifex/i.test(item.comm)) {
+              if (comm_used) {
+                item.comm = item.comm.replace(/Sac[ée]rdos et P[óo]ntifex/, "Euge serve bone");
+              } else {
+                comm_used = true; }
+              }
+          });
+
           for (i_c = 0; i_c < comm_vesperae_full.length; i_c++) {
             comm_temp = comm_temp + ' ' + comm_vesperae_full[i_c].comm + ' ';
-            //comm_temp = comm_temp + ' ' + comm_vesperae_full[i_c].comm + ' [' + comm_vesperae_full[i_c].force + '] ';
             if (i_c < (comm_vesperae_full.length-1)) 
                 comm_temp = comm_temp + "& ";
-          }
-
-          function escapeRegex(text) {
-            return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
           }
 
           comm_temp = comm_temp.replace(
@@ -2271,8 +2441,17 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             + "(?: \\([ix]ij\\. Lect\\. et M\\.\\))?"), "de seq.");
             
           vesperae = vesperae + comm_temp.replace(winner['header'], "de præc.");
-          comm_temp = "";
+          comm_temp = null;
         }
+
+        if (short_output)
+        {
+          laudes = shorten(laudes);
+          vesperae = shorten(vesperae);
+        }
+
+        if (!laudes && winner['force'] > 40) laudes = "sine Com.";
+        if (!vesperae.includes("Com.")) vesperae += " - sine Com.";
 
       //////////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\\
      /////////////////  Finis Commemorationum  \\\\\\\\\\\\\\\\\\\
@@ -2288,60 +2467,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     /////////////    Postprocessing of Laudes/Vesperae   \\\\\\\\\\\\\\
     //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////\\
 
-    // sometimes, we need to replace Com. festum with Com. de seq.
-    next_com_title = "Com. " + winner_next['header'];
-    next_et_title = "&  " + winner_next['header']; // the Com. doesn't need to be as first
-    if ( vesperae.match(next_com_title) ) vesperae = vesperae.replace(next_com_title, "Com. de seq.")
-    if ( vesperae.match(next_et_title) ) vesperae = vesperae.replace(next_et_title, "& de seq.")
-
-    // the same goes for "de præcedenti"
-    praec_com_title = "Com. " + winner['header'];
-    praec_et_title = "&  " + winner['header']; // the Com. doesn't need to be as first
-    if ( vesperae.match(praec_com_title) ) vesperae = vesperae.replace(praec_com_title, "Com. de præc.")
-    if ( vesperae.match(praec_et_title) ) vesperae = vesperae.replace(praec_et_title, "& de præc.")
-
+    // Rogationes in Octava Paschæ
+    if (commemoratio == days_sancto['04_25rog'])
+    {
+      header = header + ' atque ' + commemoratio['header'];
+      missa = commemoratio['missa'] + missa + " - <red>In fine Missæ Evangelium de Rogationibus.</red>";
+    }
 
     ////  Angeli Custodes in September (Saturday, first Vesper) \\\\
     if ( weekday == 6 && ((month == 7 && ((day == 1) || (day == 31))) || (month == 8 && day < 7)) ) {
         vesperae = days_sancto['angeli_custodes_sept']['vesperae_j'] + " - Com. " + vesperae.replace("- Com.", "&"); laudes_post += days_sancto['angeli_custodes_sept']['martyrologium']; }
-
-    // For (translated) Anniversary (1.6.1259), that happens to fall into the Octave of Corporis Christi or Ascens., the Octave Comm. from unused temporale must be filled in
-
-    if (winner == days_sancto['anniversarium_dedicationis'] && ref_tempo.match(/pa_1_[56]|pa_2_[01234]/i) && commemoratio == days_sancto[ref_sancto])
-    {
-      if (!laudes.match("Com."))  
-        laudes += " - Com. Oct. Corp. Chr. <ib>Ego sum panis.</ib>";
-      else laudes = laudes.replace("Com.", "Com. Oct. Corp. Chr. <ib>Ego sum panis.</ib> &");
-      if (!vesperae.match("Com.")) 
-        vesperae += " - Com. Oct. Corp. Chr. <ib>O Sacraméntum.</ib>"; 
-      else if (vesperae.match("Cognovérunt omnes."))
-        vesperae = vesperae.replace("Cognovérunt omnes.</ib>", "Cognovérunt omnes.</ib> & Oct. Corp. Chr. <ib>Magníficat.</ib>"); 
-      else vesperae = vesperae.replace("Com.", "Com. Oct. Corp. Chr. <ib>O Sacraméntum.</ib> &");
-      if (missa) {
-          missa = missa.replace(/3a.*? -/,"");
-          missa = missa.replace("2a", "3a");
-          missa = missa.replace(/Glo\.? [-–]/, "Glo - 2a de Oct. Corp. Christi.");
-          missa = missa.replace(/(?:-)? Cre/, "- Cre");
-          }
-    }
-
-    if (winner == days_sancto['anniversarium_dedicationis'] && ref_tempo.match(/tp_6_[56]|tp_7_[01234]/i) && commemoratio == days_sancto[ref_sancto])
-    {
-      if (!laudes.match("Com."))  
-        laudes += " - Com. Oct. Ascensionis <ib>Ascéndo.</ib>";
-      else laudes = laudes.replace("Com.", "Com. Oct. Ascensionis <ib>Ascéndo.</ib> &");
-      if (!vesperae.match("Com.")) 
-        vesperae += " - Com. Oct. Ascensionis <ib>O Rex glóriae.</ib>"; 
-      else if (vesperae.match("Sabb. ante Dom. infra oct. Ascensionis."))
-        vesperae = vesperae.replace("Sabb. ante Dom. infra oct. Ascensionis.", "Sabb. ante Dom. infra oct. Ascensionis <ib>Cum vénerit.</ib> & Oct. Corp. Chr. <ib>Pater, manifestávi.</ib>"); 
-      else vesperae = vesperae.replace("Com.", "Com. Oct. Ascensionis <ib>O Rex glóriae.</ib> &");
-      if (missa) {
-          missa = missa.replace(/3a.*? -/,"");
-          missa = missa.replace("2a", "3a");
-          missa = missa.replace(/Glo\.? [-–]/, "Glo. - 2a de Oct. Ascensionis.");
-          missa = missa.replace(/(?:-)? Cre/, "- Cre");
-          }
-    }
 
     // Feria ij. Rogationum, if festum iij. Lect. et M. follows
     // (we need to switch the vespers)
@@ -2353,30 +2488,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         else vesperae += " - " + winner['vesperae_commemoratio'];
     }
 
-    // some antiphons change at Easter
-     if ( ref_tempo.match("tp") ) {
-        // Commune Confessoris non Pontificis
-        vesperae = vesperae.replace(/Iste cogn[óo]vit/,"Beátus vir, qui métuit");
-        laudes = laudes.replace(/Simil[áa]bo eum/,"Qui manet in me");
-        vesperae = vesperae.replace(/Iste Sanctus digne\.?/i,"Hic vir.");
-
-       // Commune Unius Martyris
-         vesperae = vesperae.replace(/Be[aá]tus vir\.|Iste Sanctus pro lege\.?/i,"Fíliæ Jerúsalem.");
-         laudes = laudes.replace(/Qui vult ven[ií]re post me|Qui vult ven[ií]re|Qui vult|Qui odit/,"Lux perpétua");
-
-       // Commune Martyrum
-          vesperae = vesperae.replace(/Isti sunt Sancti|Isti sunt/i,"Fíliæ Jerúsalem");
-          laudes = laudes.replace(/Fulg[ée]bunt justi/,"Lux perpétua");
-
-       // Sabbato B.M.V. 
-          vesperae = vesperae.replace('de seq. <ib>Beátam me dicent.</ib>','de seq. <ib>Regína cœli lætáre.</ib>');
-        } // finis T.P.
-
-      if (ref_tempo.match("adv")) 
-        {
-          missa = missa.replace("A cunctis", "Deus qui de beatæ")
-        }
-
       //////  Replacing -Ant Laudes- with appropriate Ferial Antiphon  \\\\\\
 
       if (laudes && laudes.match("-Ant Laudes-"))
@@ -2387,17 +2498,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
       //check_next += '.<br>Sacérdos et Póntifex: "' + matchCount(vesperae,/Sac[ée]rdos et P[óo]ntifex/) + '" - Fíliæ Jerúsalem: "' + matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/g) + '.<br>Comm. in Laudibus: "' + getComm(laudes) + '" - et in Vesperis: "' + getComm(vesperae)
       //+ '".</div>';
-
-      if ( matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/g) == 2 ) { t = 0;
-        vesperae = vesperae.replace(/F[íi]li(æ|ae) Jer[úu]salem/g, match => ++t == 2 ? "Lux perpétua" : match); }
-      if ( matchCount(laudes,/Lux perp[ée]tua/g) == 2 ) { t = 0;
-        laudes = laudes.replace(/Lux perp[ée]tua/g, match => ++t == 2 ? "Fíliæ Jerúsalem" : match); }
-
-      if ( matchCount(vesperae,/Sac[ée]rdos et P[óo]ntifex/) == 1 ) { t = 0;
-        vesperae = vesperae.replace(/Sac[ée]rdos et P[óo]ntifex/g, match => ++t == 2 ? "Euge serve bone" : match); }
-      if ( matchCount(laudes,/Euge,? serve bone|Euge,? serve|Euge/) == 1 ) { t = 0;
-        laudes = laudes.replace(/Euge,? serve bone|Euge,? serve|Euge/g, match => ++t == 2 ? "Sacérdos et Póntifex" : match); }
-
 
     /// Final commemoration of B.M.V. on Festa xij. Lect. et M. and lower \\\
     laudes_bmv = " B.M.V.";
@@ -2516,7 +2616,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // Sets the anticipated Sunday to previous Thursday, but only as a Feria
     // with iij. Lessons from the Homily, Ant. ad Benedictus and the Collect
     //----------------------------------------------------------------------
-    // See Rubricæ Generales Brev. Cist., p. xivij. De dominicis, §5 and 6.
+    // See Rubricæ Generales Brev. Cist., p. xvij. De dominicis, §5 and 6.
 
     if ( ref_tempo.match("pe_") && extra == 1 && i >= (duration - 7) ) // Monday of the last week post Epiph.
       {
