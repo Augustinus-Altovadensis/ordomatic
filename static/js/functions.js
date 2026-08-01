@@ -610,9 +610,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio_next = "";
       }
 
-    // Translating feasts MM. maj. on Ascension of Our Lord and Corpus Christi
+    // Translating feasts MM. maj. on Ascension of Our Lord, Corpus Christi and SS. Cor D.N.J.C.
     if ( commemoratio_next && commemoratio_next['force'] > 50
-        && ref_tempo_next.match(/tp_6_4|pa_1_4/) )
+        && ref_tempo_next.match(/tp_6_4|pa_1_4|pa_2_5/) )
       {
         moved.push(ref_sancto_next);
         trans_titulum = commemoratio_next['header'].split(/[,+]/, 1);
@@ -636,14 +636,23 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Completely removing feasts iij. Lect. and lower during Holy Week and Monday and Tuesday of Easter Octave
 
+    const lower_feasts_removed = /lent_6_[456]|tp_1_[012]|tp_6_4|tp_8_[012]|pa_1_0|pa_1_4|pa_2_5/;
+
     // N.B.: "tp_7_6|" has been removed.
     if ( commemoratio_next 
-      && ref_tempo_next.match(/lent_6_[456]|tp_1_[012]|tp_6_4|tp_8_[012]|pa_1_0|pa_1_4|pa_2_5/) )
+      && lower_feasts_removed.test(ref_tempo_next))
       { trans_titulum = commemoratio_next['header'].split(/[,+]/, 1);
         trans_before = "Nihil fit hoc anno de festo " + trans_titulum + "."; 
         commemoratio_next = ""; }
 
-    // Translating every feast higher than MM. min. that falls on Sunday
+    // Removing them on the day as well
+    if ( commemoratio 
+      && lower_feasts_removed.test(ref_tempo))
+      { 
+        commemoratio = ""; 
+      }
+
+    // Translating every feast higher than MM. min. that falls on Advent or Lent Sunday
       if ( weekday == 6 
           && winner_next == days_sancto[ref_sancto_next] 
           && winner_next['force'] > 60 
@@ -658,7 +667,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio_next = "";
       }  
 
-    // Translating every feast higher than MM. maj. that falls on Sunday, that will overrank it
+    // Translating every feast higher than MM. maj. that falls on Sunday, that would overrank it, but cannot
       if ( weekday == 6 && commemoratio_next 
           && commemoratio_next['force'] > 60 
           && ref_tempo_next.match(/adv_|lent_/i) 
@@ -671,6 +680,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio_next = "";
       }
 
+    // Debugging of moved feasts
     moved_beginning = '';
     if (moved.length > 0) moved_beginning = '<br>Moved beginning: ' + "\t" + moved.join(", ") + ' Length = "' + moved.length + '". ref_sancto = "' + ref_sancto;
 
@@ -1178,12 +1188,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
 
     if (commemoratio) {
-      comm_laudes = commemoratio['laudes']; 
+      //comm_laudes = commemoratio['laudes']; 
       comm_laudes_post = commemoratio['laudes_post'];
-      //comm_missa = commemoratio['missa']; 
-      comm_vesperae = commemoratio['vesperae']; }
+      //comm_vesperae = commemoratio['vesperae'];
+      comm_laudes = "" ;
+      comm_vesperae = "";
+    }
 
-    if (commemoratio_next) {
+    if (false && commemoratio_next) {
       comm_vesperae_j = commemoratio_next['vesperae_j']; 
       comm_martyrologium = commemoratio_next['martyrologium']; }
 
@@ -1209,17 +1221,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ////// Color of Commemoratio et M. \\\\\\
     if (winner['force'] == 10 && commemoratio && commemoratio['rank'] == "Commemoratio et M.")
       color = commemoratio['color'];
-
-    ///////// Missa Votiva de Beata \\\\\\\\\\
-    /// Replacements done for "missa":
-    if (false && (winner == days_sancto['votiva_bmv'] 
-    ||  winner == days_sancto['votiva_bmv_prima_sabb'])) {
-      if (ref_tempo.match(/pe_|sept_|tp_|pa_/)) missa = missa.replace("Glo.", "Glo. - 2a de Sp. Sancto. 3a Ecclésiae vel pro Papa.");
-    if (ref_tempo.match("adv_")) missa = missa.replace("Glo.", "<blue><i>Rorate</i></blue> - Glo. - 2a de Dominica. 3a de Sp. Sancto.");
-      if (commemoratio) {
-        comm_missa = commemoratio['missa'];
-        comm_missa = comm_missa.replace(/A cunctis\.?|de S\. Maria\.?|(?:de )?(?:B\. ?M\. ?V\. ?)? Conc[eé]de nos\.?/i, "de Sp. Sancto.") }
-      }
 
     ///// Vigiliæ (2) - need to change already filled variables
 

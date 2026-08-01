@@ -13,6 +13,20 @@
 
   //////////////////////////////
 
+
+    ///////// Missa Votiva de Beata \\\\\\\\\\
+    /// Replacements done for "missa":
+    if (false && (winner == days_sancto['votiva_bmv'] 
+    ||  winner == days_sancto['votiva_bmv_prima_sabb'])) {
+      if (ref_tempo.match(/pe_|sept_|tp_|pa_/)) missa = missa.replace("Glo.", "Glo. - 2a de Sp. Sancto. 3a Ecclésiae vel pro Papa.");
+    if (ref_tempo.match("adv_")) missa = missa.replace("Glo.", "<blue><i>Rorate</i></blue> - Glo. - 2a de Dominica. 3a de Sp. Sancto.");
+      if (commemoratio) {
+        comm_missa = commemoratio['missa'];
+        comm_missa = comm_missa.replace(/A cunctis\.?|de S\. Maria\.?|(?:de )?(?:B\. ?M\. ?V\. ?)? Conc[eé]de nos\.?/i, "de Sp. Sancto.") }
+      }
+
+  //////////////////////////////
+
     ///// Workaround for First Vespers S. Familiae //////
     if ( ref_tempo.match("christmas") && i == (duration-2) ) 
       {  if ( winner['force'] > 100 ) 
