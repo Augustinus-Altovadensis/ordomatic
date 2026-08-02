@@ -680,9 +680,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio_next = "";
       }
 
+    //==========================
     // Debugging of moved feasts
     moved_beginning = '';
     if (moved.length > 0) moved_beginning = '<br>Moved beginning: ' + "\t" + moved.join(", ") + ' Length = "' + moved.length + '". ref_sancto = "' + ref_sancto;
+    //==========================
 
     // Deleting moved feasts on the original day
     if (moved.includes(ref_sancto))
@@ -789,13 +791,29 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         winner = days_sancto['angeli_custodes_sept'];
         }
 
-    ///// SS. Nominis Jesu // Day alone /////
-    if ( ref_sancto == "01_02" && weekday <= 3 ) { winner = days_sancto['nomen_jesu']; }
-    if ( (ref_sancto == "01_03" || ref_sancto == "01_04" ) && weekday == 0 ) { winner = days_sancto['nomen_jesu']; }
-    if ( ref_sancto == "01_05" && weekday == 0 ) { 
-        winner = days_sancto['nomen_jesu']; 
-        commemoratio = days_tempo['christmas_3_0'];
-        commemoratio_add = days_sancto['01_05cc']; }
+    /////  SS. Nominis Jesu  \\\\\
+    ////-----------------------\\\\
+    /// Vesperæ j.
+    //============
+    if ((  ref_sancto == "01_01" && weekday <= 2)
+      || ((ref_sancto == "01_02" || ref_sancto == "01_03") && weekday == 6 )
+      || ( ref_sancto == "01_04" && weekday == 6)) { 
+      winner_next = days_sancto['nomen_jesu']; 
+      if (weekday == 6) {
+        commemoratio_next = days_tempo['christmas_3_0'];
+        }
+      }
+
+    /// Dies festi
+    //============
+    if ((ref_sancto == "01_02" && weekday <= 3) 
+      || ((ref_sancto == "01_03" || ref_sancto == "01_04") && weekday == 0)
+      || ( ref_sancto == "01_05" && weekday == 0)) { 
+        winner = days_sancto['nomen_jesu'];
+        if (weekday == 0) {
+          commemoratio = days_tempo['christmas_3_0'];
+        }
+      }
 
     ////// S. Matthias ///////
     if ( ref_sancto == "02_24" && !is_leap_year(year) ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo];}
@@ -1079,9 +1097,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       str = str.replace(/Octavam?/,"Oct."); 
       str = str.replace(/de ea/i, translate_feria(ref_tempo, "short"));
       // 3. Aug. 2031: Inventionis. S. Stephani (Com. et M.) as Comm. on Sunday ^SS?\. => SS?\.
-      if (weekday == 0 && !str.match(/^Dom|SS?\. |BB?\. /))
-      {
-        str = 'Dom. ' + str;
+      if (weekday == 0 && !str.match(/^Dom|SS?\. |BB?\. /)) {
+        str = 'Dom. ' + str; 
+      }
+      if (ref_tempo.match("adv_") && str.includes("De ea")) {
+        str = "de Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv."; 
       }
       return str;
     };
@@ -1448,6 +1468,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       commemoratio_vesperae = commemoratio_vesperae.replace(/Adv\. <i>.*<\/i>/, "Adv. " + O_ant[day-17]);
       }
 
+    if (false) // to remove, if Vespers work
+    { 
     commemoratio_vesperae = commemoratio_vesperae.replace("Com. ", "");
     if (vesperae) dash = " - "; else dash = "";
     if (commemoratio_vesperae) vesperae = vesperae.replace(/(?: - )?sine Com\.?/, "");
@@ -1463,7 +1485,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       else vesperae = vesperae.replace("Com.", "Com. " + commemoratio_vesperae + " & ");
       }
     else if (commemoratio_vesperae) vesperae += dash + "Com. " + commemoratio_vesperae;
-
+    }
 
     //////////////////////////////////////////////////////////
     /////////   Let's modify the HEADER (if needed)  /////////
@@ -1479,12 +1501,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       ////////////////////////////////////////////////////////
      ///////////  First Vespers to moved feasts  ////////////
     ////////////////////////////////////////////////////////
-
-    /////  First Vespers SS. Nominis Jesu  //////////
-    if ( ref_sancto == "01_01" && ( weekday <= 2 || weekday == 6 ) ) { vesperae = vesperae.replace(" - sine Com.", "") + ' - ' + days_sancto['nomen_jesu']['vesperae_j_commemoratio']; }
-    if ( (ref_sancto == "01_02" || ref_sancto == "01_03" ) && weekday == 6 ) { vesperae = days_sancto['nomen_jesu']['vesperae_j'] + " - sine Com."; }
-    if ( ref_sancto == "01_04" && weekday == 6 ) { vesperae = days_sancto['nomen_jesu']['vesperae_j'] + " - Com. " + days_tempo['christmas_3_0']['vesperae_j']; }
-    //if ( ref_sancto == "01_04" && weekday == 6 ) { vesperae = days_sancto['nomen_jesu']['vesperae_j'] + " - Com. S. Telesphori, Papæ et Mart. Iste sanctus."; }
 
 
     ///// Martyrologium of moved Annuntiatio (it's already in the Book \\\\\\
@@ -1646,15 +1662,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //\\\---- end of diagnostics -----///\\
 
     if (winner_next) {
-        titulum_next = winner_next['header'].split(",", 1) + "";
-        titulum_next = winner_next['header'].split("+", 1) + "";
+        titulum_next = winner_next['header'].replace(/[,+].*/, "");
         }
 
     ////////////////////////////////////////
     /////  Commemoratio First Vespers  /////
     ////////////////////////////////////////
 
-    if (comm_vesperae_j) 
+    if (false && comm_vesperae_j) 
             { 
               vesperae = vesperae.replace(/ - sine Com\.|sine Com\./, "");
               if (vesperae) dash = " - "; else dash = "";
@@ -1668,21 +1683,28 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             }
 
     if (commemoratio)
-      { titulum = commemoratio['header'].split("+", 1);
-        titulum_missa = commemoratio['header'].split(",", 1);
-        titulum_missa += "";
-        if ( commemoratio['header'].match(/\+/) ) titulum_missa = commemoratio['header'].split("+", 1) + "";
-        if ( commemoratio['header'].match(/De ea/i) ) { 
-            titulum_missa = translate_feria(ref_tempo); 
-            if (ref_tempo.match("adv_")) titulum_missa = "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv."; }
-        if ( commemoratio['header'].match(/ Oct\.|Octav|De ea/i) && !commemoratio['header'].match(/post/i)) { titulum = ""; titulum_missa += ""; 
-          titulum_missa = titulum_missa.replace(/.*Oct/i, "Oct"); 
-          titulum_missa = titulum_missa.replace(/Octavam/i, "de Octava");}
+      { 
+        titulum = commemoratio['header'].split("+", 1);
+        titulum_missa = shorten_header(commemoratio['header']);
 
-        titulum_missa = titulum_missa.replace(/Dominica/i, "Dom."); 
-        titulum_missa = titulum_missa.replace(/Pentecoste./i, "Pent"); 
+        if (false)
+          {
+            titulum = commemoratio['header'].split("+", 1);
+            titulum_missa = commemoratio['header'].split(",", 1);
+            titulum_missa += "";
+            if ( commemoratio['header'].match(/\+/) ) titulum_missa = commemoratio['header'].split("+", 1) + "";
+            if ( commemoratio['header'].match(/De ea/i) ) { 
+              titulum_missa = translate_feria(ref_tempo); 
+              if (ref_tempo.match("adv_")) titulum_missa = "Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv."; }
+              if ( commemoratio['header'].match(/ Oct\.|Octav|De ea/i) && !commemoratio['header'].match(/post/i)) { titulum = ""; titulum_missa += ""; 
+            titulum_missa = titulum_missa.replace(/.*Oct/i, "Oct"); 
+            titulum_missa = titulum_missa.replace(/Octavam/i, "de Octava");}
 
-        if (titulum_missa.match("Dom.")) 
+            titulum_missa = titulum_missa.replace(/Dominica/i, "Dom."); 
+            titulum_missa = titulum_missa.replace(/Pentecoste./i, "Pent"); 
+          }
+
+        if (false && titulum_missa.match("Dom.")) 
         {
           //number = titulum_missa.match(/Dom\. .*? post/) + "";
           number = titulum_missa.match(/(?<=Dom\.\s).*(?=\spost)/) + "";
@@ -2232,10 +2254,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
                 comm_missa_add.push({force: 2, header: 'A cunctis.'});
                 comm_missa_add.push({force: 1, header: 'ad libitum.'});
               }
-            else if (ref_sancto.match(/02_01/) || (day > 13 && month == 0))
+            else if (ref_sancto.match(/02_01/) || month == 0)
               {
                 // §3. Ab Octava Epiphaniæ (excl.) usque ad Purificationem (excl.)
-                comm_missa_add.push({force: 2, header: 'de B.M.V. Deus, qui salútis.'});
+                comm_missa_add.push({force: 2, header: 'de S. Maria Deus, qui salútis.'});
                 comm_missa_add.push({force: 1, header: 'Ecclesiæ. vel pro Papa.'});
               }
             else if (ref_tempo.match(/ash_|lent_[1-4]/) 
@@ -2269,7 +2291,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             else if (ref_tempo.match(/tp_[2-5]|tp_6_[1-3]/))
               {
                 // §6. Ab Octava Paschæ usque ad Ascensionem
-                comm_missa_add.push({force: 2, header: 'de B.M.V. Concéde nos.'});
+                comm_missa_add.push({force: 2, header: 'de S. Maria Concéde nos.'});
                 comm_missa_add.push({force: 1, header: 'Ecclésiæ. vel pro Papa.'});
               }
             //comm_missa_add.sort((a, b) => b.force - a.force);

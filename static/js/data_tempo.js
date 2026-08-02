@@ -1094,7 +1094,7 @@ const days_tempo = {
     'missa': 'Asperges - Sub tuum - Glo. - Cre. - Praef. Epiph. et Communicantes.',
     'missa_post': '',
     'vesperae': 'de festo ',
-    'vesperae_commemoratio': 'Com. de praec. <i>María autem conservábat.</i>',
+    'vesperae_commemoratio': 'Com. de præc. <i>María autem conservábat.</i>',
     'vesperae_post': '',
     'body': '',
     'after': ''
