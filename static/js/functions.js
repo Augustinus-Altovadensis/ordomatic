@@ -686,17 +686,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (moved.length > 0) moved_beginning = '<br>Moved beginning: ' + "\t" + moved.join(", ") + ' Length = "' + moved.length + '". ref_sancto = "' + ref_sancto;
     //==========================
 
-    // Deleting moved feasts on the original day
-    if (moved.includes(ref_sancto))
-    {
-      before = before + '<div><font color=blue>Removing ' + ref_sancto + '.</font></div>'
-      if (winner == days_sancto[ref_sancto])
-      {
-        winner = feria;
-      }
-      commemoratio = "";
-    }
-
     // Determining, whether we celebrate the Tricenarium magnum or not
     // On Sundays and Feast Days, no Vesperæ Defunctorum
     if ( ((day >= 18 && month_usual_number == 9)
@@ -896,7 +885,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     {
       commemoratio_add = feria;
     }
-
 
     /////////  Festum Domini Nostri Jesu Christi Regis (Dominica ultima Octobris)  \\\\\\\\
 

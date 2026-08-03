@@ -3307,7 +3307,7 @@ const days_sancto = {
     'laudes': '',
     'laudes_commemoratio':'Com. S. Antonii, Conf. et Eccl. Doct. Similábo eum.',
     'laudes_post':'',
-    'missa': 'Duo Acolythi - Glo. - 2a A cunctis. 3a ad libitum. - <b>Cre.</b> - Praef. Comm.',
+    'missa': 'Duo Acolythi - Glo. - 2a A cunctis. 3a ad libitum. - <b>Cre.</b> - Præf. Comm.',
     'missa_post': '',
     'vesperae': 'de festo. <red><b>N.B.</b></red> Aña. Mag. Iste Sanctus digne.',
     'vesperae_commemoratio': 'Com. S. Antonii, Conf. et Eccl. Doct. <i>Iste Sanctus digne.</i>',
