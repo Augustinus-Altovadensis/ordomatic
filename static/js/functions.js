@@ -657,8 +657,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           && winner_next == days_sancto[ref_sancto_next] 
           && winner_next['force'] > 60 
           && winner_next['force'] <= 80 
-          && !ref_tempo.match(/christmas|pa_|pe_|tp_[2-7]_/i) 
-          && !ref_sancto.match(/12_08/))
+          && !ref_tempo_next.match(/christmas|pa_|pe_|tp_[2-7]_/i) 
+          && !ref_sancto_next.match(/12_08/))
       {
         moved.push(ref_sancto_next);
         trans_titulum = winner_next['header'].split(/[,+]/, 1);
@@ -674,7 +674,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           && !ref_sancto_next.match(/12_08/) )
       {
         moved.push(ref_sancto_next);
-        trans_titulum = commemoratio_next['header'].split(/[,+]/, 1);
+        trans_titulum = winner_next['header'].split(/[,+]/, 1);
         trans_before = "Festum " + trans_titulum[0] + " transfertur post Dominicam."
         winner_next = feria_next;
         commemoratio_next = "";
@@ -689,7 +689,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           winner = commemoratio;
           commemoratio = "";
         }
-      else winner = feria;
+      else 
+      {
+        winner = feria;
+        commemoratio = "";
+      }
     }
 
     //==========================
@@ -1095,14 +1099,17 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       str = str.replace("Priv. Dieb. infra ","");
       str = str.replace(/infra Octavam/i, "de Oct.");
       str = str.replace(/Octavam?/,"Oct."); 
-      str = str.replace(/de ea/i, translate_feria(ref_tempo, "short"));
+      
       // 3. Aug. 2031: Inventionis. S. Stephani (Com. et M.) as Comm. on Sunday ^SS?\. => SS?\.
       if (weekday == 0 && !str.match(/^Dom|SS?\. |BB?\. /)) {
         str = 'Dom. ' + str; 
       }
-      if (ref_tempo.match("adv_") && str.includes("De ea")) {
+      if (ref_tempo.includes("adv_") && /De ea/i.test(str)) {
         str = "de Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv."; 
       }
+      
+      str = str.replace(/de ea/i, translate_feria(ref_tempo, "short"));
+
       return str;
     };
 
@@ -1208,12 +1215,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
 
     if (commemoratio) {
-      //comm_laudes = commemoratio['laudes']; 
-      comm_laudes_post = commemoratio['laudes_post'];
-      //comm_vesperae = commemoratio['vesperae'];
-      //comm_laudes = "" ;
-      //comm_vesperae = "";
-    }
+      comm_laudes_post = commemoratio['laudes_post']; }
 
     if (commemoratio_next) {
       comm_martyrologium = commemoratio_next['martyrologium']; }
@@ -1627,14 +1629,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       //+ '.<br>Sacérdos et Pontifex: "' + matchCount(vesperae,/Sacérdos et Póntifex/) + '" - Fíliæ Jerúsalem: "' + matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/);
       //+ " - Day = " + day + ", Month = " + month + ". Header + a week: " + get_ref_sancto(j*7) + " - "
 
-      //if (days_sancto[get_ref_sancto(j*7)]) check_next += days_sancto[get_ref_sancto(j*7)]['header'];
-      //else check_next += get_ref_sancto(j*7) + " doesn't exist.";
       //check_next += "<br>Display format = " + display_format;
 
       if (check_next_new) check_next += "<br>" + check_next_new
-      //if (check_next_tempo) {check_next += "<br>" + check_next_tempo; check_next_tempo = "";}
-      //check_next += '<br>ref_tempo + 1: "' + get_ref_tempo(1, prefix_tempo, week_start, day_start, duration) + '", + 2: "' + get_ref_tempo(2, prefix_tempo, week_start, day_start, duration) + '", + 3: "' + get_ref_tempo(3, prefix_tempo, week_start, day_start, duration) + '", + 4: "' + get_ref_tempo(4, prefix_tempo, week_start, day_start, duration) + '", + 5: "' + get_ref_tempo(5, prefix_tempo, week_start, day_start, duration) + '", + 6: "' + get_ref_tempo(6, prefix_tempo, week_start, day_start, duration) + '", + 7: "' + get_ref_tempo(7, prefix_tempo, week_start, day_start, duration) + '", + 8: "' + get_ref_tempo(8, prefix_tempo, week_start, day_start, duration) + '",<br> + 28: "' + get_ref_tempo(28, prefix_tempo, week_start, day_start, duration) + '". '
-      //+ ". j = 2: " + (day+(j*7)) + "_" + month_usual_number
       check_next += '".</div>';
     //\\\---- end of diagnostics -----///\\
 
@@ -1897,8 +1894,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             comm_temp = comm_temp + ' ' + (i_c+2) + 'a ' + comm_missa_copy[i_c].header + '. ';
           }
 
-          if (winner['force'] < 45 || weekday == 0 
-           || ref_tempo.match(/ash_1_3/))
+          if (winner['force'] < 45 
+            || (weekday == 0 && winner == feria)
+            || ref_tempo.match(/ash_1_3/))
           {
             // For feasts of xij. Lect. et M. and for Sundays
             comm_missa_add = [];
@@ -2130,7 +2128,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
                 comm_temp = comm_temp + "& ";
           }
 
-          // O Antiphons in comm. 
+          // O Antiphons in Commemorations 
           if ( month_usual_number == 12 
             && day >= 17 && day <=23 ) 
           {
@@ -2210,6 +2208,32 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
      { BMV: "B.M.V.", add: "De Pace" }, // Saturday
     ];
 
+    // Com. B.M.V. ad Laudes 
+    if ( (winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) 
+      && !header.match(/Infra Oct/i) 
+      && comm_laudes_full.length < 2 
+      && !ref_sancto.match(/01_05|02_22|05_06/)) 
+      // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
+      {
+        if ( winner == days_sancto['votiva_bmv'] 
+          || winner == days_sancto['votiva_bmv_prima_sabb'])
+          {suffr_temp = suffragium[weekday].add;}
+        else if (comm_laudes_full.length == 0 && suffragium[weekday].add)
+          {suffr_temp = suffragium[weekday].BMV + " & " + suffragium[weekday].add;}
+        else 
+          {suffr_temp = suffragium[weekday].BMV;}
+
+        if (laudes) dash = " - "; else dash = "";
+        if (/Com\./.test(laudes)) {
+          laudes += " & " + suffr_temp 
+                 + " (" + comm_laudes_full.length + ")";
+          }
+        else {
+          laudes += dash + "Com. " + suffr_temp
+                 + " (" + comm_laudes_full.length + ")";
+          }
+      }
+
     /// Final commemoration of B.M.V. on Festa xij. Lect. et M. and lower \\\
     laudes_bmv = " B.M.V.";
     vesperae_bmv = " B.M.V.";
@@ -2222,13 +2246,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( laudes.match(/Com\./) ) et1 = " &";
     
     // Com. B.M.V. ad Laudes 
-    if ( (winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) 
+    if ( false && (winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) 
       && !header.match(/Infra Oct/i) 
       && getComm(laudes) < 2 
-      && !ref_sancto.match(/01_05|02_22|05_06/)) // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
+      && !ref_sancto.match(/01_05|02_22|05_06/)) 
+      // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
       {
       laudes = laudes.replace(/(?: - )?sine Com\.?/, "");
-      if ( weekday == 2 && getComm(laudes) < 1 ) laudes_bmv += " & B. B. R.";
+      if ( weekday == 2 && getComm(laudes) < 1 ) laudes_bmv += " & B.\u202FB.\u202FR.";
       if ( weekday == 3 && getComm(laudes) < 1 ) laudes_bmv += " & S. Joseph";
       if ( weekday == 6 && getComm(laudes) < 1 
          && !winner['header'].match("B.M.V.")) laudes_bmv += et1 + " De Pace";
@@ -2240,7 +2265,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       else laudes = laudes + dash + "Com. " + laudes_bmv;
       }
 
-    if (winner == days_sancto['votiva_bernardi']) laudes = laudes.replace("B. B. R.", "B. R. <red>(nomen S. Bernardi hic omittitur)</red>");
+    if (winner == days_sancto['votiva_bernardi']) laudes = laudes.replace("B.\u202FB.\u202FR.", "B.\u202FR. <red>(nomen S. Bernardi hic omittitur)</red>");
 
     // Com. B.M.V. ad Vesperas
     et = " &"
