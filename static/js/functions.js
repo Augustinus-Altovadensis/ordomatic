@@ -882,8 +882,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (ref_sancto == "09_20" && weekday != 0) { ref_sancto += "v"; }
 
     /////  Vigilia S. Andreæ, if it falls on Sunday \\\\\
-    if (ref_sancto == "11_28" && weekday == 6 && !ref_tempo.match(/adv/)) { ref_sancto += "v"; }
-    if (ref_sancto == "11_29" && weekday != 0 && !ref_tempo.match(/adv/)) { ref_sancto += "v"; }
+    if (/11_2[89]/.test(ref_sancto) && weekday == 6 
+      && !ref_tempo.match(/adv/)) { commemoratio_add = days_sancto['11_29v']; }
+    else if (ref_sancto == "11_29" && weekday != 0) {
+      if (/adv/i.test(ref_tempo)) { commemoratio_add = days_sancto['11_29va']; }
+      else {winner = days_sancto['11_29v']; }
+      }
 
     /////  Vigilia Imm. Conceptionis B.M.V., if it falls on Sunday \\\\\
     //if (ref_sancto == "12_06" && weekday == 6) { winner = days_sancto['12_06v']; }
@@ -1317,6 +1321,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     if ((month_usual_number == 11 && weekday > 0 ) || (month_usual_number == 10 && day > 20 && sabb_mensis == 1))
       { 
+        let vigil_buffer = vigil_novembris_1;
         if (sabb_mensis == 1) vigil_buffer = vigil_novembris_1;
         if (sabb_mensis == 2) vigil_buffer = vigil_novembris_2;
         if (sabb_mensis == 3) vigil_buffer = vigil_novembris_3;
@@ -1696,6 +1701,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (commemoratio['missa'] && !ref_tempo.match(/tp_7_6/)) 
       // On Pent. Vigil, a 3-Lesson feast may fall, cannot however be commemorated in Mass.
         { 
+          if (commemoratio['rank'].match(/Commemoratio et M/i) 
+            && winner['force'] == 10) {
+              missa = commemoratio['missa'];
+            }
+
           if (!comm_missa) comm_missa = commemoratio['missa'];
 
           // If Sunday yields to another Feast with Comm., it needs to be added.
@@ -1862,6 +1872,23 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             }
           }
 
+          // In rare cases (like Vigil of St. Andrew in Advent - 11/29), there is no mention in Lauds, but is in the Holy Mass
+          if (commemoratio 
+              && !commemoratio['laudes']
+              && !commemoratio['laudes_commemoratio']
+              && commemoratio['missa'])
+          {
+            comm_missa_copy.push({force: commemoratio['force'], header: commemoratio['header']});
+          }
+
+          if (commemoratio_add
+              && !commemoratio_add['laudes']
+              && !commemoratio_add['laudes_commemoratio']
+              && commemoratio_add['missa'])
+          {
+            comm_missa_copy.push({force: commemoratio_add['force'], header: commemoratio_add['header']});
+          }
+
           // In masses of feasts xij. Lect. et M. and lower, there are three Collects in total
           if (commemoratio 
             && commemoratio['rank'].match(/Commemoratio et M\./i)
@@ -1884,12 +1911,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (missa_temp.match(/de officio diei/i))
             {
               comm_missa_copy.push({force: winner['force'], header: missa_temp.match(/2a (.*?) 3a/is)?.[1]});
-              comm_missa_copy.sort((a, b) => b.force - a.force);
             }
           }
           else missa_temp = winner['missa'];
 
-          // Here the Mass Comm. are filled from the Lauds
+          // Sorting the missa Commemorations
+          comm_missa_copy.sort((a, b) => b.force - a.force);
+
+          // Here the Mass Comm. are filled
           for (i_c = 0; i_c < comm_missa_copy.length; i_c++) {
             comm_temp = comm_temp + ' ' + (i_c+2) + 'a ' + comm_missa_copy[i_c].header + '. ';
           }
@@ -3154,7 +3183,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (ref_sancto == "07_23" && weekday == 6) {
         missa += " - <red>Evangelium Vigiliæ in fine.</red>"; }
 
-      if ( commemoratio && commemoratio['header'].match(/Vigilia/i) ) missa += " - <red>Evangelium Vigiliæ in fine.</red>";
+      if ((commemoratio && commemoratio['header'].match(/Vigilia/i))
+      || (commemoratio_add['header'] && commemoratio_add['header'].match(/Vigilia/i))) {
+        missa += " - <red>Evangelium Vigiliæ in fine.</red>"; }
 
       if ( commemoratio && commemoratio['header'].match(/Quatuor Temporum/i) ) missa += " - <red>Evangelium Feriæ Quatuor Temp. in fine.</red>";
 
