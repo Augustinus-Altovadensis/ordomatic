@@ -638,3 +638,62 @@
           comm = null;
         }
     }
+
+    /// Final commemoration of B.M.V. on Festa xij. Lect. et M. and lower \\\
+    laudes_bmv = " B.M.V.";
+    vesperae_bmv = " B.M.V.";
+    et = " &"
+    et1 = " &"
+    dash = " - ";
+    if ( laudes == "" ) dash = "";
+    if ( laudes.match("B.M.V.") ) { laudes_bmv = ""; et = "";}
+    if ( winner['header'].match("B.M.V.") ) { laudes_bmv = ""; et = ""; et1 = "";}
+    if ( laudes.match(/Com\./) ) et1 = " &";
+    
+    // Com. B.M.V. ad Laudes 
+    if ( false && (winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) 
+      && !header.match(/Infra Oct/i) 
+      && getComm(laudes) < 2 
+      && !ref_sancto.match(/01_05|02_22|05_06/)) 
+      // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
+      {
+      laudes = laudes.replace(/(?: - )?sine Com\.?/, "");
+      if ( weekday == 2 && getComm(laudes) < 1 ) laudes_bmv += " & B.\u202FB.\u202FR.";
+      if ( weekday == 3 && getComm(laudes) < 1 ) laudes_bmv += " & S. Joseph";
+      if ( weekday == 6 && getComm(laudes) < 1 
+         && !winner['header'].match("B.M.V.")) laudes_bmv += et1 + " De Pace";
+      if ( weekday == 6 && getComm(laudes) < 2 
+         && winner['header'].match("B.M.V."))  laudes_bmv += et1 + " De Pace";
+
+      if ( laudes.match("& B.M.V. ") ) laudes = laudes.replace("B.M.V. ", "B.M.V. " + laudes_bmv + " ");
+      else if ( laudes.match(/Com\./) ) laudes = laudes + et + laudes_bmv;
+      else laudes = laudes + dash + "Com. " + laudes_bmv;
+      }
+
+
+    // Com. B.M.V. ad Vesperas
+    et = " &"
+    dash = " - ";
+    if ( vesperae == "" ) dash = "";
+    if ( vesperae.match("B.M.V.") || weekday == 6) { vesperae_bmv = ""; et = "";}
+    if ( weekday == 5 && winner_next['force'] < 35 && !vigilia_sabb ) { vesperae_bmv = ""; et = ""; }
+
+    if ( false && ( winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) 
+      && (winner_next['force'] < 41 || ref_tempo_next.match(/ash_1_3/)) 
+      && !header.match(/Infra Oct/i) && getComm(vesperae) < 2 
+      && ((!ref_sancto.match(/02_23/) && !is_leap_year(year)) 
+          || (!ref_sancto.match(/02_24/) && is_leap_year(year))) // St. Mathias 
+      && !ref_sancto.match(/02_21|05_05/)) // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
+      {
+      vesperae = vesperae.replace(/(?: - )?sine Com\.?/, "");
+      if ( weekday == 1 && getComm(vesperae) < 1 ) vesperae_bmv += et + " B. B. R.";
+      if ( weekday == 2 && getComm(vesperae) < 1 ) vesperae_bmv += " & S. Joseph"; 
+      if ( weekday == 5 && getComm(vesperae) < 1 
+        && !winner_next['header'].match("B.M.V.")) vesperae_bmv += et + " De Pace";
+      else if ( weekday == 5 && getComm(vesperae) < 2 
+        && winner_next['header'].match("B.M.V."))  vesperae_bmv += et + " De Pace";
+
+      if ( vesperae.match("& B.M.V. ") ) vesperae = vesperae.replace("B.M.V. ", "B.M.V. " + vesperae_bmv + " ");
+      else if ( vesperae.match(/Com\./) && vesperae_bmv ) vesperae += " &" + vesperae_bmv;
+      else if (vesperae_bmv) vesperae = vesperae + dash + "Com. " + vesperae_bmv;
+      }

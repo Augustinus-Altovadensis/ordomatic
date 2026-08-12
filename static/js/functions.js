@@ -1130,7 +1130,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     { 
       if (commemoratio)
         {
-          if (commemoratio['vesperae_commemoratio'])
+          if (commemoratio['vesperae_commemoratio']
+            && winner != days_sancto['votiva_bernardi']
+            && winner != days_sancto['votiva_sacramentum'])
+            // in two above-mentioned Vespers, the Feria wins and cannot be commemorated
             comm_vesperae_full.push({
               force: commemoratio['force'], 
               comm: commemoratio['vesperae_commemoratio'].replace(/^Com\. /, "")});
@@ -1238,9 +1241,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     if (!translated_vesperae_j) vesperae_j = vesperae_j.replace(" (translatum)", "");
 
-    if ((winner == days_sancto[ref_sancto] && winner['force'] < 40 && !vesperae) 
+    if ((winner == days_sancto[ref_sancto] 
+      && winner['force'] < 40 && !vesperae) 
         || winner == days_sancto['votiva_bernardi']
-        || winner == days_sancto['votiva_sacramentum']) // && feria['vesperae']
+        || winner == days_sancto['votiva_sacramentum']) 
         vesperae = translate_feria(ref_tempo, 1); // feria['vesperae'];
 
     ////// Color of Commemoratio et M. \\\\\\
@@ -1449,7 +1453,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     const O_ant = ["<i>O Sapiéntia.</i> <red>ad quam stamus extra stalla, non tamen ad collectam.</red>","<i>O Adonái.</i>","<i>O radix Jesse.</i>","<i>O clavis David.</i>","<i>O Óriens.</i>","<i>O Rex géntium.</i>","<i>O Emmánuel.</i>"];
 
     if (month_usual_number == 12 && day >= 17 && day <=23 ) {
-      if (winner == days_tempo[ref_tempo]) {
+      if (winner == days_tempo[ref_tempo] && !translated_vesperae_j) {
         if (vesperae.match(/Aña\. Mag\./))
           vesperae = vesperae.replace(/Aña\. Mag\./i, "Aña. Mag. " + O_ant[day-17]);
         else if (vesperae.match("Adv.")) 
@@ -1763,7 +1767,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         // First we need to filter out lower feast Comm. if a today is a Sermo
 
-        const allow_comm = /lent_6_[0123]|tp_1_[3-6]|tp_7_6|ash_1_3|lent_1_0/;
+        const allow_comm = /adv_|lent_6_[0123]|tp_1_[3-6]|tp_7_6|ash_1_3|lent_1_0/;
 
         if (winner['force'] > 90 && !allow_comm.test(ref_tempo))
           {
@@ -2178,9 +2182,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           vesperae = shorten(vesperae);
         }
 
-        if (!laudes && winner['force'] > 40) laudes = "sine Com.";
-        if (!vesperae.includes("Com.")) vesperae += " - sine Com.";
-
       //////////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\\
      /////////////////  Finis Commemorationum  \\\\\\\\\\\\\\\\\\\
     //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|////////////////////////////|\
@@ -2237,7 +2238,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
      { BMV: "B.M.V.", add: "De Pace" }, // Saturday
     ];
 
-    // Com. B.M.V. ad Laudes 
+    let suffr_laudes = false;
+    let suffr_vesperae = false;
+
+    // NEW Suffragium B.M.V. ad Laudes 
     if ( (winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) 
       && !header.match(/Infra Oct/i) 
       && comm_laudes_full.length < 2 
@@ -2261,69 +2265,53 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           laudes += dash + "Com. " + suffr_temp
                  + " (" + comm_laudes_full.length + ")";
           }
+
+        suffr_laudes = true;
       }
 
-    /// Final commemoration of B.M.V. on Festa xij. Lect. et M. and lower \\\
-    laudes_bmv = " B.M.V.";
-    vesperae_bmv = " B.M.V.";
-    et = " &"
-    et1 = " &"
-    dash = " - ";
-    if ( laudes == "" ) dash = "";
-    if ( laudes.match("B.M.V.") ) { laudes_bmv = ""; et = "";}
-    if ( winner['header'].match("B.M.V.") ) { laudes_bmv = ""; et = ""; et1 = "";}
-    if ( laudes.match(/Com\./) ) et1 = " &";
-    
-    // Com. B.M.V. ad Laudes 
-    if ( false && (winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) 
+    // NEW Suffragium B.M.V. ad Vesperas 
+    if (( winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) 
+      && (winner_next['force'] < 41 || ref_tempo_next.match(/ash_1_3/)) 
       && !header.match(/Infra Oct/i) 
-      && getComm(laudes) < 2 
-      && !ref_sancto.match(/01_05|02_22|05_06/)) 
+      && comm_vesperae_full.length < 2 
+      && ((!ref_sancto.match(/02_23/) && !is_leap_year(year)) 
+          || (!ref_sancto.match(/02_24/) && is_leap_year(year))) // St. Mathias 
+      && !ref_sancto.match(/02_21|05_05/)) 
       // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
       {
-      laudes = laudes.replace(/(?: - )?sine Com\.?/, "");
-      if ( weekday == 2 && getComm(laudes) < 1 ) laudes_bmv += " & B.\u202FB.\u202FR.";
-      if ( weekday == 3 && getComm(laudes) < 1 ) laudes_bmv += " & S. Joseph";
-      if ( weekday == 6 && getComm(laudes) < 1 
-         && !winner['header'].match("B.M.V.")) laudes_bmv += et1 + " De Pace";
-      if ( weekday == 6 && getComm(laudes) < 2 
-         && winner['header'].match("B.M.V."))  laudes_bmv += et1 + " De Pace";
+        if ( winner_next == days_sancto['votiva_bmv'] 
+          || winner_next == days_sancto['votiva_bmv_prima_sabb'])
+          {suffr_temp = suffragium[weekday+1].add;}
+        else if (comm_vesperae_full.length == 0 && suffragium[weekday+1].add)
+          {suffr_temp = suffragium[weekday+1].BMV + " & " + suffragium[weekday+1].add;}
+        else 
+          {suffr_temp = suffragium[weekday+1].BMV;}
 
-      if ( laudes.match("& B.M.V. ") ) laudes = laudes.replace("B.M.V. ", "B.M.V. " + laudes_bmv + " ");
-      else if ( laudes.match(/Com\./) ) laudes = laudes + et + laudes_bmv;
-      else laudes = laudes + dash + "Com. " + laudes_bmv;
+        if (vesperae) dash = " - "; else dash = "";
+        if (/Com\./.test(vesperae)) {
+          vesperae += " & " + suffr_temp 
+                 + " (" + comm_vesperae_full.length + ")";
+          }
+        else {
+          vesperae += dash + "Com. " + suffr_temp
+                 + " (" + comm_vesperae_full.length + ")";
+          }
+
+        suffr_vesperae = true;
       }
+
+    if ((!laudes || !laudes.includes("Com.")) 
+      && winner['force'] > 40 
+      && !suffr_laudes) {
+        if (!laudes) laudes = "sine Com.";
+        else laudes += " - sine Com.";
+      }
+    if (!vesperae.includes("Com.") && !suffr_vesperae) vesperae += " - sine Com.";
+
 
     if (winner == days_sancto['votiva_bernardi']) laudes = laudes.replace("B.\u202FB.\u202FR.", "B.\u202FR. <red>(nomen S. Bernardi hic omittitur)</red>");
 
-    // Com. B.M.V. ad Vesperas
-    et = " &"
-    dash = " - ";
-    if ( vesperae == "" ) dash = "";
-    if ( vesperae.match("B.M.V.") || weekday == 6) { vesperae_bmv = ""; et = "";}
-    if ( weekday == 5 && winner_next['force'] < 35 && !vigilia_sabb ) { vesperae_bmv = ""; et = ""; }
-
-    if (( winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) 
-      && (winner_next['force'] < 41 || ref_tempo_next.match(/ash_1_3/)) 
-      && !header.match(/Infra Oct/i) && getComm(vesperae) < 2 
-      && ((!ref_sancto.match(/02_23/) && !is_leap_year(year)) 
-          || (!ref_sancto.match(/02_24/) && is_leap_year(year))) // St. Mathias 
-      && !ref_sancto.match(/02_21|05_05/)) // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
-      {
-      vesperae = vesperae.replace(/(?: - )?sine Com\.?/, "");
-      if ( weekday == 1 && getComm(vesperae) < 1 ) vesperae_bmv += et + " B. B. R.";
-      if ( weekday == 2 && getComm(vesperae) < 1 ) vesperae_bmv += " & S. Joseph"; 
-      if ( weekday == 5 && getComm(vesperae) < 1 
-        && !winner_next['header'].match("B.M.V.")) vesperae_bmv += et + " De Pace";
-      else if ( weekday == 5 && getComm(vesperae) < 2 
-        && winner_next['header'].match("B.M.V."))  vesperae_bmv += et + " De Pace";
-
-      if ( vesperae.match("& B.M.V. ") ) vesperae = vesperae.replace("B.M.V. ", "B.M.V. " + vesperae_bmv + " ");
-      else if ( vesperae.match(/Com\./) && vesperae_bmv ) vesperae += " &" + vesperae_bmv;
-      else if (vesperae_bmv) vesperae = vesperae + dash + "Com. " + vesperae_bmv;
-      }
-
-    if (winner_next == days_sancto['votiva_bernardi']) vesperae = vesperae.replace("B. B. R.", "B. R. <red>(nomen S. Bernardi hic omittitur)</red>");
+    if (winner_next == days_sancto['votiva_bernardi']) vesperae = vesperae.replace("B.\u202FB.\u202FR.", "B.\u202FR. <red>(nomen S. Bernardi hic omittitur)</red>");
 
     // Changes in Suffragium of Our Lady:
     //===================================
