@@ -435,7 +435,8 @@ var off_feriale = false;
 var off_s_bernardi = true;
 var off_ss_sacramenti = true;
 
-var ant_BMV_post_purificationem = false;
+let suffr_new_laudes = true;
+let suffr_new_vesperae = true;
 
 var OM_dates = [];
 //var Officium_mensis = [];
@@ -2009,7 +2010,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           // In Advent, 2a changes
           if (ref_tempo.match("adv")) 
           {
-            comm_temp = comm_temp.replace("A cunctis", "Deus qui de beátæ")
+            comm_temp = comm_temp.replace("A cunctis", "de S. Maria Deus qui de beátæ")
           }          
           
           // Final output (Comm. Missa)
@@ -2063,8 +2064,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           }
 
         // Tuesdays of Paschal and Pentecost Octave can get first Vespers from Wednesday, 
-        // but they need to be deleted.
-        if (ref_tempo.match(/lent_5_6|tp_[18]_2/))
+        // but they need to be deleted. Also the Sunday in Christmas Octave needs to be 
+        // deleted before the Dec. 29. 
+        if ( /lent_5_6|tp_[18]_2/.test(ref_tempo) 
+          || /12_2[567]/.test(ref_sancto))
         {
           comm_vesperae_full = [];
         }
@@ -2238,8 +2241,32 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
      { BMV: "B.M.V.", add: "De Pace" }, // Saturday
     ];
 
+    const suffr_new_verse = {
+      'adv': { // A Vesperis Sabb. ante Dom. j. Adventus usque ad Natale Domini
+        laudes: "B.M.V. <red>℣. <i>A</red>ngelus Dómini.</i> Ora. <i><red>G</red>rátiam tuam.</i>",
+        vesperae: "B.M.V. <i><red>A</red>lma Redemptóris Mater.</i> <red>℣. <i>A</red>ngelus Dómini.</i> Ora. <i><red>G</red>rátiam tuam.</i>" },
+      'nativitas': { // Ab Octava Epiph. usque ad Purificationem
+        laudes: "B.M.V. <red>℣. <i>P</red>ost partum.</i> Ora. <i><red>D</red>eus, qui salútis.</i>",
+        vesperae: "B.M.V. <i><red>A</red>lma Redemptóris Mater.</i> <red>℣. <i>P</red>ost partum.</i> Ora. <i><red>D</red>eus, qui salútis.</i>" },
+      'purificatio': { // A Purificatione usque ad Dom. Palmarum excl.
+        laudes: "B.M.V. <red>℣. <i>D</red>ignáre me.</i> Ora. <i><red>C</red>oncéde miséricors.</i>",
+        vesperae: "B.M.V. <i><red>A</red>ve Regína cœlórum.</i> <red>℣. <i>D</red>ignáre me.</i> Ora. <i><red>C</red>oncéde miséricors.</i>" },
+      'pascha': {  // Tempore Paschali
+        laudes: "B.M.V. <red>℣. <i>G</red>aude et lætáre.</i> Ora. <i><red>D</red>eus, qui per resurrectiónem.</i>",
+        vesperae: "B.M.V. <i><red>R</red>egína cœli.</i> <red>℣. <i>G</red>aude et lætáre.</i> Ora. <i><red>D</red>eus, qui per resurrectiónem.</i>" },
+      'pa': {  // A prima die post SS. Trinitatem usque ad Adventum
+        laudes: "B.M.V. <red>℣. <i>O</red>ra pro nobis.</i> Ora. <i><red>C</red>oncéde nos.</i>",
+        vesperae: "B.M.V. <i><red>S</red>ancta María.</i> <red>℣. <i>O</red>ra pro nobis.</i> Ora. <i><red>C</red>oncéde nos.</i>" },
+      }
+
     let suffr_laudes = false;
     let suffr_vesperae = false;
+
+    if ( /adv_1_0|christmas_1_5|tp_1_0|pa_1_0/.test(ref_tempo)
+      || /02_02/.test(ref_sancto)) {
+        suffr_new_laudes = true;
+        suffr_new_vesperae = true;
+      }
 
     // NEW Suffragium B.M.V. ad Laudes 
     if ( (winner['force'] < 41 || ref_tempo.match(/ash_1_3/)) 
@@ -2248,13 +2275,39 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       && !ref_sancto.match(/01_05|02_22|05_06/)) 
       // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
       {
+        let suffr_bmv = suffragium[weekday].BMV;
+
+        // Reminder of change in Suffragium B.M.V.
+        if (ref_tempo.includes("adv_") && suffr_new_laudes)
+        {
+          suffr_bmv = suffr_new_verse['adv'].laudes;
+          suffr_new_laudes = false;
+        } else if (ref_tempo.includes("christmas_") && suffr_new_laudes)
+        {
+          suffr_bmv = suffr_new_verse['nativitas'].laudes;
+          suffr_new_laudes = false;
+        } else if (ref_sancto.includes("02_") && suffr_new_laudes)
+        {
+          suffr_bmv = suffr_new_verse['purificatio'].laudes;
+          suffr_new_laudes = false;
+        } else if (ref_tempo.includes("tp_") && suffr_new_laudes)
+        {
+          suffr_bmv = suffr_new_verse['pascha'].laudes;
+          suffr_new_laudes = false;
+        } else if (ref_tempo.includes("pa_") && suffr_new_laudes)
+        {
+          suffr_bmv = suffr_new_verse['pa'].laudes;
+          suffr_new_laudes = false;
+        }
+
+
         if ( winner == days_sancto['votiva_bmv'] 
           || winner == days_sancto['votiva_bmv_prima_sabb'])
           {suffr_temp = suffragium[weekday].add;}
         else if (comm_laudes_full.length == 0 && suffragium[weekday].add)
-          {suffr_temp = suffragium[weekday].BMV + " & " + suffragium[weekday].add;}
+          {suffr_temp = suffr_bmv + " & " + suffragium[weekday].add;}
         else 
-          {suffr_temp = suffragium[weekday].BMV;}
+          {suffr_temp = suffr_bmv;}
 
         if (laudes) dash = " - "; else dash = "";
         if (/Com\./.test(laudes)) {
@@ -2279,13 +2332,38 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       && !ref_sancto.match(/02_21|05_05/)) 
       // Chair of St. Peter in Antioch; S. John at Latin Gate: Suffrages are left out
       {
+        suffr_bmv = suffragium[weekday+1].BMV;
+
+        // Reminder of change in Suffragium B.M.V.
+        if (ref_tempo.includes("adv_") && suffr_new_vesperae)
+        {
+          suffr_bmv = suffr_new_verse['adv'].vesperae;
+          suffr_new_vesperae = false;
+        } else if (ref_tempo.includes("christmas_") && suffr_new_vesperae)
+        {
+          suffr_bmv = suffr_new_verse['nativitas'].vesperae;
+          suffr_new_vesperae = false;
+        } else if (ref_sancto.includes("02_") && suffr_new_vesperae)
+        {
+          suffr_bmv = suffr_new_verse['purificatio'].vesperae;
+          suffr_new_vesperae = false;
+        } else if (ref_tempo.includes("tp_") && suffr_new_vesperae)
+        {
+          suffr_bmv = suffr_new_verse['pascha'].vesperae;
+          suffr_new_vesperae = false;
+        } else if (ref_tempo.includes("pa_") && suffr_new_vesperae)
+        {
+          suffr_bmv = suffr_new_verse['pa'].vesperae;
+          suffr_new_vesperae = false;
+        }
+
         if ( winner_next == days_sancto['votiva_bmv'] 
           || winner_next == days_sancto['votiva_bmv_prima_sabb'])
           {suffr_temp = suffragium[weekday+1].add;}
         else if (comm_vesperae_full.length == 0 && suffragium[weekday+1].add)
-          {suffr_temp = suffragium[weekday+1].BMV + " & " + suffragium[weekday+1].add;}
+          {suffr_temp = suffr_bmv + " & " + suffragium[weekday+1].add;}
         else 
-          {suffr_temp = suffragium[weekday+1].BMV;}
+          {suffr_temp = suffr_bmv;}
 
         if (vesperae) dash = " - "; else dash = "";
         if (/Com\./.test(vesperae)) {
@@ -2312,17 +2390,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (winner == days_sancto['votiva_bernardi']) laudes = laudes.replace("B.\u202FB.\u202FR.", "B.\u202FR. <red>(nomen S. Bernardi hic omittitur)</red>");
 
     if (winner_next == days_sancto['votiva_bernardi']) vesperae = vesperae.replace("B.\u202FB.\u202FR.", "B.\u202FR. <red>(nomen S. Bernardi hic omittitur)</red>");
-
-    // Changes in Suffragium of Our Lady:
-    //===================================
-    // After 2.2.
-    if (ref_sancto == "02_02") ant_BMV_post_purificationem = true;
-
-    if (ref_sancto.match(/02_0[345]/) && winner['force'] <= 40 && winner != days_sancto['votiva_bmv'] && winner != days_sancto['votiva_bmv_prima_sabb'] && ant_BMV_post_purificationem) { 
-      laudes = laudes.replace("B.M.V.", "B.M.V. <red>℣. <i>D</red>ignáre me.</i> Ora. <i><red>C</red>oncéde miséricors.</i>");
-        vesperae = vesperae.replace("B.M.V.", "B.M.V. <i><red>A</red>ve Regína cœlórum</i> <red>℣. <i>D</red>ignáre me.</i> Ora. <i><red>C</red>oncéde miséricors.</i>"); 
-        ant_BMV_post_purificationem = false;
-      }
 
     //// Deleting Votiva B.M.V. in Sabbato Comm. in feasts of Our Lady
     if ((winner_next == days_sancto['votiva_bmv'] 
