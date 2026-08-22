@@ -697,3 +697,11 @@
       else if ( vesperae.match(/Com\./) && vesperae_bmv ) vesperae += " &" + vesperae_bmv;
       else if (vesperae_bmv) vesperae = vesperae + dash + "Com. " + vesperae_bmv;
       }
+
+      
+    if ( ref_sancto.match(/09_20v|09_19v/) && quatember_septembris ) 
+      {
+        laudes = laudes.replace("Vigiliæ S. Matthæi, Ap. et Evang. & ", "")
+        if (getComm(laudes) < 2) laudes += "& B.M.V."
+        laudes += ' <red>De Vigilia S. Matthæi in Laudibus nihil fit.</red>';
+      }

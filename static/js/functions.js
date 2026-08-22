@@ -885,8 +885,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         before = '<div class="small">¶ <red>Nihil fit hoc anno de Vigilia S. Bartholomæi.</red></div>'; }
 
     /////  Vigilia S. Matthæi, if it falls on Sunday \\\\\
-    if (ref_sancto == "09_19" && weekday == 6) { ref_sancto += "v"; }
-    if (ref_sancto == "09_20" && weekday != 0) { ref_sancto += "v"; }
+    if (( ref_sancto == "09_19" && weekday == 6)
+      || (ref_sancto == "09_20" && weekday != 0 
+        && /quatember_septembris_/.test(ref_tempo))) { 
+          commemoratio_add = days_sancto['09_20v']; }
+    else if (ref_sancto == "09_20" && weekday != 0
+        && !/quatember_septembris_/.test(ref_tempo)) { 
+          winner = days_sancto['09_20v']; }
 
     /////  Vigilia S. Andreæ, if it falls on Sunday \\\\\
     if (/11_2[89]/.test(ref_sancto) && weekday == 6 
@@ -1116,7 +1121,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       str = str.replace(/Pentecoste./,"Pent.");
       str = str.replace("Priv. Dieb. infra ","");
       str = str.replace(/infra Octavam/i, "de Oct.");
-      str = str.replace(/Octavam?/,"Oct."); 
+      str = str.replace(/Octavam?/,"Oct.");
+      str = str.replaceAll(/\<.*?\>/g, ""); 
       
       // 3. Aug. 2031: Inventionis. S. Stephani (Com. et M.) as Comm. on Sunday ^SS?\. => SS?\.
       if (weekday == 0 && !str.match(/^Dom|SS?\. |BB?\. /)) {
@@ -1126,7 +1132,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         str = "de Dom. " + roman_lc[ref_tempo.substring(4,5)] + " Adv."; 
       }
       
-      str = str.replace(/de ea/i, translate_feria(ref_tempo, "short"));
+      str = str.replace(/de ea(?: -)?/i, translate_feria(ref_tempo, "short"));
 
       return str;
     };
@@ -1427,9 +1433,18 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             sabb_mensis++;
             after += '<div class="small">¶ <red>November hoc anno tantum quatuor habet Dominicas, sequitur vero statim Dominica iij. Novembris.</red>'; }
 
-        if (sabb_mensis && winner_next == days_tempo[ref_tempo_next] ) 
+        if (sabb_mensis && winner_next == days_tempo[ref_tempo_next] 
+          && winner_next['force'] > winner['force']) {
+          // i.e. if the Vespers are from Saturday
           vesperae_j = "Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <i>" + antiphon_sabb(sabb_mensis, month_sabb) + "</i>";
-        else if (sabb_mensis) comm_vesperae_j = "Com. Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <i>" + antiphon_sabb(sabb_mensis, month_sabb) + "</i>";
+          }
+        else if (sabb_mensis) {
+          // if the Saturday is commemorated
+          comm_vesperae_full.push({
+            date: ref_sancto_next.slice(0, 5),
+            force: days_tempo[ref_tempo_next]['force'], 
+            comm: "Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <i>" + antiphon_sabb(sabb_mensis, month_sabb) + "</i>"});
+          } 
         titulus_dom = roman_uc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb);
 
         // On first Sunday in November, ferial Hymns are changed
@@ -1791,7 +1806,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         const allow_comm = /adv_|lent_6_[0123]|tp_1_[3-6]|tp_7_6|ash_1_3|lent_1_0/;
 
-        if (winner['force'] > 90 && !allow_comm.test(ref_tempo))
+        if (winner['force'] > 90 && winner == days_tempo[ref_tempo]
+          && !allow_comm.test(ref_tempo))
           {
             for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
               if (comm_laudes_full[i_c].force < 35) 
@@ -1868,16 +1884,27 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           /////////////////////////////////////////////
 
           comm_laudes_full.sort((a, b) => b.force - a.force);
+          let comm_missa_copy = structuredClone(comm_laudes_full);
+
+          // Si Vigilia S. Matthæi venerit in Quatuor Temp., nihil fit de ea nisi in Missa (Ant. Cist. II, p. 436)
+          if (commemoratio_add == days_sancto['09_20v']
+            && /quatember_septembris_/.test(ref_tempo)) {
+            comm_laudes_full = comm_laudes_full.filter(item => !item.comm.includes("Vigil"));
+            laudes_post += '<div class="small">¶ <red>De Vigilia S. Matthæi in Laudibus nihil fit.</red></div>';
+          }
           et = '';
           if (laudes) et = ' - ';
           //comm_temp = et + 'Com. ';
           comm_temp = et + '<font color=blue><b>Com.</b></font> ';
 
-          for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
-            comm_temp = comm_temp + ' ' + comm_laudes_full[i_c].comm + ' ';
-            if (i_c < (comm_laudes_full.length-1)) 
-                comm_temp = comm_temp + "& ";
-          }
+          //for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
+          //  comm_temp = comm_temp + ' ' + comm_laudes_full[i_c].comm + ' ';
+          //  if (i_c < (comm_laudes_full.length-1)) 
+          //      comm_temp = comm_temp + "& ";
+          //}
+
+          comm_temp += comm_laudes_full.map(item => item.comm)
+                    .filter(Boolean).join(" & ");
 
           laudes = laudes + comm_temp;
           comm_temp = "";
@@ -1888,8 +1915,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           // Except for Comm. ad Laudes only (main feast Serm. maj.),
           // all the Commemorations present in Lauds are also present in the Mass
- 
-          let comm_missa_copy = structuredClone(comm_laudes_full);
 
           if (winner['force'] > 90 && !allow_comm.test(ref_tempo))
           {
@@ -2103,7 +2128,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (comm_vesperae_full.length > 0)
         {
           // Vesperae: commemorationes
-          console.log(comm_vesperae_full);
           comm_vesperae_full.sort((a, b) => b.force - a.force || b.date.localeCompare(a.date));
           et = '';
           if (vesperae) et = ' - ';
@@ -2186,11 +2210,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           /////////////////////////////////////////////
 
 
-          for (i_c = 0; i_c < comm_vesperae_full.length; i_c++) {
-            comm_temp = comm_temp + ' ' + comm_vesperae_full[i_c].comm + ' ';
-            if (i_c < (comm_vesperae_full.length-1)) 
-                comm_temp = comm_temp + "& ";
-          }
+          //for (i_c = 0; i_c < comm_vesperae_full.length; i_c++) {
+          //  comm_temp = comm_temp + ' ' + comm_vesperae_full[i_c].comm + ' ';
+          //  if (i_c < (comm_vesperae_full.length-1)) 
+          //      comm_temp = comm_temp + "& ";
+          //}
+
+          comm_temp += comm_vesperae_full.map(item => item.comm)
+                    .filter(Boolean).join(" & ");
 
           // O Antiphons in Commemorations 
           if ( month_usual_number == 12 
@@ -2563,13 +2590,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     /////  Vigilia Epiphaniae, if it falls on Sunday \\\\\
     if (ref_sancto == "01_05" && weekday == 0) {
         missa = missa.replace(/2a Vigilia.*? 3a/i, "2a") }
-
-    if ( ref_sancto.match(/09_20v|09_19v/) && quatember_septembris ) 
-      {
-        laudes = laudes.replace("Vigiliæ S. Matthæi, Ap. et Evang. & ", "")
-        if (getComm(laudes) < 2) laudes += "& B.M.V."
-        laudes += ' <red>De Vigilia S. Matthæi in Laudibus nihil fit.</red>';
-      }
 
     if (false && tricenarium_vesperae) // original, cycling the j., ij. and iij. Noct.
       {

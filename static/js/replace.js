@@ -15,6 +15,7 @@ function replace() {
 
 function shorten(txt) {
 txt = txt.replaceAll(/Protomartyris/ig, " Protomart.");
+txt = txt.replaceAll(/,? Ap\. et Evang\./ig, " Ap.\u202FE.");
 txt = txt.replaceAll(/,? Papæ et Mart\./ig, " Pp.\u202FM.");
 txt = txt.replaceAll(/,? Papæ et Conf\./ig, " Pp.\u202FC.");
 txt = txt.replaceAll(/,? Ep\., Conf\. et Eccl\. Doct\./ig, " E.\u202FC.\u202FE.\u202FD.");
