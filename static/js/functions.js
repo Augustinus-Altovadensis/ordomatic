@@ -1897,12 +1897,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           //comm_temp = et + 'Com. ';
           comm_temp = et + '<font color=blue><b>Com.</b></font> ';
 
-          //for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
-          //  comm_temp = comm_temp + ' ' + comm_laudes_full[i_c].comm + ' ';
-          //  if (i_c < (comm_laudes_full.length-1)) 
-          //      comm_temp = comm_temp + "& ";
-          //}
-
+          // Output all Commemorations in their proper sequence
           comm_temp += comm_laudes_full.map(item => item.comm)
                     .filter(Boolean).join(" & ");
 
@@ -2117,7 +2112,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         // Tuesdays of Paschal and Pentecost Octave can get first Vespers from Wednesday, 
         // but they need to be deleted. Also the Sunday in Christmas Octave needs to be 
-        // deleted before the Dec. 29. 
+        // deleted before the Dec. 29 (incl Vesperæ j.). 
         if ( /lent_5_6|tp_[18]_2/.test(ref_tempo) 
           || /12_2[567]/.test(ref_sancto))
         {
@@ -2210,12 +2205,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           /////////////////////////////////////////////
 
 
-          //for (i_c = 0; i_c < comm_vesperae_full.length; i_c++) {
-          //  comm_temp = comm_temp + ' ' + comm_vesperae_full[i_c].comm + ' ';
-          //  if (i_c < (comm_vesperae_full.length-1)) 
-          //      comm_temp = comm_temp + "& ";
-          //}
-
+          // Output all Commemorations in their proper sequence
           comm_temp += comm_vesperae_full.map(item => item.comm)
                     .filter(Boolean).join(" & ");
 
@@ -2333,26 +2323,29 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         let suffr_bmv = suffragium[weekday].BMV;
 
         // Reminder of change in Suffragium B.M.V.
-        if (ref_tempo.includes("adv_") && suffr_new_laudes)
+        if (suffr_new_laudes)
         {
-          suffr_bmv = suffr_new_verse['adv'].laudes;
-          suffr_new_laudes = false;
-        } else if (ref_tempo.includes("christmas_") && suffr_new_laudes)
-        {
-          suffr_bmv = suffr_new_verse['nativitas'].laudes;
-          suffr_new_laudes = false;
-        } else if (ref_sancto.includes("02_") && suffr_new_laudes)
-        {
-          suffr_bmv = suffr_new_verse['purificatio'].laudes;
-          suffr_new_laudes = false;
-        } else if (ref_tempo.includes("tp_") && suffr_new_laudes)
-        {
-          suffr_bmv = suffr_new_verse['pascha'].laudes;
-          suffr_new_laudes = false;
-        } else if (ref_tempo.includes("pa_") && suffr_new_laudes)
-        {
-          suffr_bmv = suffr_new_verse['pa'].laudes;
-          suffr_new_laudes = false;
+          if (ref_tempo.includes("adv_"))
+          {
+            suffr_bmv = suffr_new_verse['adv'].laudes;
+            suffr_new_laudes = false;
+          } else if (ref_tempo.includes("christmas_"))
+          {
+            suffr_bmv = suffr_new_verse['nativitas'].laudes;
+            suffr_new_laudes = false;
+          } else if (ref_sancto.includes("02_"))
+          {
+            suffr_bmv = suffr_new_verse['purificatio'].laudes;
+            suffr_new_laudes = false;
+          } else if (ref_tempo.includes("tp_"))
+          {
+            suffr_bmv = suffr_new_verse['pascha'].laudes;
+            suffr_new_laudes = false;
+          } else if (ref_tempo.includes("pa_"))
+          {
+            suffr_bmv = suffr_new_verse['pa'].laudes;
+            suffr_new_laudes = false;
+          }
         }
 
 
