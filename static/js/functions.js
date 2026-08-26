@@ -2200,9 +2200,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               }
           });
 
-          /////////////////////////////////////////////
-          ///-  End of identical Comm. replacement. -\\
-          /////////////////////////////////////////////
+          //////////////////////////////////////////////
+          ///-  End of identical Comm. replacement. -\\\
+          //////////////////////////////////////////////
 
 
           // Output all Commemorations in their proper sequence
@@ -2252,13 +2252,17 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     }
 
     ////  Angeli Custodes in September (Saturday, first Vesper) \\\\
-    if ( weekday == 6 && ((month == 7 && ((day == 1) || (day == 31))) || (month == 8 && day < 7)) ) {
+    if ( weekday == 6 
+      && ((month == 7 && ((day == 1) || (day == 31))) 
+        || (month == 8 && day < 7)) ) {
         vesperae = days_sancto['angeli_custodes_sept']['vesperae_j'] + " - Com. " + vesperae.replace("- Com.", "&"); laudes_post += days_sancto['angeli_custodes_sept']['martyrologium']; }
 
     // Feria ij. Rogationum, if festum iij. Lect. et M. follows
     // (we need to switch the vespers)
 
-    if (ref_tempo.match(/tp_6_1/) && winner == days_tempo[ref_tempo] && winner_next['force'] == 30) {
+    if (ref_tempo.match(/tp_6_1/) 
+      && winner == days_tempo[ref_tempo] 
+      && winner_next['force'] == 30) {
         vesperae = winner_next['vesperae_j'];
         if (vesperae.match(/Com\./)) 
             vesperae = vesperae.replace(/Com\./, "Com. " + winner['vesperae'] + " & ");
@@ -2594,9 +2598,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     if (true && tricenarium_vesperae)
       {
-      // Feria ij. + Feria v.: j. Noct.
+      // Feria ij.  + Feria v.: j. Noct.
       // Feria iij. + Feria vi.: ij. Noct.
-      // Fer. iv. + Sabb.: iij. Noct.
+      // Feria iv.  + Sabb.: iij. Noct.
       vesperae += " " + days_sancto['tricenarium']['vesperae_j'];
       if (weekday == 1 || weekday == 4) vesperae = vesperae.replace('j. Noct.', "ij. Noct.");
       else if (weekday == 2 || weekday == 5) vesperae = vesperae.replace('j. Noct.', "iij. Noct.");
