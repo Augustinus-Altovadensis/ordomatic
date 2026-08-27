@@ -27,6 +27,7 @@ txt = txt.replaceAll(/,? Virg\. et Mart\./ig, " V.\u202FM.");
 txt = txt.replaceAll(/,? Virg\./ig, " V.");
 txt = txt.replaceAll(/,? Viduæ/ig, " Vd.");
 
+txt = txt.replaceAll(/SS\. (.*?),? Virg. et Mart\./ig, "SS. $1 VV.\u202FMM.");
 txt = txt.replaceAll(/SS\. (.*?),? Mart\./ig, "SS. $1 MM.");
 txt = txt.replaceAll(/S\. (.*?),? Mart\./ig, "S. $1 M.");
 txt = txt.replaceAll(/BB\. (.*?),? Mart\./ig, "BB. $1 MM.");
@@ -179,7 +180,7 @@ function addtags(winner) {
     winner = winner.replace(/F[íi]li(æ|ae) Jer[úu]salem/, '<i>Fíliæ Jerúsalem</i>');
     winner = winner.replace(/Lux perp[ée]tua/, '<i>Lux perpétua</i>');
     winner = winner.replace("Deus, qui salútis", '<i>Deus, qui salútis</i>');
-    winner = winner.replace("xxx", '<i>xxx</i>');
+    winner = winner.replace("...", '…');
     winner = winner.replace("xxx", '<i>xxx</i>');
     winner = winner.replace("xxx", '<i>xxx</i>');
     winner = winner.replace("xxx", '<i>xxx</i>');
