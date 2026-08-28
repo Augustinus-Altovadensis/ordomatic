@@ -25,6 +25,7 @@ txt = txt.replaceAll(/,? Ep\. et Conf\./ig, " E.\u202FC.");
 txt = txt.replaceAll(/,? Pont\. et Mart\./ig, " PP.\u202FMM.");
 txt = txt.replaceAll(/,? Virg\. et Mart\./ig, " V.\u202FM.");
 txt = txt.replaceAll(/,? Virg\./ig, " V.");
+txt = txt.replaceAll(/,? Reginæ et Viduæ/ig, " Reg.\u202FVd.");
 txt = txt.replaceAll(/,? Viduæ/ig, " Vd.");
 
 txt = txt.replaceAll(/SS\. (.*?),? Virg. et Mart\./ig, "SS. $1 VV.\u202FMM.");

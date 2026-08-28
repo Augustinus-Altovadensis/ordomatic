@@ -1163,16 +1163,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           || winner_next == days_sancto['votiva_bmv_prima_sabb']))
           comm_vesperae_full.pop();
         }
-      else if ( winner['force'] == winner_next['force'] 
-             && winner['force'] > 35 ) {
-        // a capitulo de sequenti, ut in 25. & 26.6. et 28. & 29.8.
-        if (winner_next['vesperae_j_commemoratio']) 
-            comm_vesperae_full.push({
-              date: ref_sancto_next.slice(0, 5),
-              force: winner_next['force'], 
-              comm: winner_next['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
-        }
       else { 
+        // a capitulo de sequenti, ut in 25. & 26.6., 28. & 29.8., 3. & 4.11. et 22. & 23.11.
+        // -= OR =-
         // tomorrow wins
         if (winner['vesperae_commemoratio'])
           comm_vesperae_full.push({
@@ -1471,11 +1464,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           {
             vesperae_j = winner_next['vesperae_j_commemoratio'];
           }
-
         today_wins = true; 
         }
       else if ( winner['force'] == winner_next['force'] && winner['force'] > 35 ) {
-        // a capitulo de sequenti, ut in 25. & 26.6. et 28. & 29.8.
+        // a capitulo de sequenti, ut in 25. & 26.6., 28. & 29.8., 3. & 4.11. et 22. & 23.11.
         vesperae_j = "";
         today_wins = true; 
         }
