@@ -2353,14 +2353,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         else 
           {suffr_temp = suffr_bmv;}
 
+        //suffr_temp += " (" + comm_laudes_full.length + ")";
+
         if (laudes) dash = " - "; else dash = "";
         if (/Com\./.test(laudes)) {
-          laudes += " & " + suffr_temp 
-                 + " (" + comm_laudes_full.length + ")";
+          laudes += " & " + suffr_temp;
           }
         else {
-          laudes += dash + "Com. " + suffr_temp
-                 + " (" + comm_laudes_full.length + ")";
+          laudes += dash + "Com. " + suffr_temp;
           }
 
         suffr_laudes = true;
@@ -2409,14 +2409,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         else 
           {suffr_temp = suffr_bmv;}
 
+        //suffr_temp += " (" + comm_vesperae_full.length + ")";
+
         if (vesperae) dash = " - "; else dash = "";
         if (/Com\./.test(vesperae)) {
-          vesperae += " & " + suffr_temp 
-                 + " (" + comm_vesperae_full.length + ")";
+          vesperae += " & " + suffr_temp;
           }
         else {
-          vesperae += dash + "Com. " + suffr_temp
-                 + " (" + comm_vesperae_full.length + ")";
+          vesperae += dash + "Com. " + suffr_temp;
           }
 
         suffr_vesperae = true;
