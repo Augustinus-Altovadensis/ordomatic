@@ -6,6 +6,17 @@ $(document).ready(function () {
   var christmas_weekday = get_christmas_weekday(christmas);
   var first_sunday_of_advent = get_first_sunday_of_advent(christmas, christmas_weekday);
   var select_display_format = document.getElementById('display_format');
+
+  for (const [key, value] of Object.entries(days_tempo)) {
+      value.ref = key;
+      value.source = "tempo";
+  }
+
+  for (const [key, value] of Object.entries(days_sancto)) {
+      value.ref = key;
+      value.source = "sancto";
+  }
+
   if (today > first_sunday_of_advent) {
     year += 1;
   }

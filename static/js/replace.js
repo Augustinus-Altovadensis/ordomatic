@@ -35,7 +35,8 @@ txt = txt.replaceAll(/BB\. (.*?),? Mart\./ig, "BB. $1 MM.");
 txt = txt.replaceAll(/B\. (.*?),? Mart\./ig, "B. $1 M.");
 txt = txt.replaceAll(/Regis Francorum et Conf\./ig, "R.\u202FFranc.\u202FC.");
 txt = txt.replaceAll(/Regis Hungariæ et Conf\./ig, "R.\u202FHung.\u202FC.");
-txt = txt.replaceAll(/,? Martyrum/ig, " MM.");
+txt = txt.replaceAll(/, Martyrum/ig, " MM.");
+//txt = txt.replaceAll(/,? Martyrum/ig, " MM.");
 txt = txt.replaceAll(/,? Virginum/ig, " VV.");
 txt = txt.replaceAll(/,? Conf\./ig, " C.");
 

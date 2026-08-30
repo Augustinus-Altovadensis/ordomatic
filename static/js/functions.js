@@ -377,10 +377,14 @@ function get_ref_tempo(offset, prefix_tempo, week_start, day_start, duration)
 
 function get_winner(ref_tempo, ref_sancto) {
   winner = days_tempo[ref_tempo];
-  if ( !days_tempo[ref_tempo] ) { winner = days_sancto[ref_sancto]; }
-  if (days_sancto[ref_sancto] && days_tempo[ref_tempo] && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force']) {
-    winner = days_sancto[ref_sancto];
+  if (!days_tempo[ref_tempo]) { 
+    winner = days_sancto[ref_sancto]; 
   }
+  if (days_sancto[ref_sancto] && days_tempo[ref_tempo] 
+    && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force']) {
+    winner = days_sancto[ref_sancto];
+  } 
+  
   return winner;
 }
 
@@ -389,10 +393,17 @@ function get_commemoratio(ref_tempo, ref_sancto) {
   // Only if the "loser" is a common Feria, we don't commemorate it.
   winner = days_tempo[ref_tempo];
   commemoratio = "";
-  if (days_sancto[ref_sancto] && days_tempo[ref_tempo] && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force'])   {
-    winner = days_sancto[ref_sancto]; }
-  if (winner == days_sancto[ref_sancto] && days_tempo[ref_tempo]['force'] != 10) { commemoratio = days_tempo[ref_tempo]; }
-  if (winner == days_tempo[ref_tempo]) { commemoratio = days_sancto[ref_sancto]; }
+
+  if (days_sancto[ref_sancto] && days_tempo[ref_tempo] 
+    && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force']) {
+      winner = days_sancto[ref_sancto]; 
+    }
+  if (winner == days_sancto[ref_sancto] && days_tempo[ref_tempo]['force'] != 10) { 
+      commemoratio = days_tempo[ref_tempo];
+    }
+  if (winner == days_tempo[ref_tempo]) { 
+      commemoratio = days_sancto[ref_sancto];
+    }
   return commemoratio;
 }
 
@@ -1122,7 +1133,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       str = str.replace("Priv. Dieb. infra ","");
       str = str.replace(/infra Octavam/i, "de Oct.");
       str = str.replace(/Octavam?/,"Oct.");
-      str = str.replaceAll(/\<.*?\>/g, ""); 
+      if (!/12_2[678]/.test(ref_sancto)) str = str.replaceAll(/\<.*?\>/g, ""); 
       
       // 3. Aug. 2031: Inventionis. S. Stephani (Com. et M.) as Comm. on Sunday ^SS?\. => SS?\.
       if (weekday == 0 && !str.match(/^Dom|SS?\. |BB?\. /)) {
@@ -1152,6 +1163,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           {
             // Adding Comm.
             comm_vesperae_full.push({
+              source: winner_next.source,
+              ref: winner_next.ref,
               date: ref_sancto_next.slice(0, 5),
               force: winner_next['force'], 
               comm: winner_next['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
@@ -1167,8 +1180,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         // a capitulo de sequenti, ut in 25. & 26.6., 28. & 29.8., 3. & 4.11. et 22. & 23.11.
         // -= OR =-
         // tomorrow wins
-        if (winner['vesperae_commemoratio'])
+        if ( !/12_24/.test(ref_sancto_next) && winner['vesperae_commemoratio'])
           comm_vesperae_full.push({
+            source: winner.source,
+            ref: winner.ref,
             date: ref_sancto.slice(0, 5),
             force: winner['force'], 
             comm: winner['vesperae_commemoratio'].replace(/^Com\. /, "")});
@@ -1188,12 +1203,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             && winner != days_sancto['votiva_sacramentum'])
             // in two above-mentioned Vespers, the Feria wins and cannot be commemorated
             comm_vesperae_full.push({
+              source: commemoratio.source,
+              ref: commemoratio.ref,
               date: ref_sancto.slice(0, 5),
               force: commemoratio['force'], 
               comm: commemoratio['vesperae_commemoratio'].replace(/^Com\. /, "")});
 
           if (commemoratio['laudes_commemoratio'])
             comm_laudes_full.push({
+              source: commemoratio.source,
+              ref: commemoratio.ref,
               date: ref_sancto.slice(0, 5),
               force: commemoratio['force'], 
               header: shorten_header(commemoratio['header']), 
@@ -1204,12 +1223,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         {
           if (commemoratio_add['vesperae_commemoratio'])
             comm_vesperae_full.push({
+              source: commemoratio_add.source,
+              ref: commemoratio_add.ref,
               date: ref_sancto.slice(0, 5),
               force: commemoratio_add['force'], 
               comm: commemoratio_add['vesperae_commemoratio'].replace(/^Com\. /, "")});
 
           if (commemoratio_add['laudes_commemoratio'])
             comm_laudes_full.push({
+              source: commemoratio_add.source,
+              ref: commemoratio_add.ref,
               date: ref_sancto.slice(0, 5),
               force: commemoratio_add['force'], 
               header: shorten_header(commemoratio_add['header']), 
@@ -1225,6 +1248,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             && !moved.includes(ref_sancto_next)
             )
             comm_vesperae_full.push({
+              source: commemoratio_next.source,
+              ref: commemoratio_next.ref,
               date: ref_sancto_next.slice(0, 5),
               force: commemoratio_next['force'], 
               comm: commemoratio_next['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
@@ -1234,6 +1259,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         {
           if (commemoratio_next_add['vesperae_j_commemoratio'])
             comm_vesperae_full.push({
+              source: commemoratio_next_add.source,
+              ref: commemoratio_next_add.ref,
               date: ref_sancto_next.slice(0, 5),
               force: commemoratio_next_add['force'], 
               comm: commemoratio_next_add['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
@@ -1260,12 +1287,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       {
         if (comm_temp['vesperae_commemoratio'])
           comm_vesperae_full.push({
+            source: comm_temp.source,
+            ref: comm_temp.ref,
             date: ref_sancto.slice(0, 5),
             force: comm_temp['force'], 
             comm: comm_temp['vesperae_commemoratio'].replace(/^Com\. /, "")});
 
         if (comm_temp['laudes_commemoratio'])
           comm_laudes_full.push({
+            source: comm_temp.source,
+            ref: comm_temp.ref,
             date: ref_sancto.slice(0, 5),
             force: comm_temp['force'], 
             header: shorten_header(comm_temp['header']), 
@@ -1276,6 +1307,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       {
         if (comm_next_temp['vesperae_j_commemoratio'])
           comm_vesperae_full.push({
+            source: comm_next_temp.source,
+            ref: comm_next_temp.ref,
             date: ref_sancto_next.slice(0, 5),
             force: comm_next_temp['force'], 
             comm: comm_next_temp['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
@@ -1807,6 +1840,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             }
           }
 
+        if ((/12_2[5678]/.test(ref_sancto) && commemoratio == days_tempo['christmas_2_0']) 
+          || (/12_2[567]/.test(ref_sancto) && commemoratio_next == days_tempo['christmas_2_0']))
+        {
+          comm_laudes_full = comm_laudes_full.filter(item => !item.ref.includes('christmas_2_0'));
+          comm_vesperae_full = comm_vesperae_full.filter(item => !item.ref.includes('christmas_2_0'));
+        }
+
         //////////////////|\\\\\\\\\\\\\\\\\\
         ///   Laudes: NEW commemorationes  \\\
         //|\\\\\\\\\\\\\\\|///////////////////
@@ -2106,7 +2146,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         // but they need to be deleted. Also the Sunday in Christmas Octave needs to be 
         // deleted before the Dec. 29 (incl Vesperæ j.). 
         if ( /lent_5_6|tp_[18]_2/.test(ref_tempo) 
-          || /12_2[567]/.test(ref_sancto))
+          || /12_2[4]/.test(ref_sancto))
+          // on Sunday in Christmas Octave before 29.12., only that Comm. must be removed
         {
           comm_vesperae_full = [];
         }
