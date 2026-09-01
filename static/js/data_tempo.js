@@ -1121,6 +1121,28 @@ const days_tempo = {
     'body': '',
     'after': ''
   },
+  'pe_1_0ccc': {
+    'force': 35,
+    'before': '',
+    'color': 'white',
+    'header': 'Oct. Epiph. Domini.',
+    'rank': '',
+    'subtitulum': '',
+    'vesperae_j':'',
+    'vesperae_j_commemoratio':'Com. Oct. Epiph. Domini. <i>Mági vidérunt.</i> <red>cum <i>A</red>lleluia.</i>',
+    'martyrologium':'',
+    'vigiliae': '',
+    'laudes': '',
+    'laudes_commemoratio':'Com. Oct. Epiph. Domini. <i>Hódie cœlésti.</i>',
+    'laudes_post':'',
+    'missa': '',
+    'missa_post': '',
+    'vesperae': '',
+    'vesperae_commemoratio': 'Com. Oct. Epiph. Domini. <i>Ab Oriénte.</i>',
+    'vesperae_post': '',
+    'body': '',
+    'after': ''
+  },
   'pe_1_1': {
     'force': 10,
     'before': '',

@@ -832,6 +832,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         }
       }
 
+    /// Holy Family \\\
+    //================\\
+    if (ref_tempo_next == "pe_1_0") commemoratio_next = days_tempo['pe_1_0ccc'];
+    if (ref_tempo == "pe_1_0") commemoratio = days_tempo['pe_1_0ccc'];
+
     ////// S. Matthias ///////
     if ( ref_sancto == "02_24" && !is_leap_year(year) ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo];}
     if ( ref_sancto == "02_25" && is_leap_year(year) && weekday != 0 ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo];}
@@ -1133,10 +1138,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       str = str.replace("Priv. Dieb. infra ","");
       str = str.replace(/infra Octavam/i, "de Oct.");
       str = str.replace(/Octavam?/,"Oct.");
-      if (!/12_2[678]/.test(ref_sancto)) str = str.replaceAll(/\<.*?\>/g, ""); 
+      if (!/12_2[6789]|12_3[01]/.test(ref_sancto)) str = str.replaceAll(/\<.*?\>/g, ""); 
       
       // 3. Aug. 2031: Inventionis. S. Stephani (Com. et M.) as Comm. on Sunday ^SS?\. => SS?\.
-      if (weekday == 0 && !str.match(/^Dom|SS?\. |BB?\. /)) {
+      if (weekday == 0 && !/^Dom|SS?\. |BB?\. /.test(str) 
+        && !/christmas_2_0|pe_1_0/.test(ref_tempo)) {
         str = 'Dom. ' + str; 
       }
       if (ref_tempo.includes("adv_") && /De ea/i.test(str)) {
@@ -1840,11 +1846,23 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             }
           }
 
-        if ((/12_2[5678]/.test(ref_sancto) && commemoratio == days_tempo['christmas_2_0']) 
-          || (/12_2[567]/.test(ref_sancto) && commemoratio_next == days_tempo['christmas_2_0']))
+        // We cannot have Comm. of Sunday within Christmas Octave before 29.12.
+        if ((/12_2[5678]/.test(ref_sancto) 
+            && commemoratio == days_tempo['christmas_2_0']) 
+          || (/12_2[567]/.test(ref_sancto) 
+            && commemoratio_next == days_tempo['christmas_2_0']))
         {
-          comm_laudes_full = comm_laudes_full.filter(item => !item.ref.includes('christmas_2_0'));
-          comm_vesperae_full = comm_vesperae_full.filter(item => !item.ref.includes('christmas_2_0'));
+          comm_laudes_full = 
+            comm_laudes_full.filter(item => !item.ref.includes('christmas_2_0'));
+          comm_vesperae_full = 
+            comm_vesperae_full.filter(item => !item.ref.includes('christmas_2_0'));
+        }
+
+        // Saturday within Oct. Epiph. has other Antiphons, deleting Ant. infra hebd.
+        if (commemoratio_next == days_tempo['pe_1_0ccc'])
+        {
+          comm_vesperae_full = 
+            comm_vesperae_full.filter(item => !/01_0[789]|01_1[01]/.test(item.ref));
         }
 
         //////////////////|\\\\\\\\\\\\\\\\\\

@@ -38,7 +38,8 @@ txt = txt.replaceAll(/Regis Hungariæ et Conf\./ig, "R.\u202FHung.\u202FC.");
 txt = txt.replaceAll(/, Martyrum/ig, " MM.");
 //txt = txt.replaceAll(/,? Martyrum/ig, " MM.");
 txt = txt.replaceAll(/,? Virginum/ig, " VV.");
-txt = txt.replaceAll(/,? Conf\./ig, " C.");
+//txt = txt.replaceAll(/,? Conf\./ig, " C.");
+txt = txt.replaceAll(/, Conf\./ig, " C.");
 
 txt = txt.replaceAll(/O\.N\.|O\. N\./g, 'O.\u202FN.');
 
@@ -172,7 +173,7 @@ function addtags(winner) {
     winner = winner.replace("Laudémus virum", '<i>Laudémus virum</i>');
     winner = winner.replace("Terríbilis", '<i>Terríbilis</i>');
     winner = winner.replace("A cunctis", '<i>A cunctis</i>');
-    winner = winner.replace(/Deus,? qui de be(a|á)t(æ|ae)/, '<i>Deus qui de beátæ</i>');
+    winner = winner.replace(/Deus,? qui de be(a|á)t(æ|ae)/, '<i>Deus, qui de beátæ</i>');
     winner = winner.replace(/Omn[ií]potens/, '<i>Omnípotens</i>');
     winner = winner.replace("Benedicámus Dómino", '<i><font color="red">B</font>enedicámus Dómino</i>');
     winner = winner.replace("Deo grátias", '<i><font color="red">D</font>eo grátias</i>');
