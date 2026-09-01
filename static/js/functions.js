@@ -384,7 +384,6 @@ function get_winner(ref_tempo, ref_sancto) {
     && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force']) {
     winner = days_sancto[ref_sancto];
   } 
-  
   return winner;
 }
 
@@ -1473,6 +1472,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         else if (sabb_mensis) {
           // if the Saturday is commemorated
           comm_vesperae_full.push({
+            source: "tempo",
+            ref: ref_tempo_next,
             date: ref_sancto_next,
             force: days_tempo[ref_tempo_next]['force'], 
             comm: "Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <i>" + antiphon_sabb(sabb_mensis, month_sabb) + "</i>"});
@@ -1862,7 +1863,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (commemoratio_next == days_tempo['pe_1_0ccc'])
         {
           comm_vesperae_full = 
-            comm_vesperae_full.filter(item => !/01_0[789]|01_1[01]/.test(item.ref));
+            comm_vesperae_full.filter(item => !/01_(?:0[7-9]|1[01])$/.test(item.ref));
         }
 
         //////////////////|\\\\\\\\\\\\\\\\\\
