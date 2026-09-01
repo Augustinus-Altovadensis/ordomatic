@@ -1171,7 +1171,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             comm_vesperae_full.push({
               source: winner_next.source,
               ref: winner_next.ref,
-              date: ref_sancto_next.slice(0, 5),
+              date: ref_sancto_next,
               force: winner_next['force'], 
               comm: winner_next['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
           }
@@ -1190,7 +1190,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_vesperae_full.push({
             source: winner.source,
             ref: winner.ref,
-            date: ref_sancto.slice(0, 5),
+            date: ref_sancto,
             force: winner['force'], 
             comm: winner['vesperae_commemoratio'].replace(/^Com\. /, "")});
         }
@@ -1211,7 +1211,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             comm_vesperae_full.push({
               source: commemoratio.source,
               ref: commemoratio.ref,
-              date: ref_sancto.slice(0, 5),
+              date: ref_sancto,
               force: commemoratio['force'], 
               comm: commemoratio['vesperae_commemoratio'].replace(/^Com\. /, "")});
 
@@ -1219,7 +1219,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             comm_laudes_full.push({
               source: commemoratio.source,
               ref: commemoratio.ref,
-              date: ref_sancto.slice(0, 5),
+              date: ref_sancto,
               force: commemoratio['force'], 
               header: shorten_header(commemoratio['header']), 
               comm: commemoratio['laudes_commemoratio'].replace(/^Com\. /, "")});
@@ -1231,7 +1231,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             comm_vesperae_full.push({
               source: commemoratio_add.source,
               ref: commemoratio_add.ref,
-              date: ref_sancto.slice(0, 5),
+              date: ref_sancto,
               force: commemoratio_add['force'], 
               comm: commemoratio_add['vesperae_commemoratio'].replace(/^Com\. /, "")});
 
@@ -1239,7 +1239,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             comm_laudes_full.push({
               source: commemoratio_add.source,
               ref: commemoratio_add.ref,
-              date: ref_sancto.slice(0, 5),
+              date: ref_sancto,
               force: commemoratio_add['force'], 
               header: shorten_header(commemoratio_add['header']), 
               comm: commemoratio_add['laudes_commemoratio'].replace(/^Com\. /, "")});
@@ -1256,7 +1256,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             comm_vesperae_full.push({
               source: commemoratio_next.source,
               ref: commemoratio_next.ref,
-              date: ref_sancto_next.slice(0, 5),
+              date: ref_sancto_next,
               force: commemoratio_next['force'], 
               comm: commemoratio_next['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
         }
@@ -1267,7 +1267,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             comm_vesperae_full.push({
               source: commemoratio_next_add.source,
               ref: commemoratio_next_add.ref,
-              date: ref_sancto_next.slice(0, 5),
+              date: ref_sancto_next,
               force: commemoratio_next_add['force'], 
               comm: commemoratio_next_add['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
         }
@@ -1295,7 +1295,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_vesperae_full.push({
             source: comm_temp.source,
             ref: comm_temp.ref,
-            date: ref_sancto.slice(0, 5),
+            date: ref_sancto,
             force: comm_temp['force'], 
             comm: comm_temp['vesperae_commemoratio'].replace(/^Com\. /, "")});
 
@@ -1303,7 +1303,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_laudes_full.push({
             source: comm_temp.source,
             ref: comm_temp.ref,
-            date: ref_sancto.slice(0, 5),
+            date: ref_sancto,
             force: comm_temp['force'], 
             header: shorten_header(comm_temp['header']), 
             comm: comm_temp['laudes_commemoratio'].replace(/^Com\. /, "")});
@@ -1315,7 +1315,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_vesperae_full.push({
             source: comm_next_temp.source,
             ref: comm_next_temp.ref,
-            date: ref_sancto_next.slice(0, 5),
+            date: ref_sancto_next,
             force: comm_next_temp['force'], 
             comm: comm_next_temp['vesperae_j_commemoratio'].replace(/^Com\. /, "")});
       }
@@ -1473,7 +1473,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         else if (sabb_mensis) {
           // if the Saturday is commemorated
           comm_vesperae_full.push({
-            date: ref_sancto_next.slice(0, 5),
+            date: ref_sancto_next,
             force: days_tempo[ref_tempo_next]['force'], 
             comm: "Sabb. ante Dom. " + roman_lc[sabb_mensis] + " " + month_human_readable_genitive(month_sabb) + " <i>" + antiphon_sabb(sabb_mensis, month_sabb) + "</i>"});
           } 
