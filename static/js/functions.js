@@ -1381,7 +1381,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     vigiliae = winner['vigiliae'];
 
-    vigil_newyear = ['<i>Christus natus</i> iij. Lect.<font color="red">(Prima Die non impedita)</font> <i>Justificáti ergo.</i>',
+    vigil_newyear = ['<i>Christus natus</i> iij. Lect. <font color="red">(Prima Die non impedita)</font> <i>Justificáti ergo.</i>',
       'iij. Lect. <font color="red">(Secunda Die non impedita; ut die 3. Jan.)</font> <i>An ignorátis fratres.</i>',
       'iij. Lect. <font color="red">(Tertia Die non impedita; ut die 3. Jan.)</font> <i>Fratres, debitóres sumus.</i>'];
     if (ref_sancto == "01_02") { vigil_newyear_counter = 0; }

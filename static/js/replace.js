@@ -37,8 +37,9 @@ txt = txt.replaceAll(/Regis Francorum et Conf\./ig, "R.\u202FFranc.\u202FC.");
 txt = txt.replaceAll(/Regis Hungariæ et Conf\./ig, "R.\u202FHung.\u202FC.");
 txt = txt.replaceAll(/, Martyrum/ig, " MM.");
 //txt = txt.replaceAll(/,? Martyrum/ig, " MM.");
-txt = txt.replaceAll(/,? Virginum/ig, " VV.");
+//txt = txt.replaceAll(/,? Virginum/ig, " VV.");
 //txt = txt.replaceAll(/,? Conf\./ig, " C.");
+txt = txt.replaceAll(/, Virginum/ig, " VV.");
 txt = txt.replaceAll(/, Conf\./ig, " C.");
 
 txt = txt.replaceAll(/O\.N\.|O\. N\./g, 'O.\u202FN.');
