@@ -1945,8 +1945,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           }
           et = '';
           if (laudes) et = ' - ';
-          //comm_temp = et + 'Com. ';
-          comm_temp = et + '<font color=blue><b>Com.</b></font> ';
+          comm_temp = et + 'Com. ';
+          //comm_temp = et + '<font color=blue><b>Com.</b></font> ';
 
           // Output all Commemorations in their proper sequence
           comm_temp += comm_laudes_full.map(item => item.comm)
@@ -2178,8 +2178,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_vesperae_full.sort((a, b) => b.force - a.force || b.date.localeCompare(a.date));
           et = '';
           if (vesperae) et = ' - ';
-          //comm_temp = et + 'Com. ';
-          comm_temp = et + '<font color=blue><b>Com.</b></font> ';
+          comm_temp = et + 'Com. ';
+          //comm_temp = et + '<font color=blue><b>Com.</b></font> ';
 
           // some antiphons change at Easter
           if ( ref_tempo.match("tp") ) {
