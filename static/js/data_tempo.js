@@ -1079,7 +1079,7 @@ const days_tempo = {
   },
     'pe_1_0': {
     'force': 80,
-    'before': 'Officium et Missa Sanctæ Familiæ: Jesu, Mariæ et Joseph (suppl. brev. Cist. 1965) Oratio. <i>Dómine Jesu Christe, qui, Maríae et Joseph súbditus, § domésticam vitam ineffabílibus virtútibus consecrásti: * fac nos, utriúsque auxílio, Famíliæ sanctae tuae exémplis ínstrui; § et consórtium cónsequi sempitérnum. Qui vivis et regnas cum Deo Patre in unitáte Spiritus Sancti, Deus: * per...</i>',
+    'before': 'Officium et Missa Sanctæ Familiæ: Jesu, Mariæ et Joseph (suppl. brev. Cist. 1965) Oratio. <i>Dómine Jesu Christe, qui, Maríae et Joseph súbditus, § domésticam vitam ineffabílibus virtútibus consecrásti: * fac nos, utriúsque auxílio, Famíliæ sanctæ tuæ exémplis ínstrui; § et consórtium cónsequi sempitérnum. Qui vivis et regnas cum Deo Patre in unitáte Spíritus Sancti, Deus: * per...</i>',
     'color': 'white',
     'header': 'Sanctæ Familiæ: Jesu, Mariæ et Joseph',
     'rank': 'MM. maj.',
@@ -1129,7 +1129,7 @@ const days_tempo = {
     'rank': '',
     'subtitulum': '',
     'vesperae_j':'',
-    'vesperae_j_commemoratio':'Com. Oct. Epiph. Domini. <i>Mági vidérunt.</i> <red>cum <i>A</red>lleluia.</i>',
+    'vesperae_j_commemoratio':'Com. Oct. Epiph. Domini. <i>Mági vidérunt.</i> <red>cum <i>A</red>llelúia.</i>',
     'martyrologium':'',
     'vigiliae': '',
     'laudes': '',
