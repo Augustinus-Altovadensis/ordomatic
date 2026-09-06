@@ -2203,7 +2203,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           // Test on 23.4.2026 (when St. Adalbert not in Easter Octave)
 
           let comm_used =
-              /Mart\.|Ap\./i.test(winner.force >= winner_next.force ? winner : winner_next);
+              /Mart\.|Ap\./i.test(winner.force >= winner_next.force ? winner.header : winner_next.header);
           // Commune Apostolorum et Martyrum T.P.
           comm_vesperae_full.forEach(item => {
             if (/F[ií]li(æ|ae) Jer[uú]salem\.?/i.test(item.comm)) {
@@ -2215,7 +2215,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           });
 
           comm_used =
-              /^S\. .* Mart\./i.test(winner.force >= winner_next.force ? winner : winner_next);
+              /^S\. .* Mart\./i.test(winner.force >= winner_next.force ? winner.header : winner_next.header);
           // Commune Unius Martyris extra T.P.
           comm_vesperae_full.forEach(item => {
             if (/Be[aá]tus vir\.?/i.test(item.comm)) {
@@ -2227,7 +2227,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           });
 
           comm_used =
-              /^SS\. .* Mart\./i.test(winner.force >= winner_next.force ? winner : winner_next);
+              /^SS\. .* Mart\./i.test(winner.force >= winner_next.force ? winner.header : winner_next.header);
           // Commune Plurimorum Martyrum extra T.P.
           comm_vesperae_full.forEach(item => {
             if (/Isti sunt Sancti\.?/i.test(item.comm)) {
@@ -2240,7 +2240,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           //comm_used = winner['header'].includes("Ep.");
           comm_used =
-              (winner.force >= winner_next.force ? winner : winner_next)
+              (winner.force >= winner_next.force ? winner.header : winner_next.header)
               .header.includes("Ep.");
           // Commune Confessoris Pontificis
           comm_vesperae_full.forEach(item => {
