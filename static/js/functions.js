@@ -1752,7 +1752,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       /////  Commemoratio Laudes  /////
       /////////////////////////////////
 
-      if ((commemoratio['laudes'] || commemoratio['laudes_commemoratio'] || comm_laudes) && !no_comm_laudes)
+      if ((commemoratio['laudes'] || commemoratio['laudes_commemoratio']) && !no_comm_laudes)
         { 
           comm = ""
           laudes = laudes.replace(/- sine Com\.|sine Com\./, "");
@@ -2240,7 +2240,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           //comm_used = winner['header'].includes("Ep.");
           comm_used =
-              (winner.force >= winner_next.force ? winner.header : winner_next.header)
+              (winner.force >= winner_next.force ? winner : winner_next)
               .header.includes("Ep.");
           // Commune Confessoris Pontificis
           comm_vesperae_full.forEach(item => {
