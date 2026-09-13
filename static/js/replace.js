@@ -28,11 +28,11 @@ txt = txt.replaceAll(/,? Virg\./ig, " V.");
 txt = txt.replaceAll(/,? Reginæ et Viduæ/ig, " Reg.\u202FVd.");
 txt = txt.replaceAll(/,? Viduæ/ig, " Vd.");
 
-txt = txt.replaceAll(/SS\. (.*?),? Virg. et Mart\./ig, "SS. $1 VV.\u202FMM.");
-txt = txt.replaceAll(/SS\. (.*?),? Mart\./ig, "SS. $1 MM.");
-txt = txt.replaceAll(/S\. (.*?),? Mart\./ig, "S. $1 M.");
-txt = txt.replaceAll(/BB\. (.*?),? Mart\./ig, "BB. $1 MM.");
-txt = txt.replaceAll(/B\. (.*?),? Mart\./ig, "B. $1 M.");
+txt = txt.replaceAll(/\bSS\. (.*?),? Virg. et Mart\./ig, "SS. $1 VV.\u202FMM.");
+txt = txt.replaceAll(/\bSS\. (.*?),? Mart\./ig, "SS. $1 MM.");
+txt = txt.replaceAll(/\bS\. (.*?),? Mart\./ig, "S. $1 M.");
+txt = txt.replaceAll(/\bBB\. (.*?),? Mart\./ig, "BB. $1 MM.");
+txt = txt.replaceAll(/\bB\. (.*?),? Mart\./ig, "B. $1 M.");
 txt = txt.replaceAll(/Regis Francorum et Conf\./ig, "R.\u202FFranc.\u202FC.");
 txt = txt.replaceAll(/Regis Hungariæ et Conf\./ig, "R.\u202FHung.\u202FC.");
 txt = txt.replaceAll(/, Martyrum/ig, " MM.");
