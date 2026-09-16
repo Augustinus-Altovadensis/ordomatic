@@ -944,28 +944,43 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     /////////  Festum Domini Nostri Jesu Christi Regis (Dominica ultima Octobris)  \\\\\\\\
 
-    if (weekday == 6 && month_usual_number == 10 && day >= 24 && day < 31 ) {
-      Christus_Rex_vespera = true; 
+    if (weekday == 6 && month_usual_number == 10 && day >= 24 && day < 31 ) 
+    {
       // Feasts lower than iij. Lect et M. (incl.) are suppressed
-      if (commemoratio_next && commemoratio_next['force'] <= 30) {
-        after_ChR = '<div class="small">¶ <red>Nihil fit hoc anno de festo ' + commemoratio_next['header'].split(",", 1) + ".</red></div>" + after; 
-        commemoratio_next = ""; }
+      if (commemoratio_next && commemoratio_next['force'] <= 30) 
+        {
+          removed_ChR = commemoratio_next['header'].split(",", 1);        
+          if (days_sancto[ref_sancto_next + "cc"]) 
+            removed_ChR += " et " + days_sancto[ref_sancto_next + "cc"]['header'].split(",", 1);
+        
+          after_ChR = '<div class="small">¶ <red>Nihil fit hoc anno de festo ' 
+            + removed_ChR + ".</red></div>" + after; 
+          commemoratio_next = ""; 
+        }
+
+      if (commemoratio_next) commemoratio_next_add = commemoratio_next;
+      commemoratio_next = winner_next;
+      winner_next = days_sancto['Christus_Rex'];
+    }
+
+    if (weekday == 0 && month_usual_number == 10 && day >= 25 )
+    {
+     if (commemoratio && commemoratio['force'] > 30) 
+        commemoratio_add = commemoratio;
+     commemoratio = winner;
+     winner = days_sancto['Christus_Rex'];
+    }
+
+    // Translating feasts MM. maj. on Dom. D.N.J.Ch. Regis
+    if ( commemoratio_next && commemoratio_next['force'] > 70
+        && winner_next == days_sancto['Christus_Rex'] )
+      {
+        moved.push(ref_sancto_next);
+        trans_titulum = commemoratio_next['header'].split(/[,+]/, 1);
+        trans_before = "Festum " + trans_titulum[0] + " transfertur post Dominicam."
+        commemoratio_next = "";
       }
-    if (weekday == 0 && month_usual_number == 10 && day >= 25 ) Christus_Rex = true;
 
-    if (Christus_Rex && !commemoratio)
-        {
-          commemoratio = winner;
-          winner = days_sancto['Christus_Rex'];
-          Christus_Rex = false;
-        }
-
-    else if (Christus_Rex && commemoratio)
-        {
-          if (commemoratio['force'] > 30) commemoratio_add = commemoratio;
-          commemoratio = winner;
-          winner = days_sancto['Christus_Rex'];
-        }
 
     /////  All Souls Day - Commemoratio Omnium Fidelium Defunctorum  \\\\\
     // Usually 2.11., unless it falls on Sunday, then 3.11.
@@ -1111,6 +1126,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //if (trans_before) before = before + '<div class="small"><font color="red">' + trans_before + '</div></font>';
 
     if (trans_before) after = after + '<div class="small">¶ <font color="red">' + trans_before + '</div></font>';
+
+    if (after_ChR) after = after_ChR + after;
 
     // It's more practical to keep the numbers in Header in lowercase (vj. etc.)
     // But for the main header, UPPERCASE numbers (VI. etc.) are nicer
@@ -1871,14 +1888,21 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         const allow_comm = /adv_|lent_6_[0123]|tp_1_[3-6]|tp_7_6|ash_1_3|lent_1_0/;
 
         if (winner['force'] > 90 
-          && (winner == days_tempo[ref_tempo] || moved_start.includes(winner.ref))
+          && (winner == days_tempo[ref_tempo] 
+            || winner == days_sancto['Christus_Rex'] 
+            || moved_start.includes(winner.ref))
           && !allow_comm.test(ref_tempo))
           {
             for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
-              if (comm_laudes_full[i_c].force < 35) {
+              if (comm_laudes_full[i_c].force < 35) 
+              {
                 if (comm_laudes_full[i_c].force < 10) rank_local = "de commemoratione "
                 else rank_local = "de festo "
-                before += '<div class="small">¶ <red>Nihil fit hoc anno ' + rank_local + comm_laudes_full[i_c].header + '.</red></div>';
+                if (winner != days_sancto['Christus_Rex']) {
+                  // Due to the possibility of removing more than one Comm.,
+                  // on Christus Rex, this is handled right away
+                  before += '<div class="small">¶ <red>Nihil fit hoc anno ' + rank_local + comm_laudes_full[i_c].header + '.</red></div>';
+                  }
                 comm_laudes_full.splice(i_c,1); 
               }
             }
@@ -2754,7 +2778,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (weekday == 6 && quatember_septembris ) quatember_septembris = false; 
 
     /////////  Festum Domini Nostri Jesu Christi Regis (Dominica ultima Octobris)  \\\\\\\\
-    if (Christus_Rex_vespera) {
+    if (false && Christus_Rex_vespera) {
       vesperae = vesperae.replace(/de festo/i, winner['vesperae_commemoratio'].replace(/^Com\. /, ""));
       vesperae = vesperae.replace(/de seq\./, winner['vesperae_j_commemoratio']);
       vesperae = vesperae.replace(/^Com\. /, "");
@@ -2764,7 +2788,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (after_ChR) after = after_ChR + after;
       }
 
-    if (Christus_Rex) {
+    if (false && Christus_Rex) {
       if (commemoratio_add['missa']) missa = missa.replace("- Cre.", "3a " + commemoratio_add['header'].replace(/,.*/,"") + ". - Cre.");
       Christus_Rex = false;
       }
