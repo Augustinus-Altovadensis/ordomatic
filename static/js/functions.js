@@ -919,8 +919,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
 
     ////  Vigilia Imm. Conceptionis: nihil fit de ea in Officio  \\\\
-    if (ref_sancto == "12_07" && weekday != 0 ) no_comm_laudes = true;
-    if (ref_sancto == "12_06" && weekday == 6 ) {
+    if ( (ref_sancto == "12_06" && weekday == 6) 
+      || (ref_sancto == "12_07" && weekday == 1)) {
       before += '<div class="small">¶ <red>Nihil fit hoc anno de Vigilia Immaculatæ Conceptionis B.M.V.</red></div>';
       commemoratio = feria;
       }
@@ -971,7 +971,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
      winner = days_sancto['Christus_Rex'];
     }
 
-    // Translating feasts MM. maj. on Dom. D.N.J.Ch. Regis
+    // Translating feasts MM. maj. on Dominica D.N.J.Ch. Regis
     if ( commemoratio_next && commemoratio_next['force'] > 70
         && winner_next == days_sancto['Christus_Rex'] )
       {
@@ -1144,7 +1144,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         }
       }
 
-    if (commemoratio && commemoratio['header'].match(/Vigilia/i)) {
+    if (commemoratio && commemoratio['header'].match(/Vigilia/i) && winner['force'] < 45) {
       header = header + ' atque ' + commemoratio['header'].replace(/[,+].*/, "");
     }
 
@@ -1549,13 +1549,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     const O_ant = ["<i>O Sapiéntia.</i> <red>ad quam stamus extra stalla, non tamen ad collectam.</red>","<i>O Adonái.</i>","<i>O radix Jesse.</i>","<i>O clavis David.</i>","<i>O Óriens.</i>","<i>O Rex géntium.</i>","<i>O Emmánuel.</i>"];
 
     if (month_usual_number == 12 && day >= 17 && day <=23 ) {
-      if (winner == days_tempo[ref_tempo] && !translated_vesperae_j) {
-        if (vesperae.match(/Aña\. Mag\./))
-          vesperae = vesperae.replace(/Aña\. Mag\./i, "Aña. Mag. " + O_ant[day-17]);
-        else if (vesperae.match("Adv.")) 
-          vesperae = vesperae.replace(/Adv\./, "Adv. Aña Mag. " + O_ant[day-17]);
-        else vesperae += " Aña Mag. " + O_ant[day-17];
-      }
+      if (winner == days_tempo[ref_tempo] 
+        && (winner_next == days_tempo[ref_tempo_next] || ref_sancto == '12_23')
+        && !translated_vesperae_j) {
+          if (vesperae.match(/Aña\. Mag\./))
+            vesperae = vesperae.replace(/Aña\. Mag\./i, "Aña. Mag. " + O_ant[day-17]);
+          else if (vesperae.match("Adv.")) 
+            vesperae = vesperae.replace(/Adv\./, "Adv. Aña Mag. " + O_ant[day-17]);
+          else vesperae += " Aña Mag. " + O_ant[day-17];
+        }
 
       if (day == 21 && weekday == 0) 
         laudes = laudes.replace(/Aña Ben\. <i>.*<\/i>/, "Aña Ben. <i>Nolíte timére.</i>")
@@ -1801,7 +1803,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       /////  Commemoratio Laudes  /////
       /////////////////////////////////
 
-      if ((commemoratio['laudes'] || commemoratio['laudes_commemoratio']) && !no_comm_laudes)
+      if (false && (commemoratio['laudes'] || commemoratio['laudes_commemoratio']) && !no_comm_laudes)
         { 
           comm = ""
           laudes = laudes.replace(/- sine Com\.|sine Com\./, "");
@@ -2012,6 +2014,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           // Output all Commemorations in their proper sequence
           comm_temp += comm_laudes_full.map(item => item.comm)
                     .filter(Boolean).join(" & ");
+
+          // Advent changes on certain dates, only if in Commemoratio
+          if (winner == days_sancto[ref_sancto] && month_usual_number == 12 && day >= 17 && day <=23 ) {
+            if (day == 21) comm_temp = comm_temp.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>Nolíte timére.</i>")
+            if (day == 23) comm_temp = comm_temp.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>Ecce compléta sunt.</i>") 
+          }
 
           laudes = laudes + comm_temp;
           comm_temp = "";
@@ -2776,22 +2784,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
 
     if (weekday == 6 && quatember_septembris ) quatember_septembris = false; 
-
-    /////////  Festum Domini Nostri Jesu Christi Regis (Dominica ultima Octobris)  \\\\\\\\
-    if (false && Christus_Rex_vespera) {
-      vesperae = vesperae.replace(/de festo/i, winner['vesperae_commemoratio'].replace(/^Com\. /, ""));
-      vesperae = vesperae.replace(/de seq\./, winner['vesperae_j_commemoratio']);
-      vesperae = vesperae.replace(/^Com\. /, "");
-      vesperae = vesperae.replace(/ - Com\. /, " & ");
-      vesperae = days_sancto['Christus_Rex']['vesperae_j'] + " - Com. " + vesperae;
-      Christus_Rex_vespera = false;
-      if (after_ChR) after = after_ChR + after;
-      }
-
-    if (false && Christus_Rex) {
-      if (commemoratio_add['missa']) missa = missa.replace("- Cre.", "3a " + commemoratio_add['header'].replace(/,.*/,"") + ". - Cre.");
-      Christus_Rex = false;
-      }
 
      //////////////////|\\\\\\\\\\\\\\\\\\\\\
     ////////   Anniversarium Solemne  \\\\\\\\
