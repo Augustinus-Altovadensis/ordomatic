@@ -650,7 +650,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     const lower_feasts_removed = /lent_6_[456]|tp_1_[012]|tp_6_4|tp_8_[012]|pa_1_0|pa_1_4|pa_2_5/;
 
     // N.B.: "tp_7_6|" has been removed.
-    if ( commemoratio_next && commemoratio_next.force < 35
+    if ( commemoratio_next && commemoratio_next.force <= 50  // orig. 35
       && lower_feasts_removed.test(ref_tempo_next))
       { trans_titulum = commemoratio_next['header'].split(/[,+]/, 1);
         trans_before = "Nihil fit hoc anno de festo " + trans_titulum + "."; 
