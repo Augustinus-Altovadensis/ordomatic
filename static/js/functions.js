@@ -582,7 +582,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     trans_before = "";
     after_ChR = "";
     no_comm_laudes = false;
-    today_wins = true;
     tricenarium_vesperae = false;
     tricenarium = false;
     Christus_Rex = false;
@@ -1465,7 +1464,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
 
     // Special case: Vigil of St. Andrew
-    if (ref_sancto.match(/11_2[89]v/)) vigiliae = vigiliae.replace(/iij\. Lect\. .*<font/, "iij. Lect. <red>de Vigilia.</red> <font");
+    if (winner['header'].match(/Vigilia S\. Andreæ/)) vigiliae = vigiliae.replace(/iij\. Lect\. .*<font/, "iij. Lect. <red>de Vigilia.</red> <font");
 
     // If Imm. Conception falls on ij. Advent Sunday, in Matins of Vigil, the first three Lessons from Sunday are read.
     if (ref_sancto == "12_07" && weekday == 6 ) vigiliae = "iij. Lect. <red>primi Nocturni de Dom. ij. Adv. </red><i>Et egrediétur.</i><red> cum ℟℟. suis</red>";
@@ -1531,17 +1530,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           {
             vesperae_j = winner_next['vesperae_j_commemoratio'];
           }
-        today_wins = true; 
         }
       else if ( winner['force'] == winner_next['force'] && winner['force'] > 35 ) {
         // a capitulo de sequenti, ut in 25. & 26.6., 28. & 29.8., 3. & 4.11. et 22. & 23.11.
         vesperae_j = "";
-        today_wins = true; 
         }
       else { 
         // tomorrow wins
         vesperae = vesperae_j; 
-        today_wins = false;
         }
       }
 
@@ -1595,7 +1591,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         laudes_post += martyrologium;
       }
 
-    ///// First Vespers of moved Anniversary Feast (1. Junii)
+    ///// First Vespers of moved Anniversary Feast (1. Junii) -=TO FIX=- (no comm_vesperae)
     if ( ref_tempo == "pa_1_0" && translated_annivers )
       comm_vesperae = "Anniversarium Dedicationis Ecclesiæ Altovadensis (translatum) ℟. maj. Terríbilis" + comm_vesperae;
 
@@ -1632,7 +1628,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // Feria iij. Rogationum - gets commemorated in the Office only on Festa Commemorationum.
     // However, in the Holy Mass, it gets commemorated anyway.
     // Also, in Feasts iij. Lect. et lower, Vespers are still from Fer. iij. Rogationum!
-    if (ref_tempo == "tp_6_2" && winner['force'] > 10) { no_comm_laudes = true; }
+    //if (ref_tempo == "tp_6_2" && winner['force'] > 10) { no_comm_laudes = true; }
     if (ref_tempo == "tp_6_2" && winner['force'] > 10 && winner['force'] < 40 ) 
       { comm_laudes = ""; vesperae = feria['vesperae']; comm_vesperae = ""; }
 
@@ -1933,7 +1929,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         ///   Laudes: NEW commemorationes  \\\
         //|\\\\\\\\\\\\\\\|///////////////////
 
-        if (comm_laudes_full.length > 0)
+        if (  comm_laudes_full.length > 0
+          || (ref_tempo == "tp_6_2" && winner.ref != "tp_6_2")) 
+          // Fer. iij. Rogat, if commemorated, has no Lauds, only Comm. ad Missam.
         {
           // some antiphons change at Easter
           if ( ref_tempo.match("tp") ) {
@@ -2006,22 +2004,27 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             comm_laudes_full = comm_laudes_full.filter(item => !item.comm.includes("Vigil"));
             laudes_post += '<div class="small">¶ <red>De Vigilia S. Matthæi in Laudibus nihil fit.</red></div>';
           }
-          et = '';
-          if (laudes) et = ' - ';
-          comm_temp = et + 'Com. ';
-          //comm_temp = et + '<font color=blue><b>Com.</b></font> ';
 
-          // Output all Commemorations in their proper sequence
-          comm_temp += comm_laudes_full.map(item => item.comm)
-                    .filter(Boolean).join(" & ");
+          if (comm_laudes_full.length > 0)
+          {
+            et = '';
+            if (laudes) et = ' - ';
+            comm_temp = et + 'Com. ';
+            //comm_temp = et + '<font color=blue><b>Com.</b></font> ';
 
-          // Advent changes on certain dates, only if in Commemoratio
-          if (winner == days_sancto[ref_sancto] && month_usual_number == 12 && day >= 17 && day <=23 ) {
-            if (day == 21) comm_temp = comm_temp.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>Nolíte timére.</i>")
-            if (day == 23) comm_temp = comm_temp.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>Ecce compléta sunt.</i>") 
-          }
+            // Output all Commemorations in their proper sequence
+            comm_temp += comm_laudes_full.map(item => item.comm)
+                      .filter(Boolean).join(" & ");
 
-          laudes = laudes + comm_temp;
+            // Advent changes on certain dates, only if in Commemoratio
+            if (winner == days_sancto[ref_sancto] && month_usual_number == 12 && day >= 17 && day <=23 ) {
+              if (day == 21) comm_temp = comm_temp.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>Nolíte timére.</i>")
+              if (day == 23) comm_temp = comm_temp.replace(/Adv\. <i>.*<\/i>/, "Adv. <i>Ecce compléta sunt.</i>") 
+            }
+
+            laudes = laudes + comm_temp;
+          } 
+
           comm_temp = "";
 
           //////////////////|\\\\\\\\\\\\\\\\\\
@@ -2055,6 +2058,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               && commemoratio_add['missa'])
           {
             comm_missa_copy.push({force: commemoratio_add['force'], header: shorten_header(commemoratio_add['header'])});
+          }
+
+          // Special case: Feria iij. Rogationum (if not winner)
+          if (ref_tempo == "tp_6_2" && winner.ref != "tp_6_2")
+          {
+            comm_missa_copy.push({force: feria['force'], header: "Fer. iij. Rogationum"});
           }
 
           // In masses of feasts xij. Lect. et M. and lower, there are three Collects in total

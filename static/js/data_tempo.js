@@ -4269,9 +4269,9 @@ const days_tempo = {
     'after': ''
   },
   'tp_6_2': {
-    'force': 8,
+    'force': 10,
     'before': '',
-    'color': 'white',
+    'color': 'violet',
     'header': 'De ea.',
     'rank': '',
     'subtitulum': '',
@@ -4282,7 +4282,7 @@ const days_tempo = {
     'laudes': 'Aña Ben. <i>In Galilæa.</i>',
     'laudes_commemoratio':'Com. Fer. iij. Rogationum <i>In Galilæa.</i>',
     'laudes_post':'',
-    'missa': 'Glo. - 2a de S. Maria Concéde nos. 3a Ecclésiæ vel pro Papa. - Praef. Pasch.',
+    'missa': 'De Rogationibus. - sine Glo. - 2a de S. Maria Concéde nos. 3a Ecclésiæ vel pro Papa. - Praef. Pasch.',
     'missa_post': '',
     'vesperae': 'Fer. iij. Rogationum <i>Surréxit enim.</i>',
     'vesperae_commemoratio': 'Com. Fer. iij. Rogationum <i>Surréxit enim.</i>',
