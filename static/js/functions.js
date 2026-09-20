@@ -451,6 +451,7 @@ let suffr_new_vesperae = true;
 var OM_dates = [];
 //var Officium_mensis = [];
 var date_s_bernardi = "";
+var dolorosa_sabb = false;
 var date_ss_sacramenti = "";
 var winter_hymns = false;
 
@@ -580,6 +581,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     secunda_comm = "";
     subtitulum = "";
     trans_before = "";
+    before_persistent = "";
     after_ChR = "";
     no_comm_laudes = false;
     tricenarium_vesperae = false;
@@ -644,19 +646,19 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         commemoratio_next = "";
       }
 
-    // Completely removing feasts iij. Lect. and lower during Holy Week and Monday and Tuesday of Easter Octave and all other similar days.
+    // Completely removing feasts MM. min. (in rubrics iij. Lect.) and lower during Holy Week and Monday and Tuesday of Easter Octave and all other similar days.
 
     const lower_feasts_removed = /lent_6_[456]|tp_1_[012]|tp_6_4|tp_8_[012]|pa_1_0|pa_1_4|pa_2_5/;
 
     // N.B.: "tp_7_6|" has been removed.
     if ( commemoratio_next && commemoratio_next.force <= 50  // orig. 35
       && lower_feasts_removed.test(ref_tempo_next))
-      { trans_titulum = commemoratio_next['header'].split(/[,+]/, 1);
+      { trans_titulum = shorten_header(commemoratio_next['header']);
         trans_before = "Nihil fit hoc anno de festo " + trans_titulum + "."; 
         commemoratio_next = ""; }
 
     // Removing them on the day as well
-    if ( commemoratio && commemoratio.force < 35
+    if ( commemoratio && commemoratio.force < 50  // orig. 35
       && lower_feasts_removed.test(ref_tempo))
       { 
         commemoratio = ""; 
@@ -783,8 +785,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         // edited tp_7_5 => tp_7_6
         if (ref_tempo_next.match(/tp_7_6|tp_8_/)) {
           moved.push('anniversarium_dedicationis');
-          trans_before = "Festum Dedicationis Ecclesiæ Altovadensis translatum post Octavam Pentecostes."; }
-        else {
+          if (trans_before) trans_before += " ";
+          trans_before += "Festum Dedicationis Ecclesiæ Altovadensis transfertur post Octavam Pentecostes."; 
+        } else {
           winner_next = days_sancto['anniversarium_dedicationis'];
             if ( weekday == 6 ) {
                 commemoratio_next = days_tempo[ref_tempo_next];
@@ -843,6 +846,86 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if ( ((ref_sancto == "02_25" && is_leap_year(year)) || (ref_sancto == "02_24" && !is_leap_year(year))) && weekday == 0 ) {translated_matthias = true; trans_before = "Festum S. Matthiæ translatum in Feriam ij.";}
     if ( translated_matthias && weekday == 1 ) { winner = days_sancto['matthias']; commemoratio = days_tempo[ref_tempo]; translated_matthias = false; translated = true; }
     // second Vespers on translated feast: + St. Mechtildis: at the end of Vesper section
+
+
+    /// Festum vij. Dolorum B.M.V. \\\
+    //==============================\\\
+    // Vesperæ j.
+    if (ref_tempo_next == "lent_5_5" && winner_next == days_tempo[ref_tempo_next])
+    { // If there is no higher feast on Passion Friday
+      if (commemoratio_next) commemoratio_next_add = commemoratio_next;
+      winner_next = days_sancto['dolorosa'];
+      commemoratio_next = days_tempo[ref_tempo_next];
+    }
+    else if (ref_tempo_next == "lent_5_5" && winner_next == days_sancto[ref_sancto_next]
+      && winner_next['force'] < 80)
+    { // If there is a feast lower than MM. maj. on Passion Friday
+      commemoratio_next = winner_next;
+      winner_next = days_sancto['dolorosa'];
+      commemoratio_next_add = days_tempo[ref_tempo_next];
+    }
+    else if (ref_tempo_next == "lent_5_5" && winner_next == days_sancto[ref_sancto_next]
+      && winner_next['force'] == 80)
+    { // If there is another MM. maj. on Passion Friday, it's transferred
+      moved.push(ref_sancto_next);
+      trans_titulum = winner_next['header'].split(/[,+]/, 1);
+      trans_before = "Festum " + trans_titulum[0] + " transfertur in primam diem non impeditam."
+
+      winner_next = days_sancto['dolorosa'];
+      if (commemoratio_next) commemoratio_next_add = commemoratio_next;
+      commemoratio_next = days_tempo[ref_tempo_next];
+    }
+    else if (ref_tempo == "lent_5_5" && winner['force'] > 80
+        && winner_next['force'] <= 80)
+    { // If there is a feast higher than MM. maj. on Passion Friday, 
+      // Dolorosa is transferred to Passion Saturday
+      if (winner_next['force'] == 80)
+      { // And if there is a MM. maj., it's transferred
+        moved.push(ref_sancto_next);
+        trans_titulum = winner_next['header'].split(/[,+]/, 1);
+        before_persistent = "Festum Septem Dolorum B.M.V. transfertur in Sabbatum crastinum."
+      }
+
+      if (trans_before) trans_before += " ";
+      trans_before += "Festum " + trans_titulum[0] + " transfertur in primam diem non impeditam."
+
+      winner_next = days_sancto['dolorosa'];
+      if (commemoratio_next) commemoratio_next_add = commemoratio_next;
+      commemoratio_next = days_tempo[ref_tempo_next];
+      dolorosa_sabb = true;
+    }
+    else if (ref_tempo == "lent_5_5" && winner['force'] > 80
+        && winner_next['force'] > 80)
+    { // This is probably hypothetical. If both Passion Friday and Saturday 
+      // are occupied by Festa Sermonis, Dolorosa is not done that year.
+      trans_before = "Nihil fit hoc anno de Festo Septem Dolorum B.M.V.";
+    }
+
+
+    // Day of the feast
+    if ((ref_tempo == "lent_5_5" && winner == days_tempo[ref_tempo])
+      || (ref_tempo == "lent_5_6" && dolorosa_sabb))
+    {
+      if (commemoratio) commemoratio_add = commemoratio;
+
+      // Rubrica: Quacumque autem de causa contingat Festum Septem Dolorum carere j. Vesperis,
+      // Hymnus. Stabat Mater dolorósa. ponitur ad Matutinum, et post Versum
+      // Ut sibi compláceam. subjungitur Hymnus: Sancta Mater istud agas usque ad finem.
+      if (/03_20|03_22|03_26/.test(ref_sancto)) {
+        winner = days_sancto['dolorosa_comm'];
+      } else { winner = days_sancto['dolorosa']; }
+
+      commemoratio = days_tempo[ref_tempo];
+      dolorosa_sabb = false;
+    }
+    else if (ref_tempo == "lent_5_5" && winner == days_sancto[ref_sancto]
+      && winner['force'] < 80)
+    {
+      commemoratio = winner;
+      winner = days_sancto['dolorosa'];
+      commemoratio_add = days_tempo[ref_tempo];
+    }
+
 
     //////  Rogationes in Octava Paschæ \\\\\\
     if  ((ref_tempo.match(/tp_1_[1-6]/) && ref_sancto.match("04_25"))
@@ -1122,11 +1205,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (subtitulum) subtitulum = subtitulum + "<br>" + winner['subtitulum'];
     else subtitulum = winner['subtitulum'];
     
-    //if (trans_before) before = before + '<div class="small"><font color="red">' + trans_before + '</div></font>';
+    //if (trans_before) before = before + '<div class="small">¶ <font color="red">' + trans_before + '</div></font>';
 
     if (trans_before) after = after + '<div class="small">¶ <font color="red">' + trans_before + '</div></font>';
 
     if (after_ChR) after = after_ChR + after;
+
+    if (before_persistent) before = before + '<div class="small">¶ <font color="red">' + before_persistent + '</div></font>';
 
     // It's more practical to keep the numbers in Header in lowercase (vj. etc.)
     // But for the main header, UPPERCASE numbers (VI. etc.) are nicer
@@ -1148,13 +1233,16 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     }
 
     function shorten_header(str) {
-      if (/\b(SS\.|BB\.),.*,.*/.test(str) 
+      if (/05_31|06_01/.test(ref_sancto)) // BB. Bernardi, Mariæ et Gratiæ, Mart. O. N.
+          str = str.replace(/(.*,.*)[,+].*/, "$1");
+      else if (/\b(SS\.|BB\.) .*,.*,.*/.test(str) 
         && !/ et soc/i.test(str) 
-        && !/12_26/.test(ref_sancto)) {
+        && !/12_26/.test(ref_sancto)) // Omnium SS. Martyrum
+        {
           str = str.replace(/[,+].*/, " et soc.");
         }
-
-      str = str.replace(/[,+].*/, "");
+      else str = str.replace(/[,+].*/, "");
+      
       str = str.replace(/Dominica/i,"Dom.");
       str = str.replace(/Epiphani.m?/,"Epiph.");
       str = str.replace(/Pentecoste./,"Pent.");
@@ -1173,6 +1261,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
       
       str = str.replace(/de ea(?: -)?/i, translate_feria(ref_tempo, "short"));
+      str = str.replace(/\.$/,"");
 
       return str;
     };
@@ -1888,6 +1977,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (winner['force'] > 90 
           && (winner == days_tempo[ref_tempo] 
             || winner == days_sancto['Christus_Rex'] 
+            || winner == days_sancto['anniversarium_dedicationis'] 
             || moved_start.includes(winner.ref))
           && !allow_comm.test(ref_tempo))
           {
@@ -2033,6 +2123,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           // Except for Comm. ad Laudes only (main feast Serm. maj.),
           // all the Commemorations present in Lauds are also present in the Mass
+          // 8. Sept.??
 
           if (winner['force'] > 90 && !allow_comm.test(ref_tempo))
           {
@@ -2077,7 +2168,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             // In "Commemoratio et M.", the missa is taken from commemoratio['missa'], therefore the Comm. cannot be commemorated in the Mass.
 
             for (i_c = 0; i_c < comm_missa_copy.length; i_c++) {
-              if (commemoratio['header'].match(comm_missa_copy[i_c].header)
+              if (shorten_header(commemoratio['header']).match(comm_missa_copy[i_c].header)
                 && winner != days_sancto['votiva_bernardi']
                 && winner != days_sancto['votiva_bmv']
                 && winner != days_sancto['votiva_bmv_prima_sabb']
@@ -2134,7 +2225,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               && winner != feria)
               {
                 // §4. A Feria iv. Cinerum usque ad Dominicam Passionis
-                comm_missa_add.push({force: 2, header: 'de Feria'});
+                //comm_missa_add.push({force: 2, header: 'de Feria'});
                 comm_missa_add.push({force: 1, header: 'A cunctis.'});
               }
             else if (ref_tempo.match(/ash_|lent_[1-4]/) 
@@ -2257,11 +2348,22 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         // Tuesdays of Paschal and Pentecost Octave can get first Vespers from Wednesday, 
         // but they need to be deleted. Also the Sunday in Christmas Octave needs to be 
         // deleted before the Dec. 29 (incl Vesperæ j.). 
-        if ( /lent_5_6|tp_[18]_2/.test(ref_tempo) 
-          || /12_2[4]/.test(ref_sancto))
-          // on Sunday in Christmas Octave before 29.12., only that Comm. must be removed
+        if ( /tp_[18]_2/.test(ref_tempo) 
+          || /12_2[4]/.test(ref_sancto) // Comm. of Sunday in Christmas Oct. before 29.12. must be removed
+          || (/lent_5_6/.test(ref_tempo) && winner['force'] <= 80)
+          )
+        { // In 1937, Dolorosa was transferred to Sat. 20. 3. and on Palm Sunday (j. vesp.), it was commemorated
+          // The same happens in 2027, 2032 and 2100
+          if (!(/lent_5_6/.test(ref_tempo) && winner['force'] > 80)) comm_vesperae_full = [];
+        }
+
+        // Dolorosa in Lent (rubric): Si in j. vel ij. Vesperis concurrat cum Festo Annuntiationis B.M.V.,
+        // in Vesperis Annunt. nulla fit Comm. de Septem Doloribus. (happens j.: 2051, 2056; ij.: 2021, 2083)
+        if (/03_2[45]/.test(ref_sancto)) 
         {
-          comm_vesperae_full = [];
+          comm_vesperae_full.forEach(item => {
+            if (/dolorosa/.test(item.ref)) {
+            item.comm = "<red>De Septem Doloribus nulla fit Com.</red>";}});
         }
 
         // Then we write out the Commemorations
@@ -2388,6 +2490,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     /////////////    Postprocessing of Laudes/Vesperae   \\\\\\\\\\\\\\
     //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////\\
+
+    // Dolorosa before or after Annunciation of Our Lady
+    // (avoiding the awkward "Com. De Septem Doloribus nulla fit Com.")
+    if (/03_2[45]/.test(ref_sancto) 
+      && (/dolorosa/.test(winner.ref) || /dolorosa/.test(winner_next.ref)) ) 
+    {
+      vesperae = vesperae.replace(/Com\. (\<red\>De (Septem|vij\.?) .*\<\/red\>) &/, "$1 - Com.");
+    }
+
 
     // Rogationes in Octava Paschæ
     if (commemoratio == days_sancto['04_25rog'])
