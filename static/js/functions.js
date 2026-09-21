@@ -603,7 +603,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ////// Removing Commemorations during the Holy Week and Easter Octave
 
     // Translating feasts MM. maj. and higher during Holy Week and Easter Octave
-    if ( commemoratio_next && commemoratio_next['force'] > 50 
+    if ( commemoratio_next && commemoratio_next['force'] >= 50 
         && ref_tempo_next.match(/lent_6_|tp_1|tp_2_0/) )
       {
         moved.push(ref_sancto_next);
@@ -735,10 +735,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     let moved_start = structuredClone(moved);
 
     if ( weekday > 0 && moved.length > 0 
-        && !moved.includes(ref_sancto)
+        //&& !moved.includes(ref_sancto) // if allowed, after Easter 2027, an empty Monday was left
         && !moved.includes(ref_sancto_next)
         && !ref_tempo.match(/lent_6_|tp_1_/) 
-        && winner['force'] < 40 ) 
+        && (winner['force'] < 40 || moved.includes("03_25"))) 
       {
         top_moved = 0;
         for (j = 0; j < moved.length; j++)
@@ -749,6 +749,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               top_moved = j;
               force_temp_prev = win_temp['force']; }
           }
+
         if (commemoratio && commemoratio['header']) commemoratio_add = commemoratio;
         if (winner['force'] != 10 ) commemoratio = winner;
         winner = days_sancto[moved[top_moved]]; 
@@ -758,10 +759,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             commemoratio = days_sancto[ref_sancto];
       } 
 
+    // According to a privilege from 20. Julii 1748, if Annuntiatio B.M.V. is moved, 
+    // it must be restored right on the Monday after privileged Sunday/Easter Octave.
+
     // First Vespers (probably just copy previous function without splicing the "moved" Array)
     if ( moved.length > 0 
         && !ref_tempo.match(/lent_6_|tp_1_|tp_7_6|tp_8_/) 
-        && winner_next['force'] < 40 ) 
+        && (winner_next['force'] < 40 || moved.includes("03_25"))) 
       {
         top_moved = 0;
         for (j = 0; j < moved.length; j++)
@@ -772,6 +776,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               top_moved = j;
               force_temp_prev = win_temp['force']; }
           }
+        if (winner_next['force'] >= 40) 
+          {
+            moved.push(ref_sancto_next);
+            //trans_titulum = shorten_header(winner_next['header']);
+            trans_titulum = winner_next['header'].split(/[,+]/, 1);
+            trans_before = "Festum " + trans_titulum[0] + " transfertur in primam diem non impeditam."
+          }
+
         if (moved[top_moved] == '04_25' && ref_sancto != '04_25') moved[top_moved] += "tr";
         if (commemoratio_next && commemoratio_next['header']) commemoratio_next_add = commemoratio_next;
         if (winner_next['force'] != 10 ) commemoratio_next = winner_next;

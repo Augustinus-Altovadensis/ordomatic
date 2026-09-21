@@ -3589,7 +3589,7 @@ const days_tempo = {
     'after': ''
   },
   'tp_2_0': {
-    'force': 100,
+    'force': 85,
     'before': '',
     'color': 'white',
     'header': 'Dominica in Albis in Octava Paschæ (Dom. I. post Pascha).',
