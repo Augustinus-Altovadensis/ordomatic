@@ -1466,6 +1466,14 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (winner['force'] == 10 && commemoratio && commemoratio['rank'] == "Commemoratio et M.")
       color = commemoratio['color'];
 
+    ///////// Missa Votiva de Beata \\\\\\\\\\
+    /// Replacements done for "missa":
+    if (( winner == days_sancto['votiva_bmv'] 
+       || winner == days_sancto['votiva_bmv_prima_sabb'])
+      && /adv_/.test(ref_tempo)) {
+        missa = missa.replace("Glo.", "<blue><i>Rorate</i></blue> - Glo.");
+        }
+
     ///// Vigiliæ (2) - need to change already filled variables
 
     //////////  Vigilia S. Matthæi in Quatuor Tempora Septembris  \\\\\\\\\\\
