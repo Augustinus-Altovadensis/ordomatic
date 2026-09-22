@@ -2001,19 +2001,22 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             || moved_start.includes(winner.ref))
           && !allow_comm.test(ref_tempo))
           {
+            var removed = "";
             for (i_c = 0; i_c < comm_laudes_full.length; i_c++) {
               if (comm_laudes_full[i_c].force < 35) 
               {
                 if (comm_laudes_full[i_c].force < 10) rank_local = "de commemoratione "
-                else rank_local = "de festo "
-                if (winner != days_sancto['Christus_Rex']) {
-                  // Due to the possibility of removing more than one Comm.,
-                  // on Christus Rex, this is handled right away
-                  before += '<div class="small">¶ <red>Nihil fit hoc anno ' + rank_local + comm_laudes_full[i_c].header + '.</red></div>';
-                  }
-                comm_laudes_full.splice(i_c,1); 
+                else rank_local = "de festo ";
+
+                if (removed) rank_local = " et " + rank_local;
+
+                removed += rank_local + comm_laudes_full[i_c].header.replace(/ soc$/i, " Soc.");
+                comm_laudes_full.splice(i_c,1);
+                i_c--;
               }
             }
+            if (removed && winner != days_sancto['Christus_Rex']) // Christus Rex is handled at the beginning
+              before += '<div class="small">¶ <red>Nihil fit hoc anno ' + removed + '.</red></div>';
           }
 
         // We cannot have Comm. of Sunday within Christmas Octave before 29.12.
@@ -2149,7 +2152,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           {
             for (i_c = 0; i_c < comm_missa_copy.length; i_c++) {
               if (comm_missa_copy[i_c].force < 35) {
-                comm_missa_copy.splice(i_c,1); 
+                comm_missa_copy.splice(i_c,1);
+                i_c--;
               }
             }
           }
@@ -2360,8 +2364,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (winner_next['force'] > 90 && !allow_comm.test(ref_tempo_next))
           {
             for (i_c = 0; i_c < comm_vesperae_full.length; i_c++) {
-              if (comm_vesperae_full[i_c].force < 35) 
+              if (comm_vesperae_full[i_c].force < 35) {
                 comm_vesperae_full.splice(i_c,1); 
+                i_c--;
+                }
             }
           }
 
