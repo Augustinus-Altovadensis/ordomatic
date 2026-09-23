@@ -947,6 +947,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       commemoratio = days_sancto['04_25rog'];
     }
 
+    if (!ref_tempo.match(/tp_1_0/) && ref_sancto.match("04_25"))
+    {
+      commemoratio_add = days_sancto['04_25rog'];
+    }
+
     //////  Vigiliæ: Translated if on Sunday  \\\\\\\
 
     vigilia_sabb = false; // do not delete, used further in the text
@@ -1264,7 +1269,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (!/12_2[6789]|12_3[01]/.test(ref_sancto)) str = str.replaceAll(/\<.*?\>/g, ""); 
       
       // 3. Aug. 2031: Inventionis. S. Stephani (Com. et M.) as Comm. on Sunday ^SS?\. => SS?\.
-      if (weekday == 0 && !/^Dom|SS?\. |BB?\. /.test(str) 
+      if (weekday == 0 && !/^Dom|SS?\. |BB?\. |Rogatio/.test(str) 
         && !/christmas_2_0|pe_1_0|pa_2_0/.test(ref_tempo)) {
         str = 'Dom. ' + str; 
       }
@@ -1938,11 +1943,20 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           if (!comm_missa) comm_missa = commemoratio['missa'];
 
+          if (!missa) missa = missa_post;
+
           // If Sunday yields to another Feast with Comm., it needs to be added.
           if (weekday == 0 && !moved.includes(ref_sancto)
             && (commemoratio == days_tempo[ref_tempo] 
               || winner == days_sancto['nomen_jesu'])) {
-            if (!missa.match("Asperges")) missa = "Asperges - " + missa;
+            if (!missa.match("Asperges") && !ref_tempo.includes("tp_")) {
+              if (/Conv\.\:/i.test(missa)) missa = missa.replace(/Conv\.\:/i, "Conv.: Asperges - ");
+              else missa = "Asperges - " + missa;
+              }
+            if (!missa.match("Vidi aquam") && ref_tempo.includes("tp_")) {
+              if (/Conv\.\:/i.test(missa)) missa = missa.replace(/Conv\.\:/i, "Conv.: Vidi aquam - ");
+              else missa = "Vidi aquam - " + missa;
+              }
             missa = missa.replace(/Duo Acolythi\.?(?: -)?/, "");
             missa = missa.replace(/Cum incenso ad oblata\.?(?: - )?/i, "");
             if (!missa.match("Processio") && ref_tempo.match(/tp_|pa_/) && month_usual_number <= 9) 
@@ -1972,6 +1986,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           //// Abbreviations \\\\
           missa = missa.replace(/Epiphaniam\.?/, "Epiph.");
           missa = missa.replace(/Pentecoste(s|n)\.?/, "Pent.");
+
+          if (!winner['missa'] && winner['missa_post']) { missa_post = missa; missa = ""; }
         }
 
       /////////////////////////////////
@@ -2528,10 +2544,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
 
     // Rogationes in Octava Paschæ
-    if (commemoratio == days_sancto['04_25rog'])
+    if (commemoratio == days_sancto['04_25rog'] && ref_tempo.match(/tp_1_[1-6]/))
     {
       header = header + ' atque ' + commemoratio['header'];
       missa = commemoratio['missa'] + missa + " - <red>In fine Missæ Evangelium de Rogationibus.</red>";
+      missa = missa.replace(/Ecclésiæ vel pro Papa/, "de Rogationibus")
     }
 
     ////  Angeli Custodes in September (Saturday, first Vesper) \\\\

@@ -67,8 +67,8 @@ function addtags(winner) {
     // Following will be switched off probably
     //winner = winner.replace("&", '<font color="green"><b>&</b></font> ');
     winner = winner.replace("&.", '&');
-    winner = winner.replace(/2a Eccl[eé]si(ae|æ) /, '2a <i>Ecclésiæ</i> ');
-    winner = winner.replace(/3a Eccl[eé]si(ae|æ) /, '3a <i>Ecclésiæ</i> ');
+    winner = winner.replace(/2a Eccl[eé]si(ae|æ)\.? /, '2a <i>Ecclésiæ.</i> ');
+    winner = winner.replace(/3a Eccl[eé]si(ae|æ)\.? /, '3a <i>Ecclésiæ.</i> ');
     winner = winner.replaceAll("1a ", '1<sup>a</sup> ');
     winner = winner.replaceAll("1o ", '1<sup>o</sup> ');
     winner = winner.replaceAll("2a ", '2<sup>a</sup> ');
