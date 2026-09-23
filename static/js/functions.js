@@ -1682,7 +1682,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     /////////   Let's modify the HEADER (if needed)  /////////
     //////////////////////////////////////////////////////////
 
-    if (translated) { header = header + " (translatum)"; translated = false; }
+    if (translated) { header = header + " (translatum)"; }
+    // if (translated) { header = header + " (translatum)"; translated = false; } // orig.
 
     if ( winner['rank'].match(/Commemoratio/i)) {
         header = "De ea"; rank = ""; }
@@ -1994,7 +1995,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         const allow_comm = /adv_|lent_6_[0123]|tp_1_[3-6]|tp_7_6|ash_1_3|lent_1_0/;
 
-        if (winner['force'] > 90 
+        if (winner['force'] > 85 
           && (winner == days_tempo[ref_tempo] 
             || winner == days_sancto['Christus_Rex'] 
             || winner == days_sancto['anniversarium_dedicationis'] 
