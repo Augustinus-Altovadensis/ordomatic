@@ -939,7 +939,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     }
 
 
-    //////  Rogationes in Octava Paschæ \\\\\\
+    //////  Rogationes of St. Marc in Octava Paschæ \\\\\\
     if  ((ref_tempo.match(/tp_1_[1-6]/) && ref_sancto.match("04_25"))
       || (ref_tempo.match(/tp_1_2/) && ref_sancto.match("04_27")))
     {
@@ -1278,6 +1278,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
       
       str = str.replace(/de ea(?: -)?/i, translate_feria(ref_tempo, "short"));
+      if (/tp_6_[123]/.test(ref_tempo) && /Fer\./.test(str)) 
+        str += " Rogationum."; 
       str = str.replace(/\.$/,"");
 
       return str;
@@ -1744,8 +1746,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // However, in the Holy Mass, it gets commemorated anyway.
     // Also, in Feasts iij. Lect. et lower, Vespers are still from Fer. iij. Rogationum!
     //if (ref_tempo == "tp_6_2" && winner['force'] > 10) { no_comm_laudes = true; }
-    if (ref_tempo == "tp_6_2" && winner['force'] > 10 && winner['force'] < 40 ) 
-      { comm_laudes = ""; vesperae = feria['vesperae']; comm_vesperae = ""; }
+    if (ref_tempo == "tp_6_2" 
+      && winner['force'] > 10 
+      && winner['force'] < 40 ) { 
+        comm_laudes = ""; vesperae = feria['vesperae']; comm_vesperae = "";
+      }
+
+    if (ref_tempo == "tp_6_3") { 
+      commemoratio_add = days_tempo['tp_6_3cc'] ; 
+      }
 
     ///// Missa votiva de Angelis on Oct 2. \\\\\
     if (ref_sancto == "10_02" && winner['force'] < 30) missa = days_sancto["votiva_de_angelis"]["missa"];
@@ -1968,6 +1977,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (!missa.match(/In fine Miss.*Evang/i)) missa += ' - <red>In fine Missæ Evangelium Dominicæ.</red>';
             laudes_post = "<li>- <red>non dicitur </red><i>Quicúmque.</i></li>" + laudes_post;
             }
+
+          // Rogationes in Dominica
+          if (winner == days_sancto['04_25'] && weekday == 0)
+          {
+            missa = missa.replace(/Evangelium de Rogationibus/, "Evangelium Dominicæ");
+          }
 
           // If we need to fill in current Sunday, e.g. on Officium mensis...
           if (missa.match(/-De Dominica-/i) ) {
@@ -2510,7 +2525,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             new RegExp(escapeRegex(winner_next['header'])
             + "(?: \\([ix]ij\\. Lect\\. et M\\.\\))?"), "de seq.");
             
-          vesperae = vesperae + comm_temp.replace(winner['header'], "de præc.");
+          //vesperae = vesperae + comm_temp.replace(winner['header'], "de præc.");
+          vesperae = vesperae + comm_temp.replace(shorten_header(winner['header']), "de præc.");
           comm_temp = null;
         }
 
@@ -2541,7 +2557,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     {
       vesperae = vesperae.replace(/Com\. (\<red\>De (Septem|vij\.?) .*\<\/red\>) &/, "$1 - Com.");
     }
-
 
     // Rogationes in Octava Paschæ
     if (commemoratio == days_sancto['04_25rog'] && ref_tempo.match(/tp_1_[1-6]/))
