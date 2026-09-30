@@ -995,10 +995,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
          winner = days_sancto['08_14v']; }
 
     /////  Vigilia S. Bartholomæi, if it falls on Sunday \\\\\
-    /// (as the Vigil would fall on Aug. 22 - Imm. Cordis B.M.V., 
-    ///  which as a Serm. min. deletes the Vigil)
-    if (ref_sancto == "08_23" && weekday == 0) { commemoratio = ""; 
-        before = '<div class="small">¶ <red>Nihil fit hoc anno de Vigilia S. Bartholomæi.</red></div>'; }
+    if (ref_sancto == "08_22" && weekday == 6) { commemoratio_add = days_sancto['08_23']; }
 
     /////  Vigilia S. Matthæi, if it falls on Sunday \\\\\
     if (( ref_sancto == "09_19" && weekday == 6)
@@ -1771,7 +1768,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     //  Sundays' and 1st Fridays' Adorations: Laudes Vespertinæ 1926  \\
     if ( (weekday == 0 && !/11_01|11_02/.test(ref_sancto) )
-      || (weekday == 5 && day < 8 && !/lent_6_5/.test(ref_tempo)) ) 
+      || (weekday == 5 && day < 8 && !/lent_6_5/.test(ref_tempo)) 
+      || winner == days_sancto['Christus_Rex'] 
+      || /pa_2_5/.test(ref_tempo)) // SS. Cordis Jesu
        {  introitus = ["23","6","1","24","6","1"]
           tantum_ergo = ["25","26","27","28","29","30"];
           laudate_dominum = ["195b","196","197","198","199","203"]
@@ -1780,7 +1779,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             { laudate = "200"; 
               vesperae_post += "<red>Post Vesperas fit Expositio Sanctissimi Sacramenti et Consecratio Sacratissimo Cordi Jesu.</red>"; }
           else laudate = laudate_dominum[(adoratio_counter-1) % 6];
-          if ( winner == days_sancto['nomen_jesu'] ) litaniae = " - Litaniæ SSmi. Nominis Jesu";
+          if (winner == days_sancto['nomen_jesu']) 
+              litaniae = " - Litaniæ SSmi. Nominis Jesu";
+          else if (weekday == 5 || winner == days_sancto['Christus_Rex']) 
+              litaniae = " - 170"; // Litaniæ SS. Cordis
           else litaniae = "";
 
         after = "✠ Adoratio: LV pag. " + introitus[adoratio_counter % 6] + litaniae + " - " + tantum_ergo[adoratio_counter % 6] + " – "  + laudate + " – " + mane_nobiscum[(adoratio_counter-2) % 4] + "<br>" + after; 
