@@ -1007,8 +1007,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           winner = days_sancto['09_20v']; }
 
     /////  Vigilia SS. Simonis et Judæ, if it falls on Sunday \\\\\
-    if (ref_sancto == "10_26" && weekday == 6) { commemoratio_add = days_sancto['10_27'];}
-    if (ref_sancto == "10_27" && weekday == 0) { commemoratio_add = ""; }
+    if (ref_sancto == "10_26" && weekday == 6) { 
+      commemoratio_add = days_sancto['10_27'];
+      commemoratio_next = ""; } // if Oct. 26 is Saturday, the next Sunday will be Christ the King
 
     /////  Vigilia S. Andreæ, if it falls on Sunday \\\\\
     if (/11_2[89]/.test(ref_sancto) && weekday == 6 
@@ -1246,11 +1247,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         }
       }
 
-    if ((commemoratio && /Vigilia/i.test(commemoratio['header']))
-     // || (commemoratio_add && /Vigilia/i.test(commemoratio_add['header'])))
+    if (((commemoratio && /Vigilia/i.test(commemoratio['header']))
+      || (commemoratio_add && /Vigilia/i.test(commemoratio_add['header'])))
       && winner['force'] < 45) {
-      header = header + ' atque ' + commemoratio['header'].replace(/[,+].*/, "");
-    }
+        const vigil_header =
+          /Vigilia/i.test(commemoratio?.header) ? commemoratio.header.replace(/[,+].*/, "") :
+          /Vigilia/i.test(commemoratio_add?.header) ? commemoratio_add.header.replace(/[,+].*/, "") :
+          null;
+        header = header + ' atque ' + vigil_header;
+      }
 
     function shorten_header(str) {
       if (/05_31|06_01/.test(ref_sancto)) // BB. Bernardi, Mariæ et Gratiæ, Mart. O. N.
