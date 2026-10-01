@@ -1006,6 +1006,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         && !/quatember_septembris_/.test(ref_tempo)) { 
           winner = days_sancto['09_20v']; }
 
+    /////  Vigilia SS. Simonis et Judæ, if it falls on Sunday \\\\\
+    if (ref_sancto == "10_26" && weekday == 6) { commemoratio_add = days_sancto['10_27'];}
+    if (ref_sancto == "10_27" && weekday == 0) { commemoratio_add = ""; }
+
     /////  Vigilia S. Andreæ, if it falls on Sunday \\\\\
     if (/11_2[89]/.test(ref_sancto) && weekday == 6 
       && !ref_tempo.match(/adv/)) { commemoratio_add = days_sancto['11_29v']; }
@@ -1242,7 +1246,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         }
       }
 
-    if (commemoratio && commemoratio['header'].match(/Vigilia/i) && winner['force'] < 45) {
+    if ((commemoratio && /Vigilia/i.test(commemoratio['header']))
+     // || (commemoratio_add && /Vigilia/i.test(commemoratio_add['header'])))
+      && winner['force'] < 45) {
       header = header + ' atque ' + commemoratio['header'].replace(/[,+].*/, "");
     }
 
