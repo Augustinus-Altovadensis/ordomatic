@@ -449,6 +449,7 @@ let suffr_new_laudes = true;
 let suffr_new_vesperae = true;
 
 var OM_dates = [];
+var OM_date = 0;
 //var Officium_mensis = [];
 var date_s_bernardi = "";
 var dolorosa_sabb = false;
@@ -473,7 +474,7 @@ const roman_uc = ["NULLUS","I.","II.","III.","IV.","V.","VI.","VII.","VIII.","IX
 
 // Days of Officium mensis throughout the years. If not present here, Officium mensis is computed.
 OM_dates['2024'] = "2024,30,7,11,10,23,20,19,26,5,24,6,10"
-OM_dates['2025'] = "2025,,,,,,,,,,,12,"
+//OM_dates['2025'] = "2025,,,,,,,,,,,12,"
 OM_dates['202x'] = "2023,,,,,,,,,,,," // sample
 
 
@@ -1199,8 +1200,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
 
     /////  Switching off Tricenarium on Officium mensis  \\\\\
-    if (OM_date[month_usual_number] == (day+1)) tricenarium_vesperae = false;
-    if (OM_date[month_usual_number] == day) tricenarium = false;
+    if (OM_date[month_usual_number] && OM_date[month_usual_number] == (day+1)) tricenarium_vesperae = false;
+    if (OM_date[month_usual_number] && OM_date[month_usual_number] == day) tricenarium = false;
 
     
     /////////////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -1901,6 +1902,48 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         titulum_next = winner_next['header'].replace(/[,+].*/, "");
         }
 
+     ///////////////|\\\\\\\\\\\\\\\\
+    ////  Officium mensis: missa  \\\\
+    ////////////////|\\\\\\\\\\\\\\\\\\
+
+    if (OM_date[month_usual_number]) 
+      {
+        if ((day == (OM_date[month_usual_number]-1) && winner['force'] < 40)
+          || (OM_date[month_usual_number+1] == 1 && is_last_day_of_month(ref_sancto))) 
+        {
+            vesperae += " " + days_sancto['officium_mensis']['vesperae_j'];
+            if (weekday == 1 || weekday == 4) vesperae = vesperae.replace('j. Noct.', "ij. Noct.");
+            else if (weekday == 2 || weekday == 5) vesperae = vesperae.replace('j. Noct.', "iij. Noct.");
+        }
+
+        if (day == OM_date[month_usual_number]) 
+        {
+          if (!ref_tempo.match(/lent_/) 
+            && commemoratio && commemoratio['rank'] != 'Commemoratio et M.') 
+              color = days_sancto['officium_mensis']['color'] + '/' + color;
+
+          if (vigiliae) plus = " + "; else plus = "";
+          vigiliae += plus + days_sancto['officium_mensis']['vigiliae'];
+
+          if ((!ref_tempo.match(/lent_/) && !commemoratio)
+            || (commemoratio && commemoratio['rank'] != 'Commemoratio et M.')) {
+              missa_post = days_sancto['officium_mensis']['missa_post'] + missa; 
+              missa = "";
+          } 
+            // in Lent, no Requiem is celebrated, only Collect Praesta. will be added to penultimate place.
+            // Rubr. general. Miss. Cist. § V.
+            if (false && !missa.match(/Omn[ií]potens/)) {
+              if (missa.match("4a")) missa = missa.replace("4a", "4a <i>Præsta, Dómine.</i> 5a");
+              else if (missa.match("3a")) missa = missa.replace("3a", "3a <i>Præsta, Dómine.</i> 4a");
+              else if (missa.match("2a")) missa = missa.replace("2a", "2a <i>Præsta, Dómine.</i> 3a");
+              }
+        
+          if (header.match(/de ea/i)) header = days_sancto['officium_mensis']['header'];
+          else header += " atque " + days_sancto['officium_mensis']['header'];
+          off_mensis = true;
+        }
+      }
+
     if (commemoratio)
       { 
         titulum = commemoratio['header'].split("+", 1);
@@ -2017,6 +2060,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           if (!winner['missa'] && winner['missa_post']) { missa_post = missa; missa = ""; }
         }
+
 
       /////////////////////////////////
       ///// Commemoratio Vesperæ  /////
@@ -3588,12 +3632,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if (ref_tempo.match("lent_5")) missa = missa.replace(/Pr(ae|æ)f\. Quadr\./, "Præf. de S. Cruce.");
       if (ref_tempo.match("tp_")) missa = missa.replace(/Pr(ae|æ)f\. Comm\.|Pr(ae|æ)f\. Quadr\./, "Præf. Pasch.");
 
-      // Removing "Commemoratio -vel-"
-      if (missa.match(/Commemoratio -vel-/i) && !commemoratio)
-          missa = missa.replace(/Commemoratio -vel-/i, "" );
-      else if (missa_post.match(/Commemoratio -vel-/i) && !commemoratio)
-          missa_post = missa_post.replace(/Commemoratio -vel-/i, "" );
-
       if (ref_sancto == "07_23" && weekday == 6) {
         missa += " - <red>Evangelium Vigiliæ in fine.</red>"; }
 
@@ -3603,7 +3641,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
       if ( commemoratio && commemoratio['header'].match(/Quatuor Temporum/i) ) missa += " - <red>Evangelium Feriæ Quatuor Temp. in fine.</red>";
 
-      if (commemoratio_add && (winner == days_sancto['votiva_bmv'] || winner == days_sancto['votiva_bmv_prima_sabb']) && ref_tempo.match("adv_")) {
+      if (false && commemoratio_add && (winner == days_sancto['votiva_bmv'] || winner == days_sancto['votiva_bmv_prima_sabb']) && ref_tempo.match("adv_")) {
           if (commemoratio_add['missa']) missa = missa.replace("de Sp. Sancto", commemoratio_add['header'].replace(/,.*/,"")); }
 
       // Preparing the dates of Officium mensis
@@ -3682,18 +3720,18 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if ( day == (OM_date[month_usual_number]-1) && winner['force'] >= 40) {
         vesperae += " - <red>Vesp. et Noct. Defunct. omittuntur.</red>"; }
     
-      if ( day == OM_date[month_usual_number]) {
+      if (false && day == OM_date[month_usual_number]) {
         if (!ref_tempo.match(/lent_/) 
           && commemoratio && commemoratio['rank'] != 'Commemoratio et M.') 
             color = days_sancto['officium_mensis']['color'] + '/' + color;
-        if (vigiliae) plus = " + "; else plus = "";
+        if (false && vigiliae) plus = " + "; else plus = "";
         vigiliae += plus + days_sancto['officium_mensis']['vigiliae'];
         //laudes += " " + days_sancto['officium_mensis']['laudes'];
-        if (!ref_tempo.match(/lent_/)
+        if (false && !ref_tempo.match(/lent_/)
           && commemoratio && commemoratio['rank'] != 'Commemoratio et M.') {
             missa_post = days_sancto['officium_mensis']['missa'] + missa; 
             missa = "";
-        } else {
+        } else if (false) {
           // in Lent, no Requiem is celebrated, only Collect Praesta. will be added to penultimate place.
           // Rubr. general. Miss. Cist. § V.
           if (!missa.match(/Omn[ií]potens/)) {
