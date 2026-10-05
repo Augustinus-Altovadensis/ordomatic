@@ -2303,7 +2303,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           comm_missa_copy.sort((a, b) => b.force - a.force);
 
           // Adding Comm. Præsta. in Officium Mensis
-          if (OM_date[month_usual_number] 
+          if (day == OM_date[month_usual_number] 
             && (/lent_|tp_6_[123]/.test(ref_tempo)))
           {
             comm_missa_copy.splice(-1, 0, {header: "<i>Præsta, Dómine.</i> <red>pro O.\u202FM.</red>"});
