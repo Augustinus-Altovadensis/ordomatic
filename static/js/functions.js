@@ -1925,18 +1925,21 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (vigiliae) plus = " + "; else plus = "";
           vigiliae += plus + days_sancto['officium_mensis']['vigiliae'];
 
-          if ((!ref_tempo.match(/lent_/) && !commemoratio)
-            || (commemoratio && commemoratio['rank'] != 'Commemoratio et M.')) {
-              missa_post = days_sancto['officium_mensis']['missa_post'] + missa; 
-              missa = "";
+          const comm_OM = /lent_|tp_6_[123]/;
+
+          if (!comm_OM.test(ref_tempo) && !commemoratio) 
+          {
+            missa_post = days_sancto['officium_mensis']['missa_post'] + missa; 
+            missa = "";
           } 
-            // in Lent, no Requiem is celebrated, only Collect Praesta. will be added to penultimate place.
-            // Rubr. general. Miss. Cist. § V.
-            if (false && !missa.match(/Omn[ií]potens/)) {
-              if (missa.match("4a")) missa = missa.replace("4a", "4a <i>Præsta, Dómine.</i> 5a");
-              else if (missa.match("3a")) missa = missa.replace("3a", "3a <i>Præsta, Dómine.</i> 4a");
-              else if (missa.match("2a")) missa = missa.replace("2a", "2a <i>Præsta, Dómine.</i> 3a");
-              }
+
+          // in Lent, no Requiem is celebrated, only Collect Praesta. will be added to penultimate place.
+          // Rubr. general. Miss. Cist. § V.
+          if (comm_OM.test(ref_tempo) && !commemoratio && !missa.match(/Omn[ií]potens/))
+          {
+            missa_post = missa_post.replace(/3a .*? -/, "-");
+            missa_post = missa_post.replace(/2a/, "2a <i>Præsta, Dómine.</i> <red>pro O.\u202FM.</red> 3a");
+          }
         
           if (header.match(/de ea/i)) header = days_sancto['officium_mensis']['header'];
           else header += " atque " + days_sancto['officium_mensis']['header'];
@@ -2298,6 +2301,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           // Sorting the missa Commemorations
           comm_missa_copy.sort((a, b) => b.force - a.force);
+
+          // Adding Comm. Præsta. in Officium Mensis
+          if (OM_date[month_usual_number] 
+            && (/lent_|tp_6_[123]/.test(ref_tempo)))
+          {
+            comm_missa_copy.splice(-1, 0, {header: "<i>Præsta, Dómine.</i> <red>pro O.\u202FM.</red>"});
+          }
 
           // Here the Mass Comm. are filled
           for (i_c = 0; i_c < comm_missa_copy.length; i_c++) {
