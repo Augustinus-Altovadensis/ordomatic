@@ -1878,6 +1878,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         }
     }
 
+    // Diagnostic output of Officium mensis routine
+    check_OM = true;
+    check_OM = false;
+    // Diagnostic output of Anniversarium solemne routine
+    check_AS = true;
+    check_AS = false;
+
     check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + "'.<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check + "</i></b> + commemoratio_next_add = " + comm_next_add_header_check
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force'] 
@@ -1908,12 +1915,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     if (OM_date[month_usual_number]) 
       {
-        if ((day == (OM_date[month_usual_number]-1) && winner['force'] < 40)
+        if (false && (day == (OM_date[month_usual_number]-1) && winner['force'] < 40)
           || (OM_date[month_usual_number+1] == 1 && is_last_day_of_month(ref_sancto))) 
         {
-            vesperae += " " + days_sancto['officium_mensis']['vesperae_j'];
-            if (weekday == 1 || weekday == 4) vesperae = vesperae.replace('j. Noct.', "ij. Noct.");
-            else if (weekday == 2 || weekday == 5) vesperae = vesperae.replace('j. Noct.', "iij. Noct.");
+          // This needs to be after the Commemorations, leaving for now...
+          vesperae += " " + days_sancto['officium_mensis']['vesperae_j'];
+          if (weekday == 1 || weekday == 4) 
+            vesperae = vesperae.replace(' j. Noct.', " ij. Noct.");
+          else if (weekday == 2 || weekday == 5) 
+            vesperae = vesperae.replace(' j. Noct.', " iij. Noct.");
         }
 
         if (day == OM_date[month_usual_number]) 
@@ -2608,9 +2618,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|////////////////////////////|\
 
     if (commemoratio) {
-      if (comm_head.match(/De ea/i)) comm_head = translate_feria(ref_tempo);
+      if (comm_head.match(/De ea/i)) {
+        comm_head = translate_feria(ref_tempo);
+        }
       else comm_head = comm_header_check;
-      //if ( weekday == 0 && winner != days_tempo[ref_tempo] ) comm_head = "<i>Dominica </i>" + comm_head; 
       }
 
     ////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -2975,8 +2986,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (false && tricenarium_vesperae) // original, cycling the j., ij. and iij. Noct.
       {
       vesperae += " " + days_sancto['tricenarium']['vesperae_j'];
-      if (noct_defunct_counter % 3 == 2) vesperae = vesperae.replace('<u>j. Noct.</u>', "<u>ij. Noct.</u>");
-      else if (noct_defunct_counter % 3 == 0) vesperae = vesperae.replace('<u>j. Noct.</u>', "<u>iij. Noct.</u>");
+      if (noct_defunct_counter % 3 == 2) 
+        vesperae = vesperae.replace('<u>j. Noct.</u>', "<u>ij. Noct.</u>");
+      else if (noct_defunct_counter % 3 == 0) 
+        vesperae = vesperae.replace('<u>j. Noct.</u>', "<u>iij. Noct.</u>");
       noct_defunct_counter++;
       }
 
@@ -2986,8 +2999,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       // Feria iij. + Feria vi.: ij. Noct.
       // Feria iv.  + Sabb.: iij. Noct.
       vesperae += " " + days_sancto['tricenarium']['vesperae_j'];
-      if (weekday == 1 || weekday == 4) vesperae = vesperae.replace('j. Noct.', "ij. Noct.");
-      else if (weekday == 2 || weekday == 5) vesperae = vesperae.replace('j. Noct.', "iij. Noct.");
+      if (weekday == 1 || weekday == 4) 
+        vesperae = vesperae.replace(' j. Noct.', " ij. Noct.");
+      else if (weekday == 2 || weekday == 5) 
+        vesperae = vesperae.replace(' j. Noct.', " iij. Noct.");
       }
 
     if (day == 1) pro_defunctis == true;
@@ -3048,13 +3063,18 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       else anniversarium_01 = "01_31";
       }
 
-    //if (ref_sancto == "01_01") vigiliae += " Anniversarium_01 = '" + anniversarium_01 + "'" + " get_ref_tempo(37) = '" + get_ref_tempo(37,prefix_tempo, week_start, day_start, duration) + "'";
+    if (check_AS)
+      { 
+      if (ref_sancto == "01_01") vigiliae += " Anniversarium_01 = '" + anniversarium_01 + "'" + " get_ref_tempo(37) = '" + get_ref_tempo(37,prefix_tempo, week_start, day_start, duration) + "'";
+      }
+    
     if (ref_sancto == "01_31" && anniversarium_01 != "01_31") before = '<div class="small">¶ <red>Solemne Anniversarium Superiorum Defunctorum translatum ad diem ' + anniversarium_01.substring(4,5) + '. Februarii.</red></div>';
 
     // A. S. Maji. We have to avoid all the Octaves and translated feasts
     /////////////////////////////////////////////////////////////////////
-    if (day == 30 && month_usual_number == 4 ) {  // we have to start 30.4. to avoid overlap of A.S. and O.M.
-      //looking for 21.5. on 1.5., i.e. weekday(21.5.) = weekday(1.5.) - 1
+    if (day == 30 && month_usual_number == 4 ) {  
+      // we have to start 30.4. to avoid overlap of A.S. and O.M.
+      // looking for 21.5. on 1.5., i.e. weekday(21.5.) = weekday(1.5.) - 1
       anniversarium_05 = "";
       ind_as = 1;
       trans_temp = 0;
@@ -3098,7 +3118,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               temp_ss_sacramenti = get_ref_sancto((j*7) + offset);
               temporale_ss_sacramenti = get_ref_tempo((j*7)+offset, prefix_tempo, week_start, day_start, duration);
 
-              //vigiliae += " j = " + j + ", date = " + temp_ss_sacramenti + ", temporale_ss_sacramenti = " + temporale_ss_sacramenti + "<br>";
+              if (check_AS) 
+                {
+                  vigiliae += " j = " + j + ", date = " + temp_ss_sacramenti + ", temporale_ss_sacramenti = " + temporale_ss_sacramenti + "<br>";
+                }
 
               if ( (!days_sancto[temp_ss_sacramenti] || days_sancto[temp_ss_sacramenti]['force'] < 30 )
                 && !temporale_ss_sacramenti.match("lent") && days_tempo[temporale_ss_sacramenti] && days_tempo[temporale_ss_sacramenti]['force'] < 30
@@ -3111,7 +3134,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               if (date_ss_sacramenti_as) j=5;
             }
         
-            //vigiliae += "<br>Date_ss_sacramenti_as = '" + date_ss_sacramenti_as + "'.";
+            if (check_AS) 
+                {
+                  vigiliae += "<br>Date_ss_sacramenti_as = '" + date_ss_sacramenti_as + "'.";
+                }
             //ind_as = 0;
           }
 
@@ -3121,13 +3147,20 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             weekday_as = ref_tempo_temp.slice(-1);
             month_as = ref_sancto_temp.replace(/_.*/, "").replace(/^0/, "");
 
-            //vigiliae += "<br>ref_tempo_temp = '" + ref_tempo_temp + "' weekday_as = '" + weekday_as + "'. month_as = '" + month_as + "'. ind_as = '" + ind_as +"'.<br>";
+            if (check_AS) 
+                {
+                  vigiliae += "<br>ref_tempo_temp = '" + ref_tempo_temp + "' weekday_as = '" + weekday_as + "'. month_as = '" + month_as + "'. ind_as = '" + ind_as +"'.<br>";
+                }
       
             for (j = 0; j <= 5; j++) {
               offset = ((9 - weekday_as) % 7) + offset_m + ind_as;
               temp_bernardi = get_ref_sancto((j*7) + offset);
               temporale_bernardi = get_ref_tempo((j*7)+offset, prefix_tempo, week_start, day_start, duration);
-              //vigiliae += " j = " + j + ", date = " + temp_bernardi + ", temporale_bernardi = " + temporale_bernardi + "<br>";
+              
+              if (check_AS) 
+                {
+                  vigiliae += " j = " + j + ", date = " + temp_bernardi + ", temporale_bernardi = " + temporale_bernardi + "<br>";
+                }
 
             if ( (!days_sancto[temp_bernardi] || days_sancto[temp_bernardi]['force'] < 30 )
               && !temporale_bernardi.match("lent") && days_tempo[temporale_bernardi] && days_tempo[temporale_bernardi]['force'] < 30
@@ -3135,7 +3168,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
              && !(month_as == 12 && temp_bernardi.replace("12_","") > 17)  
              && !(month_as == 1 && temp_bernardi.replace("01_","") < 13) )
                 date_s_bernardi_as = temp_bernardi; }
-             //vigiliae += "Date_s_bernardi_as = '" + date_s_bernardi_as + "'.";
+             
+             if (check_AS) 
+                {
+                  vigiliae += "Date_s_bernardi_as = '" + date_s_bernardi_as + "'.";
+                }
             }
 
           if (!date_s_bernardi_as_maii && date_s_bernardi_as && month_as == 5) {
@@ -3171,7 +3208,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               && ref_sancto_temp_b != date_ss_sacramenti_as
               ) anniversarium_05 = ref_sancto_temp_b;
 
-              //vigiliae += "<br>Ind (-) = " + ind_as + ", '" + ref_tempo_temp_b + "' - '" + ref_sancto_temp_b + "'. trans_temp = '" + trans_temp + "'. Anniversarium_05 = '" + anniversarium_05 + "'. ";
+              if (check_AS) 
+                {
+                  vigiliae += "<br>Ind (-) = " + ind_as + ", '" + ref_tempo_temp_b + "' - '" + ref_sancto_temp_b + "'. trans_temp = '" + trans_temp + "'. Anniversarium_05 = '" + anniversarium_05 + "'. ";
+                }
             }
 
           if (trans_temp) yesterday_feast = true;
@@ -3184,23 +3224,34 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (ref_tempo_temp.match(/adv_1_1|tp_2_[123]|pa_1_[123]/) && trans_temp) { trans_temp--; }
 
           // Looking for eventual Festum xij. Lect. (and higher) to block them for Vesp. Def.
-          if ((days_sancto[ref_sancto_temp] && days_sancto[ref_sancto_temp]['force'] >= 40) 
-            || (days_tempo[ref_tempo_temp] && days_tempo[ref_tempo_temp]['force'] >= 40))
+          if ((days_sancto[ref_sancto_temp] 
+              && days_sancto[ref_sancto_temp]['force'] >= 40) 
+            || (days_tempo[ref_tempo_temp] 
+              && days_tempo[ref_tempo_temp]['force'] >= 40))
             yesterday_feast = true;
 
           // If a feast is currently translated due to Pentecost Octave, it will likely be "unloaded" here
           if (ref_tempo_temp == /pa_1_[123]/ && trans_temp) { trans_temp--; }
 
-          //vigiliae += "<br>Ind = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'. Anniversarium_05 = '" + anniversarium_05 + "'. ";
+          if (check_AS) 
+                {
+                  vigiliae += "<br>Ind = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'. Anniversarium_05 = '" + anniversarium_05 + "'. ";
+                }
           ind_as++;
           }
-          //vigiliae += "Anniversarium_05 = " + anniversarium_05;
+          if (check_AS) 
+                {
+                  vigiliae += "Anniversarium_05 = " + anniversarium_05;
+                }
         }
       }
 
     if (ref_sancto == "05_21" && anniversarium_05 != "05_21") before = '<div class="small">¶ <red>Solemne Anniversarium Personarum Regularium Ordinis Defunctorum translatum ad diem ' + get_date_from_sancto(anniversarium_05) + '.</red></div>';
 
-    //if (ref_sancto.match(/05_22/) && !anniversarium_05.match(month_usual_number + "_")) anniversarium_05 = "";
+    if (check_AS) 
+        {
+          if (ref_sancto.match(/05_22/) && !anniversarium_05.match(month_usual_number + "_")) anniversarium_05 = "";
+        }
 
 
     // A. S. Septembris. We have to avoid mainly the Ember Days 
@@ -3227,7 +3278,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             }
           ind_as++;
         }
-      //vigiliae += "ref_sancto_temp = " + ref_sancto_temp + "<br>quat_sept[1] = " + quat_sept[1] + ". quat_sept[2] = " + quat_sept[2] + ". quat_sept[3] = " + quat_sept[3] + ". ";
+      
+      if (check_AS) 
+        {
+          vigiliae += "ref_sancto_temp = " + ref_sancto_temp + "<br>quat_sept[1] = " + quat_sept[1] + ". quat_sept[2] = " + quat_sept[2] + ". quat_sept[3] = " + quat_sept[3] + ". ";
+        }
 
       // Reset the index variable!
       ind_as = 0;
@@ -3253,11 +3308,18 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             && ref_sancto_temp != quat_sept[1] && ref_sancto_temp != quat_sept[2] && ref_sancto_temp != quat_sept[3]
              ) anniversarium_09 = ref_sancto_temp;
 
-          //vigiliae += "<br>Ind = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'. Anniversarium_09 = '" + anniversarium_09 + "'. ";
+          if (check_AS) 
+            {
+              vigiliae += "<br>Ind = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'. Anniversarium_09 = '" + anniversarium_09 + "'. ";
+            }
+
           ind_as++;
           }
         }
-        // vigiliae += "Anniversarium_09 = " + anniversarium_09;
+        if (check_AS) 
+          { 
+            vigiliae += "Anniversarium_09 = " + anniversarium_09;
+          }
       }
 
     if (ref_sancto == "09_18" && anniversarium_09 != "09_18") before = '<div class="small">¶ <red>Solemne Anniversarium Fratrum, Parentum et Benefactorum Ordinis Nostri Defunctorum translatum ad diem ' + get_date_from_sancto(anniversarium_09) + '.</red></div>';
@@ -3288,11 +3350,18 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
              ) anniversarium_11 = ref_sancto_temp;
 
 
-          //vigiliae += "<br>Ind = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'. Anniversarium_11 = '" + anniversarium_11 + "'. ";
+          if (check_AS) 
+            {
+              vigiliae += "<br>Ind = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'. Anniversarium_11 = '" + anniversarium_11 + "'. ";
+            }
+
           ind_as++;
           }
         }
-        //vigiliae += "Anniversarium_11 = " + anniversarium_11;
+        if (check_AS) 
+          {
+            vigiliae += "Anniversarium_11 = " + anniversarium_11;
+          }
       }
 
     if (ref_sancto == "11_20" && anniversarium_11 != "11_20") before = '<div class="small">¶ <red>Solemne Anniversarium Parentum et Fratrum Nostrorum Defunctorum translatum ad diem ' + get_date_from_sancto(anniversarium_11) + '.</red></div>';
@@ -3346,9 +3415,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         header += " - " + days_sancto['anniversarium_09']['header'].replace("de ea – ", "");
         if (vigiliae) vigiliae += " + ";
         vigiliae += days_sancto['anniversarium_09']['vigiliae'];
-        //missa_post = "<li>- <u>in Missa Conv.:</u> " + days_sancto['anniversarium_09']['missa'] + "</li> <li>- <u>in Miss. priv.:</u> " + missa + '</li>' + missa_post; 
-        //missa = ""; 
-        //color = "black/" + color;
         missa = days_sancto['anniversarium_09']['missa']; 
         color = "black";
       }
@@ -3380,14 +3446,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         header += " - " + days_sancto['anniversarium_11']['header'].replace("de ea – ", "");
         if (vigiliae) vigiliae += " + ";
         vigiliae += days_sancto['anniversarium_11']['vigiliae'];
-        //missa_post = "<li>- <u>in Missa Conv.:</u> " + days_sancto['anniversarium_11']['missa'] + "</li> <li>- <u>in Miss. priv.:</u> " + missa + '</li>' + missa_post; 
-        //missa = ""; 
-        //color = "black/" + color;
         missa = days_sancto['anniversarium_11']['missa']; 
         color = "black";
       }
 
-    /////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////
     /////   Officium Mensis (computing)   \\\\\
@@ -3427,7 +3490,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (date_ss_sacramenti_om) j=5;
           }
         
-        //vigiliae += "<br>Date_ss_sacramenti_om = '" + date_ss_sacramenti_om + "'.";
+        if (check_OM) 
+          {
+            vigiliae += "<br>Date_ss_sacramenti_om = '" + date_ss_sacramenti_om + "'.";
+          }
+
         ind_as = 0;
 
         // Looking for Off. S. Bernardi
@@ -3449,7 +3516,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               date_s_bernardi_om = temp_bernardi; 
           }
         
-        //vigiliae += "<br>Date_s_bernardi_om = '" + date_s_bernardi_om + "'.";
+        if (check_OM) 
+          {
+            vigiliae += "<br>Date_s_bernardi_om = '" + date_s_bernardi_om + "'.";
+          }
+
         ind_as = 0;
 
         // Looking for feasts translated in the Holy Week, Easter and Pentecost Octave
@@ -3461,8 +3532,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           ref_sancto_temp = get_ref_sancto(ind_as);  
 
           if ((ref_tempo_temp.match(/lent_6_|tp_1|tp_7_6|tp_8_|pa_1_0/)
-            && days_sancto[ref_sancto_temp] && days_sancto[ref_sancto_temp]['force'] > 60)
-            || (ref_tempo_temp.match(/lent_6_|tp_1|tp_7_6|tp_8_|pa_1_0/) && ref_sancto_temp == "06_01")) 
+              && days_sancto[ref_sancto_temp] 
+              && days_sancto[ref_sancto_temp]['force'] > 60)
+            || (ref_tempo_temp.match(/lent_6_|tp_1|tp_7_6|tp_8_|pa_1_0/) 
+              && ref_sancto_temp == "06_01")) 
               { trans_temp++; }
           ind_as++;
           }
@@ -3524,8 +3597,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (ref_tempo_temp.match(/adv_1_1|tp_2_[123]|pa_1_[123]/) && trans_temp) { trans_temp--; }
 
           // Looking for eventual Festum xij. Lect. (and higher) to block them for Vesp. Def.
-          if ((days_sancto[ref_sancto_temp] && days_sancto[ref_sancto_temp]['force'] >= 40) 
-            || (days_tempo[ref_tempo_temp] && days_tempo[ref_tempo_temp]['force'] >= 40))
+          if ((days_sancto[ref_sancto_temp] 
+              && days_sancto[ref_sancto_temp]['force'] >= 40) 
+            || (days_tempo[ref_tempo_temp] 
+              && days_tempo[ref_tempo_temp]['force'] >= 40))
             yesterday_feast = true;
 
           if (is_last_day_of_month(ref_sancto_temp)) ind_as = 40;
@@ -3533,7 +3608,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (days_tempo[ref_tempo_temp]) header_temp = days_tempo[ref_tempo_temp]['header'];
           else header_temp = "!!!! MISSING !!!!"
 
-          //vigiliae += "<br>Ind = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'. Feria = '" + header_temp + "'. ";
+          if (check_OM) 
+            {
+              vigiliae += "<br>Ind[1] = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'. Feria = '" + header_temp + "'. ";
+            }
           ind_as++;
           }
 
@@ -3582,13 +3660,19 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (ref_tempo_temp.match(/adv_1_1|tp_2_[123]|pa_1_[123]/) && trans_temp) { trans_temp--; }
 
           // Looking for eventual Festum xij. Lect. (and higher) to block them for Vesp. Def.
-          if ((days_sancto[ref_sancto_temp] && days_sancto[ref_sancto_temp]['force'] >= 40) 
-            || (days_tempo[ref_tempo_temp] && days_tempo[ref_tempo_temp]['force'] >= 40))
+          if ((days_sancto[ref_sancto_temp] 
+              && days_sancto[ref_sancto_temp]['force'] >= 40) 
+            || (days_tempo[ref_tempo_temp] 
+              && days_tempo[ref_tempo_temp]['force'] >= 40))
             yesterday_feast = true;
 
           if (is_last_day_of_month(ref_sancto_temp)) ind_as = 40;
 
-          //vigiliae += "<br>Ind = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. Feria = '" + header_temp + "'. ";
+          if (check_OM) 
+            {
+              vigiliae += "<br>Ind[2] = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. Feria = '" + header_temp + "'. "; 
+            }
+
           ind_as++;
           }
         }
@@ -3604,7 +3688,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
         if (!OM_date[month_as] && !officium_mensis.match(/_0[12]i/)) OM_date[month_as] = officium_mensis[3].replace("0","") + officium_mensis[4];
 
-        //vigiliae += "<br>Officium_mensis = '" + officium_mensis + "'. ";
+        if (check_OM) 
+          {
+            vigiliae += "<br>Officium_mensis = '" + officium_mensis + "'. ";
+          }
       }
 
     // Getting rid of eventual double spaces or dashes
@@ -3723,8 +3810,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       if ((day == (OM_date[month_usual_number]-1) && winner['force'] < 40)
         || (OM_date[month_usual_number+1] == 1 && is_last_day_of_month(ref_sancto))) {
         vesperae += " " + days_sancto['officium_mensis']['vesperae_j'];
-        if (weekday == 1 || weekday == 4) vesperae = vesperae.replace('j. Noct.', "ij. Noct.");
-        else if (weekday == 2 || weekday == 5) vesperae = vesperae.replace('j. Noct.', "iij. Noct.");
+        if (weekday == 1 || weekday == 4) 
+          vesperae = vesperae.replace(' j. Noct.', " ij. Noct.");
+        else if (weekday == 2 || weekday == 5) 
+          vesperae = vesperae.replace(' j. Noct.', " iij. Noct.");
       }
 
       if ( day == (OM_date[month_usual_number]-1) && winner['force'] >= 40) {
