@@ -3521,10 +3521,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             vigiliae += "<br>Date_s_bernardi_om = '" + date_s_bernardi_om + "'.";
           }
 
-        ind_as = 0;
+        ind_as = 1;
 
         // Looking for feasts translated in the Holy Week, Easter and Pentecost Octave
         if (moved.length > 0) trans_temp = moved.length;
+
+        if (check_OM) 
+          {
+            vigiliae += "<br>month_as = '" + month_as + "'.";
+          }
 
         while (get_ref_sancto(ind_as).match(month_as + "_"))
           {
@@ -3536,7 +3541,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               && days_sancto[ref_sancto_temp]['force'] > 60)
             || (ref_tempo_temp.match(/lent_6_|tp_1|tp_7_6|tp_8_|pa_1_0/) 
               && ref_sancto_temp == "06_01")) 
-              { trans_temp++; }
+              { 
+                trans_temp++; 
+              }
+
+          if (check_OM) 
+            {
+              vigiliae += "<br>Transf.: ref_tempo = '" + ref_tempo_temp + "'. ref_sancto = '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'.";
+            }
+
           ind_as++;
           }
 
@@ -3668,9 +3681,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           if (is_last_day_of_month(ref_sancto_temp)) ind_as = 40;
 
+          if (days_tempo[ref_tempo_temp]) header_temp = days_tempo[ref_tempo_temp]['header'];
+          else header_temp = "!!!! MISSING !!!!"
+
           if (check_OM) 
             {
-              vigiliae += "<br>Ind[2] = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. Feria = '" + header_temp + "'. "; 
+              //vigiliae += "<br>Ind[2] = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. Feria = '" + header_temp + "'. ";
+              vigiliae += "<br>Ind[2] = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'. Feria = '" + header_temp + "'. ";
             }
 
           ind_as++;
