@@ -8,6 +8,15 @@ ul_original {
     margin: 0;
 }
 
+.pre {
+    tab-size: 4;
+}
+
+.debug {
+    white-space: pre;
+    tab-size: 8;
+    font-family: monospace;
+}
 
 #logo {
     font-size: 24pt;

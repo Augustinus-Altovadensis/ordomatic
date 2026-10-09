@@ -1880,7 +1880,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Diagnostic output of Officium mensis routine
     check_OM = true;
-    check_OM = false;
+    //check_OM = false;
     // Diagnostic output of Anniversarium solemne routine
     check_AS = true;
     check_AS = false;
@@ -3256,25 +3256,26 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // A. S. Septembris. We have to avoid mainly the Ember Days 
     ///////////////////////////////////////////////////////////
-    if (day == 1 && month_usual_number == 9) {
+    //if (day == 1 && month_usual_number == 9) {
+    if (day == 31 && month_usual_number == 8) {
       anniversarium_09 = "";
       ind_as = 0;
       quat_sept = []; 
 
-      ref_tempo_temp = get_ref_tempo(17,prefix_tempo, week_start, day_start, duration);
-      ref_sancto_temp = get_ref_sancto(17);
+      ref_tempo_temp = get_ref_tempo(18,prefix_tempo, week_start, day_start, duration);
+      ref_sancto_temp = get_ref_sancto(18); // before was 17
 
       ///////// Quatuor Temporum Septembris (Quatember) \\\\\\\\\\
       while (!quat_sept[1])
-        {
-          ref_tempo_temp = get_ref_tempo(14+ind_as,prefix_tempo, week_start, day_start, duration);
-          ref_sancto_temp = get_ref_sancto(14+ind_as);
+        { // before was 14
+          ref_tempo_temp = get_ref_tempo(15+ind_as,prefix_tempo, week_start, day_start, duration);
+          ref_sancto_temp = get_ref_sancto(15+ind_as);
 
           if (ref_tempo_temp.match(/_3$/))
             {
               quat_sept[1] = ref_sancto_temp;
-              quat_sept[2] = get_ref_sancto(14+ind_as+2);
-              quat_sept[3] = get_ref_sancto(14+ind_as+3);
+              quat_sept[2] = get_ref_sancto(15+ind_as+2);
+              quat_sept[3] = get_ref_sancto(15+ind_as+3);
             }
           ind_as++;
         }
@@ -3463,6 +3464,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         officium_mensis = "";
         ind_as = 0;
         trans_temp = 0;
+        trans_temp_last = -1;
         yesterday_feast = false; // if a day before had xij. Lect., it shouldn't be an O.M.
         sunday_feast = false; // if a Sunday was overruled by a feast, one Feria should be left for the Sunday's Mass
 
@@ -3529,6 +3531,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (check_OM) 
           {
             vigiliae += "<br>month_as = '" + month_as + "'.";
+            if (anniversarium_05) vigiliae += "<br>anniversarium_05 = '" + anniversarium_05 + "'.";
+            if (anniversarium_09) vigiliae += "<br>anniversarium_09 = '" + anniversarium_09 + "'.";
+            if (anniversarium_11) vigiliae += "<br>anniversarium_11 = '" + anniversarium_11 + "'.";
           }
 
         while (get_ref_sancto(ind_as).match(month_as + "_"))
@@ -3547,7 +3552,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           if (check_OM) 
             {
-              vigiliae += "<br>Transf.: ref_tempo = '" + ref_tempo_temp + "'. ref_sancto = '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'.";
+              if (trans_temp != trans_temp_last)
+                {
+                  vigiliae += "<br>Transf.: ref_tempo = '" + ref_tempo_temp + "'. ref_sancto = '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'.";
+                }
+              trans_temp_last = trans_temp;
+              
             }
 
           ind_as++;
@@ -3618,12 +3628,25 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           if (is_last_day_of_month(ref_sancto_temp)) ind_as = 40;
 
-          if (days_tempo[ref_tempo_temp]) header_temp = days_tempo[ref_tempo_temp]['header'];
+          if (days_tempo[ref_tempo_temp]) 
+            {
+              if (days_tempo[ref_tempo_temp]['force'] > 75 )
+                header_temp = days_tempo[ref_tempo_temp]['header'];
+              else if (/_0$/.test(ref_tempo_temp)) 
+                header_temp = shorten_header(days_tempo[ref_tempo_temp]['header']);
+              else header_temp = translate_feria(ref_tempo_temp);
+            }
           else header_temp = "!!!! MISSING !!!!"
 
           if (check_OM) 
             {
-              vigiliae += "<br>Ind[1] = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'. Feria = '" + header_temp + "'. ";
+              if (days_sancto[ref_sancto_temp]) force_temp = days_sancto[ref_sancto_temp]['force'];
+              else force_temp = "-";
+
+              trans_temp_text = "";
+              if (trans_temp != 0) trans_temp_text = "'. trans_temp = '" + trans_temp;
+
+              vigiliae += "<br>Ind[1] = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + trans_temp_text + "'. Feria = '" + header_temp + '<span class="debug">\t</span>' + "' - Sancto.Force = '" + force_temp + "'. ";
             }
           ind_as++;
           }
@@ -3681,13 +3704,26 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
           if (is_last_day_of_month(ref_sancto_temp)) ind_as = 40;
 
-          if (days_tempo[ref_tempo_temp]) header_temp = days_tempo[ref_tempo_temp]['header'];
+          if (days_tempo[ref_tempo_temp]) 
+            {
+              if (days_tempo[ref_tempo_temp]['force'] > 75 )
+                header_temp = days_tempo[ref_tempo_temp]['header'];
+              else if (/_0$/.test(ref_tempo_temp)) 
+                header_temp = shorten_header(days_tempo[ref_tempo_temp]['header']);
+              else header_temp = translate_feria(ref_tempo_temp);
+            }
           else header_temp = "!!!! MISSING !!!!"
 
           if (check_OM) 
             {
               //vigiliae += "<br>Ind[2] = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. Feria = '" + header_temp + "'. ";
-              vigiliae += "<br>Ind[2] = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + "'. trans_temp = '" + trans_temp + "'. Feria = '" + header_temp + "'. ";
+              if (days_sancto[ref_sancto_temp]) force_temp = days_sancto[ref_sancto_temp]['force'];
+              else force_temp = "-";
+
+              trans_temp_text = "";
+              if (trans_temp != 0) trans_temp_text = "'. trans_temp = '" + trans_temp;
+
+              vigiliae += "<br>Ind[2] = " + ind_as + ", '" + ref_tempo_temp + "' - '" + ref_sancto_temp + trans_temp_text + "'. Feria = '" + header_temp + '<span class="debug">\t</span>' + "' - Sancto.Force = '" + force_temp + "'. ";
             }
 
           ind_as++;
