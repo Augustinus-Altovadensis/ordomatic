@@ -1880,12 +1880,12 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Diagnostic output of Officium mensis routine
     check_OM = true;
-    //check_OM = false;
+    check_OM = false;
     // Diagnostic output of Anniversarium solemne routine
     check_AS = true;
     check_AS = false;
 
-    check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + "'.<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
+    check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + "' + <u>Off. mensis</u> = <b>'" + OM_date[month_usual_number] + "'</b>" + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check + "</i></b> + commemoratio_next_add = " + comm_next_add_header_check
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force'] 
       + ". extra_sunday = " + extra + "  --- i = " + i + "/" + duration // + '. <br>'
