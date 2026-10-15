@@ -33,8 +33,10 @@ $('#select_year').change(function () {
 
 // On selecting a new format, refresh the ordo:
 $('#display_format').change(function () {
+  const position = savePosition();
   select_display_format = document.getElementById('display_format');
   display_format = select_display_format.options[select_display_format.selectedIndex].value;
   refresh_ordo(year, display_format);
+  restorePosition(position);
 });
 

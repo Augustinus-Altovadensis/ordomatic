@@ -196,6 +196,45 @@ function roman_lower_to_upper(str) {
   return str;
   };
 
+function savePosition() {
+    const days = document.querySelectorAll('.d-flex[id^="date-"]');
+    const center = window.innerHeight / 2;
+
+    let closest = null;
+    let minDistance = Infinity;
+
+    days.forEach(day => {
+        const rect = day.getBoundingClientRect();
+        const distance = Math.abs(rect.top - center);
+
+        if (distance < minDistance) {
+            minDistance = distance;
+            closest = day;
+        }
+    });
+
+    if (!closest) return null;
+
+    return {
+        id: closest.id,
+        top: closest.getBoundingClientRect().top
+    };
+}
+
+function restorePosition(position) {
+    if (!position) return;
+
+    const day = document.getElementById(position.id);
+    if (!day) return;
+
+    const newTop = day.getBoundingClientRect().top;
+
+    window.scrollBy({
+        top: newTop - position.top,
+        behavior: "instant"
+    });
+}
+
 function translate_feria(ref_tempo, short) {
   roman_lowercase_numerals = ["j.","ij.","iij.","iv.","v.","vj.","vij.","viij.","ix.","x."];
   ref = ref_tempo.split("_");
@@ -4184,6 +4223,7 @@ if (laudes_post) {
   // if we have narrower screen, we want to take up more space
   //if (window.innerWidth/screen.width < 0.9 || window.innerWidth < 1300) width = "75"; else width = "50"; 
   width = "75";
+  dateId = `date-${year}-${String(month+1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 //////////////////////////////////////////////////////////////
 
   // Result:
@@ -4192,7 +4232,7 @@ if (laudes_post) {
     return (
      block_new_year
      + block_new_month
-     + '<div class="d-flex flex-column w-' + width + ' mb-2">' // w-50 was here originally
+     + `<div class="d-flex flex-column w-${width} mb-2" id="${dateId}">` // w-50 was here originally
      + block_before
      + '<span class="body text-justify">'  + add_zero(day) + day + "." 
      + " – <b>" + liturgical_color(color) + "</b> – " 
@@ -4217,7 +4257,7 @@ if (laudes_post) {
     return (
     block_new_year
     + block_new_month
-    + '<div class="d-flex flex-column w-' + width + ' mb-2">' // w-50 was here originally
+    + `<div class="d-flex flex-column w-${width} mb-2" id="${dateId}">` // w-50 was here originally
     + block_before
     + '<div class="head d-flex mb-0">'
     + '<span class="body text-justify">'  + add_zero(day) + day + "." 
@@ -4246,7 +4286,7 @@ if (laudes_post) {
   else return (
     block_new_year
     + block_new_month
-    + '<div class="d-flex flex-column w-' + width + ' mb-2">' // w-50 was here originally
+    + `<div class="d-flex flex-column w-${width} mb-2" id="${dateId}">` // w-50 was here originally
     + block_before
     + '<div class="head d-flex mb-0">'
     + '<span class="body text-justify">'  + add_zero(day) + day + "." 
