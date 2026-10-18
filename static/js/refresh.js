@@ -142,38 +142,48 @@ function refresh_ordo(year, display_format) {
 //////    New gen_temporale function     ////////////
 /////////////////////////////////////////////////////
 
-function period_gen(duration, start, prefix_tempo, week_start, day_start, extra) 
-{
-  //year = start.getFullYear();
-  //month = start.getMonth();
-  for (i = 0; i < (duration-1); i++) 
-  {
-    const result = {};
+function period_gen(duration, start, prefix_tempo, week_start, day_start, extra, output) {
 
-    date = new Date(start.getTime() + (i * 24 * 3600 * 1000));
-    day = date.getDate();
-    weekday = date.getDay();
-    week_number = date.getWeek();
-    month_usual_number = date.getMonth() + 1;
-    ref_tempo = prefix_tempo + (week_start + Math.ceil((day_start + i + 1) / 7)) + '_' + ((day_start + i) % 7);
-    ref_sancto = add_zero(month_usual_number) + month_usual_number + '_' + add_zero(day) + day;
+    let exaltatio = false;
 
-    result[ref_sancto] = ref_tempo;
+    for (let i = 0; i < duration - 1; i++) {
 
-    return result;
-  }
+        const date = new Date(start.getTime() + i * 24 * 3600 * 1000);
+
+        const year = date.getFullYear();
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+
+        let ref_tempo =
+            prefix_tempo +
+            (week_start + Math.ceil((day_start + i + 1) / 7)) +
+            '_' +
+            ((day_start + i) % 7);
+
+        const ref_sancto =
+            String(month).padStart(2, '0') + '_' +
+            String(day).padStart(2, '0');
+
+        if (ref_sancto == "09_14") exaltatio = true;
+        if (/pa_.._[356]/.test(ref_tempo) && exaltatio) 
+          ref_tempo = ref_tempo.replace(/pa_../, "quatember_septembris");
+        if (ref_tempo == "quatember_septembris_6") exaltatio = false;
+
+        output[year] ??= {};
+        output[year][ref_sancto] = ref_tempo;
+    }
 }
 
 function gen_temporale(year) {
-  content = "";
+  const christmas = get_christmas_date(year - 1);
+  const christmas_weekday = get_christmas_weekday(christmas);
+  const xmas_weekday = christmas.getDay(); 
+  const first_sunday_of_advent = get_first_sunday_of_advent(christmas, christmas_weekday);
 
-  christmas = get_christmas_date(year - 1);
-  christmas_weekday = get_christmas_weekday(christmas);
-  xmas_weekday = christmas.getDay(); 
-  first_sunday_of_advent = get_first_sunday_of_advent(christmas, christmas_weekday);
   year = first_sunday_of_advent.getFullYear();
-  month = first_sunday_of_advent.getMonth();
-  day_in_ms = 24 * 3600 * 1000;
+
+  const month = first_sunday_of_advent.getMonth();
+  const day_in_ms = 24 * 3600 * 1000;
 
     
   //////////////////////////////|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -181,43 +191,43 @@ function gen_temporale(year) {
   //////////////////////////////|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   // Anvent and Christmas:
-  advent_duration = 21 + christmas_weekday;
-  christmas_time_duration = 19 - ((christmas_weekday + 5) % 7);
-  baptism = new Date(christmas.getTime() + (christmas_time_duration * day_in_ms));
+  const advent_duration = 21 + christmas_weekday;
+  const christmas_time_duration = 19 - ((christmas_weekday + 5) % 7);
+  const baptism = new Date(christmas.getTime() + (christmas_time_duration * day_in_ms));
 
   // Septuagesima:
-  easter = get_easter_date(year + 1);
-  septuagesima = new Date(easter.getTime() - (63 * day_in_ms));
+  let easter = get_easter_date(year + 1);
+  let septuagesima = new Date(easter.getTime() - (63 * day_in_ms));
   septuagesima = new Date(septuagesima.getTime() - (septuagesima.getTimezoneOffset() * 60 * 1000));
 
   // Ash Wednesday:
   easter = get_easter_date(year + 1);
-  ash_wednesday = new Date(easter.getTime() - (46 * day_in_ms));
+  let ash_wednesday = new Date(easter.getTime() - (46 * day_in_ms));
   ash_wednesday = new Date(ash_wednesday.getTime() - (ash_wednesday.getTimezoneOffset() * 60 * 1000));
 
   // Tempus per Annum until Ash Wednesday: ORIGINAL
-  tempus_per_annum_until_ash_duration = (ash_wednesday - baptism) / (1000 * 3600 * 24) - 1;
+  const tempus_per_annum_until_ash_duration = (ash_wednesday - baptism) / (1000 * 3600 * 24) - 1;
 
   // All variables to determine the correct dates
-  tempus_per_annum_until_septuagesima = Math.floor((septuagesima - baptism) / (1000 * 3600 * 24));
-  pentecost = new Date(easter.getTime() + (49 * day_in_ms));
-  trinitas = new Date(easter.getTime() + (56 * day_in_ms));
+  const tempus_per_annum_until_septuagesima = Math.floor((septuagesima - baptism) / (1000 * 3600 * 24));
+  const pentecost = new Date(easter.getTime() + (49 * day_in_ms));
+  const trinitas = new Date(easter.getTime() + (56 * day_in_ms));
 
   // Last piece of the year
-  christmas_new = get_christmas_date(year + 1);
-  christmas_new_weekday = get_christmas_weekday(christmas_new);
-  xmas_new_weekday = christmas_new.getDay();
+  const christmas_new = get_christmas_date(year + 1);
+  const christmas_new_weekday = get_christmas_weekday(christmas_new);
+  const xmas_new_weekday = christmas_new.getDay();
 
-  advent_new = new Date(christmas_new.getTime() - ((get_christmas_weekday(christmas_new) + 21) * day_in_ms));
-  advent_new_duration = 21 + christmas_new_weekday;
-  christmas_new_time_duration = 19 - ((christmas_new_weekday + 5) % 7);
+  const advent_new = new Date(christmas_new.getTime() - ((get_christmas_weekday(christmas_new) + 21) * day_in_ms));
+  const dvent_new_duration = 21 + christmas_new_weekday;
+  const christmas_new_time_duration = 19 - ((christmas_new_weekday + 5) % 7);
 
-  tempus_per_annum_after_pentecost_duration = ((advent_new - pentecost) / day_in_ms);
-  num_after_epiphany = Math.floor((tempus_per_annum_until_septuagesima -1 )/ 7) + 1;
+  const tempus_per_annum_after_pentecost_duration = ((advent_new - pentecost) / day_in_ms);
+  const num_after_epiphany = Math.floor((tempus_per_annum_until_septuagesima -1 )/ 7) + 1;
 
-  dominica_xxiij = new Date(trinitas.getTime() + ( 23 * 7 ) * day_in_ms);
-  dominica_ultima = new Date(advent_new.getTime() - 7  * day_in_ms);
-  num_after_dom_xxiij = Math.floor((dominica_ultima - dominica_xxiij) / day_in_ms) + 1;
+  const dominica_xxiij = new Date(trinitas.getTime() + ( 23 * 7 ) * day_in_ms);
+  const dominica_ultima = new Date(advent_new.getTime() - 7  * day_in_ms);
+  const num_after_dom_xxiij = Math.floor((dominica_ultima - dominica_xxiij) / day_in_ms) + 1;
 
   // Sum of Sundays after Epiphany. If it eq. 5, one is missing
   if ( num_after_epiphany < 6 && ( num_after_epiphany + (num_after_dom_xxiij / 7) == 5 )) extra_sunday = 1; else extra_sunday = 0; 
@@ -226,43 +236,45 @@ function gen_temporale(year) {
   //// Creating the actual content  \\\\
   //////////////////|||\\\\\\\\\\\\\\\\\\
 
-  // Advent:
-  content = content.concat(period_gen(2, new Date(first_sunday_of_advent.getTime() - (1 * day_in_ms)), 'pa_', 23, 6, 0));
+  const output = {};
 
-  content = content.concat(period_gen(advent_duration+1, first_sunday_of_advent, 'adv_', 0, 0, 0));
+  // Advent:
+  //period_gen(2, new Date(first_sunday_of_advent.getTime() - (1 * day_in_ms)), 'pa_', 23, 6, 0, output);
+
+  //period_gen(advent_duration+1, first_sunday_of_advent, 'adv_', 0, 0, 0, output);
 
   // Christmas time:
-  content = content.concat(period_gen(christmas_time_duration+1, christmas, 'christmas_', 0, xmas_weekday, extra_sunday));
+  period_gen(christmas_time_duration+1, christmas, 'christmas_', 0, xmas_weekday, extra_sunday, output);
 
   // Tempus per Annum until Septuagesima:
-  content = content.concat(period_gen(tempus_per_annum_until_septuagesima+1, baptism, 'pe_', 0, 0, extra_sunday));
+  period_gen(tempus_per_annum_until_septuagesima+1, baptism, 'pe_', 0, 0, extra_sunday, output);
 
-  // Septuagesima Period:
-  content = content.concat(period_gen(17+1, septuagesima, 'sept_', 0, 0, 0));
+  // Septuagesima:
+  period_gen(17+1, septuagesima, 'sept_', 0, 0, 0, output);
+
+  // Ash Wednesday:
+  period_gen(4+1, ash_wednesday, 'ash_', 0, 3, 0, output);
 
   // Lent:
-  // Days after Ash wednesday:
-  content = content.concat(period_gen(4+1, ash_wednesday, 'ash_', 0, 3, 0));
-  // Rest of Lent:
-  content = content.concat(period_gen(42+1, new Date(ash_wednesday.getTime() + (4 * day_in_ms)), 'lent_', 0, 0, 0));
+  period_gen(42+1, new Date(ash_wednesday.getTime() + 4 * day_in_ms), 'lent_', 0, 0, 0, output);
 
   // Paschaltide:
-  content = content.concat(period_gen(56+1, easter, 'tp_', 0, 0, 0));
+  period_gen(56+1, easter, 'tp_', 0, 0, 0, output);
 
-  // Tempus per Annum after Pentecost (23 weeks):
-  content = content.concat(period_gen( 23 * 7 + 1, new Date(easter.getTime() + (56 * day_in_ms)), 'pa_', 0, 0, 0));
+  // After Pentecost:
+  period_gen(23*7+1, new Date(easter.getTime() + 56 * day_in_ms), 'pa_', 0, 0, 0, output);
 
   // Remaining Sundays after Epiphany:
-  content = content.concat(period_gen(num_after_dom_xxiij+1, dominica_xxiij, 'pe_', num_after_epiphany + extra_sunday, 0, 0));
-  
-  // Dominica xxiv. et ultima post Pentecosten et hebdomada ejus:
-  content = content.concat(period_gen(((advent_new - dominica_ultima) / day_in_ms)+1, dominica_ultima, 'pa_', 23, 0, 0));
+  period_gen(num_after_dom_xxiij+1, dominica_xxiij, 'pe_', num_after_epiphany + extra_sunday, 0, 0, output);
 
-  // New Advent time
-  content = content.concat(period_gen(advent_new_duration+1, advent_new, 'adv_', 0, 0, 0));
+  // Last Sunday after Pentecost:
+  period_gen(((advent_new - dominica_ultima) / day_in_ms)+1, dominica_ultima, 'pa_', 23, 0, 0, output);
 
-  // New Christmas time:
-  content = content.concat(period_gen(7+1, christmas_new, 'christmas_', 0, xmas_new_weekday, 0));
- 
-  replace();
+  // New Advent:
+  period_gen(advent_new_duration+1, advent_new, 'adv_', 0, 0, 0, output);
+
+  // New Christmas:
+  period_gen(7+1, christmas_new, 'christmas_', 0, xmas_new_weekday, 0, output);
+
+  return output;
 }

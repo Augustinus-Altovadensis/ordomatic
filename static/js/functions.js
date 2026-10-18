@@ -487,6 +487,8 @@ var off_ss_sacramenti = true;
 let suffr_new_laudes = true;
 let suffr_new_vesperae = true;
 
+let temporale = {};
+
 var OM_dates = [];
 var OM_date = 0;
 //var Officium_mensis = [];
@@ -548,6 +550,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       anniversarium_05 = "";
       anniversarium_09 = "";
       anniversarium_11 = "";
+      Object.assign(temporale, gen_temporale(year));
       }
 
     // zeroing Officium feriale, S. Bernardi and SS. Sacramenti
@@ -1923,17 +1926,22 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Diagnostic output of Officium mensis routine
     check_OM = true;
-    //check_OM = false;
+    check_OM = false;
     // Diagnostic output of Anniversarium solemne routine
     check_AS = true;
     check_AS = false;
 
-    check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + "' + <u>Off. mensis</u> = <b>'" + OM_date[month_usual_number] + "'</b>" + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
+    temporale_temp = temporale[date.getFullYear()]?.[ref_sancto];
+    if (temporale_temp && temporale_temp != ref_tempo) temporale_temp += ". Not equal!";
+  
+    check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + "' + <u>Off. mensis</u> = <b>'" + OM_date[month_usual_number] + "'</b>" 
+      //+ ".<br><u>Temporale</u> = <b>'" + temporale_temp + "'</b>" 
+      + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check + "</i></b> + commemoratio_next_add = " + comm_next_add_header_check
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force'] 
       + ". Officium_mensis = " + OM_temp
-      + ". extra_sunday = " + extra + "  --- i = " + i + "/" + duration // + '. <br>'
-      +  ' -=- winter_hymns = "' + winter_hymns + '".'
+      //+ ". extra_sunday = " + extra + "  --- i = " + i + "/" + duration // + '. <br>'
+      //+  ' -=- winter_hymns = "' + winter_hymns + '".'
       //+ 'Feria = "' + feria['header'] + '", &emsp;Vesperæ: "' + feria['vesperae'] + '".<br>'
       //+ '<br>Moved feasts [0] "' + moved[0] + '" [1] "' + moved[1] + '" [2] "' + moved[2] + '" [3] "' + moved[3] + '". Length = "' + moved.length
       + comm_summary   
@@ -2892,7 +2900,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           vesperae = vesperae.replace("Com. de seq. <i>Beátam me dicent.</i>", "");
       }
 
-    check_next += 'Comm. in Laudibus: "' + getComm(laudes) + '" - et in Vesperis: "' + getComm(vesperae) + '".</div>';
+    //check_next += 'Comm. in Laudibus: "' + getComm(laudes) + '" - et in Vesperis: "' + getComm(vesperae) + '".</div>';
 
     /////////  Getting rid of unused "Feria"  \\\\\\\\\\\\\
     if (!ref_tempo.match(/lent_|ash_/) || weekday == 0) {
