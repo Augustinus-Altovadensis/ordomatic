@@ -705,3 +705,132 @@
         if (getComm(laudes) < 2) laudes += "& B.M.V."
         laudes += ' <red>De Vigilia S. Matthæi in Laudibus nihil fit.</red>';
       }
+
+
+function get_ref_tempo_old(offset, prefix_tempo, week_start, day_start, duration)
+  { // Currently, this function works only about a month from the asking date
+    // Variables used here can be found in "refresh.js"
+    ref_tempo_n = prefix_tempo + (week_start + Math.ceil((i + 1 + day_start + offset) / 7)) + '_' + ((day_start + i + offset) % 7);
+
+      ref_tempo_n = ( ref_tempo_n == "tp_9_0") ? "pa_1_0" : ref_tempo_n;
+      if (ref_tempo_n.match("tp_9")) ref_tempo_n = ref_tempo_n.replace("tp_9", "pa_1");
+      if (ref_tempo_n.match("tp_10")) ref_tempo_n = ref_tempo_n.replace("tp_10", "pa_2");
+      if (ref_tempo_n.match("tp_11")) ref_tempo_n = ref_tempo_n.replace("tp_11", "pa_3");
+      if (ref_tempo_n.match("tp_12")) ref_tempo_n = ref_tempo_n.replace("tp_12", "pa_4");
+      if (ref_tempo_n.match("tp_13")) ref_tempo_n = ref_tempo_n.replace("tp_13", "pa_5");
+      if (ref_tempo_n.match("tp_14")) ref_tempo_n = ref_tempo_n.replace("tp_14", "pa_6");
+      if (ref_tempo_n.match("tp_15")) ref_tempo_n = ref_tempo_n.replace("tp_15", "pa_7");
+      if (ref_tempo_n.match("tp_16")) ref_tempo_n = ref_tempo_n.replace("tp_16", "pa_8");
+      if (ref_tempo_n.match("tp_17")) ref_tempo_n = ref_tempo_n.replace("tp_17", "pa_9");
+      if (ref_tempo_n.match("tp_18")) ref_tempo_n = ref_tempo_n.replace("tp_18", "pa_10");
+      if (ref_tempo_n.match("tp_19")) ref_tempo_n = ref_tempo_n.replace("tp_19", "pa_11");
+      if (ref_tempo_n.match("tp_20")) ref_tempo_n = ref_tempo_n.replace("tp_20", "pa_12");
+      if (ref_tempo_n.match("tp_21")) ref_tempo_n = ref_tempo_n.replace("tp_21", "pa_13");
+
+      if ( ref_tempo_n.match("lent_") && (i+offset) > (duration-2) )
+        {
+          jj = i + offset - duration + 2;
+
+          if ( (i + offset) <= (duration + 56 - 2) )
+            { ref_tempo_n = "tp_" + ( Math.ceil(jj / 7) ) + '_' + ((i + offset) % 7); }
+          else { ref_tempo_n = "pa_" + ( Math.ceil((0 + jj + 1)/ 7)) + '_' + (jj % 7); } // not tested, probably wrong
+        }
+
+      if ( ref_tempo_n.match("ash_") && (i+offset) > (duration-2) )
+        {
+          jj = i + offset - duration + 2;
+
+          if ( ((i + offset) <= (duration + 42 - 2)) )
+            { ref_tempo_n = "lent_" + ( Math.ceil(jj / 7) ) + '_' + ((i + offset + 3) % 7); }
+          else { ref_tempo_n = "tp_" + ( Math.ceil((0 + jj + 1)/ 7)) + '_' + (jj % 7); } // not tested, probably wrong
+        }
+
+      if ( ref_tempo_n.match("sept_") && (i+offset) > (duration-2) )
+        {
+          jj = i + offset - duration - 4 + 2;
+
+          if ( (i + offset) < (duration + 4 - 1) ) // post Epiphaniam + Septuagesima
+            { ref_tempo_n = "ash_1" + '_' + ((i+offset) % 7); }
+          else if ( ((i + offset) >= (duration + 4 - 2)) && ((i + offset) <= (duration + 42 - 2)))
+            { ref_tempo_n = "lent_" + ( Math.ceil(jj / 7) ) + '_' + ((i+offset) % 7); }
+          else { ref_tempo_n = "tp_" + ( Math.ceil((0 + jj + 1)/ 7)) + '_' + (jj % 7); } // not tested, probably wrong
+        }
+
+      if ( ref_tempo_n.match("pe_") && (i+offset) > (duration-2) && month_usual_number < 9 )
+        {
+          jj = i + offset - duration + 1;
+
+          if ( (i + offset) < (duration + 17 - 1) ) // post Epiphaniam + Septuagesima 
+            { ref_tempo_n = "sept_" + ( Math.ceil((jj + 1)/ 7) ) + '_' + (jj % 7); }
+          else if ( ((i + offset) >= (duration + 17 - 2)) && ((i + offset) <= (duration + 17 + 4 - 2))) // Septuagesima has 17 days
+            { ref_tempo_n = "ash_1" + '_' + (jj % 7);}
+          else { ref_tempo_n = "lent_" + ( Math.ceil((jj + 1 - tempus_per_annum_until_septuagesima)/ 7)) + '_' + (jj % 7); }
+        }
+
+      if ( ref_tempo_n.match("christmas_") && (i+offset) == (duration-2) ) weekday_end_c = ( ((day_start + i + offset) % 7))
+      if ( ref_tempo_n.match("christmas_") && (i+offset) > (duration-2) )
+        {
+          if ( (i + offset) < (duration + tempus_per_annum_until_septuagesima - 1) ) { 
+            jj = i + offset - duration + 3;
+            ref_tempo_n = "pe_" + ( 0 + Math.ceil((jj + weekday_end_c + 0)/ 7) - 1) + '_' + ((weekday_end_c + jj - 1) % 7); }
+          else { 
+            kk = i + offset - christmas_time_duration - tempus_per_annum_until_septuagesima + 1;
+            ref_tempo_n = "sept_" + ( 0 + Math.ceil((kk + weekday_end_c + 1)/ 7) - 1) + '_' + ((weekday_end_c + kk) % 7); }
+        }
+
+      if ( ref_tempo_n.match("adv_") && (i+offset) == (duration-2) ) weekday_end_a = ( ((day_start + i + offset) % 7))
+      if ( ref_tempo_n.match("adv_") && (i+offset) > (duration-2) )
+        {
+          jj = i + offset - duration + 2; // beginning of Christmas cycle from Advent
+          ref_tempo_n = "christmas_" + ( 0 + Math.ceil((jj + day_start + weekday_end_a + 1)/ 7)) + '_' + ((weekday_end_a + jj) % 7);
+        }
+
+      if ( month_usual_number > 9 && ref_tempo_n.match("pe_")) {
+        ref_tempo_n = ref_tempo_n.replace("pe_7_", "pa_24_");
+        ref_tempo_n = ref_tempo_n.replace("pe_8_", "adv_1_");
+        ref_tempo_n = ref_tempo_n.replace("pe_9_", "adv_2_");} 
+
+      //ref_tempo_n = ( ref_tempo_n == "ash_2_0") ? "lent_1_0" : ref_tempo_n;
+      ref_tempo_n = ( ref_tempo_n == "lent_7_0") ? "tp_1_0" : ref_tempo_n;
+      ref_tempo_n = ( ref_tempo_n == "pe_7_0" && month_usual_number > 9) ? "pa_24_0" : ref_tempo_n;
+      
+      if (ref_tempo_n.match("pa_25_")) ref_tempo_n = ref_tempo_n.replace("pa_25_", "adv_1_");
+      if (ref_tempo_n.match("pa_26_")) ref_tempo_n = ref_tempo_n.replace("pa_26_", "adv_2_");
+      if (ref_tempo_n.match("pa_27_")) ref_tempo_n = ref_tempo_n.replace("pa_27_", "adv_3_");
+      if (ref_tempo_n.match("pa_28_")) ref_tempo_n = ref_tempo_n.replace("pa_28_", "adv_4_");
+
+      return ref_tempo_n;
+  }
+
+function antiphon_sabb(sabb_mensis, month_sabb) {
+  // sabb_mensis = Saturday in month (1 through 5)
+  // month_sabb = month according to the Antiphonary. NB: January = 0!
+  month_sabb++;
+  // August:
+  if (sabb_mensis == 1 && month_sabb == 8) return "Sapiéntia ædificávit.";
+  else if (sabb_mensis == 2 && month_sabb == 8) return "Omnis sapiéntia.";
+  else if (sabb_mensis == 3 && month_sabb == 8) return "Sapiéntia clámitat.";
+  else if (sabb_mensis == 4 && month_sabb == 8) return "Atténde, fili mi.";
+  else if (sabb_mensis == 5 && month_sabb == 8) return "Dóminus possédit me.";
+  // September
+  else if (sabb_mensis == 1 && month_sabb == 9) return "Cum audísset Job.";
+  else if (sabb_mensis == 2 && month_sabb == 9) return "Quare detraxístis.";
+  else if (sabb_mensis == 3 && month_sabb == 9) return "Ne reminiscáris.";
+  else if (sabb_mensis == 4 && month_sabb == 9) return "Adónai.";
+  else if (sabb_mensis == 5 && month_sabb == 9) return "Adónai."; // Nisi sit dimitténda eo quod proximior sit Kalendis Octobris.
+  // October
+  else if (sabb_mensis == 1 && month_sabb == 10) return "Adapériat.";
+  else if (sabb_mensis == 2 && month_sabb == 10) return "Exáudiat Dóminus.";
+  else if (sabb_mensis == 3 && month_sabb == 10) return "Ornavérunt.";
+  else if (sabb_mensis == 4 && month_sabb == 10) return "Tu, Dómine universórum.";
+  else if (sabb_mensis == 5 && month_sabb == 10) return "Tua est poténtia."; // Nisi sit dimitténda eo quod proximior sit Kalendis Novembris.
+  // November
+  else if (sabb_mensis == 1 && month_sabb == 11) return "Vidi Dóminum sedéntem.";
+  else if (sabb_mensis == 2 && month_sabb == 11) return "Aspice Dómine.";
+  else if (sabb_mensis == 3 && month_sabb == 11) return "Super muros tuos.";
+  else if (sabb_mensis == 4 && month_sabb == 11) return "Muro tuo.";
+  else if (sabb_mensis == 5 && month_sabb == 11) return "Qui cœlórum cóntines thronos.";
+  else return "alia Antiphona."
+  }
+
+  
