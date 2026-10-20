@@ -1489,11 +1489,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     check_AS = true;
     check_AS = false;
 
-    temporale_temp = temporale[date.getFullYear()]?.[ref_sancto];
+    temporale_temp = temporale[date.getFullYear()]?.[ref_sancto].ref_tempo;
     if (temporale_temp && temporale_temp != ref_tempo) temporale_temp += ". Not equal!";
   
     check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + "' + <u>Off. mensis</u> = <b>'" + OM_date[month_usual_number] + "'</b>" 
-      //+ ".<br><u>Temporale</u> = <b>'" + temporale_temp + "'</b>" 
+      + ".<br><u>Temporale</u> = <b>'" + temporale_temp + "'</b> - Translated = '" + temporale[date.getFullYear()]?.[ref_sancto].translated + "'</b>" 
       + "<br><u>ref_tempo_next</u> = <b>'" + get_ref_tempo(1) + "'</b>" 
       + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check + "</i></b> + commemoratio_next_add = " + comm_next_add_header_check
@@ -3134,6 +3134,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (check_OM) 
           {
             vigiliae += "<br>Date_s_bernardi_om = '" + date_s_bernardi_om + "'.";
+            vigiliae += "<br>Date_s_bernardi_func = '" + get_s_bernardi(month+1, year) + "'.";
+            // month+1 is used, because the search runs on the last day of previous month
           }
 
         ind_as = 1;

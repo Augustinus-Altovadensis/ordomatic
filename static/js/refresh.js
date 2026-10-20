@@ -142,7 +142,7 @@ function refresh_ordo(year, display_format) {
 //////    New gen_temporale function     ////////////
 /////////////////////////////////////////////////////
 
-function period_gen(duration, start, prefix_tempo, week_start, day_start, extra, output) {
+function period_gen(duration, start, prefix_tempo, week_start, day_start, extra, output, trans_count) {
 
     let exaltatio = false;
 
@@ -164,13 +164,36 @@ function period_gen(duration, start, prefix_tempo, week_start, day_start, extra,
             String(month).padStart(2, '0') + '_' +
             String(day).padStart(2, '0');
 
+        const trans = /adv_1_0|lent_1_0|lent_6_|tp_1|tp_2_0|tp_6_4|tp_7_6|tp_8_|pa_1_0|pa_1_4|pa_2_5/
+
+        if ((trans.test(ref_tempo)
+          && days_sancto[ref_sancto]
+          && days_sancto[ref_sancto]['force'] > 60)
+        || (trans.test(ref_tempo) && ref_sancto == "06_01")
+        || (/lent_5_5/.test(ref_tempo)  
+          && /03_(19|20|24)/.test(ref_sancto)))
+          // If Dolorosa falls on St. Joseph, it moves to St. Joachim
+          // and translates him. Similarly it moves other MM. maj. feasts.
+          { 
+            trans_count.value++; 
+          }
+
+        if (ref_tempo.match(/adv_1_[12]|tp_2_[1-6]|pa_1_[1-6]/) 
+          && trans_count.value)
+          { // only here the translated feasts are "released"
+            trans_count.value--; 
+          }
+
         if (ref_sancto == "09_14") exaltatio = true;
         if (/pa_.._[356]/.test(ref_tempo) && exaltatio) 
           ref_tempo = ref_tempo.replace(/pa_../, "quatember_septembris");
         if (ref_tempo == "quatember_septembris_6") exaltatio = false;
 
         output[year] ??= {};
-        output[year][ref_sancto] = ref_tempo;
+        output[year][ref_sancto] = {
+          ref_tempo: ref_tempo, 
+          translated: trans_count.value
+        };
     }
 }
 
@@ -237,44 +260,52 @@ function gen_temporale(year) {
   //////////////////|||\\\\\\\\\\\\\\\\\\
 
   const output = {};
+  //trans_count = 0;
+  let trans_count = { value: 0 };
 
   // Advent:
-  //period_gen(2, new Date(first_sunday_of_advent.getTime() - (1 * day_in_ms)), 'pa_', 23, 6, 0, output);
+  period_gen(2, new Date(first_sunday_of_advent.getTime() - (1 * day_in_ms)), 'pa_', 23, 6, 0, output, trans_count);
+  
+  //console.log("trans_count Adv.", first_sunday_of_advent.getFullYear(), "=", trans_count.value);
 
-  //period_gen(advent_duration+1, first_sunday_of_advent, 'adv_', 0, 0, 0, output);
+  period_gen(advent_duration+1, first_sunday_of_advent, 'adv_', 0, 0, 0, output, trans_count);
 
   // Christmas time:
-  period_gen(christmas_time_duration+1, christmas, 'christmas_', 0, xmas_weekday, extra_sunday, output);
+  period_gen(christmas_time_duration+1, christmas, 'christmas_', 0, xmas_weekday, extra_sunday, output, trans_count);
 
   // Tempus per Annum until Septuagesima:
-  period_gen(tempus_per_annum_until_septuagesima+1, baptism, 'pe_', 0, 0, extra_sunday, output);
+  period_gen(tempus_per_annum_until_septuagesima+1, baptism, 'pe_', 0, 0, extra_sunday, output, trans_count);
 
   // Septuagesima:
-  period_gen(17+1, septuagesima, 'sept_', 0, 0, 0, output);
+  period_gen(17+1, septuagesima, 'sept_', 0, 0, 0, output, trans_count);
 
   // Ash Wednesday:
-  period_gen(4+1, ash_wednesday, 'ash_', 0, 3, 0, output);
+  period_gen(4+1, ash_wednesday, 'ash_', 0, 3, 0, output, trans_count);
 
   // Lent:
-  period_gen(42+1, new Date(ash_wednesday.getTime() + 4 * day_in_ms), 'lent_', 0, 0, 0, output);
+  period_gen(42+1, new Date(ash_wednesday.getTime() + 4 * day_in_ms), 'lent_', 0, 0, 0, output, trans_count);
+
+  //console.log("trans_count Lent", date.getFullYear(), "=", trans_count.value);
 
   // Paschaltide:
-  period_gen(56+1, easter, 'tp_', 0, 0, 0, output);
+  period_gen(56+1, easter, 'tp_', 0, 0, 0, output, trans_count);
+
+  //console.log("trans_count Pascha", date.getFullYear(), "=", trans_count.value);
 
   // After Pentecost:
-  period_gen(23*7+1, new Date(easter.getTime() + 56 * day_in_ms), 'pa_', 0, 0, 0, output);
+  period_gen(23*7+1, new Date(easter.getTime() + 56 * day_in_ms), 'pa_', 0, 0, 0, output, trans_count);
 
   // Remaining Sundays after Epiphany:
-  period_gen(num_after_dom_xxiij+1, dominica_xxiij, 'pe_', num_after_epiphany + extra_sunday, 0, 0, output);
+  period_gen(num_after_dom_xxiij+1, dominica_xxiij, 'pe_', num_after_epiphany + extra_sunday, 0, 0, output, trans_count);
 
   // Last Sunday after Pentecost:
-  period_gen(((advent_new - dominica_ultima) / day_in_ms)+1, dominica_ultima, 'pa_', 23, 0, 0, output);
+  period_gen(((advent_new - dominica_ultima) / day_in_ms)+1, dominica_ultima, 'pa_', 23, 0, 0, output, trans_count);
 
   // New Advent:
-  period_gen(advent_new_duration+1, advent_new, 'adv_', 0, 0, 0, output);
+  period_gen(advent_new_duration+1, advent_new, 'adv_', 0, 0, 0, output, trans_count);
 
   // New Christmas:
-  period_gen(7+1, christmas_new, 'christmas_', 0, xmas_new_weekday, 0, output);
+  period_gen(7+1, christmas_new, 'christmas_', 0, xmas_new_weekday, 0, output, trans_count);
 
   return output;
 }

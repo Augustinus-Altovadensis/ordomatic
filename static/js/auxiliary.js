@@ -338,50 +338,49 @@ function get_ref_tempo(t_offset)
     let new_date = new Date(date);
     new_date.setDate(new_date.getDate() + t_offset);
     
-    return temporale[new_date.getFullYear()]?.[get_ref_sancto(t_offset)];
+    return temporale[new_date.getFullYear()]?.[get_ref_sancto(t_offset)].ref_tempo;
   }
 
 function get_s_bernardi(month, year) 
 {
-  let check_B = true;
-  const weekday = new Date(year, month, 1).getDay();
+  let date_s_bernardi = "0";
+  //const weekday = new Date(year, (month+1), 1).getDay();
   const offset = (2 - weekday + 7) % 7;
 
   // Can we get translated feasts? Even across months? 
 
   for (let j = 0; j <= 5; j++) 
   {
-    let temp_bernardi = get_ref_sancto((j*7) + offset);
-    let temporale_bernardi = get_ref_tempo((j*7) + offset);
-              
-    if (check_B) 
-      {
-        vigiliae += " j = " + j + ", date = " + temp_bernardi + ", temporale_bernardi = " + temporale_bernardi + "<br>";
-      }
+    let ref_sancto_bernardi = get_ref_sancto((j*7) + offset);
+    let ref_tempo_bernardi = get_ref_tempo((j*7) + offset);
 
-    if ( (!days_sancto[temp_bernardi] 
-        || days_sancto[temp_bernardi]['force'] < 30 )
-      && !temporale_bernardi.match("lent") 
-      && days_tempo[temporale_bernardi] 
-      && days_tempo[temporale_bernardi]['force'] < 30
-      && (day+(j*7)) != OM_date[month+1] 
-      && temp_bernardi.match(add_zero(month+1) + (month+1) + "_")
-      && temp_bernardi != "11_02" 
-      && !(month == 7) // month of St. Bernards Feast
-      && !(month == 11 && temp_bernardi.replace("12_","") > 17)  
-      && !(month == 0 && temp_bernardi.replace("01_","") < 13) )
-        { 
-          let date_s_bernardi = temp_bernardi; 
-        }
-  }
-             
-  if (check_B) 
-    {
-      vigiliae += "Date_s_bernardi_as = '" + date_s_bernardi + "'.";
+    if (false)
+    { 
+      console.log("j =", j, "month =", month, "weekday =", weekday, "offset =", offset);
+      console.log("ref_sancto_bernardi = ", ref_sancto_bernardi);
+      console.log("ref_tempo_bernardi = ", ref_tempo_bernardi);
+      console.log("date_s_bernardi = ", date_s_bernardi);
     }
 
-  if (date_s_bernardi) return date_s_bernardi;
-  else return "0";
+    if ( (!days_sancto[ref_sancto_bernardi] 
+        || days_sancto[ref_sancto_bernardi]['force'] < 30 )
+      && !ref_tempo_bernardi.match("lent") 
+      && days_tempo[ref_tempo_bernardi] 
+      && days_tempo[ref_tempo_bernardi]['force'] < 30
+      && temporale[date.getFullYear()]?.[ref_sancto_bernardi].translated == 0
+      && (day+(j*7)) != OM_date[month+1] 
+      && ref_sancto_bernardi.match(add_zero(month+1) + (month+1) + "_")
+      && ref_sancto_bernardi != "11_02" 
+      && !(month == 7) // month of St. Bernards Feast
+      && !(month == 11 && ref_sancto_bernardi.replace("12_","") > 17)  
+      && !(month == 0 && ref_sancto_bernardi.replace("01_","") < 13) 
+      )
+        { 
+          date_s_bernardi = ref_sancto_bernardi; 
+        }
+  }
+
+  return date_s_bernardi;
 }
 
 function get_winner(ref_tempo, ref_sancto) {
