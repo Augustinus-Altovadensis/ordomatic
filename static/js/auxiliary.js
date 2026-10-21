@@ -342,12 +342,10 @@ function get_ref_tempo(t_offset)
   }
 
 function get_s_bernardi(month, year) 
-{
-  let date_s_bernardi = "0";
-  //const weekday = new Date(year, (month+1), 1).getDay();
-  const offset = (2 - weekday + 7) % 7;
+{ // Last Tuesday in month not impeded by a feast of iij. or xij. Lessons.
 
-  // Can we get translated feasts? Even across months? 
+  let date_s_bernardi = "0";
+  const offset = (2 - weekday + 7) % 7;
 
   for (let j = 0; j <= 5; j++) 
   {

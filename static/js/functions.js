@@ -204,7 +204,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     ////// Removing Commemorations during the Holy Week and Easter Octave
 
     // Translating feasts MM. maj. and higher during Holy Week and Easter Octave
-    if ( commemoratio_next && commemoratio_next['force'] >= 50 
+    if ( commemoratio_next && commemoratio_next['force'] > 50 
         && ref_tempo_next.match(/lent_6_|tp_1|tp_2_0/) )
       {
         moved.push(ref_sancto_next);
@@ -224,7 +224,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       }
 
     // Translating feasts MM. maj. on Ascension of Our Lord, Corpus Christi and SS. Cor D.N.J.C.
-    if ( commemoratio_next && commemoratio_next['force'] > 39 // 6.5.2027 disappeared with orig. 50
+    if ( commemoratio_next && commemoratio_next['force'] > 50 // 6.5.2027 disappeared with orig. 50, 39 is the original Cistercian Rubric
         && ref_tempo_next.match(/tp_6_4|pa_1_4|pa_2_5/) )
       {
         moved.push(ref_sancto_next);
@@ -249,17 +249,17 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Completely removing feasts MM. min. (in rubrics iij. Lect.) and lower during Holy Week and Monday and Tuesday of Easter Octave and all other similar days.
 
-    const lower_feasts_removed = /lent_6_[456]|tp_1_[012]|tp_6_4|tp_8_[012]|pa_1_0|pa_1_4|pa_2_5/;
+    const lower_feasts_removed = /lent_6_[456]|tp_1_[012]|tp_2_0|tp_6_4|tp_8_[012]|pa_1_0|pa_1_4|pa_2_5/;
 
     // N.B.: "tp_7_6|" has been removed.
-    if ( commemoratio_next && commemoratio_next.force <= 50  // orig. 35
+    if ( commemoratio_next && commemoratio_next.force < 60  // orig. 35
       && lower_feasts_removed.test(ref_tempo_next))
       { trans_titulum = shorten_header(commemoratio_next['header']);
         trans_before = "Nihil fit hoc anno de festo " + trans_titulum + "."; 
         commemoratio_next = ""; }
 
     // Removing them on the day as well
-    if ( commemoratio && commemoratio.force < 50  // orig. 35
+    if ( commemoratio && commemoratio.force < 60  // orig. 35
       && lower_feasts_removed.test(ref_tempo))
       { 
         commemoratio = ""; 
@@ -366,7 +366,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     // First Vespers (probably just copy previous function without splicing the "moved" Array)
     if ( moved.length > 0 
         && !ref_tempo.match(/lent_6_|tp_1_|tp_7_6|tp_8_/) 
-        && (winner_next['force'] < 40 || moved.includes("03_25"))) 
+        && (winner_next['force'] < 60 || moved.includes("03_25"))) // orig. Cist. rubric 40
       {
         top_moved = 0;
         for (j = 0; j < moved.length; j++)
@@ -377,7 +377,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
               top_moved = j;
               force_temp_prev = win_temp['force']; }
           }
-        if (winner_next['force'] >= 40) 
+        if (winner_next['force'] >= 60) // orig. Cist. rubric 40
           {
             moved.push(ref_sancto_next);
             //trans_titulum = shorten_header(winner_next['header']);
@@ -1484,16 +1484,19 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Diagnostic output of Officium mensis routine
     check_OM = true;
-    //check_OM = false;
+    check_OM = false;
     // Diagnostic output of Anniversarium solemne routine
     check_AS = true;
     check_AS = false;
 
     temporale_temp = temporale[date.getFullYear()]?.[ref_sancto].ref_tempo;
     if (temporale_temp && temporale_temp != ref_tempo) temporale_temp += ". Not equal!";
+
+    translated_temp = temporale[date.getFullYear()]?.[ref_sancto].translated;
+    if (translated_temp && translated_temp != moved.length) translated_temp += ". Not equal!";
   
     check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + "' + <u>Off. mensis</u> = <b>'" + OM_date[month_usual_number] + "'</b>" 
-      + ".<br><u>Temporale</u> = <b>'" + temporale_temp + "'</b> - Translated = '" + temporale[date.getFullYear()]?.[ref_sancto].translated + "'</b>" 
+      + ".<br><u>Temporale</u> = <b>'" + temporale_temp + "'</b> - Translated = '" + temporale[date.getFullYear()]?.[ref_sancto].translated + "'</b> - moved.length = '" + moved.length + "'</b>" 
       + "<br><u>ref_tempo_next</u> = <b>'" + get_ref_tempo(1) + "'</b>" 
       + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check + "</i></b> + commemoratio_next_add = " + comm_next_add_header_check
