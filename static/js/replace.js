@@ -13,15 +13,49 @@ function replace() {
   $('#explicit').html(year);
 }
 
+function shorten(txt) {
+txt = txt.replaceAll(/Protomartyris/ig, " Protomart.");
+txt = txt.replaceAll(/,? Ap\. et Evang\./ig, " Ap.\u202FE.");
+txt = txt.replaceAll(/,? Papæ et Mart\./ig, " Pp.\u202FM.");
+txt = txt.replaceAll(/,? Papæ et Conf\./ig, " Pp.\u202FC.");
+txt = txt.replaceAll(/,? Ep\., Conf\. et Eccl\. Doct\./ig, " E.\u202FC.\u202FE.\u202FD.");
+txt = txt.replaceAll(/,? Conf\. et Eccl\. Doct\./ig, " C.\u202FE.\u202FD.");
+txt = txt.replaceAll(/,? Ep\.,? (?:et )?Mart\./ig, " E.\u202FM.");
+txt = txt.replaceAll(/,? Ep\. et Conf\./ig, " E.\u202FC.");
+txt = txt.replaceAll(/,? Pont\. et Mart\./ig, " PP.\u202FMM.");
+txt = txt.replaceAll(/,? Virg\. et Mart\./ig, " V.\u202FM.");
+txt = txt.replaceAll(/,? Virg\./ig, " V.");
+txt = txt.replaceAll(/,? Reginæ et Viduæ/ig, " Reg.\u202FVd.");
+txt = txt.replaceAll(/,? Viduæ/ig, " Vd.");
+
+txt = txt.replaceAll(/\bSS\. (.*?),? Virg. et Mart\./ig, "SS. $1 VV.\u202FMM.");
+txt = txt.replaceAll(/\bSS\. (.*?),? Mart\./ig, "SS. $1 MM.");
+txt = txt.replaceAll(/\bS\. (.*?),? Mart\./ig, "S. $1 M.");
+txt = txt.replaceAll(/\bBB\. (.*?),? Mart\./ig, "BB. $1 MM.");
+txt = txt.replaceAll(/\bB\. (.*?),? Mart\./ig, "B. $1 M.");
+txt = txt.replaceAll(/Regis Francorum et Conf\./ig, "R.\u202FFranc.\u202FC.");
+txt = txt.replaceAll(/Regis Hungariæ et Conf\./ig, "R.\u202FHung.\u202FC.");
+txt = txt.replaceAll(/, Martyrum/ig, " MM.");
+//txt = txt.replaceAll(/,? Martyrum/ig, " MM.");
+//txt = txt.replaceAll(/,? Virginum/ig, " VV.");
+//txt = txt.replaceAll(/,? Conf\./ig, " C.");
+txt = txt.replaceAll(/, Virginum/ig, " VV.");
+txt = txt.replaceAll(/, Conf\./ig, " C.");
+
+txt = txt.replaceAll(/O\.N\.|O\. N\./g, 'O.\u202FN.');
+
+return txt;
+}
+
 function addtags(winner) {
     ///////////////////////////////////////////////
     ///// Replacement section (HTML tags) /////////
     ///////////////////////////////////////////////
     winner = winner.replace("-date-", day + ". " + month_usual_number + ".");
 
-    winner = winner.replace(/B.M.V.|B. M. V./, 'B. M. V.');
-    winner = winner.replace(/S\.P\.N\.|S\. P\. N\./, 'S. P. N.');
-    winner = winner.replace(/O\.N\.|O\. N\./, 'O. N.');
+    winner = winner.replace(/B.M.V.|B. M. V./, 'B.\u202FM.\u202FV.');
+    winner = winner.replace(/S\.P\.N\.|S\. P\. N\./, 'S.\u202FP.\u202FN.');
+    winner = winner.replace(/O\.N\.|O\. N\./, 'O.\u202FN.');
     winner = winner.replace("sine Com.", '<font color="green"><s>Com.</s></font>');
     //winner = winner.replace(/^Com\./, '<font color="green"><b>Com.</b></font> ');
     winner = winner.replace(/Com\. /, '<font color="green">Com.</font> ');
@@ -33,8 +67,8 @@ function addtags(winner) {
     // Following will be switched off probably
     //winner = winner.replace("&", '<font color="green"><b>&</b></font> ');
     winner = winner.replace("&.", '&');
-    winner = winner.replace(/2a Eccl[eé]si(ae|æ) /, '2a <i>Ecclésiæ</i> ');
-    winner = winner.replace(/3a Eccl[eé]si(ae|æ) /, '3a <i>Ecclésiæ</i> ');
+    winner = winner.replace(/2a Eccl[eé]si(ae|æ)\.? /, '2a <i>Ecclésiæ.</i> ');
+    winner = winner.replace(/3a Eccl[eé]si(ae|æ)\.? /, '3a <i>Ecclésiæ.</i> ');
     winner = winner.replaceAll("1a ", '1<sup>a</sup> ');
     winner = winner.replaceAll("1o ", '1<sup>o</sup> ');
     winner = winner.replaceAll("2a ", '2<sup>a</sup> ');
@@ -82,7 +116,7 @@ function addtags(winner) {
     winner = winner.replace(/Duo Acolythi\. |Duo Acolythi /, '<font color="red">Duo Acolythi. </font>');
     winner = winner.replace(/Cum incenso ad [oO]blata\. /, '<font color="red">Cum incenso ad oblata. </font>');
     winner = winner.replace(/Cum incenso ad [oO]blata /, '<font color="red">Cum incenso ad oblata </font>');
-    winner = winner.replace("de Officio diei", '<font color="red">de Officio diei</font>');
+    winner = winner.replace(/de Officio diei/i, '<font color="red">de Officio diei</font>');
     winner = winner.replace("Hymnus, in quo dicitur:", '<font color="red">Hymnus, in quo dicitur:</font> ');
     winner = winner.replace(/Aña Sub tuum|Aña. Sub tuum/, '<font color="red">Aña.</font> <i>Sub tuum</i>');
     winner = winner.replace("Sub tuum", '<i>Sub tuum</i>');
@@ -140,7 +174,7 @@ function addtags(winner) {
     winner = winner.replace("Laudémus virum", '<i>Laudémus virum</i>');
     winner = winner.replace("Terríbilis", '<i>Terríbilis</i>');
     winner = winner.replace("A cunctis", '<i>A cunctis</i>');
-    winner = winner.replace(/Deus qui de be(a|á)t(æ|ae)/, '<i>Deus qui de beátæ</i>');
+    winner = winner.replace(/Deus,? qui de be(a|á)t(æ|ae)/, '<i>Deus, qui de beátæ</i>');
     winner = winner.replace(/Omn[ií]potens/, '<i>Omnípotens</i>');
     winner = winner.replace("Benedicámus Dómino", '<i><font color="red">B</font>enedicámus Dómino</i>');
     winner = winner.replace("Deo grátias", '<i><font color="red">D</font>eo grátias</i>');
@@ -149,8 +183,8 @@ function addtags(winner) {
     winner = winner.replace("Vidi aquam", '<i>Vidi aquam</i>');
     winner = winner.replace(/F[íi]li(æ|ae) Jer[úu]salem/, '<i>Fíliæ Jerúsalem</i>');
     winner = winner.replace(/Lux perp[ée]tua/, '<i>Lux perpétua</i>');
-    winner = winner.replace("xxx", '<i>xxx</i>');
-    winner = winner.replace("xxx", '<i>xxx</i>');
+    winner = winner.replace("Deus, qui salútis", '<i>Deus, qui salútis</i>');
+    winner = winner.replace("...", '…');
     winner = winner.replace("xxx", '<i>xxx</i>');
     winner = winner.replace("xxx", '<i>xxx</i>');
     winner = winner.replace("xxx", '<i>xxx</i>');
