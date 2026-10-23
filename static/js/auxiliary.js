@@ -381,6 +381,46 @@ function get_s_bernardi(month, year)
   return date_s_bernardi;
 }
 
+function get_ss_sacramenti(month, year) 
+{ // First Thursday in month not impeded by a feast of iij. or xij. Lessons.
+  date_ss_sacramenti_as = "";
+  weekday_as = ref_tempo_temp.slice(-1);
+  month_as = ref_sancto_temp.replace(/_.*/, "").replace(/^0/, "");
+    
+  for (j = 0; j <= 5; j++) {
+    offset = ((4 - weekday_as) % 7) + ind_as;
+    temp_ss_sacramenti = get_ref_sancto((j*7) + offset);
+    temporale_ss_sacramenti = get_ref_tempo((j*7)+offset, prefix_tempo, week_start, day_start, duration);
+
+    if (check_AS) 
+      {
+        vigiliae += " j = " + j + ", date = " + temp_ss_sacramenti + ", temporale_ss_sacramenti = " + temporale_ss_sacramenti + "<br>";
+      }
+
+    if ( (!days_sancto[temp_ss_sacramenti] 
+        || days_sancto[temp_ss_sacramenti]['force'] < 30 )
+      && !temporale_ss_sacramenti.match("lent") 
+      && days_tempo[temporale_ss_sacramenti] 
+      && days_tempo[temporale_ss_sacramenti]['force'] < 30
+      && temp_ss_sacramenti.match(month_as + "_") 
+      && temp_ss_sacramenti != "11_02"  
+      && month_as != 6 // not in June, when the main feast is
+      // May needs to be added, in 2027 Corpus Christi is in May
+      // Plus the month, when the Corpus Christi Octave is.
+      && !(month_as == 12 && temp_ss_sacramenti.replace("12_","") > 17)  
+      && !(month_as == 1 && temp_ss_sacramenti.replace("01_","") < 13) )
+        date_ss_sacramenti_as = temp_ss_sacramenti; 
+
+        if (date_ss_sacramenti_as) j=5;
+    }
+        
+  if (check_AS) 
+  {
+    vigiliae += "<br>Date_ss_sacramenti_as = '" + date_ss_sacramenti_as + "'.";
+  }
+  //ind_as = 0;
+}
+
 function get_winner(ref_tempo, ref_sancto) {
   winner = days_tempo[ref_tempo];
   if (!days_tempo[ref_tempo]) { 
