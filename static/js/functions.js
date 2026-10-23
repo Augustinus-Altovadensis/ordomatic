@@ -1365,16 +1365,6 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       commemoratio_add = days_tempo['tp_6_3cc'] ; 
       }
 
-    ///// Missa votiva de Angelis on Oct 2. \\\\\
-    if (ref_sancto == "10_02" && winner['force'] < 30) missa = days_sancto["votiva_de_angelis"]["missa"];
-
-    ///// Missa votiva de SSmo Corde Jesu on first Friday in month \\\\\
-    if (weekday == 5 && day < 8 && winner['force'] < 35) {
-      festum = "";
-      titulum_missa_winner = winner['header'].split(",", 1) + "";
-      if (color != "white") color = "white/" + color;
-      if (!winner['header'].match(/De ea/i)) festum = "Missa " + titulum_missa_winner  + " - "
-      missa_post = "<li>- <u>in Missa Conv.:</u> " + days_sancto["votiva_ssmi_cordis"]["missa"] + "</li> <li>- <u>in Miss. priv.:</u> " + festum + missa + '</li>' + missa_post; missa = ""; }
 
     ////////////////////////////////////////////////////////
 
@@ -2284,6 +2274,18 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           ant_feria = ["", "Eréxit Dóminus.","Salútem ex inimícis nostris.","In sanctitáte.", "Ad dandam sciéntiam.","Per víscera misericórdiæ.","In viam pacis." ];
           laudes = laudes.replace(/-Ant Laudes-/, '<i>' + ant_feria[weekday] + '</i>');
         }
+
+    
+    ///// Missa votiva de Angelis on Oct 2. \\\\\
+    if (ref_sancto == "10_02" && winner['force'] < 30) missa = days_sancto["votiva_de_angelis"]["missa"];
+
+    ///// Missa votiva de SSmo Corde Jesu on first Friday in month \\\\\
+    if (weekday == 5 && day < 8 && winner['force'] < 35) {
+      festum = "";
+      titulum_missa_winner = winner['header'].split(",", 1) + "";
+      if (color != "white") color = "white/" + color;
+      if (!winner['header'].match(/De ea/i)) festum = "Missa " + titulum_missa_winner  + " - "
+      missa_post = "<li>- <u>in Missa Conv.:</u> " + days_sancto["votiva_ssmi_cordis"]["missa"] + "</li> <li>- <u>in Miss. priv.:</u> " + festum + missa + '</li>' + missa_post; missa = ""; }
 
       //check_next += '.<br>Sacérdos et Póntifex: "' + matchCount(vesperae,/Sac[ée]rdos et P[óo]ntifex/) + '" - Fíliæ Jerúsalem: "' + matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/g) + '.<br>Comm. in Laudibus: "' + getComm(laudes) + '" - et in Vesperis: "' + getComm(vesperae)
       //+ '".</div>';
