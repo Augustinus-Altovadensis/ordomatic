@@ -3113,6 +3113,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (check_OM) 
           {
             vigiliae += "<br>Date_ss_sacramenti_om = '" + date_ss_sacramenti_om + "'.";
+            vigiliae += "<br>Date_ss_sacramenti_fn = '" + get_ss_sacramenti(month+1, year) + "'.";
           }
 
         ind_as = 0;
@@ -3139,7 +3140,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (check_OM) 
           {
             vigiliae += "<br>Date_s_bernardi_om = '" + date_s_bernardi_om + "'.";
-            vigiliae += "<br>Date_s_bernardi_func = '" + get_s_bernardi(month+1, year) + "'.";
+            vigiliae += "<br>Date_s_bernardi_fn = '" + get_s_bernardi(month+1, year) + "'.";
             // month+1 is used, because the search runs on the last day of previous month
           }
 

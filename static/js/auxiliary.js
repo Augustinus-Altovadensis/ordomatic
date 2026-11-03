@@ -345,6 +345,7 @@ function get_s_bernardi(month, year)
 { // Last Tuesday in month not impeded by a feast of iij. or xij. Lessons.
 
   let date_s_bernardi = "0";
+  let active_month;
   const offset = (2 - weekday + 7) % 7;
 
   for (let j = 0; j <= 5; j++) 
@@ -352,22 +353,24 @@ function get_s_bernardi(month, year)
     let ref_sancto_bernardi = get_ref_sancto((j*7) + offset);
     let ref_tempo_bernardi = get_ref_tempo((j*7) + offset);
 
+    if (j == 0) active_month = get_ref_sancto(2).slice(0, -2);
+
       if (false)
       { 
         console.log("j =", j, "month =", month, "weekday =", weekday, "offset =", offset);
-        console.log("ref_sancto_bernardi = ", ref_sancto_bernardi);
-        console.log("ref_tempo_bernardi = ", ref_tempo_bernardi);
-        console.log("date_s_bernardi = ", date_s_bernardi);
+        console.log("ref_sancto_b = ", ref_sancto_bernardi, 
+                    "ref_tempo_b = ", ref_tempo_bernardi);
+        console.log("active_month = ", active_month, "date_s_bernardi = ", date_s_bernardi);
       }
 
     if ( (!days_sancto[ref_sancto_bernardi] 
         || days_sancto[ref_sancto_bernardi]['force'] < 30 )
-      && !ref_tempo_bernardi.match("lent") 
+      && !ref_tempo_bernardi.startsWith("lent") 
       && days_tempo[ref_tempo_bernardi] 
       && days_tempo[ref_tempo_bernardi]['force'] < 30
       && temporale[date.getFullYear()]?.[ref_sancto_bernardi].translated == 0
       && (day+(j*7)) != OM_date[month+1] 
-      && ref_sancto_bernardi.match(add_zero(month+1) + (month+1) + "_")
+      && ref_sancto_bernardi.includes(active_month) 
       && ref_sancto_bernardi != "11_02" 
       && !(month == 7) // month of St. Bernards Feast
       && !(month == 11 && ref_sancto_bernardi.replace("12_","") > 17)  
@@ -383,41 +386,43 @@ function get_s_bernardi(month, year)
 
 function get_ss_sacramenti(month, year) 
 { // First Thursday in month not impeded by a feast of iij. or xij. Lessons.
-  //let date_ss_sacramenti = "0";
-  let date_ss_sacramenti;
   const offset = (4 - weekday + 7) % 7;
 
-  //weekday_as = ref_tempo_temp.slice(-1);
-  //month_as = ref_sancto_temp.replace(/_.*/, "").replace(/^0/, "");
+  const month_Corpus_Christi = Object.keys(temporale[year]).find(
+    key => temporale[year][key].ref_tempo === "pa_1_4").slice(0, -2);
+  const month_Oct_Corpus_Christi = Object.keys(temporale[year]).find(
+    key => temporale[year][key].ref_tempo === "pa_2_4").slice(0, -2);
     
-  for (j = 0; j <= 5; j++) 
+  for (let j = 0; j <= 5; j++) 
   {
-    //offset = ((4 - weekday_as) % 7) + ind_as;
-
     let ref_sancto_ss_sacramenti = get_ref_sancto((j*7) + offset);
     let ref_tempo_ss_sacramenti = get_ref_tempo((j*7) + offset);
 
-    //ref_sancto_ss_sacramenti = get_ref_sancto((j*7) + offset);
-    //ref_tempo_ss_sacramenti = get_ref_tempo((j*7)+offset, prefix_tempo, week_start, day_start, duration);
+    if (j == 0) active_month = get_ref_sancto(2).slice(0, -2);
+
+    if (false)
+      { 
+        console.log("j =", j, "month =", month, "weekday =", weekday, "offset =", offset);
+        console.log("ref_sancto_ss_sacramenti = ", ref_sancto_ss_sacramenti);
+        console.log("ref_tempo_ss_sacramenti = ", ref_tempo_ss_sacramenti);
+        if (month == 4 || month == 5)
+          console.log("Corpus Christi: Month = ", month_Corpus_Christi, "Octava = ", month_Oct_Corpus_Christi);
+      }
 
     if ( (!days_sancto[ref_sancto_ss_sacramenti] 
         || days_sancto[ref_sancto_ss_sacramenti]['force'] < 30 )
-      && !ref_tempo_ss_sacramenti.match("lent") 
+      && !ref_tempo_ss_sacramenti.startsWith("lent") 
       && days_tempo[ref_tempo_ss_sacramenti] 
       && days_tempo[ref_tempo_ss_sacramenti]['force'] < 30
-      && ref_sancto_ss_sacramenti.match(month + "_") 
+      && ref_sancto_ss_sacramenti.includes(active_month) 
       && ref_sancto_ss_sacramenti != "11_02"  
-      && month_as != 6 // not in June, when the main feast is
-      // May needs to be added, in 2027 Corpus Christi is in May
-      // Plus the month, when the Corpus Christi Octave is.
-      && !(month == 12 && ref_sancto_ss_sacramenti.replace("12_","") > 17)  
-      && !(month == 1 && ref_sancto_ss_sacramenti.replace("01_","") < 13) )
-        date_ss_sacramenti = ref_sancto_ss_sacramenti; 
-
-    if (date_ss_sacramenti) j=5;
+      && !ref_sancto_ss_sacramenti.includes(month_Corpus_Christi) 
+      && !ref_sancto_ss_sacramenti.includes(month_Oct_Corpus_Christi) 
+      && !(month == 11 && ref_sancto_ss_sacramenti.replace("12_","") > 17)  
+      && !(month == 0 && ref_sancto_ss_sacramenti.replace("01_","") < 13) )
+        return ref_sancto_ss_sacramenti;
   }
-
-  return date_ss_sacramenti;
+  return 0;
 }
 
 function get_winner(ref_tempo, ref_sancto) {
