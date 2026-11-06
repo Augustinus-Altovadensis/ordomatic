@@ -109,6 +109,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     {
       mergeTemporale(gen_temporale(year));
       mergeTemporale(gen_temporale(year+1));
+      temporale[year].OM = [1, 2];
+      temporale[year+1].OM = [3, 4];
     }
 
     // zeroing Officium feriale, S. Bernardi and SS. Sacramenti
@@ -1474,7 +1476,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Diagnostic output of Officium mensis routine
     check_OM = true;
-    check_OM = false;
+    //check_OM = false;
     // Diagnostic output of Anniversarium solemne routine
     check_AS = true;
     check_AS = false;
@@ -1486,12 +1488,13 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     if (translated_temp && translated_temp != moved.length) translated_temp += ". Not equal!";
   
     check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + "' + <u>Off. mensis</u> = <b>'" + OM_date[month_usual_number] + "'</b>" 
-      + ".<br><u>Temporale</u> = <b>'" + temporale_temp + "'</b> - Translated = '" + temporale[date.getFullYear()]?.[ref_sancto].translated + "'</b> - moved.length = '" + moved.length + "'</b>" 
-      + "<br><u>ref_tempo_next</u> = <b>'" + get_ref_tempo(1) + "'</b>" 
+      //+ ".<br><u>Temporale</u> = <b>'" + temporale_temp + "'</b> - Translated = '" + temporale[date.getFullYear()]?.[ref_sancto].translated + "'</b> - moved.length = '" + moved.length + "'</b>" 
+      //+ "<br><u>ref_tempo_next</u> = <b>'" + get_ref_tempo(1) + "'</b>" 
       + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check + "</i></b> + commemoratio_next_add = " + comm_next_add_header_check
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force'] 
       + ". Officium_mensis = " + OM_temp
+      + "<br>Officium_mensis[" + year + "] = " + temporale[year].OM.join(" - ");
       //+ ". extra_sunday = " + extra + "  --- i = " + i + "/" + duration // + '. <br>'
       //+  ' -=- winter_hymns = "' + winter_hymns + '".'
       //+ 'Feria = "' + feria['header'] + '", &emsp;Vesperæ: "' + feria['vesperae'] + '".<br>'

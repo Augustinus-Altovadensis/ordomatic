@@ -320,7 +320,7 @@ function mergeTemporale(data)
     }
   }
 
-function get_ref_sancto(offset)
+function get_ref_sancto_old(offset)
   { 
     var date_temp = new Date(date.valueOf());
     date_temp.setDate(date_temp.getDate() + offset);
@@ -332,6 +332,15 @@ function get_ref_sancto(offset)
 
     return ref_sancto_n;
   }
+
+function get_ref_sancto(offset, start_date = date)
+{ // usage: get_ref_sancto(5, new Date(2026, 10, 1)); or without start_date to take current day
+    const d = new Date(start_date);
+    d.setDate(d.getDate() + offset);
+
+    return String(d.getMonth() + 1).padStart(2, '0') + '_' +
+           String(d.getDate()).padStart(2, '0');
+}
 
 function get_ref_tempo(t_offset)
   {
@@ -414,6 +423,7 @@ function get_ss_sacramenti(month, year)
       && !ref_tempo_ss_sacramenti.startsWith("lent") 
       && days_tempo[ref_tempo_ss_sacramenti] 
       && days_tempo[ref_tempo_ss_sacramenti]['force'] < 30
+      && temporale[date.getFullYear()]?.[ref_sancto_ss_sacramenti].translated == 0
       && ref_sancto_ss_sacramenti.includes(active_month) 
       && ref_sancto_ss_sacramenti != "11_02"  
       && !ref_sancto_ss_sacramenti.includes(month_Corpus_Christi) 
@@ -424,6 +434,47 @@ function get_ss_sacramenti(month, year)
   }
   return 0;
 }
+
+function gen_AS(year)
+  { // Finds Anniversarium solemne for the entire year
+    const trans = /adv_1_0|lent_1_0|lent_6_|tp_1|tp_2_0|tp_6_4|tp_7_6|tp_8_|pa_1_[0,4]|pa_2_5|_0|[0-9]_6/
+    let anniversarium = [];
+
+    for (let i in [1, 5, 9, 11])
+    {
+    
+      while (!anniversarium[i])
+      {
+        let ref_sancto_temp = get_ref_sancto((j*7) + offset);
+        let ref_tempo_temp = get_ref_tempo((j*7) + offset);
+
+        if (!trans.test(ref_tempo_temp) 
+            && (!days_sancto[ref_sancto_temp] 
+              || days_sancto[ref_sancto_temp]['force'] < 30)
+            && days_tempo[ref_tempo_temp]
+            && days_tempo[ref_tempo_temp]['force'] < 30
+            && !ref_sancto_temp.match(/06_01|06_28/)
+            && ref_sancto_temp != date_s_bernardi
+            && ref_sancto_temp != date_s_bernardi_as
+            && ref_sancto_temp != date_ss_sacramenti_as
+            && !yesterday_feast
+            ) 
+          {
+            anniversarium[i] = ref_sancto_temp;
+          }
+      }
+    }
+    
+    return output;
+  }
+
+function gen_OM(year)
+  { // generates Officium mensis for every month of the year || placeholder so far
+    let new_date = new Date(date);
+    new_date.setDate(new_date.getDate() + t_offset);
+    
+    return temporale[new_date.getFullYear()]?.[get_ref_sancto(t_offset)].ref_tempo;
+  }
 
 function get_winner(ref_tempo, ref_sancto) {
   winner = days_tempo[ref_tempo];
