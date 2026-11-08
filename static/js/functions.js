@@ -109,6 +109,15 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     {
       mergeTemporale(gen_temporale(year));
       mergeTemporale(gen_temporale(year+1));
+
+      temporale[year].s_bernardi ??= [];
+      temporale[year+1].s_bernardi ??= [];
+
+      for (let j = 0; j < 12; j++)
+      {
+        temporale[year].s_bernardi[j] = get_s_bernardi(j, year, new Date(year, j, 1));
+        //temporale[year+1].s_bernardi[j] = get_s_bernardi(j, year+1, new Date(year+1, j, 1));
+      }
       temporale[year].OM = [1, 2];
       temporale[year+1].OM = [3, 4];
     }
@@ -3144,6 +3153,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           {
             vigiliae += "<br>Date_s_bernardi_om = '" + date_s_bernardi_om + "'.";
             vigiliae += "<br>Date_s_bernardi_fn = '" + get_s_bernardi(month+1, year) + "'.";
+            vigiliae += "<br>Date_s_bernardi = '" + temporale[year].s_bernardi.join(" - ") + "'.";
+
             // month+1 is used, because the search runs on the last day of previous month
           }
 

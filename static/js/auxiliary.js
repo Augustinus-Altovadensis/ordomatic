@@ -173,7 +173,7 @@ function getComm(str) {
   return count;
   };
 
-function roman_upper_to_lower(str) {
+function roman_upper_to_lower_old(str) {
   str = str.replaceAll("X","x");
   str = str.replaceAll("V","v");
   str = str.replaceAll("C","c");
@@ -184,6 +184,11 @@ function roman_upper_to_lower(str) {
       str = str.substring(0,pos) + 'j' + str.substring(pos+1);
 
   return str;
+  };
+
+function roman_upper_to_lower(str) {
+  return text.replace(/\b[IVXLCDM]+\b/g, numeral =>
+    numeral.toLowerCase().replace(/i$/, 'j'));
   };
 
 function roman_lower_to_upper(str) {
@@ -350,17 +355,20 @@ function get_ref_tempo(t_offset)
     return temporale[new_date.getFullYear()]?.[get_ref_sancto(t_offset)].ref_tempo;
   }
 
-function get_s_bernardi(month, year) 
+function get_s_bernardi(month, year, start_date = date) 
 { // Last Tuesday in month not impeded by a feast of iij. or xij. Lessons.
 
   let date_s_bernardi = "0";
   let active_month;
+  const d = new Date(start_date);
+  const weekday = d.getDay();
   const offset = (2 - weekday + 7) % 7;
 
   for (let j = 0; j <= 5; j++) 
   {
     let ref_sancto_bernardi = get_ref_sancto((j*7) + offset);
-    let ref_tempo_bernardi = get_ref_tempo((j*7) + offset);
+    //let ref_tempo_bernardi = get_ref_tempo((j*7) + offset);
+    let ref_tempo_bernardi = temporale[year]?.[ref_sancto_bernardi].ref_tempo;
 
     if (j == 0) active_month = get_ref_sancto(2).slice(0, -2);
 
@@ -437,23 +445,25 @@ function get_ss_sacramenti(month, year)
 
 function gen_AS(year)
   { // Finds Anniversarium solemne for the entire year
-    const trans = /adv_1_0|lent_1_0|lent_6_|tp_1|tp_2_0|tp_6_4|tp_7_6|tp_8_|pa_1_[0,4]|pa_2_5|_0|[0-9]_6/
+    const excl = /_0|[0-9]_6/
     let anniversarium = [];
 
     for (let i in [1, 5, 9, 11])
     {
+      let month_temp = i.padStart(2, '0') + '_';
+      let ind_as = 0;
     
       while (!anniversarium[i])
       {
         let ref_sancto_temp = get_ref_sancto((j*7) + offset);
         let ref_tempo_temp = get_ref_tempo((j*7) + offset);
 
-        if (!trans.test(ref_tempo_temp) 
+        if (!excl.test(ref_tempo_temp) 
             && (!days_sancto[ref_sancto_temp] 
               || days_sancto[ref_sancto_temp]['force'] < 30)
             && days_tempo[ref_tempo_temp]
             && days_tempo[ref_tempo_temp]['force'] < 30
-            && !ref_sancto_temp.match(/06_01|06_28/)
+            && !ref_sancto_temp.match(/06_01|06_28|09_20/)
             && ref_sancto_temp != date_s_bernardi
             && ref_sancto_temp != date_s_bernardi_as
             && ref_sancto_temp != date_ss_sacramenti_as
@@ -462,6 +472,8 @@ function gen_AS(year)
           {
             anniversarium[i] = ref_sancto_temp;
           }
+
+        ind_as++;
       }
     }
     
