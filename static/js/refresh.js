@@ -46,7 +46,7 @@ function refresh_ordo(year, display_format) {
   //  All the temporal variables to determine the correct dates  \\
   //////////////////////////////|||\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  // Anvent and Christmas:
+  // Advent and Christmas:
   advent_duration = 21 + christmas_weekday;
   christmas_time_duration = 19 - ((christmas_weekday + 5) % 7);
   baptism = new Date(christmas.getTime() + (christmas_time_duration * day_in_ms));
@@ -91,6 +91,32 @@ function refresh_ordo(year, display_format) {
   ///////////////////|\\\\\\\\\\\\\\\\\
   //// Creating the actual content  \\\\
   //////////////////|||\\\\\\\\\\\\\\\\\\
+
+  // Generate the calendar data first.
+  mergeTemporale(gen_temporale(year));
+  mergeTemporale(gen_temporale(year + 1));
+
+  // Then generate the prerequisite votive offices.
+  for (const calendar_year of [year, year + 1])
+  {
+    temporale[calendar_year].s_bernardi = [];
+    temporale[calendar_year].ss_sacramenti = [];
+
+    for (let month = 0; month < 12; month++)
+    {
+      temporale[calendar_year].s_bernardi[month] =
+        get_s_bernardi(month, calendar_year);
+
+      temporale[calendar_year].ss_sacramenti[month] =
+        get_ss_sacramenti(month, calendar_year);
+    }
+  }
+
+  // Finally generate the solemn anniversaries.
+  for (const calendar_year of [year, year + 1])
+  {
+    gen_AS(calendar_year);
+  }
 
   // Advent:
   content = content.concat(period(2, new Date(first_sunday_of_advent.getTime() - (1 * day_in_ms)), 'pa_', 23, 6, 0));

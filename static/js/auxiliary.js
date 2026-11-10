@@ -355,130 +355,190 @@ function get_ref_tempo(t_offset)
     return temporale[new_date.getFullYear()]?.[get_ref_sancto(t_offset)].ref_tempo;
   }
 
-function get_s_bernardi(month, year, start_date = date) 
+function get_s_bernardi(month, year, start_date = new Date(year, month, 1)) 
 { // Last Tuesday in month not impeded by a feast of iij. or xij. Lessons.
 
   let date_s_bernardi = "0";
-  let active_month;
-  const d = new Date(start_date);
-  const weekday = d.getDay();
-  const offset = (2 - weekday + 7) % 7;
+  const start = new Date(start_date);
+  const offset = (2 - start.getDay() + 7) % 7;
 
   for (let j = 0; j <= 5; j++) 
   {
-    let ref_sancto_bernardi = get_ref_sancto((j*7) + offset);
-    //let ref_tempo_bernardi = get_ref_tempo((j*7) + offset);
-    let ref_tempo_bernardi = temporale[year]?.[ref_sancto_bernardi].ref_tempo;
+    const candidate = new Date(start);
+    candidate.setDate(start.getDate() + offset + j * 7);
 
-    if (j == 0) active_month = get_ref_sancto(2).slice(0, -2);
+    // Stop when we reach the following month.
+    if (candidate.getFullYear() !== year ||
+        candidate.getMonth() !== month) break;
 
-      if (false)
-      { 
-        console.log("j =", j, "month =", month, "weekday =", weekday, "offset =", offset);
-        console.log("ref_sancto_b = ", ref_sancto_bernardi, 
-                    "ref_tempo_b = ", ref_tempo_bernardi);
-        console.log("active_month = ", active_month, "date_s_bernardi = ", date_s_bernardi);
-      }
+    const ref_sancto = get_ref_sancto(0, candidate);
+    const entry = temporale[year]?.[ref_sancto];
+    const ref_tempo = entry?.ref_tempo;
 
-    if ( (!days_sancto[ref_sancto_bernardi] 
-        || days_sancto[ref_sancto_bernardi]['force'] < 30 )
-      && !ref_tempo_bernardi.startsWith("lent") 
-      && days_tempo[ref_tempo_bernardi] 
-      && days_tempo[ref_tempo_bernardi]['force'] < 30
-      && temporale[date.getFullYear()]?.[ref_sancto_bernardi].translated == 0
-      && (day+(j*7)) != OM_date[month+1] 
-      && ref_sancto_bernardi.includes(active_month) 
-      && ref_sancto_bernardi != "11_02" 
-      && !(month == 7) // month of St. Bernards Feast
-      && !(month == 11 && ref_sancto_bernardi.replace("12_","") > 17)  
-      && !(month == 0 && ref_sancto_bernardi.replace("01_","") < 13) 
+    if (!ref_tempo) continue;
+
+    if (( !days_sancto[ref_sancto] 
+        || days_sancto[ref_sancto].force < 30) 
+      && !ref_tempo.startsWith("lent") 
+      && days_tempo[ref_tempo] 
+      && days_tempo[ref_tempo].force < 30 
+      && entry.translated == 0 
+      //&& candidate.getDate() != om_dates[month + 1] 
+      && ref_sancto !== "11_02" 
+      && month !== 7 
+      && !(month === 11 && candidate.getDate() > 17) 
+      && !(month === 0 && candidate.getDate() < 13)
       )
         { 
-          date_s_bernardi = ref_sancto_bernardi; 
+          date_s_bernardi = ref_sancto; 
         }
   }
 
   return date_s_bernardi;
 }
 
-function get_ss_sacramenti(month, year) 
+function get_ss_sacramenti(month, year, start_date = new Date(year, month, 1))
 { // First Thursday in month not impeded by a feast of iij. or xij. Lessons.
-  const offset = (4 - weekday + 7) % 7;
+  const start = new Date(start_date);
+  const offset = (4 - start.getDay() + 7) % 7;
+  const year_temporale = temporale[year] ?? {};
 
-  const month_Corpus_Christi = Object.keys(temporale[year]).find(
-    key => temporale[year][key].ref_tempo === "pa_1_4").slice(0, -2);
-  const month_Oct_Corpus_Christi = Object.keys(temporale[year]).find(
-    key => temporale[year][key].ref_tempo === "pa_2_4").slice(0, -2);
-    
-  for (let j = 0; j <= 5; j++) 
+  const month_Corpus_Christi = Object.keys(year_temporale).find(
+    key => year_temporale[key]?.ref_tempo === "pa_1_4")?.slice(0, 2);
+
+  const month_Oct_Corpus_Christi = Object.keys(year_temporale).find(
+    key => year_temporale[key]?.ref_tempo === "pa_2_4")?.slice(0, 2);
+
+  for (let j = 0; j < 5; j++)
   {
-    let ref_sancto_ss_sacramenti = get_ref_sancto((j*7) + offset);
-    let ref_tempo_ss_sacramenti = get_ref_tempo((j*7) + offset);
+    const candidate = new Date(start);
+    candidate.setDate(start.getDate() + offset + j * 7);
 
-    if (j == 0) active_month = get_ref_sancto(2).slice(0, -2);
+    // Stop when we reach the following month.
+    if (candidate.getFullYear() !== year ||
+        candidate.getMonth() !== month) break;
 
-    if (false)
-      { 
-        console.log("j =", j, "month =", month, "weekday =", weekday, "offset =", offset);
-        console.log("ref_sancto_ss_sacramenti = ", ref_sancto_ss_sacramenti);
-        console.log("ref_tempo_ss_sacramenti = ", ref_tempo_ss_sacramenti);
-        if (month == 4 || month == 5)
-          console.log("Corpus Christi: Month = ", month_Corpus_Christi, "Octava = ", month_Oct_Corpus_Christi);
-      }
+    const ref_sancto = get_ref_sancto(0, candidate);
+    const entry = year_temporale[ref_sancto];
+    const ref_tempo = entry?.ref_tempo;
+    const candidate_month = ref_sancto.slice(0, 2);
 
-    if ( (!days_sancto[ref_sancto_ss_sacramenti] 
-        || days_sancto[ref_sancto_ss_sacramenti]['force'] < 30 )
-      && !ref_tempo_ss_sacramenti.startsWith("lent") 
-      && days_tempo[ref_tempo_ss_sacramenti] 
-      && days_tempo[ref_tempo_ss_sacramenti]['force'] < 30
-      && temporale[date.getFullYear()]?.[ref_sancto_ss_sacramenti].translated == 0
-      && ref_sancto_ss_sacramenti.includes(active_month) 
-      && ref_sancto_ss_sacramenti != "11_02"  
-      && !ref_sancto_ss_sacramenti.includes(month_Corpus_Christi) 
-      && !ref_sancto_ss_sacramenti.includes(month_Oct_Corpus_Christi) 
-      && !(month == 11 && ref_sancto_ss_sacramenti.replace("12_","") > 17)  
-      && !(month == 0 && ref_sancto_ss_sacramenti.replace("01_","") < 13) )
-        return ref_sancto_ss_sacramenti;
+    if (!ref_tempo) continue;
+
+    if (( !days_sancto[ref_sancto] 
+        || days_sancto[ref_sancto].force < 30)
+      && !ref_tempo.startsWith("lent")
+      && days_tempo[ref_tempo]
+      && days_tempo[ref_tempo].force < 30
+      && entry.translated == 0
+      && ref_sancto !== "11_02"
+      && candidate_month !== month_Corpus_Christi
+      && candidate_month !== month_Oct_Corpus_Christi
+      && !(month === 11 && candidate.getDate() > 17)
+      && !(month === 0 && candidate.getDate() < 13)
+    )
+    {
+      return ref_sancto;
+    }
   }
+
   return 0;
 }
 
 function gen_AS(year)
-  { // Finds Anniversarium solemne for the entire year
-    const excl = /_0|[0-9]_6/
-    let anniversarium = [];
+{
+  const proper_dates = [[1, 31], [5, 21], [9, 18], [11, 20]];
+  const result = [];
 
-    for (let i in [1, 5, 9, 11])
+  const blocked_temporale =
+    /^(?:ash_|lent_|tp_6_[456]$|tp_7_|tp_8_|quatember_septembris)/;
+
+  const blocked_dates = new Set(["06_01", "06_28", "09_20"]);
+
+  function eligible(candidate)
+  {
+    if (candidate.getFullYear() !== year) return false;
+
+    const month = candidate.getMonth();
+    const ref = get_ref_sancto(0, candidate);
+    const data = temporale[year];
+    const entry = data?.[ref];
+    const tempo = days_tempo[entry?.ref_tempo];
+    const sancto = days_sancto[ref];
+
+    if (!data?.s_bernardi || !data?.ss_sacramenti)
+      throw new Error(
+        "Generate votive offices before gen_AS(" + year + ")."
+      );
+
+    // Check the actual preceding day for Vespers.
+    const previous = new Date(candidate);
+    previous.setDate(previous.getDate() - 1);
+
+    const previous_ref = get_ref_sancto(0, previous);
+    const previous_entry =
+      temporale[previous.getFullYear()]?.[previous_ref];
+
+    const previous_tempo = days_tempo[previous_entry?.ref_tempo];
+    const previous_sancto = days_sancto[previous_ref];
+
+    if (!entry || !tempo || !previous_entry || !previous_tempo)
+      throw new Error(
+        "Missing temporale data near " + year + " " + ref
+      );
+
+    return (
+      candidate.getDay() !== 0
+      && candidate.getDay() !== 6
+      && !blocked_temporale.test(entry.ref_tempo)
+      && (!sancto || sancto.force < 30)
+      && tempo.force < 30
+      && entry.translated === 0
+      && !blocked_dates.has(ref)
+      && ref !== data.s_bernardi[month]
+      && ref !== data.ss_sacramenti[month]
+      && (!previous_sancto || previous_sancto.force < 40)
+      && previous_tempo.force < 40
+      && previous_entry.translated === 0
+    );
+  }
+
+  for (const [month, day] of proper_dates)
+  {
+    const proper = new Date(year, month - 1, day);
+    let found = "";
+
+    for (let distance = 0; distance < 90 && !found; distance++)
     {
-      let month_temp = i.padStart(2, '0') + '_';
-      let ind_as = 0;
-    
-      while (!anniversarium[i])
+      const offsets = distance === 0
+        ? [0]
+        : [-distance, distance];
+
+      for (const offset of offsets)
       {
-        let ref_sancto_temp = get_ref_sancto((j*7) + offset);
-        let ref_tempo_temp = get_ref_tempo((j*7) + offset);
+        const candidate = new Date(proper);
+        candidate.setDate(proper.getDate() + offset);
 
-        if (!excl.test(ref_tempo_temp) 
-            && (!days_sancto[ref_sancto_temp] 
-              || days_sancto[ref_sancto_temp]['force'] < 30)
-            && days_tempo[ref_tempo_temp]
-            && days_tempo[ref_tempo_temp]['force'] < 30
-            && !ref_sancto_temp.match(/06_01|06_28|09_20/)
-            && ref_sancto_temp != date_s_bernardi
-            && ref_sancto_temp != date_s_bernardi_as
-            && ref_sancto_temp != date_ss_sacramenti_as
-            && !yesterday_feast
-            ) 
-          {
-            anniversarium[i] = ref_sancto_temp;
-          }
-
-        ind_as++;
+        if (eligible(candidate))
+        {
+          found = get_ref_sancto(0, candidate);
+          break;
+        }
       }
     }
-    
-    return output;
+
+    if (!found)
+      throw new Error(
+        "No suitable anniversary date near "
+        + year + " " + month + "_" + day
+      );
+
+    result[month] = found;
   }
+
+  temporale[year].AS = result;
+  return result;
+}
 
 function gen_OM(year)
   { // generates Officium mensis for every month of the year || placeholder so far

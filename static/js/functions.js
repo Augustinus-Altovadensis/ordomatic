@@ -110,16 +110,8 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       mergeTemporale(gen_temporale(year));
       mergeTemporale(gen_temporale(year+1));
 
-      temporale[year].s_bernardi ??= [];
-      temporale[year+1].s_bernardi ??= [];
-
-      for (let j = 0; j < 12; j++)
-      {
-        temporale[year].s_bernardi[j] = get_s_bernardi(j, year, new Date(year, j, 1));
-        //temporale[year+1].s_bernardi[j] = get_s_bernardi(j, year+1, new Date(year+1, j, 1));
-      }
-      temporale[year].OM = [1, 2];
-      temporale[year+1].OM = [3, 4];
+      //temporale[year].OM = [1, 2];
+      //temporale[year+1].OM = [3, 4];
     }
 
     // zeroing Officium feriale, S. Bernardi and SS. Sacramenti
@@ -1503,7 +1495,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check + "</i></b> + commemoratio_next_add = " + comm_next_add_header_check
       + ".<br>force: " +  winner['force'] + " (" + com_force  + ") -> force_next: " +  winner_next['force'] 
       + ". Officium_mensis = " + OM_temp
-      + "<br>Officium_mensis[" + year + "] = " + temporale[year].OM.join(" - ");
+      //+ "<br>Officium_mensis[" + year + "] = " + temporale[year].OM.join(" - ");
       //+ ". extra_sunday = " + extra + "  --- i = " + i + "/" + duration // + '. <br>'
       //+  ' -=- winter_hymns = "' + winter_hymns + '".'
       //+ 'Feria = "' + feria['header'] + '", &emsp;Vesperæ: "' + feria['vesperae'] + '".<br>'
@@ -3126,6 +3118,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           {
             vigiliae += "<br>Date_ss_sacramenti_om = '" + date_ss_sacramenti_om + "'.";
             vigiliae += "<br>Date_ss_sacramenti_fn = '" + get_ss_sacramenti(month+1, year) + "'.";
+            vigiliae += "<br>Date_ss_sacramenti[" + year + "] = '" + temporale[year].ss_sacramenti.join(" - ") + "'.";
           }
 
         ind_as = 0;
@@ -3152,8 +3145,9 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (check_OM) 
           {
             vigiliae += "<br>Date_s_bernardi_om = '" + date_s_bernardi_om + "'.";
-            vigiliae += "<br>Date_s_bernardi_fn = '" + get_s_bernardi(month+1, year) + "'.";
-            vigiliae += "<br>Date_s_bernardi = '" + temporale[year].s_bernardi.join(" - ") + "'.";
+            vigiliae += "<br>Date_s_bernardi_fn = '" + get_s_bernardi(month+1, year) 
+              + " - " + temporale[year].s_bernardi[(month+1)%12] + "'.";
+            vigiliae += "<br>Date_s_bernardi[" + year + "] = '" + temporale[year].s_bernardi.join(" - ") + "'.";
 
             // month+1 is used, because the search runs on the last day of previous month
           }
@@ -3170,6 +3164,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
             if (anniversarium_05) vigiliae += "<br>anniversarium_05 = '" + anniversarium_05 + "'.";
             if (anniversarium_09) vigiliae += "<br>anniversarium_09 = '" + anniversarium_09 + "'.";
             if (anniversarium_11) vigiliae += "<br>anniversarium_11 = '" + anniversarium_11 + "'.";
+            vigiliae += "<br>Anniversaria[" + year + "] = '" + temporale[year].AS.join(" - ") + "'.";
           }
 
         while (get_ref_sancto(ind_as).match(month_as + "_"))
