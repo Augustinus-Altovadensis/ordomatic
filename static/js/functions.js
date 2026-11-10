@@ -3360,6 +3360,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
         if (check_OM) 
           {
             vigiliae += "<br>Officium_mensis = '" + officium_mensis + "'. ";
+            vigiliae += "<br>Officium mensis [" + year + "] = '" + temporale[year].OM.map((day, index) => `${day}.${index + 1}.`).join(" - ") + "'.";
           }
       }
 

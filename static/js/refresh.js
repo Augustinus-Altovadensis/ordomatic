@@ -116,6 +116,7 @@ function refresh_ordo(year, display_format) {
   for (const calendar_year of [year, year + 1])
   {
     gen_AS(calendar_year);
+    gen_OM(calendar_year);
   }
 
   // Advent:
@@ -204,12 +205,6 @@ function period_gen(duration, start, prefix_tempo, week_start, day_start, extra,
             trans_count.value++; 
           }
 
-        if (ref_tempo.match(/adv_1_[12]|tp_2_[1-6]|pa_1_[1-6]/) 
-          && trans_count.value)
-          { // only here the translated feasts are "released"
-            trans_count.value--; 
-          }
-
         if (ref_sancto == "09_14") exaltatio = true;
         if (/pa_.._[356]/.test(ref_tempo) && exaltatio) 
           ref_tempo = ref_tempo.replace(/pa_../, "quatember_septembris");
@@ -220,6 +215,12 @@ function period_gen(duration, start, prefix_tempo, week_start, day_start, extra,
           ref_tempo: ref_tempo, 
           translated: trans_count.value
         };
+
+        if (ref_tempo.match(/adv_1_[12]|tp_2_[1-6]|pa_1_[1-6]/) 
+          && trans_count.value)
+          { // only here the translated feasts are "released"
+            trans_count.value--; 
+          }
     }
 }
 

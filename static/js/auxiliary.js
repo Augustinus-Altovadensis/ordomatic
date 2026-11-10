@@ -541,12 +541,77 @@ function gen_AS(year)
 }
 
 function gen_OM(year)
-  { // generates Officium mensis for every month of the year || placeholder so far
-    let new_date = new Date(date);
-    new_date.setDate(new_date.getDate() + t_offset);
-    
-    return temporale[new_date.getFullYear()]?.[get_ref_sancto(t_offset)].ref_tempo;
+{
+  const data = temporale[year];
+  if (!data?.s_bernardi || !data?.ss_sacramenti || !data?.AS)
+    throw new Error("Generate votive offices and gen_AS before gen_OM(" + year + ").");
+
+  const result = Array(12).fill(0);
+  const anniversaries = new Set(data.AS.filter(Boolean));
+  const blocked_dates = new Set(["02_11", "06_01", "06_28", "08_14", "09_20", "10_02", "11_02"]);
+  const blocked_temporale = /^(?:ash_|tp_6_[456]$|tp_7_|tp_8_)/;
+
+  // St Matthias has no fixed MM_DD entry, and moves to Monday on Sunday.
+  const matthias = new Date(year, 1, is_leap_year(year) ? 25 : 24);
+  if (matthias.getDay() === 0) matthias.setDate(matthias.getDate() + 1);
+  const matthias_ref = get_ref_sancto(0, matthias);
+
+  function office(candidate)
+  {
+    const ref = get_ref_sancto(0, candidate);
+    const entry = temporale[candidate.getFullYear()]?.[ref];
+    const tempo = days_tempo[entry?.ref_tempo];
+
+    if (!entry || !tempo)
+      throw new Error("Missing temporale data near " + candidate.getFullYear() + " " + ref);
+
+    const sancto = ref === matthias_ref && candidate.getFullYear() === year
+      ? days_sancto.matthias : days_sancto[ref];
+
+    return {ref, entry, tempo, sancto};
   }
+
+  for (let month = 0; month < 12; month++)
+  {
+    let fallback = 0;
+
+    for (let day = 1; day <= new Date(year, month + 1, 0).getDate(); day++)
+    {
+      const candidate = new Date(year, month, day);
+      const weekday = candidate.getDay();
+
+      if (weekday === 0 || weekday === 6) continue;
+
+      const {ref, entry, tempo, sancto} = office(candidate);
+
+      if (tempo.force >= 30 || (sancto && sancto.force >= 30)
+        || entry.translated !== 0
+        || blocked_temporale.test(entry.ref_tempo)
+        || /Quatt?uor Temporum/i.test(tempo.header || "")
+        || /Commemoratio et M/i.test(sancto?.rank || "")
+        || blocked_dates.has(ref) || anniversaries.has(ref)
+        || ref === data.s_bernardi[month] || ref === data.ss_sacramenti[month]
+        || (weekday === 5 && day <= 7)) continue;
+
+      // Remember phase 2's first eligible day, but prefer any phase 1 day.
+      if (!fallback) fallback = day;
+
+      const previous = new Date(year, month, day - 1);
+      const preceding = office(previous);
+
+      if (preceding.tempo.force > 40
+        || (preceding.sancto && preceding.sancto.force > 40)) continue;
+
+      result[month] = day;
+      break;
+    }
+
+    if (!result[month]) result[month] = fallback;
+  }
+
+  temporale[year].OM = result;
+  return result;
+}
 
 function get_winner(ref_tempo, ref_sancto) {
   winner = days_tempo[ref_tempo];
