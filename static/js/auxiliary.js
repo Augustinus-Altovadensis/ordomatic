@@ -584,25 +584,27 @@ function gen_OM(year)
 
       const {ref, entry, tempo, sancto} = office(candidate);
 
-      if (tempo.force >= 30 || (sancto && sancto.force >= 30)
+      if ((tempo.force >= 30 && !/De ea/i.test(tempo.header))
+          || (sancto && sancto.force >= 30)
         || entry.translated !== 0
         || blocked_temporale.test(entry.ref_tempo)
         || /Quatt?uor Temporum/i.test(tempo.header || "")
-        || /Commemoratio et M/i.test(sancto?.rank || "")
         || blocked_dates.has(ref) || anniversaries.has(ref)
         || ref === data.s_bernardi[month] || ref === data.ss_sacramenti[month]
         || (weekday === 5 && day <= 7)) continue;
 
       // Remember phase 2's first eligible day, but prefer any phase 1 day.
-      if (!fallback) fallback = day;
+      if (!fallback) fallback = ref; // = day | orig. Codex
 
       const previous = new Date(year, month, day - 1);
       const preceding = office(previous);
 
-      if (preceding.tempo.force > 40
-        || (preceding.sancto && preceding.sancto.force > 40)) continue;
+      if (preceding.tempo.force >= 40
+        || (preceding.sancto && preceding.sancto.force >= 40)
+        || /Commemoratio et M/i.test(sancto?.rank || "")
+        || preceding.entry.translated !== 0) continue;
 
-      result[month] = day;
+      result[month] = ref; // = day | orig. Codex
       break;
     }
 

@@ -3138,7 +3138,7 @@ const days_sancto = {
     'after': '',
   },
   '06_02': {
-    'force': 11,
+    'force': 9,
     'before': '',
     'color': 'red',
     'header': 'SS. Marcellini, Petri atque Erasmi, Mart.',
