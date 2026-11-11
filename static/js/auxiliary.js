@@ -571,6 +571,51 @@ function gen_OM(year)
     return {ref, entry, tempo, sancto};
   }
 
+  function get_resumed_sundays()
+  {
+    const reserved = new Set();
+
+    for (let month = 0; month < 12; month++)
+    {
+      for (let day = 1; day <= new Date(year, month + 1, 0).getDate(); day++)
+      {
+        const sunday = new Date(year, month, day);
+
+        if (sunday.getDay() !== 0) continue;
+
+        const {tempo, sancto} = office(sunday);
+
+        // The Sunday must have yielded to a higher feast.
+        if (!sancto || sancto.force <= tempo.force) continue;
+
+        // Search only Monday through Saturday of the same week.
+        for (let offset = 1; offset <= 6; offset++)
+        {
+          const candidate = new Date(year, month, day + offset);
+
+          if (candidate.getFullYear() !== year) break;
+
+          const {ref, entry, tempo, sancto} = office(candidate);
+
+          if (tempo.force < 30
+              && (!sancto || sancto.force < 30)
+              && !/Commemoratio et M/i.test(sancto?.rank || "")
+              && entry.translated === 0)
+          {
+            reserved.add(ref);
+            break;
+          }
+        }
+      }
+    }
+
+    return reserved;
+  }
+
+  const resumed_sundays = get_resumed_sundays();
+
+  // And now the function
+
   for (let month = 0; month < 12; month++)
   {
     let fallback = 0;
@@ -591,6 +636,7 @@ function gen_OM(year)
         || /Quatt?uor Temporum/i.test(tempo.header || "")
         || blocked_dates.has(ref) || anniversaries.has(ref)
         || ref === data.s_bernardi[month] || ref === data.ss_sacramenti[month]
+        || resumed_sundays.has(ref)
         || (weekday === 5 && day <= 7)) continue;
 
       // Remember phase 2's first eligible day, but prefer any phase 1 day.
