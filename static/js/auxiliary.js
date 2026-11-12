@@ -618,7 +618,8 @@ function gen_OM(year)
 
   for (let month = 0; month < 12; month++)
   {
-    let fallback = 0;
+    let fallback_1 = 0;
+    let fallback_2 = 0;
 
     for (let day = 1; day <= new Date(year, month + 1, 0).getDate(); day++)
     {
@@ -639,22 +640,35 @@ function gen_OM(year)
         || resumed_sundays.has(ref)
         || (weekday === 5 && day <= 7)) continue;
 
-      // Remember phase 2's first eligible day, but prefer any phase 1 day.
-      if (!fallback) fallback = ref; // = day | orig. Codex
+      // Determine whether the candidate has Commemoratio et Missa.
+      const comm_et_missa = /Commemoratio et M/i.test(sancto?.rank || "");
 
+      // Check whether the preceding day blocks the preferred selection.
       const previous = new Date(year, month, day - 1);
       const preceding = office(previous);
 
-      if (preceding.tempo.force >= 40
+      const preceded_by_feast =
+        preceding.tempo.force >= 40
         || (preceding.sancto && preceding.sancto.force >= 40)
-        || /Commemoratio et M/i.test(sancto?.rank || "")
-        || preceding.entry.translated !== 0) continue;
+        || preceding.entry.translated !== 0;
 
-      result[month] = ref; // = day | orig. Codex
-      break;
+      // First fallback: Commemoratio et Missa is permitted,
+      // but the preceding day must be free of higher feasts.
+      if (!comm_et_missa && !preceded_by_feast)
+      {
+        result[month] = ref;
+        break;
+      }
+
+      if (comm_et_missa && !preceded_by_feast && !fallback_1)
+        fallback_1 = ref + " F1";
+
+      // Second fallback: preceding feast restriction is dropped.
+      if (!fallback_2)
+        fallback_2 = ref + " F2";
     }
 
-    if (!result[month]) result[month] = fallback;
+    if (!result[month]) result[month] = fallback_1 || fallback_2;
   }
 
   temporale[year].OM = result;

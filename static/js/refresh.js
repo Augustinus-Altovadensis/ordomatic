@@ -197,6 +197,11 @@ function period_gen(duration, start, prefix_tempo, week_start, day_start, extra,
           && days_sancto[ref_sancto]
           && days_sancto[ref_sancto]['force'] > 60)
         || (trans.test(ref_tempo) && ref_sancto == "06_01")
+        // Octava Corp. Christi: Non fit de aliquo Festo, nisi fuerit Sermonis
+        || (/pa_2_4/.test(ref_tempo)  
+          && days_sancto[ref_sancto]
+          && days_sancto[ref_sancto]['force'] > 60
+          && days_sancto[ref_sancto]['force'] < 90)
         || (/lent_5_5/.test(ref_tempo)  
           && /03_(19|20|24)/.test(ref_sancto)))
           // If Dolorosa falls on St. Joseph, it moves to St. Joachim
@@ -216,7 +221,9 @@ function period_gen(duration, start, prefix_tempo, week_start, day_start, extra,
           translated: trans_count.value
         };
 
-        if (ref_tempo.match(/adv_1_[12]|tp_2_[1-6]|pa_1_[1-6]/) 
+        // Add better check of returned translated feasts based on winner['force']
+
+        if (ref_tempo.match(/adv_1_[12]|tp_2_[1-6]|pa_[13]_[1-6]/) 
           && trans_count.value)
           { // only here the translated feasts are "released"
             trans_count.value--; 
