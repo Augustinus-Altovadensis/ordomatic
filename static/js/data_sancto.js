@@ -1699,7 +1699,7 @@ const days_sancto = {
     'after': '',
   },
     '03_24': {
-    'force': 80,
+    'force': 81,
     'before': '¶ Officium et Missa S. Gabrielis Archangeli <red>(Off. Proprium pro Cist. Bohemiæ et Lusatiæ): Oratio.</red> <i>Deus, qui per Archángelum Gabriëlem Salvatórem mundi Sacratíssimæ Vírgini concipiéndum nuntiásti: * da, ut eúndem et mente pura concipiámus, § et férvido imitémur afféctu. Qui tecum vivit.</i>',
     'color': 'white',
     'header': 'S. Gabrielis Archangeli',
@@ -1744,7 +1744,7 @@ const days_sancto = {
     'after': '',
   },
   'dolorosa': {
-    'force': 81,
+    'force': 82,
     'before': '<div class="small">¶ <font color="red">In Complet. et Horas in die, in fine Hymnorum dicitur: <i>G</font>lória tibi, Dómine, Qui natus es de Vírgine.</i></div>',
     'color': 'white',
     'header': 'Septem Dolorum B.M.V.',
@@ -1766,7 +1766,7 @@ const days_sancto = {
     'after': ''
   },
   'dolorosa_comm': {
-    'force': 81,
+    'force': 82,
     'before': '<div class="small">¶ <font color="red">In Complet. et Horas in die, in fine Hymnorum dicitur: <i>G</font>lória tibi, Dómine, Qui natus es de Vírgine.</i></div>',
     'color': 'white',
     'header': 'Septem Dolorum B.M.V.',

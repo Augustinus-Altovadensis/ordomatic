@@ -1456,6 +1456,10 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     moved_start_output = "";
     if (moved_start.length > 0) moved_start_output = '<br>Moved feasts (start): ' + moved_start.join(", ") + ' (' + moved_start.length + ')';
 
+    moved_fn_output = "";
+    if (temporale[date.getFullYear()]?.[ref_sancto].translated.length > 0 )
+      moved_fn_output = '<br>Moved feasts (function): ' + temporale[date.getFullYear()]?.[ref_sancto].translated.join(", ") + ' (' + temporale[date.getFullYear()]?.[ref_sancto].translated.length + ')';
+
     comm_summary = "";
     if (comm_laudes_full.length > 0 || comm_vesperae_full.length > 0) 
     {
@@ -1485,11 +1489,11 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
     temporale_temp = temporale[date.getFullYear()]?.[ref_sancto].ref_tempo;
     if (temporale_temp && temporale_temp != ref_tempo) temporale_temp += ". Not equal!";
 
-    translated_temp = temporale[date.getFullYear()]?.[ref_sancto].translated;
+    translated_temp = temporale[date.getFullYear()]?.[ref_sancto].translated.length;
     if (translated_temp && translated_temp != moved.length) translated_temp += ". Not equal!";
   
     check_next = '<div class="fuchsia body"><u>ref_tempo</u> = \'<b>' + ref_tempo + "'</b> -> '" + ref_tempo_next + "' + <u>ref_sancto</u> = <b>'" + ref_sancto + "'</b> -> '" + ref_sancto_next + "' + <u>Off. mensis</u> = <b>'" + OM_date[month_usual_number] + "'</b>" 
-      + ".<br><u>Temporale</u> = <b>'" + temporale_temp + "'</b> - Translated = '" + temporale[date.getFullYear()]?.[ref_sancto].translated + "'</b> - moved.length = '" + moved.length + "'</b>" 
+      + ".<br><u>Temporale</u> = <b>'" + temporale_temp + "'</b> - Translated = '" + temporale[date.getFullYear()]?.[ref_sancto].translated.length + "'</b> - moved.length = '" + moved.length + "'</b> - Replaced = '" + temporale[date.getFullYear()]?.[ref_sancto].replaced + "'</b>"
       //+ "<br><u>ref_tempo_next</u> = <b>'" + get_ref_tempo(1) + "'</b>" 
       + ".<br>Winner = <i><b>" + winner['header'] + "</i></b> + Commemoratio = " + comm_header_check + '. Commemoratio_add = "' + comm_add_header_check + '" '
       + ".<br>Winner_next = <i><b>" + winner_next['header'] + "</i></b> + commemoratio_next = " + comm_next_header_check + "</i></b> + commemoratio_next_add = " + comm_next_add_header_check
@@ -1502,7 +1506,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
       //+ '<br>Moved feasts [0] "' + moved[0] + '" [1] "' + moved[1] + '" [2] "' + moved[2] + '" [3] "' + moved[3] + '". Length = "' + moved.length
       + comm_summary   
       //+ moved_beginning 
-      + moved_start_output + moved_output 
+      + moved_start_output + moved_output + moved_fn_output
       //+ '.<br>Sacérdos et Pontifex: "' + matchCount(vesperae,/Sacérdos et Póntifex/) + '" - Fíliæ Jerúsalem: "' + matchCount(vesperae,/F[íi]li(æ|ae) Jer[úu]salem/);
       //+ " - Day = " + day + ", Month = " + month + ". Header + a week: " + get_ref_sancto(j*7) + " - "
 

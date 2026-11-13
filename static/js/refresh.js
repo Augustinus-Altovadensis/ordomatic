@@ -169,7 +169,7 @@ function refresh_ordo(year, display_format) {
 //////    New gen_temporale function     ////////////
 /////////////////////////////////////////////////////
 
-function period_gen(duration, start, prefix_tempo, week_start, day_start, extra, output, trans_count) {
+function period_gen_old(duration, start, prefix_tempo, week_start, day_start, extra, output, trans_count) {
 
     let exaltatio = false;
 
@@ -227,7 +227,7 @@ function period_gen(duration, start, prefix_tempo, week_start, day_start, extra,
           && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force'])
             winner = days_sancto[ref_sancto];
 
-        if (/adv_1_[12]|lent_1_[12]|tp_2_[1-6]|tp_6_[56]|pa_[13]_[1-6]/.test(ref_tempo) 
+        if (/adv_1_[1-3]|lent_1_[1-3]|tp_2_[1-6]|tp_6_[56]|pa_1_[1-6]|pa_3_[1-3]/.test(ref_tempo) 
           && (winner['force'] < 40 
             // If Assumptio B.M.V. is translated, any feast after Easter Oct. will be trumped
             ||  winner['force'] >= 40 
@@ -239,6 +239,130 @@ function period_gen(duration, start, prefix_tempo, week_start, day_start, extra,
           }
     }
 }
+
+function period_gen(duration, start, prefix_tempo, week_start, day_start, extra, output, trans_count)
+  {
+    let exaltatio = false;
+
+    // Translated feasts are stored as an array of MM_DD references.
+    // The array is shared between successive calls to period_gen().
+    const pending = trans_count.value;
+
+    // Sort translated feasts a digniori.
+    function sort_translations()
+    {
+      pending.sort((a, b) => days_sancto[b].force - days_sancto[a].force);
+    }
+
+    const trans = /adv_1_0|lent_1_0|lent_6_|tp_1_|tp_2_0|tp_6_4|tp_7_6|tp_8_|pa_1_0|pa_1_4|pa_2_5/;
+
+    const returnable =
+      /^(?:adv_1_[1-3]|lent_1_[1-3]|tp_[23]_[1-6]|tp_6_[56]|pa_1_[1-6]|pa_3_[1-3])$/;
+
+    for (let i = 0; i < duration - 1; i++)
+    {
+      const date = new Date(start.getTime() + i * 24 * 3600 * 1000);
+
+      const year = date.getFullYear();
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+
+      let ref_tempo = prefix_tempo + (week_start + Math.ceil((day_start + i + 1) / 7)) 
+        + '_' + ((day_start + i) % 7);
+
+      const ref_sancto = String(month).padStart(2, '0') + '_' + String(day).padStart(2, '0');
+      const sancto = days_sancto[ref_sancto];
+
+      // Determine whether today's feast must be translated.
+      const must_translate = (trans.test(ref_tempo)
+          && sancto && sancto.force > 60)
+        || (trans.test(ref_tempo) && ref_sancto === "06_01")
+        // Octava Corporis Christi: Non fit de aliquo Festo, nisi fuerit Sermonis.
+        || (/pa_2_4/.test(ref_tempo) && sancto
+          && sancto.force > 60 && sancto.force < 90)
+        // If Dolorosa falls on St Joseph, it moves to St Joachim
+        // and translates him; likewise other MM. maj. feasts.
+        || (/lent_5_5/.test(ref_tempo)
+          && /03_(19|20|24)/.test(ref_sancto));
+
+      // Dolorosa (Passion Friday) on:
+      // 03_19: St. Joseph is celebrated, Dolorosa moves to Saturday => St. Joachim is moved after Easter Oct.
+      // 03_20: Dolorosa is celebrated, St. Joachim cannot move to St. Benedict => ditto
+      // 03_21: St. Benedict is celebrated, Dolorosa moves to Saturday, no .translated record
+      // 03_24: Dolorosa is celebrated, St. Gabriel is moved after Easter Octave
+      if (/lent_5_5/.test(ref_tempo) && /03_(19|20)/.test(ref_sancto))
+        ref_sancto_trans = "03_20";
+      else ref_sancto_trans = ref_sancto;
+
+      if (must_translate)
+      {
+        // Avoid accidentally registering the same feast twice.
+        if (!pending.includes(ref_sancto_trans)) 
+          pending.push(ref_sancto_trans);
+        sort_translations();
+      }
+
+      // September Ember Days.
+      if (ref_sancto === "09_14") exaltatio = true;
+
+      if (/pa_.._[356]/.test(ref_tempo) && exaltatio)
+        ref_tempo = ref_tempo.replace(/pa_../,"quatember_septembris");
+
+      if (ref_tempo === "quatember_septembris_6")
+        exaltatio = false;
+
+      // Determine the winning office.
+      let winner = days_tempo[ref_tempo];
+
+      if (sancto && sancto.force > winner.force)
+        winner = sancto;
+
+      // Determine whether a translated feast can return today.
+      let replaced = 0;
+
+      if (pending.length && returnable.test(ref_tempo))
+      {
+        // Special precedence of the Annunciation on Monday
+        // after Dominica in Albis.
+        if ( ref_tempo === "tp_2_1"
+          && pending.includes("03_25")
+          && winner.force < 100)
+            {
+              replaced = "03_25";
+            }
+        // ... and for St. Benedict
+        else if ( ref_tempo === "tp_2_2"
+          && pending.includes("03_21")
+          && winner.force < 90)
+            {
+              replaced = "03_21";
+            }
+        // Ordinary return a digniori, on a day without
+        // a 12-Lesson feast.
+        else if (winner.force < 40)
+            {
+              replaced = pending[0];
+            }
+      }
+
+      // Save the calendar entry BEFORE removing the returned feast.
+      // This preserves the original meaning of translated:
+      // the list of feasts pending on the current day.
+      output[year] ??= {};
+
+      output[year][ref_sancto] = {
+        ref_tempo: ref_tempo,
+        translated: [...pending], // list of translated feasts
+        replaced: replaced        // replaced feast (from the translated) on that day
+      };
+
+      // Release the returned feast.
+      if (replaced)
+      {
+        pending.splice(pending.indexOf(replaced), 1);
+      }
+    }
+  }
 
 function gen_temporale(year) {
   const christmas = get_christmas_date(year - 1);
@@ -285,7 +409,7 @@ function gen_temporale(year) {
   const xmas_new_weekday = christmas_new.getDay();
 
   const advent_new = new Date(christmas_new.getTime() - ((get_christmas_weekday(christmas_new) + 21) * day_in_ms));
-  const dvent_new_duration = 21 + christmas_new_weekday;
+  const advent_new_duration = 21 + christmas_new_weekday;
   const christmas_new_time_duration = 19 - ((christmas_new_weekday + 5) % 7);
 
   const tempus_per_annum_after_pentecost_duration = ((advent_new - pentecost) / day_in_ms);
@@ -304,7 +428,7 @@ function gen_temporale(year) {
 
   const output = {};
   //trans_count = 0;
-  let trans_count = { value: 0 };
+  let trans_count = {value: []};
 
   // Advent:
   period_gen(2, new Date(first_sunday_of_advent.getTime() - (1 * day_in_ms)), 'pa_', 23, 6, 0, output, trans_count);

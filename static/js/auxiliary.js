@@ -382,7 +382,7 @@ function get_s_bernardi(month, year, start_date = new Date(year, month, 1))
       && !ref_tempo.startsWith("lent") 
       && days_tempo[ref_tempo] 
       && days_tempo[ref_tempo].force < 30 
-      && entry.translated == 0 
+      && entry.translated.length == 0 
       //&& candidate.getDate() != om_dates[month + 1] 
       && ref_sancto !== "11_02" 
       && month !== 7 
@@ -430,7 +430,7 @@ function get_ss_sacramenti(month, year, start_date = new Date(year, month, 1))
       && !ref_tempo.startsWith("lent")
       && days_tempo[ref_tempo]
       && days_tempo[ref_tempo].force < 30
-      && entry.translated == 0
+      && entry.translated.length == 0
       && ref_sancto !== "11_02"
       && candidate_month !== month_Corpus_Christi
       && candidate_month !== month_Oct_Corpus_Christi
@@ -493,13 +493,13 @@ function gen_AS(year)
       && !blocked_temporale.test(entry.ref_tempo)
       && (!sancto || sancto.force < 30)
       && tempo.force < 30
-      && entry.translated === 0
+      && entry.translated.length === 0
       && !blocked_dates.has(ref)
       && ref !== data.s_bernardi[month]
       && ref !== data.ss_sacramenti[month]
       && (!previous_sancto || previous_sancto.force < 40)
       && previous_tempo.force < 40
-      && previous_entry.translated === 0
+      && previous_entry.translated.length === 0
     );
   }
 
@@ -600,7 +600,7 @@ function gen_OM(year)
           if (tempo.force < 30
               && (!sancto || sancto.force < 30)
               && !/Commemoratio et M/i.test(sancto?.rank || "")
-              && entry.translated === 0)
+              && entry.translated.length === 0)
           {
             reserved.add(ref);
             break;
@@ -632,7 +632,7 @@ function gen_OM(year)
 
       if ((tempo.force >= 30 && !/De ea/i.test(tempo.header))
           || (sancto && sancto.force >= 30)
-        || entry.translated !== 0
+        || entry.translated.length !== 0
         || blocked_temporale.test(entry.ref_tempo)
         || /Quatt?uor Temporum/i.test(tempo.header || "")
         || blocked_dates.has(ref) || anniversaries.has(ref)
@@ -650,7 +650,7 @@ function gen_OM(year)
       const preceded_by_feast =
         preceding.tempo.force >= 40
         || (preceding.sancto && preceding.sancto.force >= 40)
-        || preceding.entry.translated !== 0;
+        || preceding.entry.translated.length !== 0;
 
       // First fallback: Commemoratio et Missa is permitted,
       // but the preceding day must be free of higher feasts.
