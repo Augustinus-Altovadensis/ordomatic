@@ -222,8 +222,17 @@ function period_gen(duration, start, prefix_tempo, week_start, day_start, extra,
         };
 
         // Add better check of returned translated feasts based on winner['force']
+        let winner = days_tempo[ref_tempo];
+        if (days_sancto[ref_sancto] 
+          && days_sancto[ref_sancto]['force'] > days_tempo[ref_tempo]['force'])
+            winner = days_sancto[ref_sancto];
 
-        if (ref_tempo.match(/adv_1_[12]|tp_2_[1-6]|pa_[13]_[1-6]/) 
+        if (/adv_1_[12]|lent_1_[12]|tp_2_[1-6]|tp_6_[56]|pa_[13]_[1-6]/.test(ref_tempo) 
+          && (winner['force'] < 40 
+            // If Assumptio B.M.V. is translated, any feast after Easter Oct. will be trumped
+            ||  winner['force'] >= 40 
+            && output[year]['03_24'] && output[year]['03_25'] 
+            && output[year]['03_24']['translated'] < output[year]['03_25']['translated'])
           && trans_count.value)
           { // only here the translated feasts are "released"
             trans_count.value--; 
