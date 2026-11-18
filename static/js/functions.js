@@ -3252,7 +3252,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           if (sunday_feast) { officium_mensis = ""; sunday_feast = false;}
 
           // If a feast is currently translated due to Pentecost Octave, it will likely be "unloaded" here
-          if (ref_tempo_temp.match(/adv_1_1|tp_2_[123]|pa_1_[123]/) && trans_temp) { trans_temp--; }
+          if (ref_tempo_temp.match(/adv_1_1|tp_[23]_[1-6]|pa_1_[123]/) && trans_temp) { trans_temp--; }
 
           // Looking for eventual Festum xij. Lect. (and higher) to block them for Vesp. Def.
           if ((days_sancto[ref_sancto_temp] 

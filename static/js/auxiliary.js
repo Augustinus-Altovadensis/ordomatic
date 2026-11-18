@@ -451,7 +451,8 @@ function gen_AS(year)
   const result = [];
 
   const blocked_temporale =
-    /^(?:ash_|lent_|tp_6_[456]$|tp_7_|tp_8_|quatember_septembris)/;
+    /^(?:ash_1_3|tp_6_[456]$|tp_7_|tp_8_|quatember_septembris)/;
+    // orig.: /^(?:ash_|lent_|tp_6_[456]$|tp_7_|tp_8_|quatember_septembris)/;
 
   const blocked_dates = new Set(["06_01", "06_28", "09_20"]);
 
@@ -492,13 +493,14 @@ function gen_AS(year)
       && candidate.getDay() !== 6
       && !blocked_temporale.test(entry.ref_tempo)
       && (!sancto || sancto.force < 30)
-      && tempo.force < 30
+      && (tempo.force < 30
+        || /^(?:ash_|lent_._[1-6]$)/.test(entry.ref_tempo))
       && entry.translated.length === 0
       && !blocked_dates.has(ref)
       && ref !== data.s_bernardi[month]
       && ref !== data.ss_sacramenti[month]
       && (!previous_sancto || previous_sancto.force < 40)
-      && previous_tempo.force < 40
+      && (previous_tempo.force < 40 || previous_entry.ref_tempo === "ash_1_3")
       && previous_entry.translated.length === 0
     );
   }
@@ -550,6 +552,7 @@ function gen_OM(year)
   const anniversaries = new Set(data.AS.filter(Boolean));
   const blocked_dates = new Set(["02_11", "06_01", "06_28", "08_14", "09_20", "10_02", "11_02"]);
   const blocked_temporale = /^(?:ash_|tp_6_[456]$|tp_7_|tp_8_)/;
+  const fallback_2_temporale = /^tp_6_[13]$/;
 
   // St Matthias has no fixed MM_DD entry, and moves to Monday on Sunday.
   const matthias = new Date(year, 1, is_leap_year(year) ? 25 : 24);
@@ -580,11 +583,9 @@ function gen_OM(year)
       for (let day = 1; day <= new Date(year, month + 1, 0).getDate(); day++)
       {
         const sunday = new Date(year, month, day);
-
         if (sunday.getDay() !== 0) continue;
 
         const {tempo, sancto} = office(sunday);
-
         // The Sunday must have yielded to a higher feast.
         if (!sancto || sancto.force <= tempo.force) continue;
 
@@ -592,9 +593,7 @@ function gen_OM(year)
         for (let offset = 1; offset <= 6; offset++)
         {
           const candidate = new Date(year, month, day + offset);
-
           if (candidate.getFullYear() !== year) break;
-
           const {ref, entry, tempo, sancto} = office(candidate);
 
           if (tempo.force < 30
@@ -608,7 +607,6 @@ function gen_OM(year)
         }
       }
     }
-
     return reserved;
   }
 
@@ -629,8 +627,11 @@ function gen_OM(year)
       if (weekday === 0 || weekday === 6) continue;
 
       const {ref, entry, tempo, sancto} = office(candidate);
+      const fallback_2_only = fallback_2_temporale.test(entry.ref_tempo);
 
-      if ((tempo.force >= 30 && !/De ea/i.test(tempo.header))
+      if ((tempo.force >= 30 
+            && !/De ea/i.test(tempo.header) 
+            && !fallback_2_only)
           || (sancto && sancto.force >= 30)
         || entry.translated.length !== 0
         || blocked_temporale.test(entry.ref_tempo)
@@ -654,13 +655,13 @@ function gen_OM(year)
 
       // First fallback: Commemoratio et Missa is permitted,
       // but the preceding day must be free of higher feasts.
-      if (!comm_et_missa && !preceded_by_feast)
+      if (!comm_et_missa && !preceded_by_feast && !fallback_2_only)
       {
         result[month] = ref;
         break;
       }
 
-      if (comm_et_missa && !preceded_by_feast && !fallback_1)
+      if (comm_et_missa && !preceded_by_feast && !fallback_1 && !fallback_2_only)
         fallback_1 = ref + " F1";
 
       // Second fallback: preceding feast restriction is dropped.
