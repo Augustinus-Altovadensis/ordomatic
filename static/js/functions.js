@@ -3365,6 +3365,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
           {
             vigiliae += "<br>Officium_mensis = '" + officium_mensis + "'. ";
             vigiliae += "<br>Officium mensis [" + year + "] = '" + temporale[year].OM.join(" - ") + "'.";
+            vigiliae += "<br>Anniversaria[" + year + "] = '" + temporale[year].AS.join(" - ") + "'.";
           }
       }
 

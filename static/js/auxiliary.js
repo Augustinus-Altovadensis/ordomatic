@@ -445,7 +445,7 @@ function get_ss_sacramenti(month, year, start_date = new Date(year, month, 1))
   return 0;
 }
 
-function gen_AS(year)
+function gen_AS_old(year)
 {
   const proper_dates = [[1, 31], [5, 21], [9, 18], [11, 20]];
   const result = [];
@@ -542,6 +542,135 @@ function gen_AS(year)
   return result;
 }
 
+function gen_AS(year)
+{
+  const proper_dates = [[1, 31], [5, 21], [9, 18], [11, 20]];
+  const result = [];
+
+  const blocked_temporale =
+    /^(?:ash_1_3|tp_6_[456]$|tp_7_|tp_8_|quatember_septembris)/;
+
+  const blocked_dates = new Set(["06_01", "06_28", "09_20"]);
+
+  const data = temporale[year];
+
+  if (!data?.s_bernardi || !data?.ss_sacramenti)
+    throw new Error(
+      "Generate votive offices before gen_AS(" + year + ")."
+    );
+
+  function eligible(candidate, anniversary_month, fallback = false)
+  {
+    if (candidate.getFullYear() !== year)
+      return false;
+
+    const month = candidate.getMonth();
+    const ref = get_ref_sancto(0, candidate);
+    const entry = data[ref];
+    const tempo = days_tempo[entry?.ref_tempo];
+    const sancto = days_sancto[ref];
+
+    if (!entry || !tempo)
+      throw new Error(
+        "Missing temporale data near " + year + " " + ref
+      );
+
+    // Seasonal boundaries for January and November.
+    if (anniversary_month === 1)
+    {
+      if (month < 0 || /^(?:ash_|lent_)/.test(entry.ref_tempo))
+        return false;
+    }
+
+    if (anniversary_month === 11)
+    {
+      if (month < 10 || /^adv_/.test(entry.ref_tempo))
+        return false;
+    }
+
+    // Check the actual preceding day for Vespers.
+    const previous = new Date(candidate);
+    previous.setDate(previous.getDate() - 1);
+
+    const previous_ref = get_ref_sancto(0, previous);
+    const previous_entry =
+      temporale[previous.getFullYear()]?.[previous_ref];
+
+    const previous_tempo = days_tempo[previous_entry?.ref_tempo];
+    const previous_sancto = days_sancto[previous_ref];
+
+    if (!previous_entry || !previous_tempo)
+      throw new Error(
+        "Missing preceding temporale data near " + year + " " + ref
+      );
+
+    // Preferred: preceding force < 40.
+    // Fallback: preceding force < 85.
+    const preceding_limit = fallback ? 85 : 40;
+
+    return (
+      candidate.getDay() !== 0
+      && candidate.getDay() !== 6
+      && !blocked_temporale.test(entry.ref_tempo)
+      && (!sancto || sancto.force < 30)
+      && (tempo.force < 30
+        || /^(?:ash_|lent_._[1-6]$)/.test(entry.ref_tempo))
+      && entry.translated.length === 0
+      && !blocked_dates.has(ref)
+      && ref !== data.s_bernardi[month]
+      && ref !== data.ss_sacramenti[month]
+
+      // Preceding-day restriction, relaxed in fallback.
+      && (!previous_sancto || previous_sancto.force < preceding_limit)
+      && (previous_tempo.force < preceding_limit
+        || previous_entry.ref_tempo === "ash_1_3")
+
+      && previous_entry.translated.length === 0
+    );
+  }
+
+  for (const [month, day] of proper_dates)
+  {
+    const proper = new Date(year, month - 1, day);
+    let found = "";
+
+    // First pass: preferred conditions.
+    // Second pass: relaxed preceding-day restriction.
+    for (let fallback = 0; fallback <= 1 && !found; fallback++)
+    {
+      for (let distance = 0; distance < 90 && !found; distance++)
+      {
+        const offsets = distance === 0
+          ? [0]
+          : [-distance, distance];
+
+        for (const offset of offsets)
+        {
+          const candidate = new Date(proper);
+          candidate.setDate(proper.getDate() + offset);
+
+          if (eligible(candidate, month, fallback === 1))
+          {
+            found = get_ref_sancto(0, candidate);
+            break;
+          }
+        }
+      }
+    }
+
+    if (!found)
+      throw new Error(
+        "No suitable anniversary date near "
+        + year + " " + month + "_" + day
+      );
+
+    result[month] = found;
+  }
+
+  data.AS = result;
+  return result;
+}
+
 function gen_OM(year)
 {
   const data = temporale[year];
@@ -610,7 +739,27 @@ function gen_OM(year)
     return reserved;
   }
 
+  function same_week_as_AS(candidate)
+  {
+    const sunday = new Date(candidate);
+    sunday.setDate(sunday.getDate() - sunday.getDay());
+
+    const saturday = new Date(sunday);
+    saturday.setDate(saturday.getDate() + 6);
+
+    return data.AS.some(ref =>
+    {
+      if (!ref) return false;
+
+      const [month, day] = ref.split("_").map(Number);
+      const anniversary = new Date(year, month - 1, day);
+
+      return anniversary >= sunday && anniversary <= saturday;
+    });
+  }
+
   const resumed_sundays = get_resumed_sundays();
+  //const anniversary_this_week = same_week_as_AS();
 
   // And now the function
 
@@ -632,7 +781,9 @@ function gen_OM(year)
       if ((tempo.force >= 30 
             && !/De ea/i.test(tempo.header) 
             && !fallback_2_only)
-          || (sancto && sancto.force >= 30)
+          || (sancto && sancto.force >= 30
+            && (!fallback_2_only 
+              || sancto.force > tempo.force))
         || entry.translated.length !== 0
         || blocked_temporale.test(entry.ref_tempo)
         || /Quatt?uor Temporum/i.test(tempo.header || "")
@@ -653,15 +804,23 @@ function gen_OM(year)
         || (preceding.sancto && preceding.sancto.force >= 40)
         || preceding.entry.translated.length !== 0;
 
+      const anniversary_this_week = same_week_as_AS(candidate);
+
       // First fallback: Commemoratio et Missa is permitted,
       // but the preceding day must be free of higher feasts.
-      if (!comm_et_missa && !preceded_by_feast && !fallback_2_only)
+      if ( !comm_et_missa 
+        && !preceded_by_feast 
+        && !fallback_2_only 
+        && !anniversary_this_week)
       {
         result[month] = ref;
         break;
       }
 
-      if (comm_et_missa && !preceded_by_feast && !fallback_1 && !fallback_2_only)
+      if ((comm_et_missa || anniversary_this_week) 
+          && !preceded_by_feast 
+          && !fallback_1 
+          && !fallback_2_only)
         fallback_1 = ref + " F1";
 
       // Second fallback: preceding feast restriction is dropped.
