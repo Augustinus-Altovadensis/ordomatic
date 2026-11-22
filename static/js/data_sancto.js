@@ -3093,7 +3093,8 @@ const days_sancto = {
     'body': '',
     'after': '',
   },
-  'anniversarium_dedicationis': {
+  //'anniversarium_dedicationis': {
+  '06_01': {
     'force': 100,
     'before': '',
     'color': 'white',
@@ -3101,7 +3102,7 @@ const days_sancto = {
     'rank': 'Serm. maj.',
     'subtitulum': '',
     'vesperae_j':'de seq. R. maj. <i>Terríbilis est.</i> <red>ut in j. Nocturno</red>',
-    'vesperae_j_commemoratio':'Com. seq. <i>Pax ætérna.</i>',
+    'vesperae_j_commemoratio':'Com. de seq. <i>Pax ætérna.</i>',
     'martyrologium':'<li><div class="small">– <u>in Capit.:</u> <red>in Martyr. 1o loco:</red> <i>In Dioecési Bohemo-budvicénsi * Dedicátio Ecclésiæ B. M. V. in Altovádo. - <blue>V českobudějovické diecézi posvěcení chrámu Nejblahoslavenější Panny Marie ve Vyšším Brodě.</blue></i></div></li>',
     'vigiliae': '',
     'laudes': '',
@@ -3115,7 +3116,7 @@ const days_sancto = {
     'body': '',
     'after': ''
   },
-  '06_01': {
+  '06_01cc': {
     'force': 30,
     'before': '',
     'color': 'red',

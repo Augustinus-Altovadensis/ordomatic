@@ -397,7 +397,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
 
     // Anniversarium Dedicationis Ecclesiæ Altovadensis 1. 6. (pokud přijde do svatodušního Oktávu)
 
-    if ( ref_sancto == "05_31" ) {
+    if ( false && ref_sancto == "05_31" ) {
         // edited tp_7_5 => tp_7_6
         if (ref_tempo_next.match(/tp_7_6|tp_8_/)) {
           moved.push('anniversarium_dedicationis');
@@ -411,7 +411,7 @@ function period(duration, start, prefix_tempo, week_start, day_start, extra) {
                 }
             else commemoratio_next = days_sancto[ref_sancto_next]; }
         }
-    if ( ref_sancto == "06_01" && !ref_tempo.match(/tp_7_6|tp_8_/) ) {
+    if ( false && ref_sancto == "06_01" && !ref_tempo.match(/tp_7_6|tp_8_/) ) {
           if ( weekday == 0 ) {
               commemoratio = days_tempo[ref_tempo];
               commemoratio_add = days_sancto[ref_sancto]; 

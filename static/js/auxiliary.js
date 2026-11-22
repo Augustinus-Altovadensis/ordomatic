@@ -606,7 +606,7 @@ function gen_AS(year)
 
     // Preferred: preceding force < 40.
     // Fallback: preceding force < 85.
-    const preceding_limit = fallback ? 85 : 40;
+    const preceding_limit = fallback ? 75 : 40;
 
     return (
       candidate.getDay() !== 0
